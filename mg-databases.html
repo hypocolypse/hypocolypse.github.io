@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>: No 2. Annotation Databases</title>
+  
+  <meta property="description" itemprop="description" content="Constructing taxonomic &amp; functional annotation databases."/>
+  
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+  <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
+  
+  <meta name="article:author" content="Jarrod J Scott"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content=": No 2. Annotation Databases"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Constructing taxonomic &amp; functional annotation databases."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content=""/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content=": No 2. Annotation Databases"/>
+  <meta property="twitter:description" content="Constructing taxonomic &amp; functional annotation databases."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Fast and sensitive taxonomic classification for metagenomics with kaiju;citation_publication_date=2016;citation_volume=7;citation_author=Peter Menzel;citation_author=Kim Lee Ng;citation_author=Anders Krogh"/>
+  <meta name="citation_reference" content="citation_title=VirSorter: Mining viral signal from microbial genomic data;citation_publication_date=2015;citation_volume=3;citation_author=Simon Roux;citation_author=Francois Enault;citation_author=Bonnie L Hurwitz;citation_author=Matthew B Sullivan"/>
+  <meta name="citation_reference" content="citation_title=Centrifuge: Rapid and sensitive classification of metagenomic sequences;citation_publication_date=2016;citation_volume=26;citation_author=Daehwan Kim;citation_author=Li Song;citation_author=Florian P Breitwieser;citation_author=Steven L Salzberg"/>
+  <meta name="citation_reference" content="citation_title=KrakenUniq: Confident and fast metagenomics classification using unique k-mer counts;citation_publication_date=2018;citation_volume=19;citation_author=FP Breitwieser;citation_author=DN Baker;citation_author=Steven L Salzberg"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 2. Annotation Databases"]},{"type":"character","attributes":{},"value":["Constructing taxonomic & functional annotation databases. \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  
+  <script type="application/javascript">
+  
+    window.headroom_prevent_pin = false;
+  
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+  
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+  
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+  
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+  
+  <style type="text/css">
+  
+  /* Theme (user-documented overrideables for nav appearance) */
+  
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #455a64;
+    font-size: 15px;
+    font-weight: 300;
+  }
+  
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .distill-site-nav a:hover {
+    color: white;
+  }
+  
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+  
+  .distill-site-header {
+  
+  }
+  
+  .distill-site-footer {
+  
+  }
+  
+  
+  /* Site Header */
+  
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+  
+  
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+  
+  .distill-site-header .title {
+    font-size: 18px;
+  }
+  
+  .distill-site-header .logo {
+    padding: 0;
+  }
+  
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+  
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  
+  
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+  
+  
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+  
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+  
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-dropdown-active {
+    display: block;
+  }
+  
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+  
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+  
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  /* Site Footer */
+  
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Headroom */
+  
+  d-title {
+    padding-top: 6rem;
+  }
+  
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+  
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+  
+  .headroom--unpinned {
+    top: -100px;
+  }
+  
+  .headroom--pinned {
+    top: 0;
+  }
+  
+  </style>
+  
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  /* Whole document: */
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  /* controls general properties of site*/
+  body {
+    color: #414141;
+  /*  line-height: 1.7;
+    font-size: 17px; */
+    background-color: #FAFAFA;
+  }
+  
+  d-title h1{
+  font-size: 2.5em;
+  font-family: Roboto;
+  font-weight: 500;
+  }
+  
+  d-article h1, h2 {
+    font-family: Roboto;
+  }
+  
+  d-article h3 {
+    margin-top: 1em;
+  }
+  
+  blockquote p {
+  	font-size: 1.3em;
+  	font-family: 'Lato';
+    font-style: normal;
+    margin: 0.5em 0 0.5em;
+  }
+  
+  d-code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-size: 0.8em;
+    border-left: 5px solid #FC6464;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
+    margin-bottom: 20px;
+  }
+  
+  pre.text-output {
+    margin-top: 0px;
+     color: #333333;
+     background-color: #FAFAFA;
+     font-size: 0.8em
+   }
+  
+  pre {
+    border: 1px solid #ccc;
+    padding: 0px 10px 10px 18px;
+    margin: 1em 0px;
+    border-radius: 5px;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    text-transform: none;
+  }
+  
+  d-article li {
+    margin: 0px 0px 4px;
+  }
+  
+  /*************************************************
+  *  code for side by side krona plot
+  **************************************************/
+  
+  .column {
+    float: left;
+    width: 48%;
+    padding: 5px;
+  }
+  
+  /* Clear floats after image containers */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  div.krona {
+    width: 100%;
+  	height: 90%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 25px;
+  	margin-top: 5px;
+  }
+  
+  div.container-krona {
+    text-align: center;
+    padding: 1px 10px;
+  	color: #414141;
+  	font-size: 1.48em;
+  	line-height: 0.8em;
+  	font-family: 'Inconsolata';
+  }
+  
+  div.container-krona p {
+    margin: 20px;
+  }
+  
+  div.krona img {
+    border:1px solid white;
+    margin: 25px;
+  }
+  
+  img {
+    margin: 25px;
+  }
+  
+  blockquote p {
+  	font-size: 1.3em;
+  	font-family: 'Lato';
+  }
+  
+  /** LIGHTBOX MARKUP **/
+  .thumbnail {
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .lightbox {
+  	/** Default lightbox to hidden */
+  	display: none;
+  
+  	/** Position and style */
+  	position: fixed;
+  	z-index: 999;
+  	width: 100%;
+  	height: 100%;
+  	text-align: center;
+  	top: 0;
+  	left: 0;
+  	background: rgba(0,0,0,0.8);
+  }
+  
+  .lightbox img {
+  	/** Pad the lightbox image */
+  	position: fixed;
+  	top: 0;
+  	left: 0;
+  	right: 0;
+  	bottom: 0;
+  	max-width: 0%;
+  	max-height: 0%;
+  	margin: auto;
+  	box-sizing: border-box;
+  }
+  
+  .lightbox:target {
+  	/** Remove default browser outline */
+  	outline: none;
+  
+  	/** Unhide lightbox **/
+  	display: block;
+  }
+  
+  .lightbox:target img {
+  	max-height: 100%;
+  	max-width: 100%;
+  }
+  
+  .distill-site-header .logo img {
+    margin-top: 10px;
+    max-height: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .distill-site-nav {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: #143D59;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  
+  </style>
+  <!--/radix_placeholder_site_in_header-->
+
+  <link rel="stylesheet" href="assets/styles.css" type="text/css"/>
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"No 2. Annotation Databases","description":"Constructing taxonomic & functional annotation databases.","authors":[{"author":"Jarrod J Scott","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a class="logo" href="index.html">
+<img src="assets/icon.png"/>
+</a>
+<a href="index.html" class="title"></a>
+</div>
+<div class="nav-right">
+<a href="index.html">
+<i class="fa fa-home"></i>
+</a>
+<a href="intro.html">Introduction</a>
+<a href="field.html">A. Field Analyses</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+B. 16S rRNA
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<span class="nav-dropdown-header">16S rRNA Processing</span>
+<a href="16s-dada2.html">1. DADA2</a>
+<a href="16s-data-prep.html">2. Data Prep</a>
+<hr/>
+<span class="nav-dropdown-header">16S rRNA Analyses</span>
+<a href="16s-water.html">3. Water Diversity</a>
+<hr/>
+<a href="session-info.html">Session Info</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+C. Metagenomic
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<span class="nav-dropdown-header">Setup</span>
+<a href="mg-setup.html">1. Working Envrionment</a>
+<a href="mg-databases.html">2. Annotation Databases</a>
+<hr/>
+<span class="nav-dropdown-header">Read Processing</span>
+<a href="mg-workflow-1.html">3. Assembly &amp; Annotations</a>
+<a href="mg-workflow-2.html">4. Assembley &amp; Annotation Summary</a>
+<hr/>
+<span class="nav-dropdown-header">Binning</span>
+<a href="mg-auto-binning.html">5. Automated Binning</a>
+</div>
+</div>
+<a href="synthesis.html">D. Synthesis</a>
+<a href="data-availability.html">Data</a>
+<a href="https://github.com/hypocolypse/web/">
+<i class="fa fa-github fa-lg"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>No 2. Annotation Databases</h1>
+<p>Constructing taxonomic &amp; functional annotation databases.</p>
+</div>
+
+<div class="d-byline">
+  Jarrod J Scott  
+  
+
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#taxonomic-classification">Taxonomic Classification</a><ul>
+<li><a href="#centrifuge">Centrifuge</a></li>
+<li><a href="#kaiju">Kaiju</a></li>
+<li><a href="#krakenuniq">KrakenUniq</a></li>
+<li><a href="#virsorter">VirSorter</a></li>
+</ul></li>
+<li><a href="#functional-annotations">Functional Annotations</a><ul>
+<li><a href="#pfam-and-cog">Pfam and COG</a></li>
+<li><a href="#ghostkoalakegg">GhostKOALA/KEGG</a></li>
+<li><a href="#concluding-remarks">Concluding remarks</a></li>
+</ul></li>
+<li><a href="#source-code">Source Code</a></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<p>There are two main types of annotations we are interested in for this metagenomic project—<strong>taxonomic</strong> and <strong>functional</strong>—and there are many, many ways to accomplish both of these goals. This next section involves building the databases and installing any additional tools we need for annotation.</p>
+<p>Lets start with the tools and databases for <strong>taxonomic</strong> classification.</p>
+<h2 id="taxonomic-classification">Taxonomic Classification</h2>
+<p>There are many algorithms and databases for taxonomic classification. We will use <a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a> to classify short reads. We will also use <a href="https://ccb.jhu.edu/software/centrifuge/">Centrifuge</a>, <a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a>, and <a href="https://github.com/simroux/VirSorter">VirSorter</a> for contigs. Anvio has methods of importing data from each of these approaches but if you have a have a favorite tool/database there are workarounds to get most results into the appropriate anvio database.</p>
+<h3 id="centrifuge">Centrifuge</h3>
+<p><em><a href="https://ccb.jhu.edu/software/centrifuge/">Centrifuge</a><span class="citation" data-cites="kim2016centrifuge">(Kim et al. <a href="#ref-kim2016centrifuge">2016</a>)</span> is a very rapid and memory-efficient system for the classification of DNA sequences from microbial samples…uses a novel indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for the metagenomic classification problem…</em></p>
+<p>We will use centrifuge to classify assembled reads, or contigs. Centrifuge was installed with anvi’o above so all we need to do here is build the database.</p>
+<pre class="bash"><code>
+mkdir centrifuge_dbs
+cd centrifuge_dbs/
+wget ftp://ftp.ccb.jhu.edu/pub/infphilo/centrifuge/data/p+h+v.tar.gz
+tar -zxvf p+h+v.tar.gz &amp;&amp; rm -rf p+h+v.tar.gz</code></pre>
+<p>Extracted, these files use roughly 12GB of disk space.</p>
+<p>That’s it.</p>
+<h3 id="kaiju">Kaiju</h3>
+<p><em><a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a><span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast">2016</a>)</span>… finds maximum (in-)exact matches on the protein-level using the Burrows–Wheeler transform.</em> <em>Kaiju is a program for the taxonomic classification… of metagenomic DNA. Reads are directly assigned to taxa using the NCBI taxonomy and a reference database of protein sequences from microbial and viral genomes.</em></p>
+<p>Kaiju pretty much does the same thing as centrifige but uses a different methodological approach. First we need to install Kaiju. Again, I will run kaiju in a separate conda environment. Now I can either install kaiju from the source code or as conda package. The later is easier but often conda packages may lag behind the source code versions. I usually compare the release dates of the <a href="https://anaconda.org/bioconda/kaiju">conda package</a> with the <a href="https://github.com/bioinformatics-centre/kaiju">source code</a> and look at the number of downloads. In this case, the conda version of kaiju looks fine.</p>
+<pre class="bash"><code>
+# create generic environment
+conda create -n kaiju
+conda activate kaiji
+conda install -c bioconda kaiju</code></pre>
+<p>After kaiju is installed, the next thing to do is generate the database. You can find a description of kaiju databases <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">here</a>. I downloaded and formatted the <code>nr</code> and <code>mar</code> databases. The <code>nr</code> database is a subset of NCBI BLAST nr database containing all proteins belonging to Archaea, Bacteria and Viruses. The <code>mar</code> database contains protein sequences from all <a href="https://mmp.sfb.uit.no/">Mar databases</a>.</p>
+<p>Simply run the <code>kaiju-makedb</code> command and specify a database.</p>
+<pre class="bash"><code>
+kaiju-makedb -s mar
+# and/or
+kaiju-makedb -s nr_euk</code></pre>
+<p>The <code>mar</code> database is 19GB and the <code>nr_euk</code> is 90GB.</p>
+<details>
+<summary>Show/hide Kaiju database build job details</summary>
+<pre><code>
+# /bin/sh
+# ----------------Parameters---------------------- #
+#$ -S /bin/sh
+#$ -pe mthread 2
+#$ -q mThM.q
+#$ -l mres=200G,h_data=100G,h_vmem=100G,himem
+#$ -cwd
+#$ -j y
+#$ -N makeDB_e2
+#$ -o makeDB_e2_2.log
+# ----------------Your Commands------------------- #
+#
+echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
+echo + NSLOTS = $NSLOTS
+#
+# ----------------THIS Activate the conda anvio support, not anvio -------------- #
+#
+export PATH=/home/scottjj/miniconda3/bin:$PATH
+source activate anvio-master
+#
+which kaiju-makedb
+gcc --version
+which perl
+#
+# ----------------For nr_euk db -------------- #
+kaiju-makedb -h
+kaiju-makedb -s nr_euk
+#
+# ----------------For mar db -------------- #
+kaiju-makedb -h
+kaiju-makedb -s mar
+#
+echo = `date` job $JOB_NAME done
+</code></pre>
+</details>
+<h3 id="krakenuniq">KrakenUniq</h3>
+<p><em><a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a> (formerly KrakenHLL)<span class="citation" data-cites="breitwieser2018krakenuniq">(Breitwieser, Baker, and Salzberg <a href="#ref-breitwieser2018krakenuniq">2018</a>)</span> is a novel metagenomics classifier that combines the fast k-mer-based classification of Kraken with an efficient algorithm for assessing the coverage of unique k-mers found in each species in a dataset.</em></p>
+<p>Installed in separate conda environment</p>
+<pre class="bash"><code>
+conda create -n krakenuniq
+conda install krakenuniq
+conda activate krakenuniq</code></pre>
+<p>There are two steps to creating a database for analysis, <code>krakenuniq-download</code> which downloads the data and <code>krakenuniq-build</code> which, yup you guessed it, builds the database. For some reason building a krakenuniq database has become problematic of late. Specifically, <code>krakenuniq-build</code> hangs for days trying to write two files. <code>database.kraken.tsv</code> and <code>database.report.tsv</code>. There are a few issues about this on GitHub (e.g., <a href="https://github.com/fbreitwieser/krakenuniq/issues/38">here</a> and <a href="https://github.com/fbreitwieser/krakenuniq/issues/56">here</a>) but unfortunately these have not been addressed and it is unclear if the platform is still being supported. That said, I tried two databases (refseq and microbial-nt) and here is what I did.</p>
+<pre class="bash"><code>
+# Download &amp; Build refseq
+krakenuniq-download --db DB --taxa &quot;archaea,bacteria,viral,fungi,protozoa&quot; --dust --exclude-environmental-taxa refseq/bacteria refseq/archaea refseq/fungi refseq/protozoa refseq/viral/Any viral-neighbors --threads $NSLOTS
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences --jellyfish-hash-size 10000M --max-db-size 300
+# Ran this after job failed to clean up
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences --clean
+# Download &amp; Build microbial-nt
+krakenuniq-download --db DB --dust  --exclude-environmental-taxa --threads $NSLOTS microbial-nt
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences
+# Ran this after job failed to clean up
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences --clean</code></pre>
+<details>
+<summary>Show/hide Kraken database build job details</summary>
+<pre><code>
+# /bin/sh
+# ----------------Parameters---------------------- #
+#$ -S /bin/sh
+#$ -pe mthread 3
+#$ -q mThM.q
+#$ -l mres=450G,h_data=150G,h_vmem=150G,himem
+#$ -cwd
+#$ -j y
+#$ -N job_00_build_kraken_db3
+#$ -o job_00_build_kraken_db5.job
+#
+# ----------------Modules------------------------- #
+module load bioinformatics/blast
+#
+# ----------------Load Envs------------------- #
+#
+echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
+echo + NSLOTS = $NSLOTS
+#
+# ----------------Activate Kraken-------------- #
+#
+export PATH=/home/scottjj/miniconda3/bin:$PATH
+source activate krakenuniq
+#
+# ----------------For refseq DB -------------- #
+krakenuniq-download --db DB --taxa "archaea,bacteria,viral,fungi,protozoa" --dust --exclude-environmental-taxa refseq/bacteria refseq/archaea refseq/fungi refseq/protozoa refseq/viral/Any viral-neighbors --threads $NSLOTS
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences --jellyfish-hash-size 10000M --max-db-size 300
+# ----------------RUN after job fails -------------- #
+#krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences --clean
+#
+# ----------------For refseq DB -------------- #
+krakenuniq-download --db DB --dust  --exclude-environmental-taxa --threads $NSLOTS microbial-nt
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences
+# ----------------RUN after job fails -------------- #
+krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --taxids-for-sequences --clean
+#
+echo = `date` job $JOB_NAME done
+</code></pre>
+</details>
+<h3 id="virsorter">VirSorter</h3>
+<p><em><a href="https://github.com/simroux/VirSorter">VirSorter</a><span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter">2015</a>)</span>, a tool designed to detect viral signal in these different types of microbial sequence data in both a reference-dependent and reference-independent manner, leveraging probabilistic models and extensive virome data to maximize detection of novel viruses.</em></p>
+<p>I generally followed <a href="https://github.com/simroux/VirSorter">this recipe</a> for installing virsorter except I separated out the installation of dependencies to individual commands because I like to monitor any conflics between packages.</p>
+<pre class="bash"><code>
+conda create --name virsorter python==3.6
+conda activate virsorter
+
+conda install -c bioconda mcl=14.137
+conda install -c bioconda muscle
+conda install -c bioconda blast
+conda install -c bioconda hmmer=3.1b2
+conda install -c bioconda diamond=0.9.14
+
+conda install -c bioconda perl-bioperl
+conda install -c bioconda perl-file-which
+conda install -c bioconda perl-parallel-forkmanager
+conda install -c bioconda perl-list-moreutils
+
+conda install --name virsorter -c bioconda metagene_annotator
+
+git clone https://github.com/simroux/VirSorter.git
+cd VirSorter/Scripts/
+make clean
+make
+
+ln -s /home/scottjj/software/VirSorter/wrapper_phage_contigs_sorter_iPlant.pl /home/scottjj/miniconda3/envs/virsorter/bin/
+ln -s /home/scottjj/software/VirSorter/Scripts/ /home/scottjj/miniconda3/envs/virsorter/bin/</code></pre>
+<p>You may get a <code>Bio::Seq</code> error when you run virsorter. If so you need to install the BioPerl GitHub repo. It is best to check first before moving on.</p>
+<pre class="bash"><code>
+perl -e &quot;use Bio::Seq;&quot;`</code></pre>
+<p>If you get an error it means that the install failed (for some reason).</p>
+<p>So clone the BioPerl repo and copy the <code>Bio/</code> directory to the virsorter environment.</p>
+<pre class="bash"><code>
+git clone https://github.com/bioperl/bioperl-live.git
+cp -r Path/to/lib/Bio Path/to/miniconda3/envs/virsorter/lib/5.26.2/</code></pre>
+<p>Now see if the error persists.</p>
+<p>Good to go? Now time to build the virsorter database. Pretty straightfoward actually.</p>
+<pre class="bash"><code>
+wget https://zenodo.org/record/1168727/files/virsorter-data-v2.tar.gz
+md5sum virsorter-data-v2.tar.gz
+# md5sum should return dd12af7d13da0a85df0a9106e9346b45
+tar -xvzf virsorter-data-v2.tar.gz
+rm virsorter-data-v2.tar.gz</code></pre>
+<p>The uncompressed database is a little over 13GB.</p>
+<h2 id="functional-annotations">Functional Annotations</h2>
+<h3 id="pfam-and-cog">Pfam and COG</h3>
+<p>Now we can install databases for <strong>functional</strong> annotation. Anvi’o has native support for building <a href="https://pfam.xfam.org/">Pfam</a> and <a href="https://www.ncbi.nlm.nih.gov/COG/">COG</a> databases.</p>
+<p>Anvi’o makes this super simple.</p>
+<pre class="bash"><code>
+anvi-setup-ncbi-cogs  --cog-data-dir PATH_TO_COG_DIR -T 10
+anvi-setup-pfams  --pfam-data-dir PATH_TO_PFAM_DIR</code></pre>
+<p>The COG db is 2.3GB and the PFAM db is 283MB.</p>
+<p>And thats it. We can add more databases as we need them.</p>
+<h3 id="ghostkoalakegg">GhostKOALA/KEGG</h3>
+<p>Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>. But since we run the analysis on the GhostKOALA webserver, there is no database to set up here. We provide more details when it comes time to actually set up for the analysis and parse the data.</p>
+<h3 id="concluding-remarks">Concluding remarks</h3>
+<p>At this point we should be good to go with the main setup. We may need to install other tools along the way—we can add those instructions here. Or you may decide to use other tools instead. For example, we are using <a href="https://github.com/voutcn/megahit">megahit</a> for the assemblies but you may want to use <a href="https://github.com/ablab/spades">metaspades</a> or <a href="https://github.com/loneknightpy/idba">idba_ud</a>. These packages need to be installed separately.</p>
+<div class="post-nav">
+<div class="post-nav-item">
+<div class="meta-nav">
+Previous
+</div>
+<p><a href="mg-setup.html" rel="next">N<sup><u>o</u></sup> 1. Setup Working Environment</a></p>
+</div>
+</div>
+<div class="post-nav">
+<div class="post-nav-item">
+<div class="meta-nav">
+Next
+</div>
+<p><a href="mg-workflow-1.html" rel="prev">N<sup><u>o</u></sup> 3. Assembly &amp; Annotations</a></p>
+</div>
+</div>
+<h2 id="source-code" class="appendix">Source Code</h2>
+<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/build/mg-databases.Rmd">clicking this link</a>.</p>
+<div id="refs" class="references">
+<div id="ref-breitwieser2018krakenuniq">
+<p>Breitwieser, FP, DN Baker, and Steven L Salzberg. 2018. “KrakenUniq: Confident and Fast Metagenomics Classification Using Unique K-Mer Counts.” <em>Genome Biology</em> 19 (1): 1–10. <a href="https://doi.org/10.5281/zenodo.1412647">https://doi.org/10.5281/zenodo.1412647</a>.</p>
+</div>
+<div id="ref-kim2016centrifuge">
+<p>Kim, Daehwan, Li Song, Florian P Breitwieser, and Steven L Salzberg. 2016. “Centrifuge: Rapid and Sensitive Classification of Metagenomic Sequences.” <em>Genome Research</em> 26 (12): 1721–9. <a href="https://doi.org/10.1101/gr.210641.116.">https://doi.org/10.1101/gr.210641.116.</a></p>
+</div>
+<div id="ref-menzel2016fast">
+<p>Menzel, Peter, Kim Lee Ng, and Anders Krogh. 2016. “Fast and Sensitive Taxonomic Classification for Metagenomics with Kaiju.” <em>Nature Communications</em> 7: 11257. <a href="https://doi.org/10.1038/ncomms11257">https://doi.org/10.1038/ncomms11257</a>.</p>
+</div>
+<div id="ref-roux2015virsorter">
+<p>Roux, Simon, Francois Enault, Bonnie L Hurwitz, and Matthew B Sullivan. 2015. “VirSorter: Mining Viral Signal from Microbial Genomic Data.” <em>PeerJ</em> 3: e985. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.</p>
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hypocolypse/web/issues/new">create an issue</a> on the source repository.</p>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hypocolypse/web/">https://github.com/hypocolypse/web/</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
+<script id="distill-bibliography" type="text/bibtex">
+@article{callahan2016dada2,
+  title={DADA2: high-resolution sample inference from Illumina amplicon data},
+  author={Callahan, Benjamin J and McMurdie, Paul J and Rosen, Michael J and Han, Andrew W and Johnson, Amy Jo A and Holmes, Susan P},
+  journal={Nature Methods},
+  volume={13},
+  number={7},
+  pages={581},
+  year={2016},
+  url = {https://doi.org/10.1038/nmeth.3869},
+}
+
+@article{martin2011cutadapt,
+  title={Cutadapt removes adapter sequences from high-throughput sequencing reads},
+  author={Martin, Marcel},
+  journal={EMBnet. journal},
+  volume={17},
+  number={1},
+  pages={10--12},
+  year={2011},
+  url = {https://doi.org/10.14806/ej.17.1.200}
+}
+
+@article{quast2012silva,
+  title={The SILVA ribosomal RNA gene database project: improved data processing and web-based tools},
+  author={Quast, Christian and Pruesse, Elmar and Yilmaz, Pelin and Gerken, Jan and Schweer, Timmy and Yarza, Pablo and Peplies, J{\"o}rg and Gl{\"o}ckner, Frank Oliver},
+  journal={Nucleic Acids Research},
+  volume={41},
+  number={D1},
+  pages={D590--D596},
+  year={2012},
+  url = {https://doi.org/10.1093/nar/gks1219}
+}
+
+@article{mcmurdie2013phyloseq,
+  title={phyloseq: an R package for reproducible interactive analysis and graphics of microbiome census data},
+  author={McMurdie, Paul J and Holmes, Susan},
+  journal={PLoS One},
+  volume={8},
+  number={4},
+  pages={e61217},
+  year={2013},
+  url = {https://doi.org/10.1371/journal.pone.0061217}
+}
+
+@misc{wong2011points,
+  title={Points of view: Color blindness},
+  author={Wong, Bang},
+  journal={Nature Methods},
+  volume={8},
+  number={6},
+  pages={441},
+  year={2011},
+  url = {https://doi.org/10.1038/nmeth.1618}
+}
+
+@misc{lahti2017microbiome,
+  author = {Lahti, Leo and Shetty Sudarshan and others},
+  title = {Tools for microbiome analysis in R. Version 1.9.97},
+  year = {2017},
+  url = {https://github.com/microbiome/microbiome},
+}
+
+@article{eren2015anvi,
+  title={Anvi’o: an advanced analysis and visualization platform for ‘omics data},
+  author={Eren, A Murat and Esen, {\"O}zcan C and Quince, Christopher and Vineis, Joseph H and Morrison, Hilary G and Sogin, Mitchell L and Delmont, Tom O},
+  journal={PeerJ},
+  volume={3},
+  pages={e1319},
+  year={2015},
+  url = {https://doi.org/10.7717/peerj.1319}
+}
+@article{bolger2014trimmomatic,
+  title={Trimmomatic: a flexible trimmer for Illumina sequence data},
+  author={Bolger, Anthony M and Lohse, Marc and Usadel, Bjoern},
+  journal={Bioinformatics},
+  volume={30},
+  number={15},
+  pages={2114--2120},
+  year={2014},
+  url = {https://doi.org/10.1093/bioinformatics/btu170}
+}
+@article{koster2012snakemake,
+  title={Snakemake—a scalable bioinformatics workflow engine},
+  author={K{\"o}ster, Johannes and Rahmann, Sven},
+  journal={Bioinformatics},
+  volume={28},
+  number={19},
+  pages={2520--2522},
+  year={2012},
+  url = {https://doi.org/10.1093/bioinformatics/bts480}
+}
+@article{menzel2016fast,
+  title={Fast and sensitive taxonomic classification for metagenomics with Kaiju},
+  author={Menzel, Peter and Ng, Kim Lee and Krogh, Anders},
+  journal={Nature Communications},
+  volume={7},
+  pages={11257},
+  year={2016},
+  url = {https://doi.org/10.1038/ncomms11257}
+}
+@article{roux2015virsorter,
+  title={VirSorter: mining viral signal from microbial genomic data},
+  author={Roux, Simon and Enault, Francois and Hurwitz, Bonnie L and Sullivan, Matthew B},
+  journal={PeerJ},
+  volume={3},
+  pages={e985},
+  year={2015},
+  url = {https://doi.org/10.1093/bioinformatics/btu170}
+}
+@article{kim2016centrifuge,
+  title={Centrifuge: rapid and sensitive classification of metagenomic sequences},
+  author={Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg, Steven L},
+  journal={Genome Research},
+  volume={26},
+  number={12},
+  pages={1721--1729},
+  year={2016},
+  url = {https://doi.org/10.1101/gr.210641.116.}
+}
+@article{hyatt2010prodigal,
+  title={Prodigal: prokaryotic gene recognition and translation initiation site identification},
+  author={Hyatt, Doug and Chen, Gwo-Liang and LoCascio, Philip F and Land, Miriam L and Larimer, Frank W and Hauser, Loren J},
+  journal={BMC Bioinformatics},
+  volume={11},
+  number={1},
+  pages={119},
+  year={2010},
+  url = {https://doi.org/10.1186/1471-2105-11-119}
+}
+@article{edgar2004muscle,
+  title={MUSCLE: multiple sequence alignment with high accuracy and high throughput},
+  author={Edgar, Robert C},
+  journal={Nucleic Acids Research},
+  volume={32},
+  number={5},
+  pages={1792--1797},
+  year={2004},
+  url = {https://doi.org/10.1093/nar/gkh340}
+}
+@article{li2015megahit,
+  title={MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph},
+  author={Li, Dinghua and Liu, Chi-Man and Luo, Ruibang and Sadakane, Kunihiko and Lam, Tak-Wah},
+  journal={Bioinformatics},
+  volume={31},
+  number={10},
+  pages={1674--1676},
+  year={2015},
+  url = {https://doi.org/10.1093/bioinformatics/btv033}
+}
+@article{langmead2012fast,
+  title={Fast gapped-read alignment with Bowtie 2},
+  author={Langmead, Ben and Salzberg, Steven L},
+  journal={Nature Methods},
+  volume={9},
+  number={4},
+  pages={357},
+  year={2012},
+  url = {https://doi.org/10.1038/nmeth.1923}
+}
+@article{li2009fast,
+  title={Fast and accurate short read alignment with Burrows--Wheeler transform},
+  author={Li, Heng and Durbin, Richard},
+  journal={Bioinformatics},
+  volume={25},
+  number={14},
+  pages={1754--1760},
+  year={2009},
+  url = {https://doi.org/10.1093/bioinformatics/btp324}
+}
+@article{li2009sequence,
+  title={The sequence alignment/map format and SAMtools},
+  author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
+  journal={Bioinformatics},
+  volume={25},
+  number={16},
+  pages={2078--2079},
+  year={2009},
+  url = {https://doi.org/10.1093/bioinformatics/btp352}
+}
+
+@article{breitwieser2018krakenuniq,
+  title={KrakenUniq: confident and fast metagenomics classification using unique k-mer counts},
+  author={Breitwieser, FP and Baker, DN and Salzberg, Steven L},
+  journal={Genome Biology},
+  volume={19},
+  number={1},
+  pages={1--10},
+  year={2018},
+  url = {https://doi.org/10.5281/zenodo.1412647}
+}
+
+@article{eren2013filtering,
+  title={A filtering method to generate high quality short reads using Illumina paired-end technology},
+  author={Eren, A Murat and Vineis, Joseph H and Morrison, Hilary G and Sogin, Mitchell L},
+  journal={PLoS One},
+  volume={8},
+  number={6},
+  year={2013},
+  url = {https://doi.org/10.1371/journal.pone.0066643}
+}
+
+@article{alneberg2014binning,
+  title={Binning metagenomic contigs by coverage and composition},
+  author={Alneberg, Johannes and Bjarnason, Brynjar Sm{\'a}ri and De Bruijn, Ino and Schirmer, Melanie and Quick, Joshua and Ijaz, Umer Z and Lahti, Leo and Loman, Nicholas J and Andersson, Anders F and Quince, Christopher},
+  journal={Nature Methods},
+  volume={11},
+  number={11},
+  pages={1144--1146},
+  year={2014},
+  url = {https://doi.org/10.1038/nmeth.3103}
+}
+@article{sieber2018recovery,
+  title={Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy},
+  author={Sieber, Christian MK and Probst, Alexander J and Sharrar, Allison and Thomas, Brian C and Hess, Matthias and Tringe, Susannah G and Banfield, Jillian F},
+  journal={Nature Microbiology},
+  volume={3},
+  number={7},
+  pages={836--843},
+  year={2018},
+}
+
+@article{kang2019metabat,
+  title={MetaBAT 2: an adaptive binning algorithm for robust and efficient genome reconstruction from metagenome assemblies},
+  author={Kang, Dongwan D and Li, Feng and Kirton, Edward and Thomas, Ashleigh and Egan, Rob and An, Hong and Wang, Zhong},
+  journal={PeerJ},
+  volume={7},
+  pages={e7359},
+  year={2019},
+}
+@article{wu2016maxbin,
+  title={MaxBin 2.0: an automated binning algorithm to recover genomes from multiple metagenomic datasets},
+  author={Wu, Yu-Wei and Simmons, Blake A and Singer, Steven W},
+  journal={Bioinformatics},
+  volume={32},
+  number={4},
+  pages={605--607},
+  year={2016},
+}
+
+@article{ondov2011krona,
+  title={Interactive metagenomic visualization in a Web browser},
+  author={Ondov, Brian D and Bergman, Nicholas H and Phillippy, Adam M},
+  journal={BMC Bioinformatics},
+  volume={12},
+  number={1},
+  pages={385},
+  year={2011},
+  url = {https://doi.org/10.1186/1471-2105-12-385}
+}
+
+@article{buchfink2015fast,
+  title={Fast and sensitive protein alignment using DIAMOND},
+  author={Buchfink, Benjamin and Xie, Chao and Huson, Daniel H},
+  journal={Nature Methods},
+  volume={12},
+  number={1},
+  pages={59--60},
+  year={2015},
+  url = {https://doi.org/10.1038/nmeth.3176}
+}
+@article{delmont2018nitrogen,
+  title={Nitrogen-fixing populations of Planctomycetes and Proteobacteria are abundant in surface ocean metagenomes},
+  author={Delmont, Tom O and Quince, Christopher and Shaiber, Alon and Esen, {\"O}zcan C and Lee, Sonny TM and Rapp{\'e}, Michael S and McLellan, Sandra L and L{\"u}cker, Sebastian and Eren, A Murat},
+  journal={Nature Microbiology},
+  volume={3},
+  number={7},
+  pages={804--813},
+  year={2018},
+  url = {https://doi.org/10.1038/s41564-018-0176-9}
+}
+</script>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+<p>© Copyright 2020 The HYPOCOLYPSE Project.</p>
+<p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
