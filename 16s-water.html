@@ -46,7 +46,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 3. Water Samples"]},{"type":"character","attributes":{},"value":["In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Crawl Caye (normoxic). \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 3. Water Samples"]},{"type":"character","attributes":{},"value":["In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Crawl Caye (normoxic).\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1556,7 +1556,6 @@ C. Metagenomic
 <ul>
 <li><a href="#summary-of-water-samples">Summary of Water Samples</a></li>
 <li><a href="#taxonomic-diversity">Taxonomic Diversity</a></li>
-<li><a href="#source-code">Source Code</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1581,11 +1580,11 @@ tax_table()   Taxonomy Table:    [ 1109 taxa by 8 taxonomic ranks ]</code></pre>
 <p>One last thing to do is to compare diversity across the two sites <em>before</em> and <em>after</em> the hypoxic event. For this we add a sample variable called <code>period</code> denoting whether the sample was collected during or after the event.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-sample_data(ps_water)$oxstate &lt;- 
-  c(&quot;normoxic&quot;, &quot;normoxic&quot;, &quot;normoxic&quot;, &quot;normoxic&quot;, 
+sample_data(ps_water)$oxstate &lt;-
+  c(&quot;normoxic&quot;, &quot;normoxic&quot;, &quot;normoxic&quot;, &quot;normoxic&quot;,
     &quot;normoxic&quot;, &quot;hypoxic&quot;, &quot;hypoxic&quot;, &quot;hypoxic&quot;)
-sample_data(ps_water)$period &lt;- 
-  c(&quot;cc_after&quot;, &quot;cc_during&quot;, &quot;cc_during&quot;, &quot;cc_during&quot;, 
+sample_data(ps_water)$period &lt;-
+  c(&quot;cc_after&quot;, &quot;cc_during&quot;, &quot;cc_during&quot;, &quot;cc_during&quot;,
     &quot;cr_after&quot;, &quot;cr_during&quot;, &quot;cr_during&quot;, &quot;cr_during&quot;)</code></pre>
 </div>
 <blockquote>
@@ -1672,7 +1671,7 @@ total_reads &lt;- sample_sums(ps_water)
 total_reads &lt;- as.data.frame(total_reads, make.names = TRUE)
 total_reads &lt;- total_reads %&gt;% rownames_to_column(&quot;Sample_ID&quot;)
 
-total_asvs &lt;- estimate_richness(ps_water, 
+total_asvs &lt;- estimate_richness(ps_water,
                                 measures = c(
                                   &quot;Observed&quot;, &quot;Shannon&quot;, &quot;InvSimpson&quot;))
 total_asvs &lt;- total_asvs %&gt;% rownames_to_column(&quot;Sample_ID&quot;)
@@ -1684,7 +1683,7 @@ total_asvs$Sample_ID &lt;- gsub(&#39;\\.&#39;, &#39;-&#39;, total_asvs$Sample_ID
 sam_details &lt;- meta(sample_data(ps_water))
 rownames(sam_details) &lt;- NULL
 
-colnames(sam_details) &lt;- c(&quot;Sample_ID&quot;, &quot;Type&quot;, &quot;Site&quot;, &quot;Oxstate&quot;, &quot;Period&quot;) 
+colnames(sam_details) &lt;- c(&quot;Sample_ID&quot;, &quot;Type&quot;, &quot;Site&quot;, &quot;Oxstate&quot;, &quot;Period&quot;)
 
 merge_tab &lt;- merge(sam_details, total_reads, by = &quot;Sample_ID&quot;)
 merge_tab2 &lt;- merge(merge_tab, total_asvs, by = &quot;Sample_ID&quot;)
@@ -1748,11 +1747,7 @@ Next
 <p>PROCEED to METAGENOMIC WORKFLOW<br/> <a href="mg-setup.html" rel="prev">N<sup><u>o</u></sup> 5. Setup Working Environment</a></p>
 </div>
 </div>
-<p class="edit-page">
-<a href="https://github.com/hypocolypse/web/blob/master/build/16s-water.Rmd"> <i class="fas fa-pen pr-2"></i> Edit this page </a>
-</p>
-<h2 id="source-code" class="appendix">Source Code</h2>
-<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/build/16s-water.Rmd">clicking this link</a>.</p>
+<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-water.Rmd">clicking this link</a>.</p>
 <div id="refs" class="references">
 <div id="ref-lahti2017microbiome">
 <p>Lahti, Leo, Shetty Sudarshan, and others. 2017. “Tools for Microbiome Analysis in R. Version 1.9.97.” <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.</p>

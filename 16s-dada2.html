@@ -1733,11 +1733,11 @@ fnRs_Y2 &lt;- sort(list.files(path_Y2, pattern = &quot;_R2.trimmed.fastq&quot;))
 sample.names_X1 &lt;- sapply(strsplit(fnFs_X1, &quot;_&quot;), `[`, 1)
 fnFs_X1 &lt;-file.path(path_X1, fnFs_X1)
 fnRs_X1 &lt;-file.path(path_X1, fnRs_X1)
-sample.names_X1 </code></pre>
+sample.names_X1</code></pre>
 </div>
 <pre><code>
- [1] &quot;CCC1&quot; &quot;CCC2&quot; &quot;CCC3&quot; &quot;CCC4&quot; &quot;CCC5&quot; &quot;CCC6&quot; &quot;CCR1&quot; &quot;CCR2&quot; &quot;CCR3&quot; &quot;CCR4&quot; 
- [11] &quot;CCR5&quot; &quot;CCR6&quot; &quot;MCR1&quot; &quot;MCR2&quot; &quot;MCR3&quot; &quot;MCR5&quot; &quot;SCC1&quot; &quot;SCC2&quot; &quot;SCC3&quot; &quot;SCR1&quot; 
+ [1] &quot;CCC1&quot; &quot;CCC2&quot; &quot;CCC3&quot; &quot;CCC4&quot; &quot;CCC5&quot; &quot;CCC6&quot; &quot;CCR1&quot; &quot;CCR2&quot; &quot;CCR3&quot; &quot;CCR4&quot;
+ [11] &quot;CCR5&quot; &quot;CCR6&quot; &quot;MCR1&quot; &quot;MCR2&quot; &quot;MCR3&quot; &quot;MCR5&quot; &quot;SCC1&quot; &quot;SCC2&quot; &quot;SCC3&quot; &quot;SCR1&quot;
  [21] &quot;SCR2&quot; &quot;SCR3&quot; &quot;WCC0&quot; &quot;WCC1&quot; &quot;WCC2&quot; &quot;WCC3&quot; &quot;WCR0&quot; &quot;WCR1&quot; &quot;WCR2&quot; &quot;WCR3&quot;</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1794,9 +1794,9 @@ filtRs_Y2 &lt;- file.path(filt_path_Y2, paste0(sample.names_Y2, &quot;_R_filt.fa
 <h4 id="run-01-2">Run 01</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-out_X1 &lt;- filterAndTrim(fnFs_X1, filtFs_X1, fnRs_X1, filtRs_X1, 
-                        truncLen=c(260,160), maxN=0, maxEE=c(3,5), 
-                        truncQ=2, rm.phix=TRUE, compress=TRUE, 
+out_X1 &lt;- filterAndTrim(fnFs_X1, filtFs_X1, fnRs_X1, filtRs_X1,
+                        truncLen=c(260,160), maxN=0, maxEE=c(3,5),
+                        truncQ=2, rm.phix=TRUE, compress=TRUE,
                         multithread=TRUE)
 head(out_X1)</code></pre>
 </div>
@@ -1806,9 +1806,9 @@ head(out_X1)</code></pre>
 <h4 id="run-02-2">Run 02</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-out_Y2 &lt;- filterAndTrim(fnFs_Y2, filtFs_Y2, fnRs_Y2, filtRs_Y2, 
-                        truncLen=c(260,160), maxN=0, maxEE=c(5,5), 
-                        truncQ=2, rm.phix=TRUE, compress=TRUE, 
+out_Y2 &lt;- filterAndTrim(fnFs_Y2, filtFs_Y2, fnRs_Y2, filtRs_Y2,
+                        truncLen=c(260,160), maxN=0, maxEE=c(5,5),
+                        truncQ=2, rm.phix=TRUE, compress=TRUE,
                         multithread=TRUE)
 head(out_Y2)</code></pre>
 </div>
@@ -2028,7 +2028,7 @@ dadaFs_X1[[1]]</code></pre>
 </div>
 <pre><code>
 dada-class: object describing DADA2 denoising results
-257 sequence variants were inferred from 8258 
+257 sequence variants were inferred from 8258
 input unique sequences.
 Key parameters: OMEGA_A = 1e-40, OMEGA_C = 1e-40, BAND_SIZE = 16</code></pre>
 <div class="layout-chunk" data-layout="l-body">
@@ -2037,7 +2037,7 @@ dadaRs_X1[[1]]</code></pre>
 </div>
 <pre><code>
 dada-class: object describing DADA2 denoising results
-188 sequence variants were inferred from 7614 
+188 sequence variants were inferred from 7614
 input unique sequences.
 Key parameters: OMEGA_A = 1e-40, OMEGA_C = 1e-40, BAND_SIZE = 16</code></pre>
 <p>This output tells us how many true sequence variants the DADA2 algorithm inferred from the unique sequences. In this case, 257 sequence variants were inferred from 8258 unique forward sequences and 188 sequence variants were inferred from 7614 unique reverse sequences.</p>
@@ -2069,11 +2069,11 @@ dim(seqtab_X1)</code></pre>
 table(nchar(getSequences(seqtab_X1)))</code></pre>
 </div>
 <pre><code>
-  260  318  365  366  367  368  369  370  371  372  373  374  375 
-    4    1   18   19   14   17  161   35  109  294 1185  359 1376 
-  376  377  378  379  380  381  382  383  384  385  386  387  388 
- 2138 4223  382  214  360  141   25   14    5    5    3    4    3 
-  391  392  393  394  395  396  397  398  399  400  403  404  406 
+  260  318  365  366  367  368  369  370  371  372  373  374  375
+    4    1   18   19   14   17  161   35  109  294 1185  359 1376
+  376  377  378  379  380  381  382  383  384  385  386  387  388
+ 2138 4223  382  214  360  141   25   14    5    5    3    4    3
+  391  392  393  394  395  396  397  398  399  400  403  404  406
     4   12   30   67   54    7    2    2    2    4    9    1    2</code></pre>
 <h4 id="run02-1">Run02</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2090,9 +2090,9 @@ dim(seqtab_Y2)</code></pre>
 table(nchar(getSequences(seqtab_Y2)))</code></pre>
 </div>
 <pre><code>
- 260 282 315 344 353 368 369 370 371 372 373 374 375 376 377 379 
-   1   1   1   1   1   3   4   2   2  13  26   3  46  20  37   1 
- 380 382 383 385 388 400 
+ 260 282 315 344 353 368 369 370 371 372 373 374 375 376 377 379
+   1   1   1   1   1   3   4   2   2  13  26   3  46  20  37   1
+ 380 382 383 385 388 400
    1   1   1   1   1   1</code></pre>
 <p>The sequence table is a matrix with rows corresponding to (and named by) the samples, and columns corresponding to (and named by) the sequence variants. We have 11305 sequence variants in Run01 and 168 in Run02. But there is also a range of sequence lengths. We just need to select a range that corresponds to the expected amplicon length and eliminate the spurious reads.</p>
 <h3 id="trimming-sequence-tables">Trimming Sequence Tables</h3>
@@ -2114,9 +2114,9 @@ The values selected should be based on the sequence table generated above.
 table(nchar(getSequences(seqtab_X1.2)))</code></pre>
 </div>
 <pre><code>
-  368  369  370  371  372  373  374  375  376  377  378  379  380 
-   17  161   35  109  294 1185  359 1376 2138 4223  382  214  360 
-  381  382  383 
+  368  369  370  371  372  373  374  375  376  377  378  379  380
+   17  161   35  109  294 1185  359 1376 2138 4223  382  214  360
+  381  382  383
   141   25   14</code></pre>
 <h4 id="run02-2">Run02</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2136,7 +2136,7 @@ The values selected should be based on the sequence table generated above.
 table(nchar(getSequences(seqtab_Y2.2)))</code></pre>
 </div>
 <pre><code>
- 368 369 370 371 372 373 374 375 376 377 379 380 382 383 
+ 368 369 370 371 372 373 374 375 376 377 379 380 382 383
    3   4   2   2  13  26   3  46  20  37   1   1   1   1</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -2175,8 +2175,8 @@ st.all &lt;- readRDS(&quot;rdata/16s-dada2/combo_run1_run2.rds&quot;)</code></pr
 <p>Even though the <code>dada</code> method corrects substitution and indel errors, chimeric sequences remain. According to the DADA2 documentation, the accuracy of sequence variants after denoising makes identifying chimeric ASVs simpler than when dealing with fuzzy OTUs. Chimeric sequences are identified if they can be <em>exactly reconstructed</em> by combining a left-segment and a right-segment from two more abundant <em>parent</em> sequences.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-seqtab &lt;- removeBimeraDenovo(st.all, 
-                             method=&quot;consensus&quot;, 
+seqtab &lt;- removeBimeraDenovo(st.all,
+                             method=&quot;consensus&quot;,
                              multithread=TRUE)
 dim(seqtab)</code></pre>
 </div>
@@ -2221,7 +2221,7 @@ save.image(&quot;rdata/16s-dada2/combo_pipeline.rdata&quot;)</code></pre>
 <pre class="r"><code>
 #Run01
 seqtab_X1.2.nochim &lt;- removeBimeraDenovo(seqtab_X1.2,
-                                         method=&quot;consensus&quot;, 
+                                         method=&quot;consensus&quot;,
                                          multithread=TRUE)
 
 dim(seqtab_X1.2.nochim)</code></pre>
@@ -2243,7 +2243,7 @@ sum(seqtab_X1.2.nochim)/sum(seqtab_X1.2)</code></pre>
 <pre class="r"><code>
 #Run01
 seqtab_Y2.2.nochim &lt;- removeBimeraDenovo(seqtab_Y2.2,
-                                         method=&quot;consensus&quot;, 
+                                         method=&quot;consensus&quot;,
                                          multithread=TRUE)
 
 dim(seqtab_Y2.2.nochim)</code></pre>
@@ -2323,7 +2323,7 @@ Next
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
-<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/build/16s-dada2.Rmd">clicking this link</a>. Please note, that in order to process the data <em>and</em> build the website, we needed to run the pipeline and get the results. Then hard code the results and turn off the individual commands. So the raw file for this page is a bit messy—you have been warned.</p>
+<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-dada2.Rmd">clicking this link</a>. Please note, that in order to process the data <em>and</em> build the website, we needed to run the pipeline and get the results. Then hard code the results and turn off the individual commands. So the raw file for this page is a bit messy—you have been warned.</p>
 <div id="refs" class="references">
 <div id="ref-callahan2016dada2">
 <p>Callahan, Benjamin J, Paul J McMurdie, Michael J Rosen, Andrew W Han, Amy Jo A Johnson, and Susan P Holmes. 2016. “DADA2: High-Resolution Sample Inference from Illumina Amplicon Data.” <em>Nature Methods</em> 13 (7): 581. <a href="https://doi.org/10.1038/nmeth.3869">https://doi.org/10.1038/nmeth.3869</a>.</p>

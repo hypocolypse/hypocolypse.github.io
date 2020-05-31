@@ -49,7 +49,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 5. Automated Binning"]},{"type":"character","attributes":{},"value":["In this section of the workflow we use four different tools for automated binning of our assembled contigs. Our goal is to rebuild genomes from the metagenomic assembly. These are called metagenome assembled genomes, or MAGs.  \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 5. Automated Binning"]},{"type":"character","attributes":{},"value":["In this section of the workflow we use four different tools for automated binning of our assembled contigs. Our goal is to rebuild genomes from the metagenomic assembly. These are called metagenome assembled genomes, or MAGs.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1543,7 +1543,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 5. Automated Binning</h1>
-<p>In this section of the workflow we use four different tools for automated binning of our assembled contigs. Our goal is to rebuild genomes from the metagenomic assembly. These are called metagenome assembled genomes, or MAGs.<br /></p>
+<p>In this section of the workflow we use four different tools for automated binning of our assembled contigs. Our goal is to rebuild genomes from the metagenomic assembly. These are called metagenome assembled genomes, or MAGs.</p>
 </div>
 
 <div class="d-byline">
@@ -1565,17 +1565,15 @@ C. Metagenomic
 <li><a href="#maxbin2">MaxBIN2</a></li>
 <li><a href="#dastool">DASTOOL</a></li>
 </ul></li>
+<li><a href="#source-code">Source Code</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
 <h2 id="automated-binning-tools">Automated Binning Tools</h2>
 <ol type="1">
-<li><a href="https://github.com/BinPro/CONCOCT">CONCOCT</a> (Clustering cONtigs with COverage and ComposiTion)<span class="citation" data-cites="alneberg2014binning">(Alneberg et al. <a href="#ref-alneberg2014binning">2014</a>)</span> is a program for unsupervised binning of metagenomic contigs by using nucleotide composition, coverage data in multiple samples and linkage data from paired end reads.<br />
-</li>
-<li><a href="https://bitbucket.org/berkeleylab/metabat">MetaBAT2</a><span class="citation" data-cites="kang2019metabat">(Kang et al. <a href="#ref-kang2019metabat">2019</a>)</span> is a statistical framework for reconstructing genomes from metagenomic data.<br />
-</li>
-<li><a href="https://sourceforge.net/projects/maxbin2/">MaxBIN2</a><span class="citation" data-cites="wu2016maxbin">(Wu, Simmons, and Singer <a href="#ref-wu2016maxbin">2016</a>)</span> is an automatic tool for binning metagenomics sequences.<br />
-</li>
+<li><a href="https://github.com/BinPro/CONCOCT">CONCOCT</a> (Clustering cONtigs with COverage and ComposiTion)<span class="citation" data-cites="alneberg2014binning">(Alneberg et al. <a href="#ref-alneberg2014binning">2014</a>)</span> is a program for unsupervised binning of metagenomic contigs by using nucleotide composition, coverage data in multiple samples and linkage data from paired end reads.</li>
+<li><a href="https://bitbucket.org/berkeleylab/metabat">MetaBAT2</a><span class="citation" data-cites="kang2019metabat">(Kang et al. <a href="#ref-kang2019metabat">2019</a>)</span> is a statistical framework for reconstructing genomes from metagenomic data.</li>
+<li><a href="https://sourceforge.net/projects/maxbin2/">MaxBIN2</a><span class="citation" data-cites="wu2016maxbin">(Wu, Simmons, and Singer <a href="#ref-wu2016maxbin">2016</a>)</span> is an automatic tool for binning metagenomics sequences.</li>
 <li><a href="https://github.com/cmks/DAS_Tool">DASTOOL</a><span class="citation" data-cites="sieber2018recovery">(Sieber et al. <a href="#ref-sieber2018recovery">2018</a>)</span> is an automated method that integrates the results of a number of binning algorithms to calculate an optimized, non-redundant set of bins from a single assembly.</li>
 </ol>
 <h2 id="run-tools">Run Tools</h2>
@@ -1589,7 +1587,7 @@ anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.d
 anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MetaBAT2 --driver metabat2 --just-do-it --minContig 1500</code></pre>
 <p>And MaxBIN2</p>
 <pre class="bash"><code>
-anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MaxBIN2 --driver maxbin2 --just-do-it --min-contig-length 1000 </code></pre>
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MaxBIN2 --driver maxbin2 --just-do-it --min-contig-length 1000</code></pre>
 <p>Now we can run DASTOOL to aggregate the results. Since we ran two instances of CONCOCT we need to run both in DASTOOL against the results of MaxBIN2 and MetaBAT2.</p>
 <pre class="bash"><code>
 anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  DASTOOL --driver dastool --just-do-it --search-engine diamond -S CONCOCT,MaxBIN2,MetaBAT2 --debug
@@ -1631,9 +1629,9 @@ python --version
 source /home/scottjj/virtual-envs/anvio-master/bin/activate
 which python
 python --version
-which anvi-interactive 
-diamond --version 
-anvi-self-test -v 
+which anvi-interactive
+diamond --version
+anvi-self-test -v
 #
 # ----------------BINNING CONDA------------------- #
 #
@@ -1659,7 +1657,7 @@ anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.d
 #
 # ----------------MaxBIN2------------------- #
 #
-anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MaxBIN2 --driver maxbin2 --just-do-it --min-contig-length 1000 --debug 
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MaxBIN2 --driver maxbin2 --just-do-it --min-contig-length 1000 --debug
 #
 # ----------------DASTOOL------------------- #
 #
@@ -1754,9 +1752,8 @@ Next
 <p><a href="mg-workflow-2.html" rel="prev">N<sup><u>o</u></sup> 6. SOMETHING</a></p>
 </div>
 </div>
-<p class="edit-page">
-<a href="https://github.com/hypocolypse/web/blob/master/build/mg-auto-binning.Rmd"> <i class="fas fa-pen pr-2"></i> Edit this page </a>
-</p>
+<h2 id="source-code" class="appendix">Source Code</h2>
+<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-auto-binning.Rmd">clicking this link</a>.</p>
 <div id="refs" class="references">
 <div id="ref-alneberg2014binning">
 <p>Alneberg, Johannes, Brynjar Smári Bjarnason, Ino De Bruijn, Melanie Schirmer, Joshua Quick, Umer Z Ijaz, Leo Lahti, Nicholas J Loman, Anders F Andersson, and Christopher Quince. 2014. “Binning Metagenomic Contigs by Coverage and Composition.” <em>Nature Methods</em> 11 (11): 1144–6. <a href="https://doi.org/10.1038/nmeth.3103">https://doi.org/10.1038/nmeth.3103</a>.</p>
