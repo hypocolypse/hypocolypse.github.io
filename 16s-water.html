@@ -1556,6 +1556,7 @@ C. Metagenomic
 <ul>
 <li><a href="#summary-of-water-samples">Summary of Water Samples</a></li>
 <li><a href="#taxonomic-diversity">Taxonomic Diversity</a></li>
+<li><a href="#source-code">Source Code</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1575,6 +1576,33 @@ phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 1109 taxa and 8 samples ]
 sample_data() Sample Data:       [ 8 samples by 3 sample variables ]
 tax_table()   Taxonomy Table:    [ 1109 taxa by 8 taxonomic ranks ]</code></pre>
+</div>
+<p>Next, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+write.table(tax_table(ps_water),
+            &quot;tables/16s-water/water_tax_table.txt&quot;, sep=&quot;\t&quot;,
+            quote = FALSE, col.names=NA)
+write.table(t(otu_table(ps_water)),
+            &quot;tables/16s-water/water_seq_table.txt&quot;, sep=&quot;\t&quot;,
+            quote = FALSE, col.names=NA)</code></pre>
+</div>
+<p>And generate a fasta file for all ASVs in the water samples.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Create fasta file from tax_table
+table2format &lt;- tax_table(ps_water)
+#retain only the column with the sequences
+table2format_trim &lt;- table2format[, 7]
+table2format_trim_df &lt;- data.frame(row.names(table2format_trim),
+                                   table2format_trim)
+colnames(table2format_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
+#format fasta
+table2format_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, table2format_trim_df$ASV_ID)
+
+write.table(table2format_trim_df, &quot;tables/16s-water/water_asv.fasta&quot;,
+            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
+            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
 </div>
 <p>Let’s go ahead and a sample variable called <code>oxstate</code> to the sample data frame of the water phyloseq object so we can compare the taxonomy of normoxic (Coral Caye) vs. hypoxic (Cayo Roldan) samples. Note one of the Cayo Roldan samples (WCR0) was collected after the hypoxic event when oxygen levels had returned to normal. Therefore WCR0 is considered a normoxic sample.</p>
 <p>One last thing to do is to compare diversity across the two sites <em>before</em> and <em>after</em> the hypoxic event. For this we add a sample variable called <code>period</code> denoting whether the sample was collected during or after the event.</p>
@@ -1698,34 +1726,6 @@ colnames(merge_tab2) &lt;- c(&quot;Sample&lt;br/&gt;ID&quot;, &quot;Type&quot;, 
 <h2 id="taxonomic-diversity">Taxonomic Diversity</h2>
 <p>Lets first take a look at the taxonomic diversity of the dataset. The code to generate this table is a little gross. See the link at the bottom of the page to access the source code.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-topx &lt;- top_taxa(ps_water, n = 20)
-m &lt;- map_levels(topx, &quot;ASV_ID&quot;, &quot;Class&quot;, tax_table(ps_water))
-print(m)</code></pre>
-<pre><code>
- [1] &quot;Oxyphotobacteria&quot;    &quot;Oxyphotobacteria&quot;    &quot;Alphaproteobacteria&quot;
- [4] &quot;Bacteroidia&quot;         &quot;Alphaproteobacteria&quot; &quot;Bacteroidia&quot;        
- [7] &quot;Gammaproteobacteria&quot; &quot;Oxyphotobacteria&quot;    &quot;Oxyphotobacteria&quot;   
-[10] &quot;Campylobacteria&quot;     &quot;Alphaproteobacteria&quot; &quot;Acidimicrobiia&quot;     
-[13] &quot;Alphaproteobacteria&quot; &quot;Oxyphotobacteria&quot;    &quot;Bacteroidia&quot;        
-[16] &quot;Gammaproteobacteria&quot; &quot;Bacteroidia&quot;         &quot;Alphaproteobacteria&quot;
-[19] &quot;Alphaproteobacteria&quot; &quot;Alphaproteobacteria&quot;</code></pre>
-<pre class="r"><code>
-rank_names(ps_water)</code></pre>
-<pre><code>
-[1] &quot;Kingdom&quot; &quot;Phylum&quot;  &quot;Class&quot;   &quot;Order&quot;   &quot;Family&quot;  &quot;Genus&quot;  
-[7] &quot;ASV_SEQ&quot; &quot;ASV_ID&quot; </code></pre>
-<pre class="r"><code>
-length(get_taxa_unique(ps_water, &quot;Phylum&quot;))</code></pre>
-<pre><code>
-[1] 31</code></pre>
-<pre class="r"><code>
-samplenameX &lt;- sample_names(ps_water)[[1]]
-
-# Pick abundances for a particular taxon
-tax.abundances &lt;- abundances(ps_water)[, samplenameX]</code></pre>
-</div>
-<div class="layout-chunk" data-layout="l-body">
 <div id="htmlwidget-943a55846508a9f81bdc" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-943a55846508a9f81bdc">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 4.1: Total reads &amp; ASVs by Class <\/caption>","data":[["Acidimicrobiia","Actinobacteria","Alphaproteobacteria","Anaerolineae","BD7-11","Bacilli","Bacteroidia","Campylobacteria","Cloacimonadia","Clostridia","Dadabacteriia","Deferribacteres","Dehalococcoidia","Deltaproteobacteria","Erysipelotrichia","Fusobacteriia","Gammaproteobacteria","Gracilibacteria","Holophagae","Ignavibacteria","Kiritimatiellae","Lentisphaeria","Melainabacteria","Mollicutes","Negativicutes","Nitrososphaeria","OM190","Oligosphaeria","Oxyphotobacteria","Phycisphaerae","Pla3_lineage","Planctomycetacia","Rhodothermia","Spirochaetia","Subgroup_22","Synergistia","Thermoanaerobaculia","Thermoplasmata","Thermotogae","Verrucomicrobiae","Woesearchaeia","vadinHA49"],[4800,37,33727,7,100,6,32146,2431,242,294,148,67,38,3924,18,89,19874,3,8,43,379,37,30,370,3,24,910,23,71841,847,55,1765,1758,219,2,1,5,5936,11,1023,108,7],[12,3,160,2,5,2,252,7,4,25,2,5,2,122,3,6,164,1,2,3,8,6,2,3,1,3,15,3,62,23,2,31,6,15,1,1,1,30,1,31,9,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Taxa<\/th>\n      <th>total reads<\/th>\n      <th>total ASVs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2]}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[10,25,45],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
@@ -1736,7 +1736,7 @@ tax.abundances &lt;- abundances(ps_water)[, samplenameX]</code></pre>
 <div class="meta-nav">
 Previous
 </div>
-<p><a href="16s-diversity.html" rel="next">N<sup><u>o</u></sup> 3. Composition &amp; Diversity</a></p>
+<p><a href="16s-diversity.html" rel="next">N<sup><u>o</u></sup> 2. Data Preparation</a></p>
 </div>
 </div>
 <div class="post-nav">
@@ -1744,9 +1744,10 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p>PROCEED to METAGENOMIC WORKFLOW<br/> <a href="mg-setup.html" rel="prev">N<sup><u>o</u></sup> 5. Setup Working Environment</a></p>
+<p>PROCEED to METAGENOMIC WORKFLOW<br/> <a href="mg-setup.html" rel="prev">N<sup><u>o</u></sup> 1. Setup Working Environment</a></p>
 </div>
 </div>
+<h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-water.Rmd">clicking this link</a>.</p>
 <div id="refs" class="references">
 <div id="ref-lahti2017microbiome">

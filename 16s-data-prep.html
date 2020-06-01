@@ -1570,6 +1570,7 @@ C. Metagenomic
 </ul></li>
 <li><a href="#water-samples-phyloseq-object">Water Samples Phyloseq Object</a></li>
 <li><a href="#source-code">Source Code</a></li>
+<li><a href="#data-availability">Data Availability</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1775,6 +1776,23 @@ write.table(t(otu_table(ps)),
             &quot;tables/16s-data-prep/full_seq_table.txt&quot;,
             sep=&quot;\t&quot;, quote = FALSE, col.names=NA)</code></pre>
 </div>
+<p><strong>D</strong> Export fasta file</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Create fasta file from tax_table
+table2format &lt;- tax_table(ps)
+#retain only the column with the sequences
+table2format_trim &lt;- table2format[, 7]
+table2format_trim_df &lt;- data.frame(row.names(table2format_trim),
+                                   table2format_trim)
+colnames(table2format_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
+#format fasta
+table2format_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, table2format_trim_df$ASV_ID)
+
+write.table(table2format_trim_df, &quot;tables/16s-data-prep/full_asv.fasta&quot;,
+            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
+            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
+</div>
 <h2 id="remove-contaminants-unwanted-taxa">Remove Contaminants &amp; Unwanted Taxa</h2>
 <p>Let’s see if we have any potential contaminants. We can use some <a href="https://rmarkdown.rstudio.com/lesson-4.html">inline R code</a> to see the taxonomy table for any taxa of interest.</p>
 <aside>
@@ -1854,6 +1872,33 @@ tax_table()   Taxonomy Table:    [ 5933 taxa by 8 taxonomic ranks ]</code></pre>
 ps_filt &lt;- subset_taxa(ps_no_euk, !is.na(Kingdom))</code></pre>
 </div>
 <p>The code eliminated an additional <strong>7 Kingdom level NA ASVs</strong> from the phyloseq object.</p>
+<p>Now that we have a trimmed data set, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+write.table(tax_table(ps_filt),
+            &quot;tables/16s-data-prep/trim_tax_table.txt&quot;, sep=&quot;\t&quot;,
+            quote = FALSE, col.names=NA)
+write.table(t(otu_table(ps_filt)),
+            &quot;tables/16s-data-prep/trim_seq_table.txt&quot;, sep=&quot;\t&quot;,
+            quote = FALSE, col.names=NA)</code></pre>
+</div>
+<p>And generate a fasta file for all ASVs in the trimmed data set.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Create fasta file from tax_table
+table2format &lt;- tax_table(ps_filt)
+#retain only the column with the sequences
+table2format_trim &lt;- table2format[, 7]
+table2format_trim_df &lt;- data.frame(row.names(table2format_trim),
+                                   table2format_trim)
+colnames(table2format_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
+#format fasta
+table2format_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, table2format_trim_df$ASV_ID)
+
+write.table(table2format_trim_df, &quot;tables/16s-data-prep/trim_asv.fasta&quot;,
+            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
+            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
+</div>
 <h2 id="water-samples-phyloseq-object">Water Samples Phyloseq Object</h2>
 <p>The next thing to do is select only water samples and make a separate phyloseq object—since our paper is about the water samples. To do this we must select the samples we <em>wish to keep</em>. If you want to change the group of samples, modify the script accordingly.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1878,13 +1923,6 @@ phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 1109 taxa and 8 samples ]
 sample_data() Sample Data:       [ 8 samples by 3 sample variables ]
 tax_table()   Taxonomy Table:    [ 1109 taxa by 8 taxonomic ranks ]</code></pre>
-<pre class="r"><code>
-write.table(tax_table(ps_water),
-            &quot;tables/16s-data-prep/water_tax_table.txt&quot;, sep=&quot;\t&quot;,
-            quote = FALSE, col.names=NA)
-write.table(t(otu_table(ps_water)),
-            &quot;tables/16s-data-prep/water_seq_table.txt&quot;, sep=&quot;\t&quot;,
-            quote = FALSE, col.names=NA)</code></pre>
 </div>
 <p>So for water samples only there are 1109 ASVs and 8 samples. Now, save the various phyloseq data from the water object.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1914,6 +1952,7 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>You can find the source code for this page by <a href="https://github.com/hypocolypse/web/blob/master/16s-data-prep.Rmd">clicking this link</a>.</p>
+<h2 id="data-availability" class="unnumbered appendix">Data Availability</h2>
 <div id="refs" class="references">
 <div id="ref-lahti2017microbiome">
 <p>Lahti, Leo, Shetty Sudarshan, and others. 2017. “Tools for Microbiome Analysis in R. Version 1.9.97.” <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.</p>

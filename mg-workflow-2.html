@@ -1584,25 +1584,25 @@ anvi-display-contigs-stats 03_CONTIGS/WATER-contigs.db -o 03_CONTIGS/WATER-conti
 <div id="htmlwidget-748ef92a0ff71afc0a53" style="width:50%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-748ef92a0ff71afc0a53">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<p>You can download a text version of the table using the buttons or by clicking <a href="files/contig-stats.txt">here</a>.</p>
+<p>You can download a text version of the table using the table buttons.</p>
 <h2 id="krona-plots-explained">Krona Plots Explained</h2>
 <p>Next lets take a look at the taxonomic breakdown from the KrakenUniq classification of short reads. There is a lot of data here so we decided to present these as standalone HTML pages that contain separate <a href="https://github.com/marbl/Krona/wiki">Krona</a><span class="citation" data-cites="ondov2011krona">(Ondov, Bergman, and Phillippy <a href="#ref-ondov2011krona">2011</a>)</span> plots for each sample. In brief, a Krona plot allow hierarchical data to be explored with multi-layered pie charts. So these charts are interactive. We will use these on a few occasions so it is worth explaining in a little more detail.</p>
 <p>Below is an example of a Kraken taxonomy plot. The plot on the left is the <em>top level</em> view and the plot on the right is the <em>expanded</em> view. Inner rings represent higher taxonomic ranks.</p>
 <p>For example, the two most inner rings are <em>cellular organisms</em> and <em>viruses</em>. Taxonomic ranks decrease towards the outside. When a grup is expanded the inner ring becomes the highest rank. For example in the plot of the right we expanded the <em>Proteobacteria</em> (which is a phylum) so the classes form the inner rings.</p>
-<div class="layout-chunk" data-layout="l-body-outset">
-<div class="figure"><span id="fig:krona-example"></span>
-<img src="mg-workflow-2_files/figure-html5/krona-example-1.png" alt="**Example of a Krona plot**. The  **left panel** controls aspects of the plot. Search by taxon name, select a specific sample, control font size, etc. If you were to click once over a taxa on the left plot,  the group is highlighted. Double-click to expand the group as seen on the right. Upper right corner provides a summary of the expanded group." width="1766" />
-<p class="caption">
-Figure 1: <strong>Example of a Krona plot</strong>. The <strong>left panel</strong> controls aspects of the plot. Search by taxon name, select a specific sample, control font size, etc. If you were to click once over a taxa on the left plot, the group is highlighted. Double-click to expand the group as seen on the right. Upper right corner provides a summary of the expanded group.
-</p>
-</div>
+<div class="l-body-outset">
+<figure>
+<a href="figures/mg-workflow-2/krona-demo.png"> <img src="figures/mg-workflow-2/krona-demo.png" class="thumbnail"> </a>
+<figcaption>
+<strong>Example of a Krona plot</strong>. The <strong>left panel</strong> controls aspects of the plot. Search by taxon name, select a specific sample, control font size, etc. If you were to click once over a taxa on the left plot, the group is highlighted. Double-click to expand the group as seen on the right. Upper right corner provides a summary of the expanded group.
+</figcaption>
+</figure>
 </div>
 <h2 id="short-read-taxonomy">Short-read Taxonomy</h2>
 <p>Since the Kraken classification was performed BEFORE the assembly we can look at the Krona plots for each individual samples. Here samples are separated by site.</p>
 <div class="row">
 <div class="column">
 <div class="krona" style="max-width:500px;">
-<a href="files/cr-kraken.html" target="_blank"> <img src="images/cr-kraken.png" alt="HTML tutorial" style="width:90%">
+<a href="figures/mg-workflow-2/cr-kraken.html" target="_blank"> <img src="figures/mg-workflow-2/cr-kraken.png" alt="HTML tutorial" style="width:90%">
 <div class="container-krona">
 <p>
 CAYO ROLDAN<br/><small>Hypoxic &amp; Normoxic</small>
@@ -1613,7 +1613,7 @@ CAYO ROLDAN<br/><small>Hypoxic &amp; Normoxic</small>
 </div>
 <div class="column">
 <div class="krona" style="max-width:500px;">
-<a href="files/cc-kraken.html" target="_blank"> <img src="images/cc-kraken.png" alt="HTML tutorial" style="width:90%">
+<a href="figures/mg-workflow-2/cc-kraken.html" target="_blank"> <img src="figures/mg-workflow-2/cc-kraken.png" alt="HTML tutorial" style="width:90%">
 <div class="container-krona">
 <p>
 CRAWL CAYE<br/><small>Normoxic </small>
@@ -1638,7 +1638,7 @@ anvi-export-table 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o wa
 <div id="htmlwidget-822647ccd373b35f6885" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-822647ccd373b35f6885">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<p>You can download a text version of the table using the buttons or by clicking <a href="files/kraken-class.txt">here</a>.</p>
+<p>You can download a text version of the table using the table buttons.</p>
 <h2 id="mapping-results">Mapping Results</h2>
 <p>Lets go ahead and look at the mapping results. This took a little swindling but in the end this crude approach worked. First we needed all the <code>bowtie.log</code> files from the <code>00_LOGS</code> directory and grab the first line of each file, which has the total number of <em>individual reads that were paired</em> (after QC) in each sample.</p>
 <p>Just like we did above, we needed to grab the <code>layer_additional_data</code> from the merged profile databases. This table contains <code>total_reads_mapped</code>, <code>num_SNVs_reported</code>, and the taxonomic info from the short read Kraken annotations.</p>
@@ -1650,13 +1650,13 @@ anvi-export-table 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o wa
 <div id="htmlwidget-09933d8cd3bfa154b0fa" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-09933d8cd3bfa154b0fa">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<p>You can download a text version of the table using the buttons or by clicking <a href="files/mapping-results.txt">here</a>.</p>
+<p>You can download a text version of the table using the table buttons.</p>
 <h2 id="contig-classification">Contig Classification</h2>
 <p>Now we move on to the classification of contigs from the assembly. This means that we cannot look at individual samples because we co-assembled all of the data. We start with the Kaiju classification, again using the Krona plots. Remember we classified the contigs against both the <code>nr</code> and <code>mar</code> <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">databases</a>. Use the panels below to access the classifications for the assemby.</p>
 <div class="row">
 <div class="column">
 <div class="krona" style="max-width:500px;">
-<a href="files/water_kaiju_mar.html" target="_blank"> <img src="images/kaiju-mar.png" alt="HTML tutorial" style="width:90%">
+<a href="figures/mg-workflow-2/water_kaiju_mar.html" target="_blank"> <img src="figures/mg-workflow-2/kaiju-mar.png" alt="HTML tutorial" style="width:90%">
 <div class="container-krona">
 <p>
 Kaiju classification<br/><small>mar database</small>
@@ -1667,7 +1667,7 @@ Kaiju classification<br/><small>mar database</small>
 </div>
 <div class="column">
 <div class="krona" style="max-width:500px;">
-<a href="files/water_kaiju_nr.html" target="_blank"> <img src="images/kaiju-nr.png" alt="HTML tutorial" style="width:90%">
+<a href="figures/mg-workflow-2/water_kaiju_nr.html" target="_blank"> <img src="figures/mg-workflow-2/kaiju-nr.png" alt="HTML tutorial" style="width:90%">
 <div class="container-krona">
 <p>
 Kaiju classification<br/><small>nr database</small>
@@ -1694,7 +1694,7 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p><a href="mg-auto-binning.html" rel="prev">N<sup><u>o</u></sup> 6. Automated Binning</a></p>
+<p><a href="mg-auto-binning.html" rel="prev">N<sup><u>o</u></sup> 5. Automated Binning</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>

@@ -1711,7 +1711,7 @@ echo = `date` job $JOB_NAME don
 </details>
 <h2 id="snakemake-workflow">Snakemake Workflow</h2>
 <p>Thanks to the anvi’o implementation of Snakemake we can run many commands suquentially and/or simutaneously. There is plenty of good documentation on the anvi’o website about setting up snakemake workflows <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/">here</a> so we will refrain from any lengthy explainations.</p>
-<p>You can see all the settings we used and download our configs file <a href="files/default-config.txt">here</a> or grab it from the folded code below. Some commands we chose not to run but they remain in the workflow for posterity.</p>
+<p>You can see all the settings we used and download our configs file <a href="files/mg-workflow-1/default-config.txt">here</a> or grab it from the folded code below. Some commands we chose not to run but they remain in the workflow for posterity.</p>
 <details>
 <summary>Show/hide JSON-formatted configuration file.</summary>
 <pre><code>
@@ -2207,7 +2207,7 @@ export_svg(dag) %>%
 </details>
 <div class="l-body-outset">
 <figure>
-<a href="images/dag.png"> <img src="images/dag.png" class="thumbnail"> </a>
+<a href="figures/mg-workflow-1/dag.png"> <img src="figures/mg-workflow-1/dag.png" class="thumbnail"> </a>
 <figcaption>
 <strong>DAG of the metagenomic workflow</strong>. Colors indicate broad divisions of workflow: sky blue, short-read prep &amp; co-assembly; blueish green, short-read mapping to assembly; orange, taxonomic or functional classification; yellow, automatic binning; reddish purple, databases construction.
 </figcaption>
@@ -2284,7 +2284,7 @@ Documentation for <a href="https://snakemake.readthedocs.io/en/stable/">Snakemak
 <aside>
 GitHub repo for <a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a>.
 </aside>
-<p>Ok, here we run KrakenUniq and several reporting and summary steps against the short read data for each sample using the <a href="files/list.txt">list.txt</a> file.</p>
+<p>Ok, here we run KrakenUniq and several reporting and summary steps against the short read data for each sample using the <a href="files/mg-workflow-1/list.txt">list.txt</a> file.</p>
 <pre class="bash"><code>
 for sample in `cat list.txt`
 do
