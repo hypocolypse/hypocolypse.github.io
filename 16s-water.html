@@ -1458,6 +1458,7 @@
       font-size: 16px;
       font-weight: 300;
     }
+  }
   
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -1555,7 +1556,11 @@ C. Metagenomic
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#summary-of-water-samples">Summary of Water Samples</a></li>
-<li><a href="#taxonomic-diversity">Taxonomic Diversity</a></li>
+<li><a href="#taxonomic-diversity">Taxonomic Diversity</a><ul>
+<li><a href="#water-diversity">Water diversity</a></li>
+<li><a href="#hypoxic-vs.normoxic">Hypoxic vs. Normoxic</a></li>
+<li><a href="#during-vs.after-the-event">During vs. After the event</a></li>
+</ul></li>
 <li><a href="#source-code">Source Code</a></li>
 </ul>
 </nav>
@@ -1618,7 +1623,7 @@ sample_data(ps_water)$period &lt;-
 <blockquote>
 <p>The <code>ps_water</code> dataset contains 1109 ASVs, 187118 total reads, 8 samples, and 5 sample variables.</p>
 </blockquote>
-<p>And here is a summary of just water data set.</p>
+<p>And here is a summary of just water data samples.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1724,12 +1729,202 @@ colnames(merge_tab2) &lt;- c(&quot;Sample&lt;br/&gt;ID&quot;, &quot;Type&quot;, 
 <script type="application/json" data-for="mex738zeiysgiy3fysb8">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Total reads &amp; ASVs by sample.<\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["W","W","W","W","W","W","W","W"],["CC","CC","CC","CC","CR","CR","CR","CR"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["cc_after","cc_during","cc_during","cc_during","cr_after","cr_during","cr_during","cr_during"],[25458,25109,24801,20621,30287,13308,13705,33829],[275,264,270,230,297,217,278,497],[3.78097684970154,3.45094192022469,3.65516755321014,3.66271683358493,3.27607892631614,3.87363871704211,4.43341866123549,4.56406772613848],[8.95338315360342,5.80886468102784,7.16107181833561,7.41370671962649,4.77661946053063,15.6909963843071,38.240245915774,34.8706808005512]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>Oxstate<\/th>\n      <th>Period<\/th>\n      <th>total<br/>reads<\/th>\n      <th>total<br/>ASVs<\/th>\n      <th>Shannon<\/th>\n      <th>InvSimpson<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"lengthMenu":[5,10],"columnDefs":[{"targets":[7,8],"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 2, 3, \",\", \".\"); }"},{"className":"dt-right","targets":[5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.rowCallback"],"jsHooks":[]}</script>
 </div>
 <h2 id="taxonomic-diversity">Taxonomic Diversity</h2>
-<p>Lets first take a look at the taxonomic diversity of the dataset. The code to generate this table is a little gross. See the link at the bottom of the page to access the source code.</p>
+<h3 id="water-diversity">Water diversity</h3>
+<p>Let’s first take a look at the taxonomic diversity of the dataset. The code to generate this table is a little gross.</p>
+<h4 id="rename-na-txonomic-ranks">0. Rename <em>NA</em> txonomic ranks</h4>
+<p>Phyloseq has an odd way of dealing with taxonomic ranks that have no value—in other words, <em>NA</em> in the tax table. The first thing we are going to do before moving forward is to change all of the <em>NA</em> to have a value of the next highest classified rank. For example, <code>ASV5</code> is not classified at the Genus level but is at Family level (Saprospiraceae). So we change the Genus name to <em>Family_Saprospiraceae</em>. The code for this is hidden here but comes from these two posts on the phyloseq GitHub, both by <a href="https://github.com/MSMortensen">MSMortensen</a>: issue <a href="https://github.com/joey711/phyloseq/issues/850#issuecomment-394771087">#850</a> and issue <a href="https://github.com/joey711/phyloseq/issues/990#issuecomment-424618425">#990</a>. If you want to access the code chunk, check out the source code linked at the bottom of this page.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-943a55846508a9f81bdc" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-943a55846508a9f81bdc">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 4.1: Total reads &amp; ASVs by Class <\/caption>","data":[["Acidimicrobiia","Actinobacteria","Alphaproteobacteria","Anaerolineae","BD7-11","Bacilli","Bacteroidia","Campylobacteria","Cloacimonadia","Clostridia","Dadabacteriia","Deferribacteres","Dehalococcoidia","Deltaproteobacteria","Erysipelotrichia","Fusobacteriia","Gammaproteobacteria","Gracilibacteria","Holophagae","Ignavibacteria","Kiritimatiellae","Lentisphaeria","Melainabacteria","Mollicutes","Negativicutes","Nitrososphaeria","OM190","Oligosphaeria","Oxyphotobacteria","Phycisphaerae","Pla3_lineage","Planctomycetacia","Rhodothermia","Spirochaetia","Subgroup_22","Synergistia","Thermoanaerobaculia","Thermoplasmata","Thermotogae","Verrucomicrobiae","Woesearchaeia","vadinHA49"],[4800,37,33727,7,100,6,32146,2431,242,294,148,67,38,3924,18,89,19874,3,8,43,379,37,30,370,3,24,910,23,71841,847,55,1765,1758,219,2,1,5,5936,11,1023,108,7],[12,3,160,2,5,2,252,7,4,25,2,5,2,122,3,6,164,1,2,3,8,6,2,3,1,3,15,3,62,23,2,31,6,15,1,1,1,30,1,31,9,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Taxa<\/th>\n      <th>total reads<\/th>\n      <th>total ASVs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2]}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[10,25,45],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre><code>
+[1] &quot;Kingdom&quot; &quot;Phylum&quot;  &quot;Class&quot;   &quot;Order&quot;   &quot;Family&quot;  &quot;Genus&quot;  
+[7] &quot;ASV_SEQ&quot; &quot;ASV_ID&quot; </code></pre>
 </div>
-<p>Here we can see that: * Oxyphotobacteria, Alphaproteobacteria, Bacteroidia, Gammaproteobacteria, Thermoplasmata, Acidimicrobiia, Deltaproteobacteria, Campylobacteria contain the <strong>most reads</strong> and * Bacteroidia, Gammaproteobacteria, Alphaproteobacteria, Deltaproteobacteria, Oxyphotobacteria, Planctomycetacia, Verrucomicrobiae, Thermoplasmata contain the <strong>most ASVs</strong>.</p>
+<h4 id="choose-a-rank">1. Choose a rank</h4>
+<p>To make it easier to change the code later on, we can assign the taxonomic rank we are interested in to a variable, in the case <code>TRANK</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+TRANK &lt;- &quot;Class&quot;</code></pre>
+</div>
+<h4 id="generate-the-asv-reads-table">1. Generate the ASV &amp; reads table</h4>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+tax_asv &lt;- table(tax_table(ps_water)[, TRANK], 
+                 exclude = NULL, dnn = &quot;Taxa&quot;)
+tax_asv &lt;- as.data.frame(tax_asv, make.names = TRUE, stringsAsFactors=FALSE)
+
+tax_reads &lt;- factor(tax_table(ps_water)[, TRANK])
+tax_reads &lt;- apply(otu_table(ps_water), MARGIN = 1, function(x)
+{
+    tapply(x, INDEX = tax_reads, FUN = sum, na.rm = TRUE, simplify = TRUE)
+})
+tax_reads &lt;- as.data.frame(tax_reads, make.names = TRUE)
+tax_reads &lt;- cbind(tax_reads, reads = rowSums(tax_reads))
+tax_reads &lt;- tax_reads[9]
+tax_reads &lt;- setDT(tax_reads, keep.rownames = TRUE)[]</code></pre>
+</div>
+<h4 id="merge-the-two-tables">2. Merge the two tables</h4>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+taxa_read_asv_tab &lt;- merge(tax_reads, tax_asv, by.x = &quot;rn&quot;, by.y = &quot;Taxa&quot;)
+top_reads &lt;- top_n(taxa_read_asv_tab, n = 8, wt = reads)
+top_asvs &lt;- top_n(taxa_read_asv_tab, n = 8, wt = Freq)
+
+names(taxa_read_asv_tab) &lt;- c(&quot;Taxa&quot;, &quot;total reads&quot;, &quot;total ASVs&quot;)</code></pre>
+</div>
+<h4 id="diversity-table-by-class">3. Diversity table by Class</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div id="9sgooxcmkzw565dtk7or" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="9sgooxcmkzw565dtk7or">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Total reads &amp; ASVs by taxa<\/caption>","data":[["Acidimicrobiia","Actinobacteria","Alphaproteobacteria","Anaerolineae","BD7-11","Bacilli","Bacteroidia","Campylobacteria","Cloacimonadia","Clostridia","Dadabacteriia","Deferribacteres","Dehalococcoidia","Deltaproteobacteria","Erysipelotrichia","Fusobacteriia","Gammaproteobacteria","Gracilibacteria","Holophagae","Ignavibacteria","Kingdom_Bacteria","Kiritimatiellae","Lentisphaeria","Melainabacteria","Mollicutes","Negativicutes","Nitrososphaeria","OM190","Oligosphaeria","Oxyphotobacteria","Phycisphaerae","Phylum_Latescibacteria","Phylum_Lentisphaerae","Phylum_Margulisbacteria","Phylum_Marinimicrobia_(SAR406_clade)","Phylum_Omnitrophicaeota","Phylum_PAUC34f","Phylum_Proteobacteria","Phylum_WPS-2","Pla3_lineage","Planctomycetacia","Rhodothermia","Spirochaetia","Subgroup_22","Synergistia","Thermoanaerobaculia","Thermoplasmata","Thermotogae","Verrucomicrobiae","Woesearchaeia","vadinHA49"],[4800,37,33727,7,100,6,32146,2431,242,294,148,67,38,3924,18,89,19874,3,8,43,231,379,37,30,370,3,24,910,23,71841,847,39,3,15,3318,4,5,102,45,55,1765,1758,219,2,1,5,5936,11,1023,108,7],[12,3,160,2,5,2,252,7,4,25,2,5,2,122,3,6,164,1,2,3,29,8,6,2,3,1,3,15,3,62,23,2,1,4,21,1,1,9,3,2,31,6,15,1,1,1,30,1,31,9,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Taxa<\/th>\n      <th>total reads<\/th>\n      <th>total ASVs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2]}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":5,"scroller":true,"lengthMenu":[10,25,51],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Here we can see that:</p>
+<ul>
+<li>Oxyphotobacteria, Alphaproteobacteria, Bacteroidia, Gammaproteobacteria, Thermoplasmata, Acidimicrobiia, Deltaproteobacteria, Phylum_Marinimicrobia_(SAR406_clade) contain the <strong>most reads</strong> and</li>
+<li>Bacteroidia, Gammaproteobacteria, Alphaproteobacteria, Deltaproteobacteria, Oxyphotobacteria, Planctomycetacia, Verrucomicrobiae, Thermoplasmata contain the <strong>most ASVs</strong>.</li>
+</ul>
+<h3 id="hypoxic-vs.normoxic">Hypoxic vs. Normoxic</h3>
+<p>How does the taxonomic composition of normoxic compare to hypoxic samples? To look at this, we will combine samples by the <code>oxstate</code> variable and then calculate the <em>relative abundance</em> for each taxa for both oxygen states. Note one of the Cayo Roldan samples (WCR0) was collected after the hypoxic event when oxygen levels had returned to normal. Therefore WCR0 is considered a normoxic sample.</p>
+<p>There are a few steps we need to run for this analysis.</p>
+<h4 id="choose-a-rank-1">1. Choose a rank</h4>
+<p>Again, we can select a rank.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+TRANK &lt;- &quot;Class&quot;</code></pre>
+</div>
+<h4 id="calculate-the-averages-merge-samples-by-oxstate">2. Calculate the averages &amp; merge samples by oxstate</h4>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ps_water_AVG &lt;- transform_sample_counts(ps_water, function(x) x/sum(x))
+ps_water_ox &lt;- merge_samples(ps_water, &quot;oxstate&quot;)
+SD_BAR_w &lt;- merge_samples(sample_data(ps_water_AVG), &quot;oxstate&quot;)</code></pre>
+</div>
+<h4 id="merge-taxa-by-rank">3. Merge taxa by rank</h4>
+<p>We will set a variable for the taxonomic rank of choice. If you want to choose a different rank, be sure to change the variable assignment.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mdata_phy_w &lt;- tax_glom(ps_water_ox, taxrank = TRANK, NArm = FALSE)
+mdata_phyrel_w &lt;- transform_sample_counts(mdata_phy_w, function(x) x/sum(x))
+meltd_w &lt;- psmelt(mdata_phyrel_w)
+meltd_w[[TRANK]] &lt;- as.character(meltd_w[[TRANK]])</code></pre>
+</div>
+<h4 id="calculate-the-total-relative-abundance-for-all-taxa">4. Calculate the total relative abundance for all taxa</h4>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+means_w &lt;- ddply(meltd_w, ~get(TRANK), function(x) c(mean = mean(x$Abundance)))
+colnames(means_w) &lt;- c(TRANK, &quot;mean&quot;)
+means_w$mean &lt;- round(means_w$mean, digits = 5)
+taxa_means_w &lt;- means_w[order(-means_w$mean), ]  # this orders in decending fashion
+taxa_means_w &lt;- format(taxa_means_w, scientific = FALSE)  # ditch the sci notation</code></pre>
+</div>
+<h4 id="relative-abundance-by-class">5. Relative abundance by Class</h4>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+datatable(
+  taxa_means_w, rownames = FALSE, width = &quot;100%&quot;,
+  colnames = c(TRANK, &quot;mean&quot;),
+  caption = htmltools::tags$caption(
+    style = &quot;caption-side: bottom; text-align: left;&quot;,
+    &quot;Relative abundance by taxonomic rank. &quot;),
+  elementId = &quot;t9xg4oo3fbjqjqu1ogjm&quot;,
+  extensions = &quot;Buttons&quot;,
+  options = list(columnDefs = list(list(
+    className = &quot;dt-left&quot;, targets = &quot;_all&quot;)),
+    dom = &quot;Blfrtip&quot;, buttons = c(&quot;csv&quot;, &quot;copy&quot;),
+    scrollX = TRUE, scrollCollapse = TRUE, scrollY=TRUE,
+    pageLength = 8,
+    scroller=TRUE, lengthMenu = c(10, 25, 51)))</code></pre>
+<div id="t9xg4oo3fbjqjqu1ogjm" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="t9xg4oo3fbjqjqu1ogjm">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Oxyphotobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Deltaproteobacteria","Acidimicrobiia","Campylobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Rhodothermia","Planctomycetacia","OM190","Verrucomicrobiae","Phycisphaerae","Clostridia","Cloacimonadia","Kiritimatiellae","Spirochaetia","Mollicutes","Kingdom_Bacteria","BD7-11","Woesearchaeia","Dadabacteriia","Fusobacteriia","Deferribacteres","Phylum_Proteobacteria","Ignavibacteria","Phylum_Latescibacteria","Pla3_lineage","Actinobacteria","Melainabacteria","Phylum_WPS-2","Oligosphaeria","Lentisphaeria","Dehalococcoidia","Erysipelotrichia","Nitrososphaeria","Thermotogae","Holophagae","Phylum_Margulisbacteria","Anaerolineae","Phylum_PAUC34f","vadinHA49","Bacilli","Phylum_Lentisphaerae","Phylum_Omnitrophicaeota","Thermoanaerobaculia","Gracilibacteria","Negativicutes","Subgroup_22","Synergistia"],["0.32156","0.18880","0.18833","0.13852","0.02545","0.02311","0.02090","0.01997","0.01389","0.01323","0.01082","0.00627","0.00603","0.00509","0.00241","0.00199","0.00188","0.00180","0.00177","0.00168","0.00068","0.00067","0.00065","0.00062","0.00055","0.00051","0.00035","0.00032","0.00032","0.00025","0.00025","0.00019","0.00018","0.00017","0.00015","0.00011","0.00010","0.00009","0.00007","0.00006","0.00005","0.00004","0.00004","0.00002","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":8,"scroller":true,"lengthMenu":[10,25,51],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<h4 id="group-taxa-into-other">6. Group taxa into ‘Other’</h4>
+<p>Time to group some of the taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 51 differnt taxa in one figure, we need to collapse some.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+TAXAN &lt;- 8
+top_perc_w &lt;- top_n(taxa_means_w, n = TAXAN, wt = mean)
+top_perc_w$mean &lt;- round(as.numeric(top_perc_w$mean), digits = 5)
+min_top_perc_w &lt;- round(as.numeric(min(top_perc_w$mean)), digits = 5)
+top_perc_w_list &lt;- top_perc_w[,1]</code></pre>
+</div>
+<p>Here we decided to look at the abundance of the top 8, which sets a relative abundance cutoff at 0.01997. Anything lower than 0.01997 will be grouped into <em>Other</em>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+Other_w &lt;- means_w[means_w$mean &lt; min_top_perc_w, ][[TRANK]]
+meltd_w[meltd_w[[TRANK]] %in% Other_w, ][[TRANK]] &lt;- &quot;Other&quot;
+samp_names_w &lt;- aggregate(meltd_w$Abundance, by = list(meltd_w$Sample), FUN = sum)[, 1]
+.e_w &lt;- environment()
+meltd_w[, TRANK] &lt;- factor(meltd_w[, TRANK], sort(unique(meltd_w[, TRANK])))
+meltd_w1 &lt;- meltd_w[order(meltd_w[, TRANK]), ]
+
+target &lt;- c(&quot;Oxyphotobacteria&quot;, &quot;Alphaproteobacteria&quot;, 
+            &quot;Bacteroidia&quot;, &quot;Gammaproteobacteria&quot;, 
+            &quot;Thermoplasmata&quot;, &quot;Deltaproteobacteria&quot;, 
+            &quot;Acidimicrobiia&quot;, &quot;Campylobacteria&quot;, &quot;Other&quot;)
+meltd_w1[[TRANK]] &lt;- reorder.factor(meltd_w1[[TRANK]], new.order=target)</code></pre>
+</div>
+<h4 id="construct-a-bar-graph">7. Construct a bar graph</h4>
+<p>Finally.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="16s-water_files/figure-html5/make_fig_n_v_h-1.png" width="624" /></p>
+</div>
+<p>We can also look at this in tabular format. To accomplish the task, we use the <code>aggregate</code> command to group abundance values by oxygen state <em>and</em> taxonomic group.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+hyp_v_norm &lt;- aggregate(meltd_w1$Abundance, 
+                 by = list(Rank = meltd_w1[[TRANK]], 
+                           Sample = meltd_w1$Sample), 
+                 FUN = sum)
+hyp_v_norm$x &lt;- round(hyp_v_norm$x, digits = 4)
+hyp_v_norm &lt;- spread(hyp_v_norm, Sample, x)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="wewuidn73q2ceico4vyw" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="wewuidn73q2ceico4vyw">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic \n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Oxyphotobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Deltaproteobacteria","Acidimicrobiia","Campylobacteria","Other"],[0.1432,0.2133,0.2356,0.2309,0.0075,0.0292,0.0073,0.0399,0.0931],[0.4999,0.1643,0.141,0.0461,0.0434,0.017,0.0345,0,0.0536]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Rank<\/th>\n      <th>hypoxic<\/th>\n      <th>normoxic<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p></br></p>
+<h3 id="during-vs.after-the-event">During vs. After the event</h3>
+<p>What did taxonomic composition look like during and after the event at <strong>each site</strong>? To look at this, we will combine samples by the <code>period</code> variable and then calculate the <em>relative abundance</em> for each taxa. The code for this analysis is basically the same as the code above where we compared hypoxic to normoxic samples. Therefore, all of the code is hidden. See the link at the bottom of the page for the page source code if you are interested in the code we used here. We go through the same steps:</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<ol type="1">
+<li>Choose a rank.</li>
+<li>Merge samples by period.</li>
+<li>Merge taxa by rank.</li>
+<li>Calculate the total relative abundance for all taxa.</li>
+<li>Relative abundance by Class. <em>Values are slightly different because averaging across a different grouping</em>.</li>
+<li>Group taxa into ‘Other’.</li>
+<li>Construct a bar graph.</li>
+</ol>
+<p><br/></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="zswbg7x7f8eqj526xuox" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="zswbg7x7f8eqj526xuox">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Oxyphotobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Deltaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Campylobacteria","Planctomycetacia","Rhodothermia","Verrucomicrobiae","OM190","Phycisphaerae","Mollicutes","Kiritimatiellae","Clostridia","Kingdom_Bacteria","Cloacimonadia","Spirochaetia","Dadabacteriia","Woesearchaeia","Phylum_Proteobacteria","Fusobacteriia","BD7-11","Phylum_WPS-2","Pla3_lineage","Deferribacteres","Dehalococcoidia","Actinobacteria","Ignavibacteria","Nitrososphaeria","Phylum_Latescibacteria","Lentisphaeria","Melainabacteria","Oligosphaeria","Erysipelotrichia","Phylum_Margulisbacteria","Bacilli","Thermotogae","vadinHA49","Anaerolineae","Thermoanaerobaculia","Holophagae","Gracilibacteria","Phylum_PAUC34f","Negativicutes","Phylum_Lentisphaerae","Phylum_Omnitrophicaeota","Subgroup_22","Synergistia"],["0.41348","0.17718","0.16195","0.09171","0.03583","0.02792","0.02123","0.01775","0.00999","0.00906","0.00739","0.00510","0.00438","0.00392","0.00187","0.00165","0.00121","0.00109","0.00099","0.00090","0.00086","0.00067","0.00041","0.00040","0.00039","0.00031","0.00031","0.00028","0.00023","0.00018","0.00018","0.00017","0.00016","0.00015","0.00012","0.00009","0.00007","0.00007","0.00005","0.00005","0.00005","0.00004","0.00004","0.00003","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00000"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":9,"scroller":true,"lengthMenu":[9,25,51],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Time to group some of the taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 51 differnt taxa in one figure, we need to collapse some.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="16s-water_files/figure-html5/make_fig_d_v_a-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div id="kqtr8k9xeqyk0sb1s4h4" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="kqtr8k9xeqyk0sb1s4h4">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic \n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Oxyphotobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Deltaproteobacteria","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Other"],[0.4298,0.2049,0.1646,0.0443,0.0678,0.0165,0.0412,0.0176,0.0133],[0.4833,0.1674,0.1521,0.0478,0.0421,0.0134,0.0346,0.0289,0.0304],[0.5976,0.1232,0.0955,0.0439,0.0259,0.0258,0.0285,0.0216,0.038],[0.1432,0.2133,0.2356,0.2309,0.0075,0.0292,0.0073,0.0029,0.1301]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Crawl Caye (after)<\/th>\n      <th>Crawl Caye (during)<\/th>\n      <th>Cayo Roldan (after)<\/th>\n      <th>Cayo Roldan (during)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
 <p></br></p>
 <div class="post-nav">
 <div class="post-nav-item">
