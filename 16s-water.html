@@ -1318,7 +1318,7 @@
     background-color: #E8E8E8;
     border-radius: 3px;
     font-size: 0.8em;
-    border-left: 5px solid #FC6464;
+    border-left: 5px solid #006ddb;
     font-family: 'Monaco', 'PT Mono', monospace;
     overflow-x: scroll !important;
     margin-bottom: 20px;
@@ -1392,11 +1392,6 @@
   
   img {
     margin: 25px;
-  }
-  
-  blockquote p {
-  	font-size: 1.3em;
-  	font-family: 'Lato';
   }
   
   /** LIGHTBOX MARKUP **/
@@ -1524,7 +1519,10 @@ C. Metagenomic
 <a href="mg-workflow-2.html">4. Assembley &amp; Annotation Summary</a>
 <hr/>
 <span class="nav-dropdown-header">Binning</span>
-<a href="mg-auto-binning.html">5. Automated Binning</a>
+<a href="mg-binning.html">5. Binning</a>
+<hr/>
+<span class="nav-dropdown-header">MAGs in Context </span>
+<a href="mg-phylogenomic.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
 <a href="synthesis.html">D. Synthesis</a>
@@ -1835,7 +1833,7 @@ datatable(
 <script type="application/json" data-for="t9xg4oo3fbjqjqu1ogjm">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Oxyphotobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Deltaproteobacteria","Acidimicrobiia","Campylobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Rhodothermia","Planctomycetacia","OM190","Verrucomicrobiae","Phycisphaerae","Clostridia","Cloacimonadia","Kiritimatiellae","Spirochaetia","Mollicutes","Kingdom_Bacteria","BD7-11","Woesearchaeia","Dadabacteriia","Fusobacteriia","Deferribacteres","Phylum_Proteobacteria","Ignavibacteria","Phylum_Latescibacteria","Pla3_lineage","Actinobacteria","Melainabacteria","Phylum_WPS-2","Oligosphaeria","Lentisphaeria","Dehalococcoidia","Erysipelotrichia","Nitrososphaeria","Thermotogae","Holophagae","Phylum_Margulisbacteria","Anaerolineae","Phylum_PAUC34f","vadinHA49","Bacilli","Phylum_Lentisphaerae","Phylum_Omnitrophicaeota","Thermoanaerobaculia","Gracilibacteria","Negativicutes","Subgroup_22","Synergistia"],["0.32156","0.18880","0.18833","0.13852","0.02545","0.02311","0.02090","0.01997","0.01389","0.01323","0.01082","0.00627","0.00603","0.00509","0.00241","0.00199","0.00188","0.00180","0.00177","0.00168","0.00068","0.00067","0.00065","0.00062","0.00055","0.00051","0.00035","0.00032","0.00032","0.00025","0.00025","0.00019","0.00018","0.00017","0.00015","0.00011","0.00010","0.00009","0.00007","0.00006","0.00005","0.00004","0.00004","0.00002","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":8,"scroller":true,"lengthMenu":[10,25,51],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h4 id="group-taxa-into-other">6. Group taxa into ‘Other’</h4>
-<p>Time to group some of the taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 51 differnt taxa in one figure, we need to collapse some.</p>
+<p>Time to group low abundance taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 51 differnt taxa in one figure, we need to collapse the low abundance groups.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 TAXAN &lt;- 8
@@ -1908,7 +1906,7 @@ hyp_v_norm &lt;- spread(hyp_v_norm, Sample, x)</code></pre>
 <div id="zswbg7x7f8eqj526xuox" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="zswbg7x7f8eqj526xuox">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Oxyphotobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Deltaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Campylobacteria","Planctomycetacia","Rhodothermia","Verrucomicrobiae","OM190","Phycisphaerae","Mollicutes","Kiritimatiellae","Clostridia","Kingdom_Bacteria","Cloacimonadia","Spirochaetia","Dadabacteriia","Woesearchaeia","Phylum_Proteobacteria","Fusobacteriia","BD7-11","Phylum_WPS-2","Pla3_lineage","Deferribacteres","Dehalococcoidia","Actinobacteria","Ignavibacteria","Nitrososphaeria","Phylum_Latescibacteria","Lentisphaeria","Melainabacteria","Oligosphaeria","Erysipelotrichia","Phylum_Margulisbacteria","Bacilli","Thermotogae","vadinHA49","Anaerolineae","Thermoanaerobaculia","Holophagae","Gracilibacteria","Phylum_PAUC34f","Negativicutes","Phylum_Lentisphaerae","Phylum_Omnitrophicaeota","Subgroup_22","Synergistia"],["0.41348","0.17718","0.16195","0.09171","0.03583","0.02792","0.02123","0.01775","0.00999","0.00906","0.00739","0.00510","0.00438","0.00392","0.00187","0.00165","0.00121","0.00109","0.00099","0.00090","0.00086","0.00067","0.00041","0.00040","0.00039","0.00031","0.00031","0.00028","0.00023","0.00018","0.00018","0.00017","0.00016","0.00015","0.00012","0.00009","0.00007","0.00007","0.00005","0.00005","0.00005","0.00004","0.00004","0.00003","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00000"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":9,"scroller":true,"lengthMenu":[9,25,51],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<p>Time to group some of the taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 51 differnt taxa in one figure, we need to collapse some.</p>
+<p>Again, Time to group low abundance taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 51 differnt taxa in one figure, we need to collapse the low abundance groups.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>

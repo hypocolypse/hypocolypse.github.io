@@ -19,9 +19,9 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>: No 2. Data Preparation</title>
+  <title>: No 5. Binning MAGs</title>
   
-  <meta property="description" itemprop="description" content="Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is shown."/>
+  <meta property="description" itemprop="description" content="In this section of the workflow we reconstruct metagenome assebled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement."/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
@@ -29,25 +29,27 @@
   <meta name="article:author" content="Jarrod J Scott"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content=": No 2. Data Preparation"/>
+  <meta property="og:title" content=": No 5. Binning MAGs"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is shown."/>
+  <meta property="og:description" content="In this section of the workflow we reconstruct metagenome assebled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content=": No 2. Data Preparation"/>
-  <meta property="twitter:description" content="Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is shown."/>
+  <meta property="twitter:title" content=": No 5. Binning MAGs"/>
+  <meta property="twitter:description" content="In this section of the workflow we reconstruct metagenome assebled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement."/>
   
   <!--/radix_placeholder_meta_tags-->
   
-  <meta name="citation_reference" content="citation_title=Phyloseq: An r package for reproducible interactive analysis and graphics of microbiome census data;citation_publication_date=2013;citation_volume=8;citation_author=Paul J McMurdie;citation_author=Susan Holmes"/>
-  <meta name="citation_reference" content="citation_title=Tools for microbiome analysis in r. Version 1.9.97;citation_publication_date=2017;citation_author=Leo Lahti;citation_author=Shetty Sudarshan;citation_author=Tools for microbiome analysis in r. Version 1.9.97"/>
+  <meta name="citation_reference" content="citation_title=Binning metagenomic contigs by coverage and composition;citation_publication_date=2014;citation_volume=11;citation_author=Johannes Alneberg;citation_author=Brynjar Smári Bjarnason;citation_author=Ino De Bruijn;citation_author=Melanie Schirmer;citation_author=Joshua Quick;citation_author=Umer Z Ijaz;citation_author=Leo Lahti;citation_author=Nicholas J Loman;citation_author=Anders F Andersson;citation_author=Christopher Quince"/>
+  <meta name="citation_reference" content="citation_title=Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy;citation_publication_date=2018;citation_volume=3;citation_author=Christian MK Sieber;citation_author=Alexander J Probst;citation_author=Allison Sharrar;citation_author=Brian C Thomas;citation_author=Matthias Hess;citation_author=Susannah G Tringe;citation_author=Jillian F Banfield"/>
+  <meta name="citation_reference" content="citation_title=MetaBAT 2: An adaptive binning algorithm for robust and efficient genome reconstruction from metagenome assemblies;citation_publication_date=2019;citation_volume=7;citation_author=Dongwan D Kang;citation_author=Feng Li;citation_author=Edward Kirton;citation_author=Ashleigh Thomas;citation_author=Rob Egan;citation_author=Hong An;citation_author=Zhong Wang"/>
+  <meta name="citation_reference" content="citation_title=MaxBin 2.0: An automated binning algorithm to recover genomes from multiple metagenomic datasets;citation_publication_date=2016;citation_volume=32;citation_author=Yu-Wei Wu;citation_author=Blake A Simmons;citation_author=Steven W Singer"/>
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 2. Data Preparation"]},{"type":"character","attributes":{},"value":["Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. R code for tables & figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is shown.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 5. Binning MAGs"]},{"type":"character","attributes":{},"value":["In this section of the workflow we reconstruct metagenome assebled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement. \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1270,17 +1272,12 @@
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-  <script src="site_libs/jszip-1.10.20/jszip.min.js"></script>
   <link href="site_libs/dt-ext-buttons-1.10.20/css/buttons.dataTables.min.css" rel="stylesheet" />
   <script src="site_libs/dt-ext-buttons-1.10.20/js/dataTables.buttons.min.js"></script>
   <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.flash.min.js"></script>
   <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.html5.min.js"></script>
   <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.colVis.min.js"></script>
   <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
-  <link href="site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
-  <script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
-  <link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
-  <script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
   <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
   <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
@@ -1472,7 +1469,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"No 2. Data Preparation","description":"Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. R code for tables & figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is shown.","authors":[{"author":"Jarrod J Scott","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}]}
+{"title":"No 5. Binning MAGs","description":"In this section of the workflow we reconstruct metagenome assebled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement.","authors":[{"author":"Jarrod J Scott","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1544,8 +1541,8 @@ C. Metagenomic
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>No 2. Data Preparation</h1>
-<p>Complete, reproducible workflow for preparation of the <strong>16S rRNA</strong> data set. These steps are needed before analyzing the data. R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw <code>.Rmd</code> file). R code for everything else is shown.</p>
+<h1>No 5. Binning MAGs</h1>
+<p>In this section of the workflow we reconstruct metagenome assebled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement.</p>
 </div>
 
 <div class="d-byline">
@@ -1558,387 +1555,377 @@ C. Metagenomic
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#read-counts-assessment">Read Counts Assessment</a></li>
-<li><a href="#defining-groups">Defining Groups</a></li>
-<li><a href="#phyloseq-objects">Phyloseq Objects</a></li>
-<li><a href="#remove-contaminants-unwanted-taxa">Remove Contaminants &amp; Unwanted Taxa</a><ul>
-<li><a href="#remove-mitochondria-asvs">Remove Mitochondria ASVs</a></li>
-<li><a href="#remove-chloroplast-asvs">Remove Chloroplast ASVs</a></li>
-<li><a href="#remove-eukaryotic-asvs">Remove Eukaryotic ASVs</a></li>
-<li><a href="#remove-any-kingdom-nas">Remove any Kingdom NAs</a></li>
+<li><a href="#automated-binning">Automated Binning</a><ul>
+<li><a href="#inspect-results">Inspect Results</a></li>
 </ul></li>
-<li><a href="#water-samples-phyloseq-object">Water Samples Phyloseq Object</a></li>
+<li><a href="#manual-refinement">Manual Refinement</a></li>
+<li><a href="#identification-curation-of-mags">Identification &amp; Curation of MAGs</a><ul>
+<li><a href="#rename-bins">Rename Bins</a></li>
+<li><a href="#summarize-mags">Summarize MAGs</a></li>
+<li><a href="#check-for-redundant-mags">Check for Redundant MAGs</a></li>
+<li><a href="#profile-nonredundant-mags">Profile Nonredundant MAGs</a></li>
+<li><a href="#creating-self-contained-profiles-for-mags">Creating Self-Contained Profiles for MAGs</a></li>
+</ul></li>
 <li><a href="#source-code">Source Code</a></li>
-<li><a href="#data-availability">Data Availability</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<blockquote>
-<p>You will either need to run the <a href="16s-dada2.html">DADA2 workflow</a> or the grab output file <code>combo_pipeline.rdata</code> from the workflow. This file contains the sequence and taxonomy tables. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
-</blockquote>
-<p>Unless otherwise noted, we primarily use <a href="https://joey711.github.io/phyloseq/">phyloseq</a><span class="citation" data-cites="mcmurdie2013phyloseq">(McMurdie and Holmes <a href="#ref-mcmurdie2013phyloseq">2013</a>)</span> in this section of the workflow to analyze the 16S rRNA data set. Before we conduct any analyses we first need to <em>prepare our data set</em> by curating samples, removing <em>contaminants</em>, and creating phyloseq objects.</p>
-<h2 id="read-counts-assessment">Read Counts Assessment</h2>
-<p>Before we begin, let’s create a summary table containing some basic sample metadata and the read count data from the <a href="16s-dada2.html">DADA2 pipeline</a>. We need to inspect how total reads changed through the pipeline. Remember, 8 of the samples were resequenced. Just to get an idea, we combined the results of the <a href="16s-dada2.html#track-read-changes-bonus">Track Changes</a> analysis for these 8 samples. Table headers are as follows:</p>
+<p>This workflow is largely based on the <a href="http://merenlab.org/data/tara-oceans-mags/#binning-mags">Recovering Microbial Genomes from TARA Oceans Metagenomes</a> binning section provided by Delmont and Eren.</p>
+<h2 id="automated-binning">Automated Binning</h2>
+<p>The latest iteration of anvi’o (v6 as of this writing) ports several popular automated binning algorithms into its ecosystem. We will bin the water meatgenomic assembly using <a href="https://github.com/BinPro/CONCOCT">CONCOCT</a> (Clustering cONtigs with COverage and ComposiTion)<span class="citation" data-cites="alneberg2014binning">(Alneberg et al. <a href="#ref-alneberg2014binning">2014</a>)</span>—a program for unsupervised binning of metagenomic contigs by using nucleotide composition, coverage data in multiple samples and linkage data from paired end reads. But you can also use <a href="https://bitbucket.org/berkeleylab/metabat">MetaBAT2</a><span class="citation" data-cites="kang2019metabat">(Kang et al. <a href="#ref-kang2019metabat">2019</a>)</span>, <a href="https://sourceforge.net/projects/maxbin2/">MaxBIN2</a><span class="citation" data-cites="wu2016maxbin">(Wu, Simmons, and Singer <a href="#ref-wu2016maxbin">2016</a>)</span> and/or <a href="https://github.com/cmks/DAS_Tool">DASTOOL</a><span class="citation" data-cites="sieber2018recovery">(Sieber et al. <a href="#ref-sieber2018recovery">2018</a>)</span> if you wish.</p>
+<p>When we run CONCOCT, we can specify the number of bins the program generates. To my knowledge CONCOCT is the only binning tools that allows you to specify the number of clusters. The command is pretty straightforward. We will set the number of automated clusters to 5. Why 5? If you remember back to the <a href="mg-workflow-2.html#assembly-results">Assembly results</a> section, anvi’o estimated the total number of MAGs is the data set was 15 (based on the presence of signle copy genes). In my experience, shoosing a value smaller than this gives you greater control over the manual refinement.</p>
+<pre class="bash"><code>
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  CONCOCT_5 --driver concoct --just-do-it --clusters 5</code></pre>
+<p>If you are interested in using MetaBAT2, MaxBIN2, and/or DASTOOL we include those commands in this Hydra script. Edit the script to suite your needs.</p>
+<details>
+<summary>Show/hide HYDRA CONTIG AUTO BINNING job script</summary>
+<pre><code>
+# /bin/sh
+# ----------------Parameters---------------------- #
+#$ -S /bin/sh
+#$ -pe mthread 5
+#$ -q sThC.q
+#$ -l mres=25G,h_data=5G,h_vmem=5G
+#$ -cwd
+#$ -j y
+#$ -N water_job_11_cluster_contigs
+#$ -o hydra_logs/job_11_cluster_contigs_water.log
+#$ -M scottjj@si.edu
+#
+# ----------------Modules------------------------- #
+module load gcc/4.9.2
+#
+# ----------------Your Commands------------------- #
+#
+echo + `date` job $JOB_NAME started in $QUEUE with jobID=$JOB_ID on $HOSTNAME
+echo + NSLOTS = $NSLOTS
+#
+# ----------------CALLING ANVIO------------------- #
+#
+export PATH=/home/scottjj/miniconda3:$PATH
+export PATH=/home/scottjj/miniconda3/bin:$PATH
+export PATH=/home/scottjj/miniconda3/envs:$PATH
+source activate anvio-master
+#
+# ----------------CHECKING EVERYTHING------------------- #
+#
+which python
+python --version
+source /home/scottjj/virtual-envs/anvio-master/bin/activate
+which python
+python --version
+which anvi-interactive
+diamond --version
+anvi-self-test -v
+#
+# ----------------BINNING CONDA------------------- #
+#
+source activate binning
+conda activate binning
+which run_MaxBin.pl
+which concoct
+#
+# ----------------SETUP TEMP DIRECTORIES------------------- #
+#
+rm -r /pool/genomics/stri_istmobiome/dbs/tmp_data_WATER/
+mkdir -p /pool/genomics/stri_istmobiome/dbs/tmp_data_WATER/
+TMPDIR="/pool/genomics/stri_istmobiome/dbs/tmp_data_WATER/"
+#
+# ----------------CONCOCT------------------- #
+#
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  CONCOCT --driver concoct --just-do-it --debug
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  CONCOCT_5 --driver concoct --just-do-it --clusters 5 --debug
+#
+# ----------------MetaBAT2------------------- #
+#
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MetaBAT2 --driver metabat2 --just-do-it --debug --minContig 1500
+#
+# ----------------MaxBIN2------------------- #
+#
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  MaxBIN2 --driver maxbin2 --just-do-it --min-contig-length 1000 --debug
+#
+# ----------------DASTOOL------------------- #
+#
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  DASTOOL --driver dastool --just-do-it --search-engine diamond -S CONCOCT,MaxBIN2,MetaBAT2 --debug
+anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  DASTOOL_5 --driver dastool --just-do-it --search-engine diamond -S CONCOCT_5,MaxBIN2,MetaBAT2 --debug
+#
+echo = `date` job $JOB_NAME done
+</code></pre>
+</details>
+<h3 id="inspect-results">Inspect Results</h3>
+<p>Let’s take a look at the results of automated binning using the command <code>anvi-export-collection</code> with the <code>--list-collections</code> flag. Anvio won’t do anything here except show us what <em>collections</em> are in the <code>PROFILE.db</code>.</p>
+<pre class="bash"><code>
+anvi-export-collection -p 06_MERGED/WATER/PROFILE.db --list-collections</code></pre>
+<p>A collection is what anvi’o uses to organize contigs into bins. And here is the output of that command. The VIRSORTER collection was imported during the annotation phase and can be ignored for now.</p>
+<pre class="bash"><code>
+COLLECTIONS FOUND
+===============================================
+* VIRSORTER (2840 bins, representing 2857 items).
+* CONCOCT_5 (5 bins, representing 23716 items).</code></pre>
+<p>Here we can see the number of bins (which we forced to be 5) and the total number of contigs included in the collection. Remember the original assembly had 23,758 contigs (at a minimum length of 1000bp). We can take a quick look at the estimates of genome completion and redundancy using domain-specific single-copy core genes for each collection using <code>anvi-estimate-genome-completeness</code>.</p>
+<p>The command <code>anvi-export-collection</code> produces two files—one is an items file, which is a two column text file that contains the contig name and the bin it belongs to. The other is a three-column bins info file. These are important files and you will use them a lot to manipulate collections.</p>
+<p>One thing to remember if you use the other tools is how each algorithm names bins, or else this can get confusing. CONCOCT adds the prefix <code>Bin_</code>, MaxBin adds the prefix <code>MAXBIN_</code>, and MetaBAT adds the prefix <code>METABAT__</code> (with two underscores). DAS Tool then adds its own <code>Bin_</code> prefix to the parent name. For example DAS Tool <code>Bin_Bin_11</code> is CONCOCT bin <code>Bin_11</code> while DASTOOL <code>Bin_METABAT__2</code> is MetaBAT2 bin <code>METABAT__2</code>.</p>
+<h4 id="summarize-initial-concoct-clusters">Summarize Initial CONCOCT Clusters</h4>
+<p>Now we can have a look at the results of the initial binning and for that we use <code>anvi-summarize</code>. This command is <em>very</em> useful, especially during bin refinement. It produces a lot of report files will that will help you assess your bins. We need to give the command contig and profile databases, a collection name, and an output directory.</p>
+<pre class="bash"><code>
+anvi-summarize -c 03_CONTIGS/WATER-contigs.db \
+               -p 06_MERGED/WATER/PROFILE.db \
+               -C CONCOCT_5 -o CONCOCT_5</code></pre>
+<p>The output of this command is a bunch of summary data all tied together in an interactive HTML document making it very easy to explore. You are encouraged to use this tool. Let’s just look at the bins summary file.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div id="pnq0rgqiudam5dqpodrc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="pnq0rgqiudam5dqpodrc">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">CONCOCT 5 forced cluster binning results<\/caption>","autoHideNavigation":true,"data":[["Bin_0","Bin_1","Bin_2","Bin_3","Bin_4"],["Unknown","Unknown","Unknown_Myoviridae","Unknown","Synechococcus"],[10394293,7140550,14323882,3355056,7392044],[6461,4691,6508,2043,3996],[1550,1457,2293,1556,1767],[35.3,49.5,41.1,47.9,61.1],[100,82.9,0,98.6,98.6],[467.6,110.5,0,160.6,263.4]],"container":"<table class=\"FixedColumns\">\n  <thead>\n    <tr>\n      <th>bins<\/th>\n      <th>taxon<\/th>\n      <th>total length<\/th>\n      <th>num contigs<\/th>\n      <th>N50<\/th>\n      <th>GC content<\/th>\n      <th>% completion<\/th>\n      <th>% redundancy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,3,4,5,6,7]}],"dom":"Brti","buttons":["csv","copy"],"pageLength":5,"FixedColumns":{"leftColumns":2,"rightColumns":1},"scrollY":false,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>Messy.</p>
+<h4 id="estimate-genome-completeness">Estimate genome completeness</h4>
+<p>We can also the estimate genome completeness of each. The output of this command is a simple table and can give you quick access to some important details.</p>
+<pre class="bash"><code>
+anvi-estimate-genome-completeness -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -C CONCOCT_5</code></pre>
+<p>Here are the results for the 5 CONCOCT bins with the <code>--clusters</code> flag equal to 5.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div id="si6nhep817xedxvbqvfj" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="si6nhep817xedxvbqvfj">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">CONCOCT 5 forced cluster completeness esitmates<\/caption>","autoHideNavigation":true,"data":[["Bin_0","Bin_2","Bin_4","Bin_1","Bin_3"],["BACTERIA","BLANK","BACTERIA","ARCHAEA","BACTERIA"],[0.9,1,0.8,0.2,1],[100,0,98.59,82.89,98.59],[467.61,0,263.38,110.53,160.56],[6461,6525,3996,4691,2043],[10394293,14323882,7392044,7140550,3355056]],"container":"<table class=\"FixedColumns\">\n  <thead>\n    <tr>\n      <th>bin name<\/th>\n      <th>domain<\/th>\n      <th>confidence<\/th>\n      <th>% completion<\/th>\n      <th>% redundancy<\/th>\n      <th>num_splits<\/th>\n      <th>total length<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,3,4,5,6]}],"dom":"Brti","buttons":["csv","copy"],"pageLength":5,"FixedColumns":{"leftColumns":2,"rightColumns":1},"scrollY":false,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>In truth, non of this is particularly useful right now since we know are bins are messy. These tell us just how messy the bins are but later on commands like <code>anvi-summarize</code> and <code>anvi-estimate-genome-completeness</code> will be indespensible.</p>
+<h2 id="manual-refinement">Manual Refinement</h2>
+<p>DETAILS</p>
+<p>Once I have gone through all the bins and am happy with the manual refinement, I make a new collection to have a clean slate. This involves a little text file manipulation but its pretty easy. First I run…</p>
+<pre class="bash"><code>
+anvi-export-collection -p 06_MERGED/WATER/PROFILE.db -C CONCOCT_5</code></pre>
+<p>And I get the same two output files described above. Since I have a lot of viral bins, I decided to make two new collections, one microbial and the other viral. Since I named all viral bins with the prefix <code>v_Bin</code> it was easy to parse out the viral bins. We will use <code>anvi-import-collection</code> to get the collections into the PROFILE database. Learn to love this command.</p>
+<pre class="bash"><code>
+anvi-import-collection collection-MICROBIAL.txt \
+                       -p 06_MERGED/WATER/PROFILE.db \
+                       -c 03_CONTIGS/WATER-contigs.db \
+                       -C MICROBIAL_REFINED \
+                       --bins-info collection-MICROBIAL-info.txt/
+                       
+anvi-import-collection collection-VIRAL.txt \
+                       -p 06_MERGED/WATER/PROFILE.db \
+                       -c 03_CONTIGS/WATER-contigs.db \
+                       -C VIRAL_REFINED \
+                       --bins-info collection-VIRAL-info.txt</code></pre>
+<p>And running <code>anvi-export-collection</code> again</p>
+<pre class="bash"><code>
+anvi-export-collection -p 06_MERGED/WATER/PROFILE.db --list-collections</code></pre>
+<p>give us a PROFILE.db with the new collections.</p>
+<pre class="bash"><code>
+COLLECTIONS FOUND
+===============================================
+* VIRSORTER (2840 bins, representing 2857 items).
+* CONCOCT_5 (5 bins, representing 23716 items).
+* CONCOCT_MANUAL (136 bins, representing 23716 items).
+* VIRAL_REFINED (92 bins, representing 12144 items).
+* MICROBIAL_REFINED (44 bins, representing 11572 items).</code></pre>
+<h2 id="identification-curation-of-mags">Identification &amp; Curation of MAGs</h2>
+<h3 id="rename-bins">Rename Bins</h3>
+<p>Now that we have gone through the process of refining the bins and modifying the collections it is time to <strong>a</strong> define metagenomic bins with &gt; 70% completion or &gt; 2 Mbp in length <em>AND</em> &lt; 10% redundancy<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> as metagenome-assembled genomes (MAGs), and <strong>b</strong>) rename the MAGs and all the remaining bins.</p>
+<pre class="bash"><code>
+anvi-rename-bins -c 03_CONTIGS/WATER-contigs.db \
+                 -p 06_MERGED/WATER/PROFILE.db \ 
+                 --collection-to-read MICROBIAL_REFINED \ 
+                 --collection-to-write MICROBIAL_FINAL \ 
+                 --call-MAGs --size-for-MAG 2 \ 
+                 --min-completion-for-MAG 70 \
+                 --max-redundancy-for-MAG 10 \
+                 --prefix WATER \
+                 --report-file 08_RENAMED_BINS/MICROBIAL.renaming_bins.txt
+
+anvi-rename-bins -c 03_CONTIGS/WATER-contigs.db 
+                 -p 06_MERGED/WATER/PROFILE.db \
+                 --collection-to-read VIRAL_REFINED \
+                 --collection-to-write VIRAL_FINAL \
+                 --call-MAGs --size-for-MAG 2 \
+                 --min-completion-for-MAG 70 \
+                 --max-redundancy-for-MAG 10 \
+                 --prefix WATER_v -/
+                 -report-file 08_RENAMED_BINS/VIRAL.renaming_bins.txt 
+</code></pre>
+<p>As you can see, we use our new collections plus a few criteria to rename all the bins. Anything fitting those critera will have the prefix <code>WATER_MAG_</code> and those that do not will be <code>WATER_BIN_</code>. Of course, we do not expect any viral bins to meet these criteria and while calling VAGs (viral assembled genomes) can be done (I think), it is beyond the scope of this study.</p>
+<h3 id="summarize-mags">Summarize MAGs</h3>
+<p>Now, for a little sanity check we can summarize the MAGs.</p>
+<pre class="bash"><code>
+anvi-summarize -c 03_CONTIGS/WATER-contigs.db 
+               -p 06_MERGED/WATER/PROFILE.db \
+               -C MAGS -o 10_SUMMARY_MAGS/MAGS-SUMMARY
+anvi-estimate-genome-completeness 
+               -c 03_CONTIGS/WATER-contigs.db \
+               -p 06_MERGED/WATER/PROFILE.db \
+               -C MAGS -o 10_SUMMARY_MAGS/MAGS.info               </code></pre>
+<p>And combine the <code>bins_summary.txt</code> withe the <code>MAGS.info</code> table to check out the MAGs.</p>
+<div class="layout-chunk" data-layout="l-body-outset">
+<div id="w28jrs85gyggqx35xq83" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="w28jrs85gyggqx35xq83">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">MAG summary<\/caption>","autoHideNavigation":true,"data":[["WATER_MAG_00001","WATER_MAG_00002","WATER_MAG_00003","WATER_MAG_00004","WATER_MAG_00005"],["BACTERIA","BACTERIA","BACTERIA","BACTERIA","BACTERIA"],[1,0.9,0.9,0.7,0.7],["Synechococcus","Arcobacter","Synechococcus","Aliiroseovarius","Candidatus Pelagibacter"],[1862616,1180544,1654044,1776907,715941],[509,504,891,1062,438],[5803,2589,1871,1692,1661],[62.8,29.8,62.2,59.9,31.2],[94.4,93,90.1,83.1,74.6],[2.8,8.5,7,4.2,5.6]],"container":"<table class=\"FixedColumns\">\n  <thead>\n    <tr>\n      <th>bins<\/th>\n      <th>domain<\/th>\n      <th>confidence<\/th>\n      <th>taxon<\/th>\n      <th>total length<\/th>\n      <th>num contigs<\/th>\n      <th>N50<\/th>\n      <th>GC content<\/th>\n      <th>% completion<\/th>\n      <th>% redundancy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,4,5,6,7,8,9]}],"dom":"Brti","buttons":["csv","copy"],"pageLength":5,"FixedColumns":{"leftColumns":2,"rightColumns":1},"scrollY":false,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>As you can see, the genomes are pretty fragmented but you get what you get so let’s move on.</p>
+<h3 id="check-for-redundant-mags">Check for Redundant MAGs</h3>
+<p>Since we only have one metagenomic assembly, we shouldn’t need to worry about having redundant MAGs. But I like to check anyway.</p>
+<p>We need fasta files with proper deflines for each MAG.</p>
+<pre class="bash"><code>
+mkdir 11_REDUNDANT-MAGs
+# get each MAG name in the set:
+MAGs=`grep MAG 10_SUMMARY_MAGS/MAGS.info | awk &#39;{print $1}&#39;`
+# go through each MAG, in each SUMMARY directory, and store a
+# copy of the FASTA file with proper deflines in the REDUNDANT-MAGs
+# directory:
+for MAG in `echo $MAGs`; 
+do 
+    anvi-script-reformat-fasta 
+    10_SUMMARY_MAGS/MAGS-SUMMARY/bin_by_bin/$MAG/$MAG-contigs.fa 
+    --simplify-names --prefix $MAG 
+    -o 11_REDUNDANT-MAGs/$MAG.fa; 
+done</code></pre>
+<p>This step provides a convenient naming scheme for all contigs. For example, a scaffolds in MAG 5 will be named with the prefix <code>WATER_MAG_00005_</code>. This gives contigs from all MAGs a unique name.</p>
+<p>Then, we run <code>anvi-compute-genome-similarity</code> to calculate the similarity of the MAGs. If you are working with multiple assemblies, it is important to tweak the parameters but since we have a single assembly (and likely no redundant MAGS), we just used the default settings. We do need an additional file that let’s anvi’o know the name of the MAG and the location of its fasta file. We call it <code>mag_fasta.txt</code> and you can find the file <a href="files/mg-binning/mag_fasta.txt">here</a>. This file is two column, tab delimited.</p>
+<pre class="bash"><code>
+anvi-compute-genome-similarity -f mag_fasta.txt \
+                               -o 12_GENOME-SIMILARITY \
+                               --program pyANI</code></pre>
+<p>And then we run <code>anvi-dereplicate-genomes</code> to see if we have any redundant MAGs.</p>
+<pre class="bash"><code>
+anvi-dereplicate-genomes --ani-dir 12_GENOME-SIMILARITY 
+                         -o 13_DERELICATED-GENOMES \
+                         --similarity-threshold 0.90 \
+                         --program pyANI</code></pre>
+<p>Insepecting the <code>CLUSTER_REPORT.txt</code> file we can see that each MAG is in it’s own cluster, meaning no redundancy.</p>
 <table>
 <thead>
 <tr class="header">
-<th>Header</th>
-<th>Description</th>
+<th>cluster</th>
+<th>size</th>
+<th>representative</th>
+<th>genomes</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>Type</code></td>
-<td>the type of source material for the sample (aka the habitat)</td>
+<td>cluster_000001</td>
+<td>1</td>
+<td>WATER_MAG_00002</td>
+<td>WATER_MAG_00002</td>
 </tr>
 <tr class="even">
-<td><code>Site</code></td>
-<td>the site where the sample was collected</td>
+<td>cluster_000002</td>
+<td>1</td>
+<td>WATER_MAG_00001</td>
+<td>WATER_MAG_00001</td>
 </tr>
 <tr class="odd">
-<td><code>input</code></td>
-<td>number of raw reads after <a href="16s-dada2.html#remove-primers"><code>cutadapt</code></a></td>
+<td>cluster_000003</td>
+<td>1</td>
+<td>WATER_MAG_00004</td>
+<td>WATER_MAG_00004</td>
 </tr>
 <tr class="even">
-<td><code>filter</code></td>
-<td>reads remaining after <a href="16s-dada2.html#quality-assessment-filtering">QC &amp; filtering</a></td>
+<td>cluster_000004</td>
+<td>1</td>
+<td>WATER_MAG_00003</td>
+<td>WATER_MAG_00003</td>
 </tr>
 <tr class="odd">
-<td><code>denoiseF</code> &amp; <code>denoiseR</code></td>
-<td>reads after <a href="16s-dada2.html#learn-error-rates">error correction</a></td>
-</tr>
-<tr class="even">
-<td><code>merged</code></td>
-<td>reads after <a href="16s-dada2.html#merge-paired-reads">merging forward and reverse read</a></td>
-</tr>
-<tr class="odd">
-<td><code>nochim</code></td>
-<td>final read count after <a href="16s-dada2.html#remove-chimeras">removing chimeras</a></td>
-</tr>
-<tr class="even">
-<td><code>Change</code></td>
-<td>percent change from <code>input</code> to <code>nonchim</code></td>
+<td>cluster_000005</td>
+<td>1</td>
+<td>WATER_MAG_00005</td>
+<td>WATER_MAG_00005</td>
 </tr>
 </tbody>
 </table>
-<p><br/></p>
-<div class="layout-chunk" data-layout="l-body">
+<h3 id="profile-nonredundant-mags">Profile Nonredundant MAGs</h3>
+<p>After the binning, curation of the MAGs, and renaming of scaffolds, we can start focusing on the distribution and detection of each MAG across the metagenomes. For this we will need a contigs database of the 5 MAGs. We will add HMM profiles and predict taxonomy. This is very similiar to what we did in the initial assembly part of the <a href="mg-workflow-1.html#snakemake-workflow">Snakemake Workflow</a>.</p>
+<pre class="bash"><code>
+mkdir 14_NON-REDUNDANT-MAGs-CONTIGS
+cat 11_REDUNDANT-MAGs/*.fa &gt; 14_NR-MAGs-CONTIGS/NR-MAGs.fa
+anvi-gen-contigs-database -f 14_NR-MAGs-CONTIGS/NR-MAGs.fa 
+                          -o 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db
+anvi-run-hmms -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db 
+              --num-threads $NSLOTS
+anvi-run-scg-taxonomy -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db</code></pre>
+<p>We then use the scaffolds to recruit short reads from all the 4 metagenomes, the program <code>anvi-profile</code> to profile the BAM files, and <code>anvi-merge</code> to generate a merged anvi’o profile database:</p>
+<pre class="bash"><code>
+mkdir 15_MAPPING_NR_MAGS
 
-</div>
-<div class="layout-chunk" data-layout="l-page">
-<div id="vwltiu9qj77sfy3a07we" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="vwltiu9qj77sfy3a07we">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2176\" data-max=\"62115\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1497\" data-max=\"54370\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1390\" data-max=\"52192\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1380\" data-max=\"52606\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"453\" data-max=\"43027\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"418\" data-max=\"34324\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0.289\" data-max=\"0.964\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Tracking read changes\n            through DADA2 workflow. Use the buttons to navigate through\n            the table or download a copy. Table scrolls right. <\/em>\n<\/caption>","data":[["CCC1","CCC2","CCC3","CCC4","CCC5","CCC6","CCR1","CCR2","CCR3","CCR4","CCR5","CCR6","MCR1","MCR2","MCR3","MCR5","SCC1","SCC2","SCC3","SCR1","SCR2","SCR3","WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["coral","coral","coral","coral","coral","coral","coral","coral","coral","coral","coral","coral","mat","mat","mat","mat","sediment","sediment","sediment","sediment","sediment","sediment","water","water","water","water","water","water","water","water"],["Crawl_Caye","Crawl_Caye","Crawl_Caye","Crawl_Caye","Crawl_Caye","Crawl_Caye","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Crawl_Caye","Crawl_Caye","Crawl_Caye","Crawl_Caye","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan"],[34693,6990,16866,2176,29360,2377,3805,16646,19263,3362,3431,11754,45029,28637,21959,23939,28078,33318,27235,27920,28853,28659,48240,39465,36204,31084,48988,22547,25670,62115],[27522,5410,15064,1564,26910,1497,2535,14675,16647,1543,2129,8439,39245,24640,18948,21145,23636,28622,23189,23803,24920,24503,40755,33870,31001,25769,42175,19276,22175,54370],[27183,5240,14720,1422,26555,1390,2410,14369,16303,1422,1977,8253,36005,22399,16295,19301,19549,25263,19364,19684,19303,20000,38943,32397,30010,24881,40726,18329,20813,52192],[26921,5284,14868,1422,26397,1380,2409,14482,16279,1425,1978,8283,37341,23356,17518,19827,21661,26567,21191,21675,22635,22105,39257,32743,30090,25095,41108,18447,21220,52606],[23181,2795,1698,819,15987,984,530,1663,2565,1253,1390,453,24424,14768,10079,13874,12236,19468,12670,14384,11304,13377,32969,28612,27176,22609,35029,14976,16273,43027],[22842,2093,1660,804,15837,916,529,1587,2438,1168,742,418,22200,13707,8650,12312,11326,18237,11748,13318,10140,12212,29192,26385,25752,21652,30831,13388,14085,34324],[0.342,0.701,0.902,0.631,0.461,0.615,0.861,0.905,0.873,0.653,0.784,0.964,0.507,0.521,0.606,0.486,0.597,0.453,0.569,0.523,0.649,0.574,0.395,0.331,0.289,0.303,0.371,0.406,0.451,0.447]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>input<\/th>\n      <th>filter<\/th>\n      <th>denoiseF<\/th>\n      <th>denoiseR<\/th>\n      <th>merged<\/th>\n      <th>nochim<\/th>\n      <th>Change<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Blfrtip","buttons":["copy","csv","excel"],"pageLength":5,"lengthMenu":[5,15,30,45],"columnDefs":[{"className":"dt-right","targets":[3,4,5,6,7,8,9]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'80%'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
-</div>
-<h2 id="defining-groups">Defining Groups</h2>
-<ol type="1">
-<li><p>The first thing we want to do is load the data packet produced by the final step of the DADA2 workflow. This packet (<code>combo_pipeline.rdata</code>) contains the ASV-by-sample table and the ASV taxonomy table.</p></li>
-<li><p>After we load the data packet we next need to format sample names and define groups. We will use the actual sample names to define the different groups.</p></li>
-</ol>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-load(&quot;rdata/16s-dada2/combo_pipeline.rdata&quot;)
-samples.out &lt;- rownames(seqtab)
-subject &lt;- sapply(strsplit(samples.out, &quot;[[:digit:]]&quot;), `[`, 1)
-# this splits the string at first instance of a digit
-sample_name &lt;- substr(samples.out, 1, 999)  # use the whole string for individuals
-type &lt;- substr(samples.out, 0, 1)  # use the first two letters for genus
-site &lt;- substr(samples.out, 2, 3)  # use the next three letters for species
-num_samp &lt;- length(unique(sample_name))
-num_type &lt;- length(unique(type))
-num_sites &lt;- length(unique(site))</code></pre>
-</div>
-<p>So we have a total of <strong>30</strong> samples, from <strong>2</strong> sites, and <strong>4</strong> different types of habitats.</p>
-<blockquote>
-<p>Sample abbreviations</p>
-</blockquote>
-<p>The first letter of the sample ID indicates the environment:</p>
-<p>W = Water, S = Sediment, C = Coral, M = Mat</p>
-<p>The next two letter indicates the site name:</p>
-<p>CC = Coral Caye, CR = Cayo Roldan</p>
-<p>An the number indicates the replicate number.</p>
-<p>For example, <code>WCR3</code> is a <code>water</code>sample from <code>Cayo Roldan</code> replicate <code>3</code>.</p>
-<blockquote>
-<p>Sample abbreviations:</p>
-</blockquote>
-<ul>
-<li>CCC = <em>Coral sample from Coral Caye</em></li>
-<li>CCR = <em>Coral sample from Cayo Roldan</em></li>
-<li>MCR = <em>Mat sample from Cayo Roldan</em></li>
-<li>SCC = <em>Sediment sample from Coral Caye</em></li>
-<li>SCR = <em>Sediment sample from Cayo Roldan</em></li>
-<li>WCC = <em>Water sample from Coral Caye</em></li>
-<li>WCR = <em>Water sample from Cayo Roldan</em></li>
-</ul>
-<ol start="4" type="1">
-<li>And finally we define a sample data frame that holds the different groups we extracted from the sample names.</li>
-</ol>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#define a sample data frame
-samdf &lt;- data.frame(SamName = sample_name, TYPE = type, SITE = site)
-rownames(samdf) &lt;- samples.out</code></pre>
-</div>
-<h2 id="phyloseq-objects">Phyloseq Objects</h2>
-<p><strong>A</strong>. The first step is to rename the amplicon sequence variants (ASVs) so the designations are a bit more user friendly. By default, DADA2 names each ASV by its unique sequence so that data can be directly compared across studies (which is great). But this convention can get cumbersome downstream, so we rename the ASVs using a simpler convention—ASV1, ASV2, ASV3, and so on.</p>
-<aside>
-A phyloseq object contains ASV table (taxa abundances), sample metadata, and taxonomy table (mapping between ASVs and higher-level taxonomic classifications).
-</aside>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# this create the phyloseq object
-ps &lt;- phyloseq(otu_table(seqtab, taxa_are_rows = FALSE),
-                   sample_data(samdf), tax_table(tax_silva))
-tax_table(ps) &lt;- cbind(tax_table(ps),
-                           rownames(tax_table(ps)))
+# building the Botwie2 database
+bowtie2-build 14_NR-MAGs-CONTIGS/NR-MAGs.fa 15_MAPPING_NR_MAGS/NR-MAGs
+# going through each metagenomic sample, and mapping short reads
+# against the 5 nonredundant MAGs
+for sample in `cat samples_WATER.txt`
 
-# adding unique ASV names
-taxa_names(ps) &lt;- paste0(&quot;ASV&quot;, seq(ntaxa(ps)))
-tax_table(ps) &lt;- cbind(tax_table(ps),
-                           rownames(tax_table(ps)))
-head(taxa_names(ps))</code></pre>
-<pre><code>
-[1] &quot;ASV1&quot; &quot;ASV2&quot; &quot;ASV3&quot; &quot;ASV4&quot; &quot;ASV5&quot; &quot;ASV6&quot;</code></pre>
-</div>
-<p>So the complete data set contains 6160 ASVs. We can also use the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a><span class="citation" data-cites="lahti2017microbiome">(Lahti, Sudarshan, and others <a href="#ref-lahti2017microbiome">2017</a>)</span> to get some additional summary data from the phyloseq object.</p>
-<div class="layout-chunk" data-layout="l-body">
+do
+    bowtie2 --threads $NSLOTS -x 15_MAPPING_NR_MAGS/NR-MAGs \
+            -1 01_QC/$sample-QUALITY_PASSED_R1.fastq.gz \
+            -2 01_QC/$sample-QUALITY_PASSED_R2.fastq.gz \
+            --no-unal -S 15_MAPPING_NR_MAGS/$sample-in-NRMAGs.sam
+    # covert the resulting SAM file to a BAM file:
+    samtools view -F 4 
+                  -bS 15_MAPPING_NR_MAGS/$sample-in-NRMAGs.sam \
+                  &gt; 15_MAPPING_NR_MAGS/$sample-in-NRMAGs-RAW.bam
 
-</div>
-<table>
-<thead>
-<tr class="header">
-<th>Metric</th>
-<th>Results</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Min. number of reads</td>
-<td>418</td>
-</tr>
-<tr class="even">
-<td>Max. number of reads</td>
-<td>34324</td>
-</tr>
-<tr class="odd">
-<td>Total number of reads</td>
-<td>380461</td>
-</tr>
-<tr class="even">
-<td>Average number of reads</td>
-<td>12682</td>
-</tr>
-<tr class="odd">
-<td>Median number of reads</td>
-<td>12262</td>
-</tr>
-<tr class="even">
-<td>Sparsity</td>
-<td>0.944</td>
-</tr>
-<tr class="odd">
-<td>Any ASVs sum to 1 or less?</td>
-<td>TRUE</td>
-</tr>
-<tr class="even">
-<td>Number of singleton ASVs</td>
-<td>260</td>
-</tr>
-<tr class="odd">
-<td>Percent of ASVs that are singletons</td>
-<td>4.221</td>
-</tr>
-<tr class="even">
-<td>Number of sample variables are:</td>
-<td>3 (SamName, TYPE, SITE)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>B</strong>. Add two final columns containing the ASV sequences and ASV IDs. This will be useful later when trying to export a fasta file. We can also take a look at the phyloseq object.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-colnames(tax_table(ps)) &lt;- c(&quot;Kingdom&quot;, &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;,
-    &quot;Family&quot;, &quot;Genus&quot;, &quot;ASV_SEQ&quot;, &quot;ASV_ID&quot;)
-ps</code></pre>
-<pre><code>
-phyloseq-class experiment-level object
-otu_table()   OTU Table:         [ 6160 taxa and 30 samples ]
-sample_data() Sample Data:       [ 30 samples by 3 sample variables ]
-tax_table()   Taxonomy Table:    [ 6160 taxa by 8 taxonomic ranks ]</code></pre>
-</div>
-<p><strong>C</strong>. Export sequence and taxonomy tables for the unadulterated phyloseq object for later use. We will use the prefix <code>full</code> to indicate that these are the <em>raw</em> outputs.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-write.table(tax_table(ps),
-            &quot;tables/16s-data-prep/full_tax_table.txt&quot;,
-            sep=&quot;\t&quot;, quote = FALSE, col.names=NA)
-write.table(t(otu_table(ps)),
-            &quot;tables/16s-data-prep/full_seq_table.txt&quot;,
-            sep=&quot;\t&quot;, quote = FALSE, col.names=NA)</code></pre>
-</div>
-<p><strong>D</strong> Export fasta file</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# Create fasta file from tax_table
-table2format &lt;- tax_table(ps)
-#retain only the column with the sequences
-table2format_trim &lt;- table2format[, 7]
-table2format_trim_df &lt;- data.frame(row.names(table2format_trim),
-                                   table2format_trim)
-colnames(table2format_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
-#format fasta
-table2format_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, table2format_trim_df$ASV_ID)
+    # sort and index the BAM file:
+    samtools sort 15_MAPPING_NR_MAGS/$sample-in-NRMAGs-RAW.bam \
+                  -o 15_MAPPING_NR_MAGS/$sample-in-NRMAGs.bam \
+    samtools index 15_MAPPING_NR_MAGS/$sample-in-NRMAGs.bam
 
-write.table(table2format_trim_df, &quot;tables/16s-data-prep/full_asv.fasta&quot;,
-            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
-            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
-</div>
-<h2 id="remove-contaminants-unwanted-taxa">Remove Contaminants &amp; Unwanted Taxa</h2>
-<p>Let’s see if we have any potential contaminants. We can use some <a href="https://rmarkdown.rstudio.com/lesson-4.html">inline R code</a> to see the taxonomy table for any taxa of interest.</p>
-<aside>
-The code (hidden by default) is written as <code>`r &quot;Chloroplast&quot; %in% tax_table(ps)`</code>.
-</aside>
-<ul>
-<li>Are Mitochondria present? TRUE</li>
-<li>Are Chloroplast present? TRUE</li>
-<li>Are Eukaryota present? TRUE</li>
-</ul>
-<p>Let’s remove these taxa—Eukaryota because we used bacterial/archaeal primers, Mitochondria because those are likely from eukaryotes, and Chloroplast because those are likely from algae. We must do each of these in turn using phyloseq and it gets a little messy.</p>
-<p>Why messy? The <code>subset_taxa</code> command removes anything that is <code>NA</code> for the specified taxonomic level or above. For example, lets say you run the <code>subset_taxa</code> command using <code>Family != &quot;Mitochondria</code>&quot;. Seems like you should get a phyloseq object with everything except Mitochondria. But actually the command not only gets rid of Mitochondria but everything else that has <code>NA</code> for Family and above. In my experience this is not well documented and I had to dig through the files to figure out what was happening.</p>
-<p>Anyway, to remove the taxa we do the following:</p>
-<ul>
-<li>Subset the taxa and generate a <code>ps</code> object of just the taxa of interest,</li>
-<li>Select the ASV column only, turn it into a factor, and use this to remove <INSERT TAXA> from the <code>ps</code> object.</li>
-</ul>
-<h3 id="remove-mitochondria-asvs">Remove Mitochondria ASVs</h3>
-<p>Remember the original data set contained 6160 ASVs.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# generate a file with mitochondria ASVs
-MT1 &lt;- subset_taxa(ps, Family == &quot;Mitochondria&quot;)
-MT1 &lt;-  as(tax_table(MT1), &quot;matrix&quot;)
-MT1 &lt;- MT1[, 8]
-MT1df &lt;- as.factor(MT1)
-goodTaxa &lt;- setdiff(taxa_names(ps), MT1df)
-ps_no_mito &lt;- prune_taxa(goodTaxa, ps)
-ps_no_mito</code></pre>
-<pre><code>
-phyloseq-class experiment-level object
-otu_table()   OTU Table:         [ 6134 taxa and 30 samples ]
-sample_data() Sample Data:       [ 30 samples by 3 sample variables ]
-tax_table()   Taxonomy Table:    [ 6134 taxa by 8 taxonomic ranks ]</code></pre>
-</div>
-<p>Looks like this removed <strong>26 Mitochondria ASVs</strong>. We will duplicate the code block to remove other groups.</p>
-<h3 id="remove-chloroplast-asvs">Remove Chloroplast ASVs</h3>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# generate a file with mitochondria ASVs
-CH1 &lt;- subset_taxa(ps_no_mito, Order == &quot;Chloroplast&quot;)
-CH1 &lt;-  as(tax_table(CH1), &quot;matrix&quot;)
-CH1 &lt;- CH1[, 8]
-CH1df &lt;- as.factor(CH1)
-goodTaxa &lt;- setdiff(taxa_names(ps_no_mito), CH1df)
-ps_no_chloro &lt;- prune_taxa(goodTaxa, ps_no_mito)
-ps_no_chloro</code></pre>
-<pre><code>
-phyloseq-class experiment-level object
-otu_table()   OTU Table:         [ 5938 taxa and 30 samples ]
-sample_data() Sample Data:       [ 30 samples by 3 sample variables ]
-tax_table()   Taxonomy Table:    [ 5938 taxa by 8 taxonomic ranks ]</code></pre>
-</div>
-<p>The code removed an additional <strong>196 Chloroplast ASVs</strong>.</p>
-<h3 id="remove-eukaryotic-asvs">Remove Eukaryotic ASVs</h3>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# generate a file with mitochondria ASVs
-EU1 &lt;- subset_taxa(ps_no_chloro, Kingdom == &quot;Eukaryota&quot;)
-EU1 &lt;-  as(tax_table(EU1), &quot;matrix&quot;)
-EU1 &lt;- EU1[, 8]
-EU1df &lt;- as.factor(EU1)
-goodTaxa &lt;- setdiff(taxa_names(ps_no_chloro), EU1df)
-ps_no_euk &lt;- prune_taxa(goodTaxa, ps_no_chloro)
-ps_no_euk</code></pre>
-<pre><code>
-phyloseq-class experiment-level object
-otu_table()   OTU Table:         [ 5933 taxa and 30 samples ]
-sample_data() Sample Data:       [ 30 samples by 3 sample variables ]
-tax_table()   Taxonomy Table:    [ 5933 taxa by 8 taxonomic ranks ]</code></pre>
-</div>
-<p>The code removed an additional <strong>5 Eukaryota ASVs</strong> from the <code>ps</code> object.</p>
-<h3 id="remove-any-kingdom-nas">Remove any Kingdom NAs</h3>
-<p>Here we can just use the straight up <code>subset_taxa</code> command since we do not need to worry about any ranks above Kingdom also being removed.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ps_filt &lt;- subset_taxa(ps_no_euk, !is.na(Kingdom))</code></pre>
-</div>
-<p>The code eliminated an additional <strong>7 Kingdom level NA ASVs</strong> from the phyloseq object.</p>
-<p>Now that we have a trimmed data set, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-write.table(tax_table(ps_filt),
-            &quot;tables/16s-data-prep/trim_tax_table.txt&quot;, sep=&quot;\t&quot;,
-            quote = FALSE, col.names=NA)
-write.table(t(otu_table(ps_filt)),
-            &quot;tables/16s-data-prep/trim_seq_table.txt&quot;, sep=&quot;\t&quot;,
-            quote = FALSE, col.names=NA)</code></pre>
-</div>
-<p>And generate a fasta file for all ASVs in the trimmed data set.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# Create fasta file from tax_table
-table2format &lt;- tax_table(ps_filt)
-#retain only the column with the sequences
-table2format_trim &lt;- table2format[, 7]
-table2format_trim_df &lt;- data.frame(row.names(table2format_trim),
-                                   table2format_trim)
-colnames(table2format_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
-#format fasta
-table2format_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, table2format_trim_df$ASV_ID)
+    # remove temporary files:
+    rm 15_MAPPING_NR_MAGS/$sample-in-NRMAGs.sam \
+       15_MAPPING_NR_MAGS/$sample-in-NRMAGs-RAW.bam
+done</code></pre>
+<p>Then we profile each BAM file and merge resulting profiles into a single anvi’o merged profile.</p>
+<pre class="bash"><code>
+mkdir 16_NR_MAGS_PROFILES
 
-write.table(table2format_trim_df, &quot;tables/16s-data-prep/trim_asv.fasta&quot;,
-            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
-            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
-</div>
-<h2 id="water-samples-phyloseq-object">Water Samples Phyloseq Object</h2>
-<p>The next thing to do is select only water samples and make a separate phyloseq object—since our paper is about the water samples. To do this we must select the samples we <em>wish to keep</em>. If you want to change the group of samples, modify the script accordingly.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ps_water &lt;- prune_samples(
-  c(&quot;WCC0&quot;, &quot;WCC1&quot;, &quot;WCC2&quot;, &quot;WCC3&quot;, &quot;WCR0&quot;, &quot;WCR1&quot;, &quot;WCR2&quot;, &quot;WCR3&quot;),
-  ps_filt)
-ps_water</code></pre>
-<pre><code>
-phyloseq-class experiment-level object
-otu_table()   OTU Table:         [ 5926 taxa and 8 samples ]
-sample_data() Sample Data:       [ 8 samples by 3 sample variables ]
-tax_table()   Taxonomy Table:    [ 5926 taxa by 8 taxonomic ranks ]</code></pre>
-</div>
-<p>Anytime we remove samples we probably lose some ASVs. So we need to get rid of any ASVs that have a total of <strong>0 reads</strong>.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ps_water &lt;- prune_taxa(taxa_sums(ps_water) &gt; 0, ps_water)
-ps_water</code></pre>
-<pre><code>
-phyloseq-class experiment-level object
-otu_table()   OTU Table:         [ 1109 taxa and 8 samples ]
-sample_data() Sample Data:       [ 8 samples by 3 sample variables ]
-tax_table()   Taxonomy Table:    [ 1109 taxa by 8 taxonomic ranks ]</code></pre>
-</div>
-<p>So for water samples only there are 1109 ASVs and 8 samples. Now, save the various phyloseq data from the water object.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-save.image(&quot;rdata/16s-data-prep/16s-data_prep.rdata&quot;)
-saveRDS(otu_table(ps_water), &quot;rdata/16s-water/ps_water-seqtab.rds&quot;)
-saveRDS(sample_data(ps_water), &quot;rdata/16s-water/ps_water-sample.rds&quot;)
-saveRDS(tax_table(ps_water), &quot;rdata/16s-water/ps_water-taxtab.rds&quot;)</code></pre>
-</div>
-<p>That’s all for this part! In the next section we work through analyzing the diversity of the water samples.</p>
-<p></br></p>
+
+for sample in `cat samples_WATER.txt`
+do
+    anvi-profile -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db \
+                 -i 15_MAPPING_NR_MAGS/$sample-in-NRMAGs.bam \
+                 --write-buffer-size 2000  --profile-SCVs \
+                 --num-threads $NSLOTS \
+                 -o 16_NON_REDUNDANT_MAGS_PROFILES/$sample-in-NRMAGs
+done
+anvi-merge 16_NR_MAGS_PROFILES/*-in-NRMAGs/PROFILE.db \
+           -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db \
+           -o 17_NR-MAGs-MERGED/ </code></pre>
+<p>The anvi’o profile database in <code>17_NR-MAGs-MERGED</code> describes the distribution and detection statistics of all scaffolds in all MAGs, however it does not contain a collection that describes the scaffold-bin affiliations. Thanks to our previous naming consistency, here we can implement a simple workaround to generate a text file that describes these connections:</p>
+<pre class="bash"><code>
+for split_name in `sqlite3 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db &#39;select split from splits_basic_info&#39;`
+
+do
+    # in this loop $split_name goes through names like this: 
+    # WATER_MAG_00001_000000000001_split_00001,
+    # WATER_MAG_00001_000000000001_split_00002, 
+    # WATER_MAG_00001_000000000001_split_00003, ...; so we can extract
+    # the MAG name it belongs to:
+    
+    # This command depends on the name of your MAGs. Adjust accordingly
+    MAG=`echo $split_name | awk &#39;BEGIN{FS=&quot;_&quot;}{print $1&quot;_&quot;$2&quot;_&quot;$3}&#39;`
+    
+    # print it out with a TAB character
+    echo -e &quot;$split_name\t$MAG&quot;
+
+done &gt; 17_NR-MAGs-MERGED/NR-MAGs-COLLECTION.txt
+
+anvi-import-collection 17_NR-MAGs-MERGED/NR-MAGs-COLLECTION.txt 
+                    -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db 
+                    -p 17_NR-MAGs-MERGED/PROFILE.db -C NON_REDUNDANT_MAGs_MAGs</code></pre>
+<p>A quick check.</p>
+<pre class="bash"><code>
+anvi-export-collection -p 17_NON-REDUNDANT-MAGs-MERGED/PROFILE.db --list-collections</code></pre>
+<pre class="bash"><code>
+COLLECTIONS FOUND
+===============================================
+* NON_REDUNDANT_MAGs (5 bins, representing 3404 items).</code></pre>
+<h3 id="creating-self-contained-profiles-for-mags">Creating Self-Contained Profiles for MAGs</h3>
+<pre class="bash"><code>
+anvi-split -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db \
+                               -p 17_NR-MAGs-MERGED/PROFILE.db \
+                               -C NR_MAGs -o 18_NR-MAGs-SPLIT </code></pre>
+<p>That’s it for this section. Next we will perform a phylogenomic analysis on a MAG or two.</p>
 <div class="post-nav">
 <div class="post-nav-item">
 <div class="meta-nav">
 Previous
 </div>
-<p><a href="16s-dada2.html" rel="next">N<sup><u>o</u></sup> 1. DADA2 Workflow</a></p>
+<p><a href="mg-workflow-2.html" rel="next">N<sup><u>o</u></sup> 4. Assembley &amp; Annotation Summary</a></p>
 </div>
 </div>
 <div class="post-nav">
@@ -1946,20 +1933,31 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p><a href="16s-water.html" rel="prev">N<sup><u>o</u></sup> 3. Water Composition &amp; Diversity</a></p>
+<p><a href="mg-phylogenomics.html" rel="prev">N<sup><u>o</u></sup> 6. Phylogenomics</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
-<p>You can find the source code for this page by <a href="https://github.com/hypocolypse/web/blob/master/16s-data-prep.Rmd">clicking this link</a>.</p>
-<h2 id="data-availability" class="unnumbered appendix">Data Availability</h2>
+<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-auto-binning.Rmd">clicking this link</a>.</p>
 <div id="refs" class="references">
-<div id="ref-lahti2017microbiome">
-<p>Lahti, Leo, Shetty Sudarshan, and others. 2017. “Tools for Microbiome Analysis in R. Version 1.9.97.” <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.</p>
+<div id="ref-alneberg2014binning">
+<p>Alneberg, Johannes, Brynjar Smári Bjarnason, Ino De Bruijn, Melanie Schirmer, Joshua Quick, Umer Z Ijaz, Leo Lahti, Nicholas J Loman, Anders F Andersson, and Christopher Quince. 2014. “Binning Metagenomic Contigs by Coverage and Composition.” <em>Nature Methods</em> 11 (11): 1144–6. <a href="https://doi.org/10.1038/nmeth.3103">https://doi.org/10.1038/nmeth.3103</a>.</p>
 </div>
-<div id="ref-mcmurdie2013phyloseq">
-<p>McMurdie, Paul J, and Susan Holmes. 2013. “Phyloseq: An R Package for Reproducible Interactive Analysis and Graphics of Microbiome Census Data.” <em>PLoS One</em> 8 (4): e61217. <a href="https://doi.org/10.1371/journal.pone.0061217">https://doi.org/10.1371/journal.pone.0061217</a>.</p>
+<div id="ref-kang2019metabat">
+<p>Kang, Dongwan D, Feng Li, Edward Kirton, Ashleigh Thomas, Rob Egan, Hong An, and Zhong Wang. 2019. “MetaBAT 2: An Adaptive Binning Algorithm for Robust and Efficient Genome Reconstruction from Metagenome Assemblies.” <em>PeerJ</em> 7: e7359.</p>
+</div>
+<div id="ref-sieber2018recovery">
+<p>Sieber, Christian MK, Alexander J Probst, Allison Sharrar, Brian C Thomas, Matthias Hess, Susannah G Tringe, and Jillian F Banfield. 2018. “Recovery of Genomes from Metagenomes via a Dereplication, Aggregation and Scoring Strategy.” <em>Nature Microbiology</em> 3 (7): 836–43.</p>
+</div>
+<div id="ref-wu2016maxbin">
+<p>Wu, Yu-Wei, Blake A Simmons, and Steven W Singer. 2016. “MaxBin 2.0: An Automated Binning Algorithm to Recover Genomes from Multiple Metagenomic Datasets.” <em>Bioinformatics</em> 32 (4): 605–7.</p>
 </div>
 </div>
+<section class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>This redundancy cutoff only works for bacteria or archaea. If you have eukaryotic bins, the redundancy should be set to 100.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
