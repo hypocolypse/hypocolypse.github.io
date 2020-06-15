@@ -29,7 +29,7 @@
     "anvi_run_ncbi_cogs": {
         "run": true,
         "threads": 5,
-        "--cog-data-dir": "",
+        "--cog-data-dir": "/pool/genomics/stri_istmobiome/dbs/cog_db/",
         "--sensitive": "",
         "--temporary-dir-path": "/pool/genomics/stri_istmobiome/dbs/cog_db/tmp/",
         "--search-with": ""
@@ -95,8 +95,8 @@
         "threads": ""
     },
     "anvi_run_pfams": {
-        "run": "",
-        "--pfam-data-dir": "",
+        "run": true,
+        "--pfam-data-dir": "/pool/genomics/stri_istmobiome/dbs/pfam_db/",
         "threads": ""
     },
     "output_dirs": {

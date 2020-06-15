@@ -46,6 +46,7 @@
   <meta name="citation_reference" content="citation_title=Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy;citation_publication_date=2018;citation_volume=3;citation_author=Christian MK Sieber;citation_author=Alexander J Probst;citation_author=Allison Sharrar;citation_author=Brian C Thomas;citation_author=Matthias Hess;citation_author=Susannah G Tringe;citation_author=Jillian F Banfield"/>
   <meta name="citation_reference" content="citation_title=MetaBAT 2: An adaptive binning algorithm for robust and efficient genome reconstruction from metagenome assemblies;citation_publication_date=2019;citation_volume=7;citation_author=Dongwan D Kang;citation_author=Feng Li;citation_author=Edward Kirton;citation_author=Ashleigh Thomas;citation_author=Rob Egan;citation_author=Hong An;citation_author=Zhong Wang"/>
   <meta name="citation_reference" content="citation_title=MaxBin 2.0: An automated binning algorithm to recover genomes from multiple metagenomic datasets;citation_publication_date=2016;citation_volume=32;citation_author=Yu-Wei Wu;citation_author=Blake A Simmons;citation_author=Steven W Singer"/>
+  <meta name="citation_reference" content="citation_title=A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life;citation_publication_date=2018;citation_volume=36;citation_author=Donovan H Parks;citation_author=Maria Chuvochina;citation_author=David W Waite;citation_author=Christian Rinke;citation_author=Adam Skarshewski;citation_author=Pierre-Alain Chaumeil;citation_author=Philip Hugenholtz"/>
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
@@ -1280,6 +1281,8 @@
   <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
   <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
   <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="site_libs/dt-ext-fixedcolumns-1.10.20/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+  <script src="site_libs/dt-ext-fixedcolumns-1.10.20/js/dataTables.fixedColumns.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1500,9 +1503,7 @@ B. 16S rRNA
 <a href="16s-data-prep.html">2. Data Prep</a>
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
-<a href="16s-water.html">3. Water Diversity</a>
-<hr/>
-<a href="session-info.html">Session Info</a>
+<a href="16s-water.html">3. Diversity</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1520,11 +1521,9 @@ C. Metagenomic
 <a href="mg-workflow-1.html">3. Assembly &amp; Annotations</a>
 <a href="mg-workflow-2.html">4. Assembley &amp; Annotation Summary</a>
 <hr/>
-<span class="nav-dropdown-header">Binning</span>
+<span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<hr/>
-<span class="nav-dropdown-header">MAGs in Context </span>
-<a href="mg-phylogenomic.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
 <a href="synthesis.html">D. Synthesis</a>
@@ -1555,17 +1554,10 @@ C. Metagenomic
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#automated-binning">Automated Binning</a><ul>
-<li><a href="#inspect-results">Inspect Results</a></li>
-</ul></li>
+<li><a href="#automated-binning">Automated Binning</a></li>
 <li><a href="#manual-refinement">Manual Refinement</a></li>
-<li><a href="#identification-curation-of-mags">Identification &amp; Curation of MAGs</a><ul>
-<li><a href="#rename-bins">Rename Bins</a></li>
-<li><a href="#summarize-mags">Summarize MAGs</a></li>
-<li><a href="#check-for-redundant-mags">Check for Redundant MAGs</a></li>
-<li><a href="#profile-nonredundant-mags">Profile Nonredundant MAGs</a></li>
-<li><a href="#creating-self-contained-profiles-for-mags">Creating Self-Contained Profiles for MAGs</a></li>
-</ul></li>
+<li><a href="#identification-curation-of-mags">Identification &amp; Curation of MAGs</a></li>
+<li><a href="#esimate-mag-taxonomy">Esimate MAG Taxonomy</a></li>
 <li><a href="#source-code">Source Code</a></li>
 </ul>
 </nav>
@@ -1752,10 +1744,10 @@ anvi-estimate-genome-completeness
                -c 03_CONTIGS/WATER-contigs.db \
                -p 06_MERGED/WATER/PROFILE.db \
                -C MAGS -o 10_SUMMARY_MAGS/MAGS.info               </code></pre>
-<p>And combine the <code>bins_summary.txt</code> withe the <code>MAGS.info</code> table to check out the MAGs.</p>
+<p>And combine the <code>bins_summary.txt</code> with the <code>MAGS.info</code> table to check out the MAGs.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div id="w28jrs85gyggqx35xq83" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="w28jrs85gyggqx35xq83">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">MAG summary<\/caption>","autoHideNavigation":true,"data":[["WATER_MAG_00001","WATER_MAG_00002","WATER_MAG_00003","WATER_MAG_00004","WATER_MAG_00005"],["BACTERIA","BACTERIA","BACTERIA","BACTERIA","BACTERIA"],[1,0.9,0.9,0.7,0.7],["Synechococcus","Arcobacter","Synechococcus","Aliiroseovarius","Candidatus Pelagibacter"],[1862616,1180544,1654044,1776907,715941],[509,504,891,1062,438],[5803,2589,1871,1692,1661],[62.8,29.8,62.2,59.9,31.2],[94.4,93,90.1,83.1,74.6],[2.8,8.5,7,4.2,5.6]],"container":"<table class=\"FixedColumns\">\n  <thead>\n    <tr>\n      <th>bins<\/th>\n      <th>domain<\/th>\n      <th>confidence<\/th>\n      <th>taxon<\/th>\n      <th>total length<\/th>\n      <th>num contigs<\/th>\n      <th>N50<\/th>\n      <th>GC content<\/th>\n      <th>% completion<\/th>\n      <th>% redundancy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,4,5,6,7,8,9]}],"dom":"Brti","buttons":["csv","copy"],"pageLength":5,"FixedColumns":{"leftColumns":2,"rightColumns":1},"scrollY":false,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="w28jrs85gyggqx35xq83">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">MAG summary<\/caption>","autoHideNavigation":true,"data":[["WATER_MAG_00001","WATER_MAG_00002","WATER_MAG_00003","WATER_MAG_00004","WATER_MAG_00005"],["BACTERIA","BACTERIA","BACTERIA","BACTERIA","BACTERIA"],[1,0.9,0.9,0.7,0.7],["Synechococcus","Arcobacter","Synechococcus","Aliiroseovarius","Ca Pelagibacter"],[1862616,1180544,1654044,1776907,715941],[509,504,891,1062,438],[5803,2589,1871,1692,1661],[62.8,29.8,62.2,59.9,31.2],[94.4,93,90.1,83.1,74.6],[2.8,8.5,7,4.2,5.6]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>bins<\/th>\n      <th>domain<\/th>\n      <th>confidence<\/th>\n      <th>taxon<\/th>\n      <th>total_length<\/th>\n      <th>num_contigs<\/th>\n      <th>N50<\/th>\n      <th>GC_content<\/th>\n      <th>%_completion<\/th>\n      <th>%_redundancy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,4,5,6,7,8,9]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>As you can see, the genomes are pretty fragmented but you get what you get so let’s move on.</p>
 <h3 id="check-for-redundant-mags">Check for Redundant MAGs</h3>
@@ -1920,7 +1912,39 @@ anvi-split -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db \
                                -p 17_NR-MAGs-MERGED/PROFILE.db \
                                -C NR_MAGs -o 18_NR-MAGs-SPLIT </code></pre>
 <p>That’s it for this section. Next we will perform a phylogenomic analysis on a MAG or two.</p>
-<div class="post-nav">
+<h2 id="esimate-mag-taxonomy">Esimate MAG Taxonomy</h2>
+<p>One last thing to do is look at the predicted taxonomy for each MAG. To do this we will run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we ran <code>anvi-run-scg-taxonomy</code>. We can either run <code>anvi-estimate-scg-taxonomy</code> on the self-contained profile and contig databases we just create OR just use the combined databases. We will do the later so we only need to run a single command. You can add the <code>--debug</code> flag to see a more verbose output. We will keep it simple for now.</p>
+<pre class="bash"><code>
+anvi-estimate-scg-taxonomy -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db 
+                           -p 17_NR-MAGs-MERGED/PROFILE.db 
+                           -C NR_MAGs</code></pre>
+<p>And here is the output.</p>
+<pre><code>
+Contigs DB ...................................: 14_NON-REDUNDANT-MAGs-CONTIGS/NON-REDUNDANT-MAGs-CONTIGS.db
+Profile DB ...................................: 17_NON-REDUNDANT-MAGs-MERGED/PROFILE.db
+Metagenome mode ..............................: False
+
+* 3,404 split names associated with 5 bins of in collection &#39;NON_REDUNDANT_MAGs&#39;
+have been successfully recovered 🎊
+
+Estimated taxonomy for collection &quot;NON_REDUNDANT_MAGs&quot;
+===============================================
+╒═════════════════╤══════════════╤═══════════════════╤═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╕
+│                 │   total_scgs │   supporting_scgs │ taxonomy                                                                                                                              │
+╞═════════════════╪══════════════╪═══════════════════╪═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ WATER_MAG_00001 │           22 │                22 │ Bacteria / Cyanobacteria / Cyanobacteriia / Synechococcales / Cyanobiaceae / Synechococcus /                                          │
+├─────────────────┼──────────────┼───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ WATER_MAG_00003 │           22 │                21 │ Bacteria / Cyanobacteria / Cyanobacteriia / Synechococcales / Cyanobiaceae / RCC307 / RCC307 sp000063525                              │
+├─────────────────┼──────────────┼───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ WATER_MAG_00002 │           20 │                 9 │ Bacteria / Campylobacterota / Campylobacteria / Campylobacterales / Arcobacteraceae / Poseidonibacter /                               │
+├─────────────────┼──────────────┼───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ WATER_MAG_00004 │           18 │                10 │ Bacteria / Proteobacteria / Alphaproteobacteria / Rhodobacterales / Rhodobacteraceae / Aliiroseovarius / Aliiroseovarius pelagivivens │
+├─────────────────┼──────────────┼───────────────────┼───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ WATER_MAG_00005 │           16 │                16 │ Bacteria / Proteobacteria / Alphaproteobacteria / Pelagibacterales / Pelagibacteraceae / Pelagibacter /                               │
+╘═════════════════╧══════════════╧═══════════════════╧═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╛</code></pre>
+<p>&lt;In the next section we explore WATER_MAG_00002 in a phylogenomic context. That’s all for this page.</p>
+<p><br/></p>
+div class=“post-nav”&gt;
 <div class="post-nav-item">
 <div class="meta-nav">
 Previous
@@ -1933,7 +1957,7 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p><a href="mg-phylogenomics.html" rel="prev">N<sup><u>o</u></sup> 6. Phylogenomics</a></p>
+<p><a href="mag02-phylogenomics.html" rel="prev">N<sup><u>o</u></sup> 6. MAG02 Phylogenomics</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
@@ -1944,6 +1968,9 @@ Next
 </div>
 <div id="ref-kang2019metabat">
 <p>Kang, Dongwan D, Feng Li, Edward Kirton, Ashleigh Thomas, Rob Egan, Hong An, and Zhong Wang. 2019. “MetaBAT 2: An Adaptive Binning Algorithm for Robust and Efficient Genome Reconstruction from Metagenome Assemblies.” <em>PeerJ</em> 7: e7359.</p>
+</div>
+<div id="ref-parks2018gtgb">
+<p>Parks, Donovan H, Maria Chuvochina, David W Waite, Christian Rinke, Adam Skarshewski, Pierre-Alain Chaumeil, and Philip Hugenholtz. 2018. “A Standardized Bacterial Taxonomy Based on Genome Phylogeny Substantially Revises the Tree of Life.” <em>Nature Biotechnology</em> 36 (10): 1546–1696. <a href="https://doi.org/10.1038/nbt.4229">https://doi.org/10.1038/nbt.4229</a>.</p>
 </div>
 <div id="ref-sieber2018recovery">
 <p>Sieber, Christian MK, Alexander J Probst, Allison Sharrar, Brian C Thomas, Matthias Hess, Susannah G Tringe, and Jillian F Banfield. 2018. “Recovery of Genomes from Metagenomes via a Dereplication, Aggregation and Scoring Strategy.” <em>Nature Microbiology</em> 3 (7): 836–43.</p>
@@ -2047,6 +2074,7 @@ Next
   year={2015},
   url = {https://doi.org/10.7717/peerj.1319}
 }
+
 @article{bolger2014trimmomatic,
   title={Trimmomatic: a flexible trimmer for Illumina sequence data},
   author={Bolger, Anthony M and Lohse, Marc and Usadel, Bjoern},
@@ -2057,6 +2085,7 @@ Next
   year={2014},
   url = {https://doi.org/10.1093/bioinformatics/btu170}
 }
+
 @article{koster2012snakemake,
   title={Snakemake—a scalable bioinformatics workflow engine},
   author={K{\"o}ster, Johannes and Rahmann, Sven},
@@ -2067,6 +2096,7 @@ Next
   year={2012},
   url = {https://doi.org/10.1093/bioinformatics/bts480}
 }
+
 @article{menzel2016fast,
   title={Fast and sensitive taxonomic classification for metagenomics with Kaiju},
   author={Menzel, Peter and Ng, Kim Lee and Krogh, Anders},
@@ -2076,6 +2106,7 @@ Next
   year={2016},
   url = {https://doi.org/10.1038/ncomms11257}
 }
+
 @article{roux2015virsorter,
   title={VirSorter: mining viral signal from microbial genomic data},
   author={Roux, Simon and Enault, Francois and Hurwitz, Bonnie L and Sullivan, Matthew B},
@@ -2085,6 +2116,7 @@ Next
   year={2015},
   url = {https://doi.org/10.1093/bioinformatics/btu170}
 }
+
 @article{kim2016centrifuge,
   title={Centrifuge: rapid and sensitive classification of metagenomic sequences},
   author={Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg, Steven L},
@@ -2095,6 +2127,7 @@ Next
   year={2016},
   url = {https://doi.org/10.1101/gr.210641.116.}
 }
+
 @article{hyatt2010prodigal,
   title={Prodigal: prokaryotic gene recognition and translation initiation site identification},
   author={Hyatt, Doug and Chen, Gwo-Liang and LoCascio, Philip F and Land, Miriam L and Larimer, Frank W and Hauser, Loren J},
@@ -2105,6 +2138,7 @@ Next
   year={2010},
   url = {https://doi.org/10.1186/1471-2105-11-119}
 }
+
 @article{edgar2004muscle,
   title={MUSCLE: multiple sequence alignment with high accuracy and high throughput},
   author={Edgar, Robert C},
@@ -2115,6 +2149,7 @@ Next
   year={2004},
   url = {https://doi.org/10.1093/nar/gkh340}
 }
+
 @article{li2015megahit,
   title={MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph},
   author={Li, Dinghua and Liu, Chi-Man and Luo, Ruibang and Sadakane, Kunihiko and Lam, Tak-Wah},
@@ -2125,6 +2160,7 @@ Next
   year={2015},
   url = {https://doi.org/10.1093/bioinformatics/btv033}
 }
+
 @article{langmead2012fast,
   title={Fast gapped-read alignment with Bowtie 2},
   author={Langmead, Ben and Salzberg, Steven L},
@@ -2135,6 +2171,7 @@ Next
   year={2012},
   url = {https://doi.org/10.1038/nmeth.1923}
 }
+
 @article{li2009fast,
   title={Fast and accurate short read alignment with Burrows--Wheeler transform},
   author={Li, Heng and Durbin, Richard},
@@ -2145,6 +2182,7 @@ Next
   year={2009},
   url = {https://doi.org/10.1093/bioinformatics/btp324}
 }
+
 @article{li2009sequence,
   title={The sequence alignment/map format and SAMtools},
   author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
@@ -2187,6 +2225,7 @@ Next
   year={2014},
   url = {https://doi.org/10.1038/nmeth.3103}
 }
+
 @article{sieber2018recovery,
   title={Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy},
   author={Sieber, Christian MK and Probst, Alexander J and Sharrar, Allison and Thomas, Brian C and Hess, Matthias and Tringe, Susannah G and Banfield, Jillian F},
@@ -2236,6 +2275,7 @@ Next
   year={2015},
   url = {https://doi.org/10.1038/nmeth.3176}
 }
+
 @article{delmont2018nitrogen,
   title={Nitrogen-fixing populations of Planctomycetes and Proteobacteria are abundant in surface ocean metagenomes},
   author={Delmont, Tom O and Quince, Christopher and Shaiber, Alon and Esen, {\"O}zcan C and Lee, Sonny TM and Rapp{\'e}, Michael S and McLellan, Sandra L and L{\"u}cker, Sebastian and Eren, A Murat},
@@ -2245,6 +2285,166 @@ Next
   pages={804--813},
   year={2018},
   url = {https://doi.org/10.1038/s41564-018-0176-9}
+}
+
+@article{dongen2000cluster,
+  title={A cluster algorithm for graphs},
+  author={Dongen, Stijn},
+  year={2000},
+  publisher={CWI (Centre for Mathematics and Computer Science)},
+  url = {https://www.micans.org/mcl/index.html?sec_software}
+}
+
+@article{jain2018high,
+  title={High throughput ANI analysis of 90K prokaryotic genomes reveals clear species boundaries},
+  author={Jain, Chirag and Rodriguez-R, Luis M and Phillippy, Adam M and Konstantinidis, Konstantinos T and Aluru, Srinivas},
+  journal={Nature Communications},
+  volume={9},
+  number={1},
+  pages={1--8},
+  year={2018},
+  url={https://doi.org/10.1038/s41467-018-07641-9}
+}
+
+@article{stamatakis2014raxml,
+  title={RAxML version 8: a tool for phylogenetic analysis and post-analysis of large phylogenies},
+  author={Stamatakis, Alexandros},
+  journal={Bioinformatics},
+  volume={30},
+  number={9},
+  pages={1312--1313},
+  year={2014},
+  url={https://doi.org/10.1093/bioinformatics/btu033}
+}
+
+@article{minh2020iq,
+  title={IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era},
+  author={Minh, Bui Quang and Schmidt, Heiko A and Chernomor, Olga and Schrempf, Dominik and Woodhams, Michael D and Von Haeseler, Arndt and Lanfear, Robert},
+  journal={Molecular Biology and Evolution},
+  volume={37},
+  number={5},
+  pages={1530--1534},
+  year={2020},
+  url={https://doi.org/10.1093/molbev/msaa015}
+}
+
+@article{kalyaanamoorthy2017modelfinder,
+  title={ModelFinder: fast model selection for accurate phylogenetic estimates},
+  author={Kalyaanamoorthy, Subha and Minh, Bui Quang and Wong, Thomas KF and von Haeseler, Arndt and Jermiin, Lars S},
+  journal={Nature Methods},
+  volume={14},
+  number={6},
+  pages={587},
+  year={2017},
+  url={https://doi.org/10.1038/nmeth.4285}
+}
+
+@article{quince2011removing,
+  title={Removing noise from pyrosequenced amplicons},
+  author={Quince, Christopher and Lanzen, Anders and Davenport, Russell J and Turnbaugh, Peter J},
+  journal={BMC bioinformatics},
+  volume={12},
+  number={1},
+  pages={38},
+  year={2011},
+  url={https://doi.org/10.1186/1471-2105-12-38}
+}
+@article{caporaso2011global,
+  title={Global patterns of 16S rRNA diversity at a depth of millions of sequences per sample},
+  author={Caporaso, J Gregory and Lauber, Christian L and Walters, William A and Berg-Lyons, Donna and Lozupone, Catherine A and Turnbaugh, Peter J and Fierer, Noah and Knight, Rob},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={108},
+  number={Supplement 1},
+  pages={4516--4522},
+  year={2011},
+  url={https://doi.org/10.1073/pnas.1000080107}
+}
+@article{kanehisa2000kegg,
+  title={KEGG: kyoto encyclopedia of genes and genomes},
+  author={Kanehisa, Minoru and Goto, Susumu},
+  journal={Nucleic Acids Research},
+  volume={28},
+  number={1},
+  pages={27--30},
+  year={2000},
+  url={https://doi.org/10.1093/nar/28.1.27}
+}
+
+@article{kanehisa2016blastkoala,
+  title={BlastKOALA and GhostKOALA: KEGG tools for functional characterization of genome and metagenome sequences},
+  author={Kanehisa, Minoru and Sato, Yoko and Morishima, Kanae},
+  journal={Journal of Molecular Biology},
+  volume={428},
+  number={4},
+  pages={726--731},
+  year={2016},
+  url={https://doi.org/10.1016/j.jmb.2015.11.006}
+}
+
+@article{minoche2011evaluation,
+  title={Evaluation of genomic high-throughput sequencing data generated on Illumina HiSeq and genome analyzer systems},
+  author={Minoche, Andr{\'e} E and Dohm, Juliane C and Himmelbauer, Heinz},
+  journal={Genome Biology},
+  volume={12},
+  number={11},
+  pages={R112},
+  year={2011},
+  url={https://doi.org/10.1186/gb-2011-12-11-r112}
+}
+
+@article{lee2019gtotree,
+  title={GToTree: a user-friendly workflow for phylogenomics},
+  author={Lee, Michael D},
+  journal={Bioinformatics},
+  volume={35},
+  number={20},
+  pages={4162--4164},
+  year={2019},
+  url={https://doi.org/10.1093/bioinformatics/btz188}
+}
+
+@article{wang2007naive,
+  title={Naive Bayesian classifier for rapid assignment of rRNA sequences into the new bacterial taxonomy},
+  author={Wang, Qiong and Garrity, George M and Tiedje, James M and Cole, James R},
+  journal={Applied & Environmental Microbiology},
+  volume={73},
+  number={16},
+  pages={5261--5267},
+  year={2007},
+  url={https://doi.org/10.1128/AEM.00062-07}
+}
+
+@article{hoang2017ultrafast,
+  author = {Hoang, Diep Thi and Chernomor, Olga and von Haeseler, Arndt and Minh, Bui Quang and Vinh, Le Sy},
+  title = {UFBoot2: Improving the Ultrafast Bootstrap Approximation},
+  journal = {Molecular Biology and Evolution},
+  volume = {35},
+  number = {2},
+  pages = {518-522},
+  year = {2017},
+  url = {https://doi.org/10.1093/molbev/msx281}
+}
+
+@article{parada2016every,
+  title={Every base matters: assessing small subunit rRNA primers for marine microbiomes with mock communities, time series and global field samples},
+  author={Parada, Alma E and Needham, David M and Fuhrman, Jed A},
+  journal={Environmental microbiology},
+  volume={18},
+  number={5},
+  pages={1403--1414},
+  year={2016},
+  url = {https://doi.org/10.1111/1462-2920.13023}
+}
+
+@article{parks2018gtgb,
+  title={A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life},
+  author={Parks, Donovan H and Chuvochina, Maria and Waite, David W and Rinke, Christian and Skarshewski, Adam and Chaumeil, Pierre-Alain and Hugenholtz, Philip},
+  journal={Nature Biotechnology},
+  volume={36},
+  number={10},
+  pages={1546-1696},
+  year={2018},
+  url = {https://doi.org/10.1038/nbt.4229}
 }
 </script>
 <!--/radix_placeholder_appendices-->

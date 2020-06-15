@@ -1499,9 +1499,7 @@ B. 16S rRNA
 <a href="16s-data-prep.html">2. Data Prep</a>
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
-<a href="16s-water.html">3. Water Diversity</a>
-<hr/>
-<a href="session-info.html">Session Info</a>
+<a href="16s-water.html">3. Diversity</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1519,11 +1517,9 @@ C. Metagenomic
 <a href="mg-workflow-1.html">3. Assembly &amp; Annotations</a>
 <a href="mg-workflow-2.html">4. Assembley &amp; Annotation Summary</a>
 <hr/>
-<span class="nav-dropdown-header">Binning</span>
+<span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<hr/>
-<span class="nav-dropdown-header">MAGs in Context </span>
-<a href="mg-phylogenomic.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
 <a href="synthesis.html">D. Synthesis</a>
@@ -1555,36 +1551,37 @@ C. Metagenomic
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#qc-contig-stats">QC &amp; Contig Stats</a><ul>
-<li><a href="#qc-results">QC results</a></li>
-<li><a href="#assembly-results">Assembly results</a></li>
+<li><a href="#qc-results">QC Results</a></li>
+<li><a href="#assembly-results">Assembly Results</a></li>
 </ul></li>
 <li><a href="#krona-plots-explained">Krona Plots Explained</a></li>
 <li><a href="#short-read-taxonomy">Short-read Taxonomy</a></li>
 <li><a href="#mapping-results">Mapping Results</a></li>
-<li><a href="#contig-classification">Contig Classification</a></li>
+<li><a href="#contig-classification">Contig Classification</a><ul>
 <li><a href="#source-code">Source Code</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<h2 id="qc-contig-stats">QC &amp; Contig Stats</h2>
-<h3 id="qc-results">QC results</h3>
+<h1 id="qc-contig-stats">QC &amp; Contig Stats</h1>
+<h2 id="qc-results">QC Results</h2>
 <p>The first thing we should do is look at the the results of the initial QC step. For each sample, anvio spits out individual quality control reports. Thankfully anvio also concatonates those files into one table. This table contains information like the number of pairs analyzed, the total pairs passed, etc.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-943a55846508a9f81bdc" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-943a55846508a9f81bdc">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.1: QC results<\/caption>","autoHideNavigation":true,"data":[["WCCR_1913","WCCR_1916","WROL_1914","WROL_1915"],[2869358,4053466,3401120,3568123],[2703302,3852213,3229485,3383451],[94.21,95.04,94.95,94.82],[0,0,0,0],[0,0,0,0],[1379,1859,1629,1761],[0.05,0.05,0.05,0.05],[166056,201253,171635,184672],[5.79,4.96,5.05,5.18],[18998,23813,20776,21349],[11.44,11.83,12.1,11.56],[94145,120670,103458,107716],[56.69,59.96,60.28,58.33],[52913,56770,47401,55607],[31.86,28.21,27.62,30.11],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>number_of_pairs_analyzed<\/th>\n      <th>total_pairs_passed<\/th>\n      <th>percent_total_pairs_passed<\/th>\n      <th>total_pair_1_trimmed<\/th>\n      <th>percent_total_pair_1_trimmed<\/th>\n      <th>total_pair_2_trimmed<\/th>\n      <th>percent_total_pair_2_trimmed<\/th>\n      <th>total_pairs_failed<\/th>\n      <th>percent_total_pairs_failed<\/th>\n      <th>pairs_failed_due_to_pair_1<\/th>\n      <th>percent_pairs_failed_due_to_pair_1<\/th>\n      <th>pairs_failed_due_to_pair_2<\/th>\n      <th>percent_pairs_failed_due_to_pair_2<\/th>\n      <th>pairs_failed_due_to_both<\/th>\n      <th>percent_pairs_failed_due_to_both<\/th>\n      <th>FAILED_REASON_P<\/th>\n      <th>percent_FAILED_REASON_P<\/th>\n      <th>FAILED_REASON_N<\/th>\n      <th>percent_FAILED_REASON_N<\/th>\n      <th>FAILED_REASON_C33<\/th>\n      <th>percent_FAILED_REASON_C33<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}],"dom":"Btir","buttons":["csv","copy","colvis"],"scrollX":true,"scrollCollapse":true,"scrollY":"300px","paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-64045855dd8363e46877" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-64045855dd8363e46877">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">QC results<\/caption>","autoHideNavigation":true,"data":[["WCCR_1913","WCCR_1916","WROL_1914","WROL_1915"],[2869358,4053466,3401120,3568123],[2703302,3852213,3229485,3383451],[94.21,95.04,94.95,94.82],[0,0,0,0],[0,0,0,0],[1379,1859,1629,1761],[0.05,0.05,0.05,0.05],[166056,201253,171635,184672],[5.79,4.96,5.05,5.18],[18998,23813,20776,21349],[11.44,11.83,12.1,11.56],[94145,120670,103458,107716],[56.69,59.96,60.28,58.33],[52913,56770,47401,55607],[31.86,28.21,27.62,30.11],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>number_of_pairs_analyzed<\/th>\n      <th>total_pairs_passed<\/th>\n      <th>percent_total_pairs_passed<\/th>\n      <th>total_pair_1_trimmed<\/th>\n      <th>percent_total_pair_1_trimmed<\/th>\n      <th>total_pair_2_trimmed<\/th>\n      <th>percent_total_pair_2_trimmed<\/th>\n      <th>total_pairs_failed<\/th>\n      <th>percent_total_pairs_failed<\/th>\n      <th>pairs_failed_due_to_pair_1<\/th>\n      <th>percent_pairs_failed_due_to_pair_1<\/th>\n      <th>pairs_failed_due_to_pair_2<\/th>\n      <th>percent_pairs_failed_due_to_pair_2<\/th>\n      <th>pairs_failed_due_to_both<\/th>\n      <th>percent_pairs_failed_due_to_both<\/th>\n      <th>FAILED_REASON_P<\/th>\n      <th>percent_FAILED_REASON_P<\/th>\n      <th>FAILED_REASON_N<\/th>\n      <th>percent_FAILED_REASON_N<\/th>\n      <th>FAILED_REASON_C33<\/th>\n      <th>percent_FAILED_REASON_C33<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}],"dom":"Btir","buttons":["csv","copy","colvis"],"scrollX":true,"scrollCollapse":true,"scrollY":"300px","paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<h3 id="assembly-results">Assembly results</h3>
+<h2 id="assembly-results">Assembly Results</h2>
 <p>Next we can look at the results of the co-assembly, the number of HMM hits, and the estimated number of genomes. These data not only give us a general idea of assemby quality but will also help us decide parameters for automatic clustering down the road.</p>
 <p>We can use anvi’o to generate a simple table of contig stats for this assembly.</p>
 <pre class="bash"><code>
 anvi-display-contigs-stats 03_CONTIGS/WATER-contigs.db -o 03_CONTIGS/WATER-contig-stats -o contig-stats.txt</code></pre>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-28f5cb61d4bf48e78591" style="width:50%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-28f5cb61d4bf48e78591">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8eaa0ab723af1ed46b0c" style="width:50%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8eaa0ab723af1ed46b0c">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
-<h2 id="krona-plots-explained">Krona Plots Explained</h2>
+<h1 id="krona-plots-explained">Krona Plots Explained</h1>
 <p>Next lets take a look at the taxonomic breakdown from the KrakenUniq classification of short reads. There is a lot of data here so we decided to present these as standalone HTML pages that contain separate <a href="https://github.com/marbl/Krona/wiki">Krona</a><span class="citation" data-cites="ondov2011krona">(Ondov, Bergman, and Phillippy <a href="#ref-ondov2011krona">2011</a>)</span> plots for each sample. In brief, a Krona plot allow hierarchical data to be explored with multi-layered pie charts. So these charts are interactive. We will use these on a few occasions so it is worth explaining in a little more detail.</p>
 <p>Below is an example of a Kraken taxonomy plot. The plot on the left is the <em>top level</em> view and the plot on the right is the <em>expanded</em> view. Inner rings represent higher taxonomic ranks.</p>
 <p>For example, the two most inner rings are <em>cellular organisms</em> and <em>viruses</em>. Taxonomic ranks decrease towards the outside. When a grup is expanded the inner ring becomes the highest rank. For example in the plot of the right we expanded the <em>Proteobacteria</em> (which is a phylum) so the classes form the inner rings.</p>
@@ -1596,7 +1593,7 @@ anvi-display-contigs-stats 03_CONTIGS/WATER-contigs.db -o 03_CONTIGS/WATER-conti
 </figcaption>
 </figure>
 </div>
-<h2 id="short-read-taxonomy">Short-read Taxonomy</h2>
+<h1 id="short-read-taxonomy">Short-read Taxonomy</h1>
 <p>Since the Kraken classification was performed BEFORE the assembly we can look at the Krona plots for each individual samples. Here samples are separated by site.</p>
 <div class="row">
 <div class="column">
@@ -1632,13 +1629,13 @@ cut -f 1-10 WROL_1914-kraken.krona &gt; WROL_1914-kraken-TRIM.krona</code></pre>
 <pre class="bash"><code>
 anvi-export-table 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o water-layer_additional_data.txt</code></pre>
 <p>And then we simply parse out the class data and make a table.</p>
-<br/>
+<p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-a3760ded907df2533572" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a3760ded907df2533572">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-943a55846508a9f81bdc" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-943a55846508a9f81bdc">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
-<h2 id="mapping-results">Mapping Results</h2>
+<h1 id="mapping-results">Mapping Results</h1>
 <p>Lets go ahead and look at the mapping results. This took a little swindling but in the end this crude approach worked. First we needed all the <code>bowtie.log</code> files from the <code>00_LOGS</code> directory and grab the first line of each file, which has the total number of <em>individual reads that were paired</em> (after QC) in each sample.</p>
 <p>Just like we did above, we needed to grab the <code>layer_additional_data</code> from the merged profile databases. This table contains <code>total_reads_mapped</code>, <code>num_SNVs_reported</code>, and the taxonomic info from the short read Kraken annotations.</p>
 <pre class="bash"><code>
@@ -1646,11 +1643,11 @@ anvi-export-table 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o wa
 <p>What we want is a table with <code>sample</code>, <code>total_reads</code>, <code>total_reads_mapped</code>, and <code>num_SNVs_reported</code>. After a little fancy grep work in <a href="https://www.barebones.com/products/bbedit/">BBEdit</a> (the free mode) we have a table the looks like this…</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-f353840f458973aaf47d" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f353840f458973aaf47d">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-28f5cb61d4bf48e78591" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-28f5cb61d4bf48e78591">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
-<h2 id="contig-classification">Contig Classification</h2>
+<h1 id="contig-classification">Contig Classification</h1>
 <p>Now we move on to the classification of contigs from the assembly. This means that we cannot look at individual samples because we co-assembled all of the data. We start with the Kaiju classification, again using the Krona plots. Remember we classified the contigs against both the <code>nr</code> and <code>mar</code> <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">databases</a>. Use the panels below to access the classifications for the assemby.</p>
 <div class="row">
 <div class="column">
@@ -1792,6 +1789,7 @@ Next
   year={2015},
   url = {https://doi.org/10.7717/peerj.1319}
 }
+
 @article{bolger2014trimmomatic,
   title={Trimmomatic: a flexible trimmer for Illumina sequence data},
   author={Bolger, Anthony M and Lohse, Marc and Usadel, Bjoern},
@@ -1802,6 +1800,7 @@ Next
   year={2014},
   url = {https://doi.org/10.1093/bioinformatics/btu170}
 }
+
 @article{koster2012snakemake,
   title={Snakemake—a scalable bioinformatics workflow engine},
   author={K{\"o}ster, Johannes and Rahmann, Sven},
@@ -1812,6 +1811,7 @@ Next
   year={2012},
   url = {https://doi.org/10.1093/bioinformatics/bts480}
 }
+
 @article{menzel2016fast,
   title={Fast and sensitive taxonomic classification for metagenomics with Kaiju},
   author={Menzel, Peter and Ng, Kim Lee and Krogh, Anders},
@@ -1821,6 +1821,7 @@ Next
   year={2016},
   url = {https://doi.org/10.1038/ncomms11257}
 }
+
 @article{roux2015virsorter,
   title={VirSorter: mining viral signal from microbial genomic data},
   author={Roux, Simon and Enault, Francois and Hurwitz, Bonnie L and Sullivan, Matthew B},
@@ -1830,6 +1831,7 @@ Next
   year={2015},
   url = {https://doi.org/10.1093/bioinformatics/btu170}
 }
+
 @article{kim2016centrifuge,
   title={Centrifuge: rapid and sensitive classification of metagenomic sequences},
   author={Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg, Steven L},
@@ -1840,6 +1842,7 @@ Next
   year={2016},
   url = {https://doi.org/10.1101/gr.210641.116.}
 }
+
 @article{hyatt2010prodigal,
   title={Prodigal: prokaryotic gene recognition and translation initiation site identification},
   author={Hyatt, Doug and Chen, Gwo-Liang and LoCascio, Philip F and Land, Miriam L and Larimer, Frank W and Hauser, Loren J},
@@ -1850,6 +1853,7 @@ Next
   year={2010},
   url = {https://doi.org/10.1186/1471-2105-11-119}
 }
+
 @article{edgar2004muscle,
   title={MUSCLE: multiple sequence alignment with high accuracy and high throughput},
   author={Edgar, Robert C},
@@ -1860,6 +1864,7 @@ Next
   year={2004},
   url = {https://doi.org/10.1093/nar/gkh340}
 }
+
 @article{li2015megahit,
   title={MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph},
   author={Li, Dinghua and Liu, Chi-Man and Luo, Ruibang and Sadakane, Kunihiko and Lam, Tak-Wah},
@@ -1870,6 +1875,7 @@ Next
   year={2015},
   url = {https://doi.org/10.1093/bioinformatics/btv033}
 }
+
 @article{langmead2012fast,
   title={Fast gapped-read alignment with Bowtie 2},
   author={Langmead, Ben and Salzberg, Steven L},
@@ -1880,6 +1886,7 @@ Next
   year={2012},
   url = {https://doi.org/10.1038/nmeth.1923}
 }
+
 @article{li2009fast,
   title={Fast and accurate short read alignment with Burrows--Wheeler transform},
   author={Li, Heng and Durbin, Richard},
@@ -1890,6 +1897,7 @@ Next
   year={2009},
   url = {https://doi.org/10.1093/bioinformatics/btp324}
 }
+
 @article{li2009sequence,
   title={The sequence alignment/map format and SAMtools},
   author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
@@ -1932,6 +1940,7 @@ Next
   year={2014},
   url = {https://doi.org/10.1038/nmeth.3103}
 }
+
 @article{sieber2018recovery,
   title={Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy},
   author={Sieber, Christian MK and Probst, Alexander J and Sharrar, Allison and Thomas, Brian C and Hess, Matthias and Tringe, Susannah G and Banfield, Jillian F},
@@ -1981,6 +1990,7 @@ Next
   year={2015},
   url = {https://doi.org/10.1038/nmeth.3176}
 }
+
 @article{delmont2018nitrogen,
   title={Nitrogen-fixing populations of Planctomycetes and Proteobacteria are abundant in surface ocean metagenomes},
   author={Delmont, Tom O and Quince, Christopher and Shaiber, Alon and Esen, {\"O}zcan C and Lee, Sonny TM and Rapp{\'e}, Michael S and McLellan, Sandra L and L{\"u}cker, Sebastian and Eren, A Murat},
@@ -1990,6 +2000,166 @@ Next
   pages={804--813},
   year={2018},
   url = {https://doi.org/10.1038/s41564-018-0176-9}
+}
+
+@article{dongen2000cluster,
+  title={A cluster algorithm for graphs},
+  author={Dongen, Stijn},
+  year={2000},
+  publisher={CWI (Centre for Mathematics and Computer Science)},
+  url = {https://www.micans.org/mcl/index.html?sec_software}
+}
+
+@article{jain2018high,
+  title={High throughput ANI analysis of 90K prokaryotic genomes reveals clear species boundaries},
+  author={Jain, Chirag and Rodriguez-R, Luis M and Phillippy, Adam M and Konstantinidis, Konstantinos T and Aluru, Srinivas},
+  journal={Nature Communications},
+  volume={9},
+  number={1},
+  pages={1--8},
+  year={2018},
+  url={https://doi.org/10.1038/s41467-018-07641-9}
+}
+
+@article{stamatakis2014raxml,
+  title={RAxML version 8: a tool for phylogenetic analysis and post-analysis of large phylogenies},
+  author={Stamatakis, Alexandros},
+  journal={Bioinformatics},
+  volume={30},
+  number={9},
+  pages={1312--1313},
+  year={2014},
+  url={https://doi.org/10.1093/bioinformatics/btu033}
+}
+
+@article{minh2020iq,
+  title={IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era},
+  author={Minh, Bui Quang and Schmidt, Heiko A and Chernomor, Olga and Schrempf, Dominik and Woodhams, Michael D and Von Haeseler, Arndt and Lanfear, Robert},
+  journal={Molecular Biology and Evolution},
+  volume={37},
+  number={5},
+  pages={1530--1534},
+  year={2020},
+  url={https://doi.org/10.1093/molbev/msaa015}
+}
+
+@article{kalyaanamoorthy2017modelfinder,
+  title={ModelFinder: fast model selection for accurate phylogenetic estimates},
+  author={Kalyaanamoorthy, Subha and Minh, Bui Quang and Wong, Thomas KF and von Haeseler, Arndt and Jermiin, Lars S},
+  journal={Nature Methods},
+  volume={14},
+  number={6},
+  pages={587},
+  year={2017},
+  url={https://doi.org/10.1038/nmeth.4285}
+}
+
+@article{quince2011removing,
+  title={Removing noise from pyrosequenced amplicons},
+  author={Quince, Christopher and Lanzen, Anders and Davenport, Russell J and Turnbaugh, Peter J},
+  journal={BMC bioinformatics},
+  volume={12},
+  number={1},
+  pages={38},
+  year={2011},
+  url={https://doi.org/10.1186/1471-2105-12-38}
+}
+@article{caporaso2011global,
+  title={Global patterns of 16S rRNA diversity at a depth of millions of sequences per sample},
+  author={Caporaso, J Gregory and Lauber, Christian L and Walters, William A and Berg-Lyons, Donna and Lozupone, Catherine A and Turnbaugh, Peter J and Fierer, Noah and Knight, Rob},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={108},
+  number={Supplement 1},
+  pages={4516--4522},
+  year={2011},
+  url={https://doi.org/10.1073/pnas.1000080107}
+}
+@article{kanehisa2000kegg,
+  title={KEGG: kyoto encyclopedia of genes and genomes},
+  author={Kanehisa, Minoru and Goto, Susumu},
+  journal={Nucleic Acids Research},
+  volume={28},
+  number={1},
+  pages={27--30},
+  year={2000},
+  url={https://doi.org/10.1093/nar/28.1.27}
+}
+
+@article{kanehisa2016blastkoala,
+  title={BlastKOALA and GhostKOALA: KEGG tools for functional characterization of genome and metagenome sequences},
+  author={Kanehisa, Minoru and Sato, Yoko and Morishima, Kanae},
+  journal={Journal of Molecular Biology},
+  volume={428},
+  number={4},
+  pages={726--731},
+  year={2016},
+  url={https://doi.org/10.1016/j.jmb.2015.11.006}
+}
+
+@article{minoche2011evaluation,
+  title={Evaluation of genomic high-throughput sequencing data generated on Illumina HiSeq and genome analyzer systems},
+  author={Minoche, Andr{\'e} E and Dohm, Juliane C and Himmelbauer, Heinz},
+  journal={Genome Biology},
+  volume={12},
+  number={11},
+  pages={R112},
+  year={2011},
+  url={https://doi.org/10.1186/gb-2011-12-11-r112}
+}
+
+@article{lee2019gtotree,
+  title={GToTree: a user-friendly workflow for phylogenomics},
+  author={Lee, Michael D},
+  journal={Bioinformatics},
+  volume={35},
+  number={20},
+  pages={4162--4164},
+  year={2019},
+  url={https://doi.org/10.1093/bioinformatics/btz188}
+}
+
+@article{wang2007naive,
+  title={Naive Bayesian classifier for rapid assignment of rRNA sequences into the new bacterial taxonomy},
+  author={Wang, Qiong and Garrity, George M and Tiedje, James M and Cole, James R},
+  journal={Applied & Environmental Microbiology},
+  volume={73},
+  number={16},
+  pages={5261--5267},
+  year={2007},
+  url={https://doi.org/10.1128/AEM.00062-07}
+}
+
+@article{hoang2017ultrafast,
+  author = {Hoang, Diep Thi and Chernomor, Olga and von Haeseler, Arndt and Minh, Bui Quang and Vinh, Le Sy},
+  title = {UFBoot2: Improving the Ultrafast Bootstrap Approximation},
+  journal = {Molecular Biology and Evolution},
+  volume = {35},
+  number = {2},
+  pages = {518-522},
+  year = {2017},
+  url = {https://doi.org/10.1093/molbev/msx281}
+}
+
+@article{parada2016every,
+  title={Every base matters: assessing small subunit rRNA primers for marine microbiomes with mock communities, time series and global field samples},
+  author={Parada, Alma E and Needham, David M and Fuhrman, Jed A},
+  journal={Environmental microbiology},
+  volume={18},
+  number={5},
+  pages={1403--1414},
+  year={2016},
+  url = {https://doi.org/10.1111/1462-2920.13023}
+}
+
+@article{parks2018gtgb,
+  title={A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life},
+  author={Parks, Donovan H and Chuvochina, Maria and Waite, David W and Rinke, Christian and Skarshewski, Adam and Chaumeil, Pierre-Alain and Hugenholtz, Philip},
+  journal={Nature Biotechnology},
+  volume={36},
+  number={10},
+  pages={1546-1696},
+  year={2018},
+  url = {https://doi.org/10.1038/nbt.4229}
 }
 </script>
 <!--/radix_placeholder_appendices-->

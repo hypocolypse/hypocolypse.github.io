@@ -1482,9 +1482,7 @@ B. 16S rRNA
 <a href="16s-data-prep.html">2. Data Prep</a>
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
-<a href="16s-water.html">3. Water Diversity</a>
-<hr/>
-<a href="session-info.html">Session Info</a>
+<a href="16s-water.html">3. Diversity</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1502,11 +1500,9 @@ C. Metagenomic
 <a href="mg-workflow-1.html">3. Assembly &amp; Annotations</a>
 <a href="mg-workflow-2.html">4. Assembley &amp; Annotation Summary</a>
 <hr/>
-<span class="nav-dropdown-header">Binning</span>
+<span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<hr/>
-<span class="nav-dropdown-header">MAGs in Context </span>
-<a href="mg-phylogenomic.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
 <a href="synthesis.html">D. Synthesis</a>
@@ -1538,44 +1534,56 @@ C. Metagenomic
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#data-for-16s-rrna-analysis">Data for 16S rRNA Analysis</a><ul>
-<li><a href="#starting-from-raw-data">Starting from raw data</a></li>
-<li><a href="#starting-from-processed-data">Starting from processed data</a></li>
-<li><a href="#additional-data-products">Additional data products</a></li>
+<li><a href="#raw-sequence-data">Raw Sequence Data</a></li>
+<li><a href="#trimmed-sequence-data">Trimmed Sequence Data</a></li>
+<li><a href="#additional-data-products">Additional Data Products</a></li>
 </ul></li>
 <li><a href="#data-for-metagenomic-analysis">Data for Metagenomic Analysis</a></li>
 <li><a href="#accessing-the-r-code-only">Accessing the R Code only</a></li>
-<li><a href="#submitting-sequence-data-to-nucleotide-archives">Submitting sequence data to nucleotide archives</a></li>
+<li><a href="#submitting-sequence-data-to-nucleotide-archives">Submitting Sequence Data to Nucleotide Archives</a><ul>
+<li><a href="#s-rrna">16S rRNA</a></li>
+<li><a href="#metagenomic">Metagenomic</a></li>
+<li><a href="#instructions-for-submitting-to-the-ena">Instructions for Submitting to the ENA</a></li>
 <li><a href="#source-code">Source Code</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<h2 id="data-for-16s-rrna-analysis">Data for 16S rRNA Analysis</h2>
-<h3 id="starting-from-raw-data">Starting from raw data</h3>
+<h1 id="data-for-16s-rrna-analysis">Data for 16S rRNA Analysis</h1>
+<h2 id="raw-sequence-data">Raw Sequence Data</h2>
 <p>If you want to start from the beginning, you will need to use the <a href="16s-dada2.html">DADA2 workflow</a> and grab the fastq files. <em>The data in the ENA (primers removed) is the input for the DADA2 workflow but if you prefer to remove primers yourself, then please download the raw data instead.</em></p>
 <ul>
 <li><a href="https://doi.org/10.25573/data.11819745">10.25573/data.11819745</a>: Raw data for each sample (before removing primers) plus two tables for ENA submission.</li>
 <li><a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632 (ERP119845)</a>: Project accession number for trimmed 16S rRNA data (primers removed) deposited at the European Nucleotide Archive. See below for instructions on submitting data to the ENA and the files we used to deposit the data. Sample assession numbers are <a href="https://www.ebi.ac.uk/ena/browser/view/ERS4291994-ERS4292031">ERS4291994-ERS4292031</a>.</li>
 </ul>
-<h3 id="starting-from-processed-data">Starting from processed data</h3>
+<h2 id="trimmed-sequence-data">Trimmed Sequence Data</h2>
 <p>If you prefer to skip sequence processing with DADA2 and jump straight to the analysis, you will need to start at <a href="16s-data-prep.html">No 2. Data Preparation</a> and grab the final output file of the DADA2 workflow (<code>combo_pipeline.rdata)</code>.</p>
 <ul>
 <li><a href="https://doi.org/10.25573/data.11828700">10.25573/data.11828700</a>: Final output file of the DADA2 workflow (<code>combo_pipeline.rdata)</code>. This .RData file is loaded directly into the beginning of the <a href="16s-data-prep.html">phyloseq workflow</a>. In this repo you will also find additional input files needed to run subsequent analyses.</li>
 </ul>
-<h3 id="additional-data-products">Additional data products</h3>
-<p>Most data outputs can be accessed from the workflow pages but if you are just interested in some quick summary data, you can access those files at the bottom of individual workflow pages.</p>
-<h2 id="data-for-metagenomic-analysis">Data for Metagenomic Analysis</h2>
+<h2 id="additional-data-products">Additional Data Products</h2>
+<p>Most data outputs can be accessed from the workflow pages. For example, many tables can be downloaded straight from the page. Information for additional data products can be found at the bottom of individual workflow pages.</p>
+<h1 id="data-for-metagenomic-analysis">Data for Metagenomic Analysis</h1>
 <ul>
 <li><a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632 (ERP119845)</a>: Project accession number (same as above) for the metagenomic data from the four water column samples. Sample assession numbers are <a href="https://www.ebi.ac.uk/ena/browser/view/ERS4578390-ERS4578393">ERS4578390-ERS4578393</a>.</li>
 </ul>
-<h2 id="accessing-the-r-code-only">Accessing the R Code only</h2>
-<p>The R code is available by clicking on the code button in the menu bar or <a href="files/raw_code.txt">here</a>. Please note that this R code is pulled from all the <code>.Rmd</code> files. This has not been tested independent of the R Markdown workflows so <span class="paper">Use at Your Own Risk</span>. In other words, the code works in the Rmarkdown format but the complete pipeline has not been tested using just this code. I used <code>knitr::purl()</code> to pull the code from the Rmarkdown file. I did this for you just in case you wanted the code and not hear me drone on about colors, zoomable figures, or Keanu Reeves. The first part is the DADA2 workflow and the second part is the phyloseq workflow. Commands that are commented out are things I tried that I could never get to work. Any line that starts like this: <code>## ----</code> is the code chuck name and details.</p>
-<h2 id="submitting-sequence-data-to-nucleotide-archives">Submitting sequence data to nucleotide archives</h2>
+<h1 id="accessing-the-r-code-only">Accessing the R Code only</h1>
+<p>The R code is available by clicking <a href="files/data-availability/r-code">here</a>. There you can find code for each step of the 16S rRNA pipeline. Please note that this R code is pulled from the <code>.Rmd</code> files. The code has not been tested independent of the R Markdown workflows so <em>Use at Your Own Risk</em> please. In other words, the code works when run in the site build but the complete pipeline has not been tested using just this code. I used <code>knitr::purl()</code> to pull the code from the R Markdown file. I did this for you just in case you wanted the code and not hear me drone on about colors, zoomable figures, or Keanu Reeves. Commands that are commented out are things I tried that I could never get to work. Any line that starts like this: <code>## ----</code> is the code chuck name .</p>
+<h1 id="submitting-sequence-data-to-nucleotide-archives">Submitting Sequence Data to Nucleotide Archives</h1>
 <p>We submitted out data to the <a href="https://www.ebi.ac.uk/ena">European Nucleotide Archive (ENA)</a>. The ENA does not like RAW data and prefers to have primers removed. So we submitted the trimmed Fastq files to the ENA. You can find these data under the study accession number <strong>PRJEB36632 (ERP119845)</strong>. The RAW files on our figshare site (see above).</p>
 <p>To submit to the ENA you need two data tables (plus your sequence data). One file describes the samples and the other file describes the sequencing data.</p>
 <p>You can download these data tables here:</p>
-<p><a href="files/data-availability/ENA_Sample_SUBMISSION_HYPOXIA.txt">Description of sample data</a></p>
-<p><a href="files/data-availability/ENA_PAIRED_FASTQ_SUBMISSION_HYPOXIA.txt">Description of sequence data</a></p>
-<p>Step by step instructions for submitting to the ENA</p>
+<h2 id="s-rrna">16S rRNA</h2>
+<ul>
+<li><a href="files/data-availability/ENA_Sample_SUBMISSION_HYPOXIA-16S.txt">Description of sample data</a></li>
+<li><a href="files/data-availability/ENA_PAIRED_FASTQ_SUBMISSION_HYPOXIA-16S.txt">Description of sequence data</a></li>
+</ul>
+<h2 id="metagenomic">Metagenomic</h2>
+<ul>
+<li><a href="files/data-availability/ENA_Sample_SUBMISSION_HYPOXIA-MG.txt">Description of sample data</a></li>
+<li><a href="files/data-availability/ENA_PAIRED_FASTQ_SUBMISSION_HYPOXIA-MG.txt">Description of sequence data</a></li>
+</ul>
+<h2 id="instructions-for-submitting-to-the-ena">Instructions for Submitting to the ENA</h2>
 <ol type="1">
 <li>go to <a href="https://www.ebi.ac.uk/ena/submit" class="uri">https://www.ebi.ac.uk/ena/submit</a> and select <strong>Submit to ENA</strong>.</li>
 <li>Login or Register.</li>
@@ -1687,6 +1695,7 @@ C. Metagenomic
   year={2015},
   url = {https://doi.org/10.7717/peerj.1319}
 }
+
 @article{bolger2014trimmomatic,
   title={Trimmomatic: a flexible trimmer for Illumina sequence data},
   author={Bolger, Anthony M and Lohse, Marc and Usadel, Bjoern},
@@ -1697,6 +1706,7 @@ C. Metagenomic
   year={2014},
   url = {https://doi.org/10.1093/bioinformatics/btu170}
 }
+
 @article{koster2012snakemake,
   title={Snakemake—a scalable bioinformatics workflow engine},
   author={K{\"o}ster, Johannes and Rahmann, Sven},
@@ -1707,6 +1717,7 @@ C. Metagenomic
   year={2012},
   url = {https://doi.org/10.1093/bioinformatics/bts480}
 }
+
 @article{menzel2016fast,
   title={Fast and sensitive taxonomic classification for metagenomics with Kaiju},
   author={Menzel, Peter and Ng, Kim Lee and Krogh, Anders},
@@ -1716,6 +1727,7 @@ C. Metagenomic
   year={2016},
   url = {https://doi.org/10.1038/ncomms11257}
 }
+
 @article{roux2015virsorter,
   title={VirSorter: mining viral signal from microbial genomic data},
   author={Roux, Simon and Enault, Francois and Hurwitz, Bonnie L and Sullivan, Matthew B},
@@ -1725,6 +1737,7 @@ C. Metagenomic
   year={2015},
   url = {https://doi.org/10.1093/bioinformatics/btu170}
 }
+
 @article{kim2016centrifuge,
   title={Centrifuge: rapid and sensitive classification of metagenomic sequences},
   author={Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg, Steven L},
@@ -1735,6 +1748,7 @@ C. Metagenomic
   year={2016},
   url = {https://doi.org/10.1101/gr.210641.116.}
 }
+
 @article{hyatt2010prodigal,
   title={Prodigal: prokaryotic gene recognition and translation initiation site identification},
   author={Hyatt, Doug and Chen, Gwo-Liang and LoCascio, Philip F and Land, Miriam L and Larimer, Frank W and Hauser, Loren J},
@@ -1745,6 +1759,7 @@ C. Metagenomic
   year={2010},
   url = {https://doi.org/10.1186/1471-2105-11-119}
 }
+
 @article{edgar2004muscle,
   title={MUSCLE: multiple sequence alignment with high accuracy and high throughput},
   author={Edgar, Robert C},
@@ -1755,6 +1770,7 @@ C. Metagenomic
   year={2004},
   url = {https://doi.org/10.1093/nar/gkh340}
 }
+
 @article{li2015megahit,
   title={MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph},
   author={Li, Dinghua and Liu, Chi-Man and Luo, Ruibang and Sadakane, Kunihiko and Lam, Tak-Wah},
@@ -1765,6 +1781,7 @@ C. Metagenomic
   year={2015},
   url = {https://doi.org/10.1093/bioinformatics/btv033}
 }
+
 @article{langmead2012fast,
   title={Fast gapped-read alignment with Bowtie 2},
   author={Langmead, Ben and Salzberg, Steven L},
@@ -1775,6 +1792,7 @@ C. Metagenomic
   year={2012},
   url = {https://doi.org/10.1038/nmeth.1923}
 }
+
 @article{li2009fast,
   title={Fast and accurate short read alignment with Burrows--Wheeler transform},
   author={Li, Heng and Durbin, Richard},
@@ -1785,6 +1803,7 @@ C. Metagenomic
   year={2009},
   url = {https://doi.org/10.1093/bioinformatics/btp324}
 }
+
 @article{li2009sequence,
   title={The sequence alignment/map format and SAMtools},
   author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
@@ -1827,6 +1846,7 @@ C. Metagenomic
   year={2014},
   url = {https://doi.org/10.1038/nmeth.3103}
 }
+
 @article{sieber2018recovery,
   title={Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy},
   author={Sieber, Christian MK and Probst, Alexander J and Sharrar, Allison and Thomas, Brian C and Hess, Matthias and Tringe, Susannah G and Banfield, Jillian F},
@@ -1876,6 +1896,7 @@ C. Metagenomic
   year={2015},
   url = {https://doi.org/10.1038/nmeth.3176}
 }
+
 @article{delmont2018nitrogen,
   title={Nitrogen-fixing populations of Planctomycetes and Proteobacteria are abundant in surface ocean metagenomes},
   author={Delmont, Tom O and Quince, Christopher and Shaiber, Alon and Esen, {\"O}zcan C and Lee, Sonny TM and Rapp{\'e}, Michael S and McLellan, Sandra L and L{\"u}cker, Sebastian and Eren, A Murat},
@@ -1885,6 +1906,166 @@ C. Metagenomic
   pages={804--813},
   year={2018},
   url = {https://doi.org/10.1038/s41564-018-0176-9}
+}
+
+@article{dongen2000cluster,
+  title={A cluster algorithm for graphs},
+  author={Dongen, Stijn},
+  year={2000},
+  publisher={CWI (Centre for Mathematics and Computer Science)},
+  url = {https://www.micans.org/mcl/index.html?sec_software}
+}
+
+@article{jain2018high,
+  title={High throughput ANI analysis of 90K prokaryotic genomes reveals clear species boundaries},
+  author={Jain, Chirag and Rodriguez-R, Luis M and Phillippy, Adam M and Konstantinidis, Konstantinos T and Aluru, Srinivas},
+  journal={Nature Communications},
+  volume={9},
+  number={1},
+  pages={1--8},
+  year={2018},
+  url={https://doi.org/10.1038/s41467-018-07641-9}
+}
+
+@article{stamatakis2014raxml,
+  title={RAxML version 8: a tool for phylogenetic analysis and post-analysis of large phylogenies},
+  author={Stamatakis, Alexandros},
+  journal={Bioinformatics},
+  volume={30},
+  number={9},
+  pages={1312--1313},
+  year={2014},
+  url={https://doi.org/10.1093/bioinformatics/btu033}
+}
+
+@article{minh2020iq,
+  title={IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era},
+  author={Minh, Bui Quang and Schmidt, Heiko A and Chernomor, Olga and Schrempf, Dominik and Woodhams, Michael D and Von Haeseler, Arndt and Lanfear, Robert},
+  journal={Molecular Biology and Evolution},
+  volume={37},
+  number={5},
+  pages={1530--1534},
+  year={2020},
+  url={https://doi.org/10.1093/molbev/msaa015}
+}
+
+@article{kalyaanamoorthy2017modelfinder,
+  title={ModelFinder: fast model selection for accurate phylogenetic estimates},
+  author={Kalyaanamoorthy, Subha and Minh, Bui Quang and Wong, Thomas KF and von Haeseler, Arndt and Jermiin, Lars S},
+  journal={Nature Methods},
+  volume={14},
+  number={6},
+  pages={587},
+  year={2017},
+  url={https://doi.org/10.1038/nmeth.4285}
+}
+
+@article{quince2011removing,
+  title={Removing noise from pyrosequenced amplicons},
+  author={Quince, Christopher and Lanzen, Anders and Davenport, Russell J and Turnbaugh, Peter J},
+  journal={BMC bioinformatics},
+  volume={12},
+  number={1},
+  pages={38},
+  year={2011},
+  url={https://doi.org/10.1186/1471-2105-12-38}
+}
+@article{caporaso2011global,
+  title={Global patterns of 16S rRNA diversity at a depth of millions of sequences per sample},
+  author={Caporaso, J Gregory and Lauber, Christian L and Walters, William A and Berg-Lyons, Donna and Lozupone, Catherine A and Turnbaugh, Peter J and Fierer, Noah and Knight, Rob},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={108},
+  number={Supplement 1},
+  pages={4516--4522},
+  year={2011},
+  url={https://doi.org/10.1073/pnas.1000080107}
+}
+@article{kanehisa2000kegg,
+  title={KEGG: kyoto encyclopedia of genes and genomes},
+  author={Kanehisa, Minoru and Goto, Susumu},
+  journal={Nucleic Acids Research},
+  volume={28},
+  number={1},
+  pages={27--30},
+  year={2000},
+  url={https://doi.org/10.1093/nar/28.1.27}
+}
+
+@article{kanehisa2016blastkoala,
+  title={BlastKOALA and GhostKOALA: KEGG tools for functional characterization of genome and metagenome sequences},
+  author={Kanehisa, Minoru and Sato, Yoko and Morishima, Kanae},
+  journal={Journal of Molecular Biology},
+  volume={428},
+  number={4},
+  pages={726--731},
+  year={2016},
+  url={https://doi.org/10.1016/j.jmb.2015.11.006}
+}
+
+@article{minoche2011evaluation,
+  title={Evaluation of genomic high-throughput sequencing data generated on Illumina HiSeq and genome analyzer systems},
+  author={Minoche, Andr{\'e} E and Dohm, Juliane C and Himmelbauer, Heinz},
+  journal={Genome Biology},
+  volume={12},
+  number={11},
+  pages={R112},
+  year={2011},
+  url={https://doi.org/10.1186/gb-2011-12-11-r112}
+}
+
+@article{lee2019gtotree,
+  title={GToTree: a user-friendly workflow for phylogenomics},
+  author={Lee, Michael D},
+  journal={Bioinformatics},
+  volume={35},
+  number={20},
+  pages={4162--4164},
+  year={2019},
+  url={https://doi.org/10.1093/bioinformatics/btz188}
+}
+
+@article{wang2007naive,
+  title={Naive Bayesian classifier for rapid assignment of rRNA sequences into the new bacterial taxonomy},
+  author={Wang, Qiong and Garrity, George M and Tiedje, James M and Cole, James R},
+  journal={Applied & Environmental Microbiology},
+  volume={73},
+  number={16},
+  pages={5261--5267},
+  year={2007},
+  url={https://doi.org/10.1128/AEM.00062-07}
+}
+
+@article{hoang2017ultrafast,
+  author = {Hoang, Diep Thi and Chernomor, Olga and von Haeseler, Arndt and Minh, Bui Quang and Vinh, Le Sy},
+  title = {UFBoot2: Improving the Ultrafast Bootstrap Approximation},
+  journal = {Molecular Biology and Evolution},
+  volume = {35},
+  number = {2},
+  pages = {518-522},
+  year = {2017},
+  url = {https://doi.org/10.1093/molbev/msx281}
+}
+
+@article{parada2016every,
+  title={Every base matters: assessing small subunit rRNA primers for marine microbiomes with mock communities, time series and global field samples},
+  author={Parada, Alma E and Needham, David M and Fuhrman, Jed A},
+  journal={Environmental microbiology},
+  volume={18},
+  number={5},
+  pages={1403--1414},
+  year={2016},
+  url = {https://doi.org/10.1111/1462-2920.13023}
+}
+
+@article{parks2018gtgb,
+  title={A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life},
+  author={Parks, Donovan H and Chuvochina, Maria and Waite, David W and Rinke, Christian and Skarshewski, Adam and Chaumeil, Pierre-Alain and Hugenholtz, Philip},
+  journal={Nature Biotechnology},
+  volume={36},
+  number={10},
+  pages={1546-1696},
+  year={2018},
+  url = {https://doi.org/10.1038/nbt.4229}
 }
 </script>
 <!--/radix_placeholder_appendices-->
