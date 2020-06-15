@@ -1525,7 +1525,6 @@ C. Metagenomic
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
-<a href="synthesis.html">D. Synthesis</a>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
 <i class="fa fa-github fa-lg"></i>
@@ -1588,7 +1587,7 @@ C. Metagenomic
 <p>In order to run this workflow, you either need the <em>raw</em> data—available on the figshare project site—or the <em>trimmed</em> data, available from the ENA under project accession number … See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
 <p>This pipeline below is exactly how we processed our 16S rRNA data using <a href="https://benjjneb.github.io/dada2/">DADA2</a><span class="citation" data-cites="callahan2016dada2">(Callahan et al. <a href="#ref-callahan2016dada2">2016</a>)</span>. This is not meant to be a tutorial and we only provide minimal annotation. There are many great tutorials and explanations out there on amplicon processing that you can dive into.</p>
-<p>Depending on the DADA2 version you have installed, you may get <a href="https://github.com/benjjneb/dada2/issues/532">slightly different results</a> due to fundamental changes in the code-base. This is unavoidable at times and the developers do the best they can to maintain fidelity across versions. To see the package versions of tools used in this workflow, please see the <a href="#r-session-information">Session Info</a> at the end of this page. We set random number seeds to ensure full reproducibility.</p>
+<p>Depending on the DADA2 version you have installed, you may get <a href="https://github.com/benjjneb/dada2/issues/532">slightly different results</a> due to fundamental changes in the code base. This is unavoidable at times and the developers do the best they can to maintain fidelity across versions. To see the package versions of tools used in this workflow, please see the <a href="#r-session-information">Session Info</a> at the end of this page. We set random number seeds to ensure full reproducibility.</p>
 <p>This is a workflow for processing the raw 16S rRNA Illumina data for the study. The workflow consists of the following steps:</p>
 <table>
 <thead>
@@ -1696,7 +1695,7 @@ head(list.files(path))</code></pre>
 fnFs &lt;- sort(list.files(path, pattern = &quot;_R1.trimmed.fastq&quot;))
 fnRs &lt;- sort(list.files(path, pattern = &quot;_R2.trimmed.fastq&quot;))</code></pre>
 </div>
-<p>And finally we can extract the sample names from the from the fastq files and have a look at the sample names.</p>
+<p>And finally, we can extract the sample names from the from the fastq files and have a look at the sample names.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 sample.names &lt;- sapply(strsplit(fnFs, &quot;_&quot;), `[`, 1)
@@ -1902,7 +1901,7 @@ The values selected should be based on the sequence table generated above.
 <pre><code>
 [1]    8 4119</code></pre>
 </div>
-<p>Timming the table eliminated 13 ASVs.</p>
+<p>Trimming the table eliminated 13 ASVs.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 table(nchar(getSequences(seqtab.2)))</code></pre>
@@ -1983,7 +1982,7 @@ save.image(&quot;rdata/16s-dada2/water_pipeline.rdata&quot;)</code></pre>
 </div>
 <p>The DADA2 analysis is now complete. Next we use phyloseq and the <code>combo_pipeline.rdata</code> file for the subsequent analysis.</p>
 <h1 id="r-session-information-code">R Session Information &amp; Code</h1>
-<p>This workflow was run on the <a href="https://doi.org/10.25572/SIHPC">Smithsonian High Performance Cluster (SI/HPC)</a>, Smithsonian Institution. Below are the specific packages and versions used in this workflow using both <code>sessionInfo()</code> and <code>devtools::session_info()</code>. Click the arrow to see the details.</p>
+<p>This workflow was run on the <a href="https://doi.org/10.25572/SIHPC">Smithsonian High-Performance Cluster (SI/HPC)</a>, Smithsonian Institution. Below are the specific packages and versions used in this workflow using both <code>sessionInfo()</code> and <code>devtools::session_info()</code>. Click the arrow to see the details.</p>
 <details>
 <p><summary>Show/hide R Session Info</summary></p>
 <pre><code>

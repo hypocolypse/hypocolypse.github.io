@@ -1509,7 +1509,6 @@ C. Metagenomic
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
-<a href="synthesis.html">D. Synthesis</a>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
 <i class="fa fa-github fa-lg"></i>
@@ -1544,7 +1543,7 @@ C. Metagenomic
 </nav>
 <hr class="d-toc-separator"/>
 <p>There are two main types of annotations we are interested in for this metagenomic project—<strong>taxonomic</strong> and <strong>functional</strong>—and there are many, many ways to accomplish both of these goals. This next section involves building the databases and installing any additional tools we need for annotation.</p>
-<p>Lets start with the tools and databases for <strong>taxonomic</strong> classification.</p>
+<p>Let’s start with the tools and databases for <strong>taxonomic</strong> classification.</p>
 <h2 id="taxonomic-classification">Taxonomic Classification</h2>
 <p>There are many algorithms and databases for taxonomic classification. We will use <a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a> to classify short reads. We will also use <a href="https://ccb.jhu.edu/software/centrifuge/">Centrifuge</a>, <a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a>, and <a href="https://github.com/simroux/VirSorter">VirSorter</a> for contigs. Anvio has methods of importing data from each of these approaches but if you have a have a favorite tool/database there are workarounds to get most results into the appropriate anvio database.</p>
 <h3 id="centrifuge">Centrifuge</h3>
@@ -1559,7 +1558,7 @@ tar -zxvf p+h+v.tar.gz &amp;&amp; rm -rf p+h+v.tar.gz</code></pre>
 <p>That’s it.</p>
 <h3 id="kaiju">Kaiju</h3>
 <p><em><a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a><span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast">2016</a>)</span>… finds maximum (in-)exact matches on the protein-level using the Burrows–Wheeler transform.</em> <em>Kaiju is a program for the taxonomic classification… of metagenomic DNA. Reads are directly assigned to taxa using the NCBI taxonomy and a reference database of protein sequences from microbial and viral genomes.</em></p>
-<p>Kaiju pretty much does the same thing as centrifige but uses a different methodological approach. First we need to install Kaiju. Again, I will run kaiju in a separate conda environment. Now I can either install kaiju from the source code or as conda package. The later is easier but often conda packages may lag behind the source code versions. I usually compare the release dates of the <a href="https://anaconda.org/bioconda/kaiju">conda package</a> with the <a href="https://github.com/bioinformatics-centre/kaiju">source code</a> and look at the number of downloads. In this case, the conda version of kaiju looks fine.</p>
+<p>Kaiju pretty much does the same thing as Centrifuge but uses a different methodological approach. First we need to install Kaiju. Again, I will run kaiju in a separate conda environment. Now I can either install kaiju from the source code or as conda package. The latter is easier but often conda packages may lag behind the source code versions. I usually compare the release dates of the <a href="https://anaconda.org/bioconda/kaiju">conda package</a> with the <a href="https://github.com/bioinformatics-centre/kaiju">source code</a> and look at the number of downloads. In this case, the conda version of kaiju looks fine.</p>
 <pre class="bash"><code>
 # create generic environment
 conda create -n kaiju
@@ -1673,7 +1672,7 @@ echo = `date` job $JOB_NAME done
 </details>
 <h3 id="virsorter">VirSorter</h3>
 <p><em><a href="https://github.com/simroux/VirSorter">VirSorter</a><span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter">2015</a>)</span>, a tool designed to detect viral signal in these different types of microbial sequence data in both a reference-dependent and reference-independent manner, leveraging probabilistic models and extensive virome data to maximize detection of novel viruses.</em></p>
-<p>I generally followed <a href="https://github.com/simroux/VirSorter">this recipe</a> for installing virsorter except I separated out the installation of dependencies to individual commands because I like to monitor any conflics between packages.</p>
+<p>I generally followed <a href="https://github.com/simroux/VirSorter">this recipe</a> for installing VirSorter except I separated out the installation of dependencies to individual commands because I like to monitor any conflicts between packages.</p>
 <pre class="bash"><code>
 conda create --name virsorter python==3.6
 conda activate virsorter
@@ -1698,16 +1697,16 @@ make
 
 ln -s /home/scottjj/software/VirSorter/wrapper_phage_contigs_sorter_iPlant.pl /home/scottjj/miniconda3/envs/virsorter/bin/
 ln -s /home/scottjj/software/VirSorter/Scripts/ /home/scottjj/miniconda3/envs/virsorter/bin/</code></pre>
-<p>You may get a <code>Bio::Seq</code> error when you run virsorter. If so you need to install the BioPerl GitHub repo. It is best to check first before moving on.</p>
+<p>You may get a <code>Bio::Seq</code> error when you run VirSorter. If so you need to install the BioPerl GitHub repo. It is best to check first before moving on.</p>
 <pre class="bash"><code>
 perl -e &quot;use Bio::Seq;&quot;`</code></pre>
 <p>If you get an error it means that the install failed (for some reason).</p>
-<p>So clone the BioPerl repo and copy the <code>Bio/</code> directory to the virsorter environment.</p>
+<p>Now clone the BioPerl repo and copy the <code>Bio/</code> directory to the VirSorter environment.</p>
 <pre class="bash"><code>
 git clone https://github.com/bioperl/bioperl-live.git
 cp -r Path/to/lib/Bio Path/to/miniconda3/envs/virsorter/lib/5.26.2/</code></pre>
 <p>Now see if the error persists.</p>
-<p>Good to go? Now time to build the virsorter database. Pretty straightfoward actually.</p>
+<p>Good to go? Now time to build the VirSorter database. Pretty straightforward actually.</p>
 <pre class="bash"><code>
 wget https://zenodo.org/record/1168727/files/virsorter-data-v2.tar.gz
 md5sum virsorter-data-v2.tar.gz
@@ -1723,7 +1722,7 @@ rm virsorter-data-v2.tar.gz</code></pre>
 anvi-setup-ncbi-cogs  --cog-data-dir PATH_TO_COG_DIR -T 10
 anvi-setup-pfams  --pfam-data-dir PATH_TO_PFAM_DIR</code></pre>
 <p>The COG db is 2.3GB and the PFAM db is 283MB.</p>
-<p>And thats it. We can add more databases as we need them.</p>
+<p>And that’s it. We can add more databases as we need them.</p>
 <h3 id="ghostkoalakegg">GhostKOALA/KEGG</h3>
 <p>Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>. But since we run the analysis on the GhostKOALA webserver, there is no database to set up here. We provide more details when it comes time to actually set up for the analysis and parse the data.</p>
 <h3 id="concluding-remarks">Concluding remarks</h3>

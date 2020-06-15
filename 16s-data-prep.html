@@ -1526,7 +1526,6 @@ C. Metagenomic
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
-<a href="synthesis.html">D. Synthesis</a>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
 <i class="fa fa-github fa-lg"></i>
@@ -1653,7 +1652,7 @@ num_sites &lt;- length(unique(site))</code></pre>
 <p>The next two letter indicates the site name:</p>
 <p>CC = Coral Caye, CR = Cayo Roldan</p>
 <p>An the number indicates the replicate number.</p>
-<p>For example, <code>WCR3</code> is a <code>water</code>sample from <code>Cayo Roldan</code> replicate <code>3</code>.</p>
+<p>For example, <code>WCR3</code> is a <code>water</code> sample from <code>Cayo Roldan</code> replicate <code>3</code>.</p>
 <blockquote>
 <p>Sample abbreviations:</p>
 </blockquote>
@@ -1795,7 +1794,7 @@ The code (hidden by default) is written as <code>`r &quot;Chloroplast&quot; %in%
 <li>Are Eukaryota present? FALSE</li>
 </ul>
 <p>Let’s remove these taxa—Eukaryota because we used bacterial/archaeal primers, Mitochondria because those are likely from eukaryotes, and Chloroplast because those are likely from algae. We must do each of these in turn using phyloseq and it gets a little messy.</p>
-<p>Why messy? The <code>subset_taxa</code> command removes anything that is <code>NA</code> for the specified taxonomic level or above. For example, lets say you run the <code>subset_taxa</code> command using <code>Family != &quot;Mitochondria</code>&quot;. Seems like you should get a phyloseq object with everything except Mitochondria. But actually the command not only gets rid of Mitochondria but everything else that has <code>NA</code> for Family and above. In my experience this is not well documented and I had to dig through the files to figure out what was happening.</p>
+<p>Why messy? The <code>subset_taxa</code> command removes anything that is <code>NA</code> for the specified taxonomic level or above. For example, let’s say you run the <code>subset_taxa</code> command using <code>Family != &quot;Mitochondria</code>&quot;. Seems like you should get a phyloseq object with everything except Mitochondria. But actually, the command not only gets rid of Mitochondria but everything else that has <code>NA</code> for Family and above. In my experience this is not well documented, and I had to dig through the files to figure out what was happening.</p>
 <p>Anyway, to remove the taxa we do the following:</p>
 <ul>
 <li>Subset the taxa and generate a <code>ps</code> object of just the taxa of interest,</li>

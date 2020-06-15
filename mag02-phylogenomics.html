@@ -1529,7 +1529,6 @@ C. Metagenomic
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
 </div>
 </div>
-<a href="synthesis.html">D. Synthesis</a>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
 <i class="fa fa-github fa-lg"></i>
@@ -2005,10 +2004,10 @@ echo = `date` job $JOB_NAME don
 <blockquote>
 <p>We start with 125 genomes. This includes MAG02</p>
 </blockquote>
-<p>We have two goals here. First, we need to get rid of low completion genomes since they will comprimise our ability to use single copy core genes for phylogenomics. Second, we want to keep only genomes that have a 16S rRNA sequence. Why? Good question. Because we found an ASV in our 16S rRNA analysis that is 100% identical across it’s length to a 16S rRNA sequence retrieved from MAG02. In addition to the phylogenomic analysis we will also conduct a 16S rRNA analysis of MAG02 with publically available genomes to see how the topologies compare.</p>
+<p>We have two goals here. First, we need to get rid of low completion genomes since they will compromise our ability to use single copy core genes for phylogenomics. Second, we want to keep only genomes that have a 16S rRNA sequence. Why? Good question. Because we found an ASV in our 16S rRNA analysis that is 100% identical across it’s length to a 16S rRNA sequence retrieved from MAG02. In addition to the phylogenomic analysis we will also conduct a 16S rRNA analysis of MAG02 with publicly available genomes to see how the topologies compare.</p>
 <h2 id="estimate-taxonomy">Estimate Taxonomy</h2>
 <p>Microbial taxonomy is a fluid system, meaning that classifications change often. One thing we can do is look at the predicted taxonomy for each genome even though they each came prepackaged with a taxonomic designation. We already know <a href="mg-binning.html#esimate-mag-taxonomy">MAG02’s predicted taxonomy is <em>Poseidonibacter</em></a> but what about the rest</p>
-<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatonate the output files and make a handy table. Pretty sure there is a better way :/</p>
+<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
 <pre class="bash"><code>
 for genome in `cat list_genomes.txt`; 
 do 
@@ -2078,7 +2077,7 @@ Genomes with fewer HMM hits than MAG02: Arcobacter_sp_CPC16, Arcobacter_sp_CPC30
 <p>Now we have 114 genomes.</p>
 </blockquote>
 <h2 id="screen-for-16s-rrna">Screen for 16S rRNA</h2>
-<p>Remember, we found an ASV in our 16S rRNA analysis that was 100% identical to a 16S rRNA sequence retrieved from MAG02. So we also want to conduct a 16S rRNA analysis of MAG02 against publically available genomes. It makes no sense (at least to me) to have a MAG02 16S tree that does not contain the same public genomes as the phylogenomic tree. Of the remaining genomes, which ones have a 16S rRNA sequence? We can go back to our old friend <code>anvi-script-gen-hmm-hits-matrix-across-genomes</code> but this time using the setting <code>--hmm-source Ribosomal_RNAs</code>. We also use a new <code>external-genomes</code> file with the 11 low HMM hit genomes removed.</p>
+<p>Remember, we found an ASV in our 16S rRNA analysis that was 100% identical to a 16S rRNA sequence retrieved from MAG02. So we also want to conduct a 16S rRNA analysis of MAG02 against publicly available genomes. It makes no sense (at least to me) to have a MAG02 16S tree that does not contain the same public genomes as the phylogenomic tree. Of the remaining genomes, which ones have a 16S rRNA sequence? We can go back to our old friend <code>anvi-script-gen-hmm-hits-matrix-across-genomes</code> but this time using the setting <code>--hmm-source Ribosomal_RNAs</code>. We also use a new <code>external-genomes</code> file with the 11 low HMM hit genomes removed.</p>
 <aside>
 The <a href="files/mag02-phylogenomics/external-genomes-rrna-screen.txt">external-genomes file</a> to screen for 16S rRNA.
 </aside>
@@ -2117,13 +2116,13 @@ Without 16S rRNA: Arcobacter_mytili_LMG_24559_CECT_7386, Arcobacter_sp_31_11_sub
 <blockquote>
 <p>Now we have 101 genomes.</p>
 </blockquote>
-<p>Up to this point we have a collection consisting of genomes that have high completion <em>and</em> a full-length 16S rRNA sequence. What about redundant genomes? Surely there are some genomes that are highly similar and we really only need a few reprsentatives of each.</p>
+<p>Up to this point we have a collection consisting of genomes that have high completion <em>and</em> a full-length 16S rRNA sequence. What about redundant genomes? Surely there are some genomes that are highly similar, and we really only need a few representatives of each.</p>
 <aside>
-Note. Arcobacter_sp_NORP14 failed subsequent the composition Chi-sqaured test in the IQ-TREE analysis below. This genome was removed.
+Note. Arcobacter_sp_NORP14 failed subsequent the composition Chi-squared test in the IQ-TREE analysis below. This genome was removed.
 </aside>
 <h1 id="dereplicate-genome-collection">Dereplicate Genome Collection</h1>
-<p>Finally, we can dereplicate the genome collection using the command <code>anvi-dereplicate-genomes</code> to assess the number of genome clusters. This command has a lot of options for fine-tuning but since we are interested in a quick and dirty assessment, we’ll keep it simple. We can either give anvi’o an <code>external-genomes</code> file like we just did or a <code>fasta-text-file</code> similar to the one from the <a href="#running-snakemake-contigs-workflow">Snakemake workflow</a> above. Remeber, the <code>external-genomes</code> file provides names and paths to <em>contig.dbs</em> and the <code>fasta-text-file</code> provides names and paths to <em>fasta</em> files. Either way, we first need to remove the 11 genomes that we are cutting from the analysis. Let’s stick with the <code>external-genomes</code> file since we will use this downstream anyway.</p>
-<p>Since accuracy is not paramount we use <code>--program fastANI</code><span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high">2018</a>)</span> because, well, its fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of cluster for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
+<p>Finally, we can dereplicate the genome collection using the command <code>anvi-dereplicate-genomes</code> to assess the number of genome clusters. This command has a lot of options for fine-tuning but since we are interested in a quick and dirty assessment, we’ll keep it simple. We can either give anvi’o an <code>external-genomes</code> file like we just did or a <code>fasta-text-file</code> similar to the one from the <a href="#running-snakemake-contigs-workflow">Snakemake workflow</a> above. Remember, the <code>external-genomes</code> file provides names and paths to <em>contig.dbs</em> and the <code>fasta-text-file</code> provides names and paths to <em>fasta</em> files. Either way, we first need to remove the 11 genomes that we are cutting from the analysis. Let’s stick with the <code>external-genomes</code> file since we will use this downstream anyway.</p>
+<p>Since accuracy is not paramount we use <code>--program fastANI</code><span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high">2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
 <aside>
 The <a href="files/mag02-phylogenomics/external-genomes-dereplicate.txt">external-genomes file</a> for dereplication.
 </aside>
@@ -2134,7 +2133,7 @@ anvi-dereplicate-genomes -e external-genomes-rrna.txt
                          --similarity-threshold 0.99 
                          -o 06_DEREPLICATE/DR_99 -T $NSLOTS </code></pre>
 <p>The command produces numerous output files, but let’s focus on the <code>CLUSTER_REPORT.txt</code> file, which tells us the <strong>a</strong>) number of clusters, <strong>b</strong>) number of genomes in each cluster, <strong>c</strong>) representative genome for the cluster, and <strong>d</strong>) all genomes in the cluster.</p>
-<p>How many cluster did we get for each <code>--similarity-threshold</code>?</p>
+<p>How many clusters did we get for each <code>--similarity-threshold</code>?</p>
 <ul>
 <li>0.900: 38 clusters</li>
 <li>0.950: 44 clusters</li>
@@ -2206,11 +2205,11 @@ anvi-dereplicate-genomes -e external-genomes-outgroup.txt
                          -o 06_DEREPLICATE/DR_95 -T $NSLOTS</code></pre>
 <p>Good to go. Let’s use <em>Sulfurospirillum halorespirans</em> (DSM 13726), <em>Sulfurospirillum deleyianum</em> (DSM 6946), <em>Sulfurospirillum multivorans</em> (DSM 12446), and <em>Sulfurospirillum barnesii</em> (SES 3) as the outgroup since these were all ‘unique’ at 95% similarity.</p>
 <h1 id="phylogenomics">Phylogenomics</h1>
-<p>Finally, we are ready for phylogenomic analysis. We first need to make a new <em>external-genomes</em> file that contains the <em>Arcobacter</em> representatives and the <em>Sulfurospirillum</em> outgroup. Then we need to setup a phylogenomic snakemake workflow. Like before, we start by getting a <em>default config</em> file for the workflow.</p>
+<p>Finally, we are ready for phylogenomic analysis. We first need to make a new <em>external-genomes</em> file that contains the <em>Arcobacter</em> representatives and the <em>Sulfurospirillum</em> outgroup. Then we need to setup a phylogenomic Snakemake workflow. Like before, we start by getting a <em>default config</em> file for the workflow.</p>
 <pre class="bash"><code>
 anvi-run-workflow -w phylogenomics 
                   --get-default-config phylogenomics-default-config.json</code></pre>
-<p>Remember when ran the contigs workflow above? Most of those steps can actually be run in the phylogenomic workflow itself. The thing is that it does not really give us the opportunity to curate our collection <em>before</em> phylogenomic analysis. Because we ran the cotigs workflow first, there are many steps in the phylogenomic workflow that we simply do not need. So we chop out the chunks of the <code>phylogenomics-default-config.json</code> that are unnecessary.</p>
+<p>Remember when ran the contigs workflow above? Most of those steps can actually be run in the phylogenomic workflow itself. The thing is that it does not really give us the opportunity to curate our collection <em>before</em> phylogenomic analysis. Because we ran the cotigs workflow first, there are many steps in the phylogenomic workflow that we simply do not need. So, we chop out the chunks of the <code>phylogenomics-default-config.json</code> that are unnecessary.</p>
 <p>Seems like a good idea to select SCG that are in all of the genomes. Of the 71 genes in the HMM profile, <a href="files/mag02-phylogenomics/arco-phylo-Bacteria_71-HMM_HITS.txt">63 were present in all 77 genomes</a>. We used these for our analysis though we could easily select a subset like all Ribosomal genes.</p>
 <pre class="bash"><code>
 anvi-script-gen-hmm-hits-matrix-across-genomes 
@@ -2220,7 +2219,7 @@ anvi-script-gen-hmm-hits-matrix-across-genomes
 <aside>
 Here is the <a href="files/mag02-phylogenomics/phylogenomics-config.json">modified config</a> file &amp; the <a href="files/mag02-phylogenomics/arco-phylo-external-genomes.txt">final external genomes</a> file.
 </aside>
-<p>And now here are the Sankemake commands.</p>
+<p>And now here are the Snakemake commands.</p>
 <pre class="bash"><code>
 anvi-run-workflow -w phylogenomics 
                   -c phylogenomics-config.json 
@@ -2294,8 +2293,8 @@ anvi-get-sequences-for-gene-clusters -p ARCOBACTER-PAN.db \
                                      --concatenate-gene-clusters \
                                      --align-with muscle \
                                      -o ARCOBACTER-proteins-better-core.fa</code></pre>
-<p>Under this senario, anvi’o retrieves, aligns (in this case with MUSCLE<span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle">2004</a>)</span>), and then concatenates the sequences.</p>
-<p>It is important to note that everything we just in the interfcae can instead be done in the command line. If you look at the help menu for <code>anvi-get-sequences-for-gene-clusters</code> you will see that you can apply the filtering steps described above directly in the command line without the pangenomic interactive. Personally, I like to use the interactive because I can <em>visually</em> insepect each gene cluster to make sure nothing fishy is going on. The parameters you choose will depend on your question and the peculariarities of your data set, so play around.</p>
+<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE<span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle">2004</a>)</span>), and then concatenates the sequences.</p>
+<p>It is important to note that everything we just in the interface can instead be done in the command line. If you look at the help menu for <code>anvi-get-sequences-for-gene-clusters</code> you will see that you can apply the filtering steps described above directly in the command line without the pangenomic interactive. Personally, I like to use the interactive because I can <em>visually</em> inspect each gene cluster to make sure nothing fishy is going on. The parameters you choose will depend on your question and the peculiarities of your data set, so play around.</p>
 <p>Just for the fun of it, let’s have a look at what this entails without running interactive.</p>
 <pre class="bash"><code>
 anvi-get-sequences-for-gene-clusters \
@@ -2324,7 +2323,7 @@ anvi-gen-phylogenomic-tree -f ARCOBACTER-proteins-better-core.fa
                            -o ARCOBACTER-proteins-better-core.tre</code></pre>
 <p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq">2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder">2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
 <aside>
-It was here that Arcobacter_sp_NORP14 failed the composition Chi-sqaured test in the IQ-TREE. This genome was removed retroactively.
+It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in the IQ-TREE. This genome was removed retroactively.
 </aside>
 <pre class="bash"><code>
 iqtree -s ARCOBACTER-proteins-better-core.fa 
