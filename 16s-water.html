@@ -2034,8 +2034,9 @@ ADDITIONAL STUFF:
 <li>Additional info about each sample.</li>
 <li>Taxa abundance data for each sample at some rank.</li>
 <li>Dendrograms ordering the ASVs and samples (based on view data).</li>
+<li>Fasta file of all ASVs in the analysis.</li>
 </ol>
-<h4 id="view-data">1. View data</h4>
+<h3 id="view-data">1. View data</h3>
 <p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization, we will use ASVs represented by 100 or more total reads.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -2102,7 +2103,7 @@ colnames(additional_view) &lt;- c(&quot;id&quot;, &quot;site&quot;, &quot;oxstat
 write.table(additional_view, &quot;16s-anvio/additional_views.txt&quot;, 
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
-<h4 id="taxon-rank-abundance-by-sample">4. Taxon rank abundance by sample</h4>
+<h3 id="taxon-rank-abundance-by-sample">4. Taxon rank abundance by sample</h3>
 <p>Turned out this was a little tricky to figure out, but thanks to this <a href="https://github.com/joey711/phyloseq/issues/418#issuecomment-262637034">little nifty block of code</a> written by <a href="https://github.com/guoyanzhao">guoyanzhao</a> on the phyloseq Issues forum, it was a piece of cake. The code can be altered to take any rank. See the post for an explanation.</p>
 <p>Anyway, the goal is to sum each taxon at sum rank and present that as a bar chart for each sample in the visualization. Anvi’o has a specific format it needs where each row is a sample and each column is a taxon. Taxa names need the prefix <code>t_&lt;RANK&gt;!</code>. For example, <code>t_class!</code> should be added for Class rank.</p>
 <aside>
@@ -2132,7 +2133,7 @@ layers &lt;- tibble::rownames_to_column (layers, &quot;taxon&quot;)
 write.table(layers, &quot;16s-anvio/tax_layers.txt&quot;, 
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
-<h4 id="construct-dendrograms">5. Construct Dendrograms</h4>
+<h3 id="construct-dendrograms">5. Construct Dendrograms</h3>
 <p>The last piece we need is to generate dendrograms that order the ASVs by their distribution in the samples and the samples by their ASV composition. For this task we will use anvi’o.</p>
 <pre class="bash"><code>
 anvi-matrix-to-newick data.txt --distance euclidean \
@@ -2190,7 +2191,7 @@ sam_tre_tab %&gt;% remove_empty(&quot;rows&quot;)
 write.table(sam_tre_tab, &quot;16s-anvio/sample_tree_tab.txt&quot;, 
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
-<h4 id="make-a-fasta-file">7. Make a fasta file</h4>
+<h3 id="make-a-fasta-file">6. Make a fasta file</h3>
 <p>We don’t need to add a fasta file, but it is a nice way to keep everything in one place. Plus, you can do BLAST searches directly in the interface by right clicking on the ASV of interest, so it is nice to have the sequences.</p>
 <aside>
 <strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--fasta-file</code> flag.
