@@ -1735,7 +1735,7 @@ colnames(merge_tab2) &lt;- c(&quot;Sample&lt;br/&gt;ID&quot;, &quot;Type&quot;, 
 <h2 id="taxonomic-diversity">Taxonomic Diversity</h2>
 <p>Let’s first take a look at the taxonomic diversity of the dataset. The code to generate this table is a little gross.</p>
 <h4 id="rename-na-taxonomic-ranks">0. Rename <em>NA</em> taxonomic ranks</h4>
-<p>Phyloseq has an odd way of dealing with taxonomic ranks that have no value—in other words, <em>NA</em> in the tax table. The first thing we are going to do before moving forward is to change all of the <em>NA</em> to have a value of the next highest classified rank. For example, <code>ASV5</code> is not classified at the Genus level but is at Family level (Saprospiraceae). So we change the Genus name to <em>Family_Saprospiraceae</em>. The code for this is hidden here but comes from these two posts on the phyloseq GitHub, both by <a href="https://github.com/MSMortensen">MSMortensen</a>: issue <a href="https://github.com/joey711/phyloseq/issues/850#issuecomment-394771087">#850</a> and issue <a href="https://github.com/joey711/phyloseq/issues/990#issuecomment-424618425">#990</a>. If you want to access the code chunk, check out the source code linked at the bottom of this page.</p>
+<p>Phyloseq has an odd way of dealing with taxonomic ranks that have no value—in other words, <em>NA</em> in the tax table. The first thing we are going to do before moving forward is to change all of the <em>NA</em> to have a value of the next highest classified rank. For example, <code>ASV5</code> is not classified at the Genus level but is at Family level (Saprospiraceae). So, we change the Genus name to <em>Family_Saprospiraceae</em>. The code for this is hidden here but comes from these two posts on the phyloseq GitHub, both by <a href="https://github.com/MSMortensen">MSMortensen</a>: issue <a href="https://github.com/joey711/phyloseq/issues/850#issuecomment-394771087">#850</a> and issue <a href="https://github.com/joey711/phyloseq/issues/990#issuecomment-424618425">#990</a>. If you want to access the code chunk, check out the source code linked at the bottom of this page.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 [1] &quot;Kingdom&quot; &quot;Phylum&quot;  &quot;Class&quot;   &quot;Order&quot;   &quot;Family&quot;  &quot;Genus&quot;  
@@ -1745,7 +1745,7 @@ colnames(merge_tab2) &lt;- c(&quot;Sample&lt;br/&gt;ID&quot;, &quot;Type&quot;, 
 
 </div>
 <h4 id="choose-a-rank">1. Choose a rank</h4>
-<p>To make it easier to change the code later on, we can assign the taxonomic rank we are interested in to a variable, in the case <code>TRANK</code>.</p>
+<p>To make it easier to change the code later on, we can assign the taxonomic rank we are interested into a variable, in the case <code>TRANK</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 TRANK &lt;- &quot;Class&quot;</code></pre>
@@ -1787,7 +1787,7 @@ names(taxa_read_asv_tab) &lt;- c(&quot;Taxa&quot;, &quot;total reads&quot;, &quo
 <li>Bacteroidia, Gammaproteobacteria, Alphaproteobacteria, Cyanobacteriia, Kingdom_Bacteria, Bdellovibrionia, Thermoplasmata, Verrucomicrobiae contain the <strong>most ASVs</strong>.</li>
 </ul>
 <h2 id="hypoxic-vs.normoxic">Hypoxic vs. Normoxic</h2>
-<p>How does the taxonomic composition of normoxic compare to hypoxic samples? To look at this, we will combine samples by the <code>oxstate</code> variable and then calculate the <em>relative abundance</em> for each taxa for both oxygen states. Note one of the Cayo Roldan samples (WCR0) was collected after the hypoxic event when oxygen levels had returned to normal. Therefore WCR0 is considered a normoxic sample.</p>
+<p>How does the taxonomic composition of normoxic compare to hypoxic samples? To look at this, we will combine samples by the <code>oxstate</code> variable and then calculate the <em>relative abundance</em> for each taxon for both oxygen states. Note one of the Cayo Roldan samples (WCR0) was collected after the hypoxic event when oxygen levels had returned to normal. Therefore, WCR0 is considered a normoxic sample.</p>
 <p>There are a few steps we need to run for this analysis.</p>
 <h4 id="choose-a-rank-1">1. Choose a rank</h4>
 <p>Again, we can select a rank.</p>
@@ -1841,7 +1841,7 @@ datatable(
 <script type="application/json" data-for="t9xg4oo3fbjqjqu1ogjm">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Cyanobacteriia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Campylobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Rhodothermia","Planctomycetes","Phylum_SAR324_clade(Marine_group_B)","OM190","Verrucomicrobiae","Phycisphaerae","Desulfovibrionia","Bdellovibrionia","Kingdom_Bacteria","Desulfobacteria","Desulfuromonadia","Clostridia","Bacilli","Cloacimonadia","Kiritimatiellae","Spirochaetia","Myxococcia","Desulfobulbia","Nanoarchaeia","Dadabacteriia","Fusobacteriia","Deferribacteres","Lentisphaeria","Oligoflexia","Kapabacteria","Phylum_Latescibacterota","Ignavibacteria","Pla3_lineage","Actinobacteria","Vampirivibrionia","Polyangia","Phylum_WPS-2","Phylum_Proteobacteria","Dehalococcoidia","Phylum_Spirochaetota","Nitrososphaeria","Thermotogae","Holophagae","Phylum_Margulisbacteria","Anaerolineae","Phylum_NB1-j","vadinHA49","Omnitrophia","Phylum_Desulfobacterota","Thermoanaerobaculia","Negativicutes","Phylum_Patescibacteria","Phylum_Verrucomicrobiota","Subgroup_22","Synergistia","Syntrophobacteria"],["0.30801","0.19233","0.19169","0.14199","0.02620","0.02150","0.02032","0.01398","0.01286","0.01087","0.00686","0.00605","0.00590","0.00516","0.00425","0.00414","0.00355","0.00320","0.00256","0.00253","0.00215","0.00202","0.00192","0.00161","0.00103","0.00075","0.00068","0.00065","0.00063","0.00054","0.00052","0.00036","0.00034","0.00032","0.00031","0.00031","0.00026","0.00025","0.00022","0.00020","0.00017","0.00016","0.00013","0.00010","0.00008","0.00007","0.00006","0.00005","0.00004","0.00004","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00001","0.00001"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":8,"scroller":true,"lengthMenu":[10,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h4 id="group-taxa-into-other">6. Group taxa into ‘Other’</h4>
-<p>Time to group low abundance taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 59 differnt taxa in one figure, we need to collapse the low abundance groups.</p>
+<p>Time to group low abundance taxa into an <em>Other</em> category for the bar graph. Since we cannot possibly display all 59 different taxa in one figure, we need to collapse the low abundance groups.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 TAXAN &lt;- 8
@@ -1887,7 +1887,7 @@ hyp_v_norm &lt;- spread(hyp_v_norm, Sample, x)</code></pre>
 </div>
 <p></br></p>
 <h2 id="during-vs.after-the-event">During vs. After the event</h2>
-<p>What did taxonomic composition look like during and after the event at <strong>each site</strong>? To look at this, we will combine samples by the <code>period</code> variable and then calculate the <em>relative abundance</em> for each taxa. The code for this analysis is basically the same as the code above where we compared hypoxic to normoxic samples. Therefore, all of the code is hidden. See the link at the bottom of the page for the page source code if you are interested in the code we used here. We go through the same steps:</p>
+<p>What did taxonomic composition look like during and after the event at <strong>each site</strong>? To look at this, we will combine samples by the <code>period</code> variable and then calculate the <em>relative abundance</em> for each taxon. The code for this analysis is basically the same as the code above where we compared hypoxic to normoxic samples. Therefore, all of the code is hidden. See the link at the bottom of the page for the page source code if you are interested in the code we used here. We go through the same steps:</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1914,7 +1914,7 @@ hyp_v_norm &lt;- spread(hyp_v_norm, Sample, x)</code></pre>
 <div id="zswbg7x7f8eqj526xuox" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="zswbg7x7f8eqj526xuox">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Campylobacteria","Planctomycetes","Phylum_SAR324_clade(Marine_group_B)","Rhodothermia","Verrucomicrobiae","OM190","Bdellovibrionia","Phycisphaerae","Kingdom_Bacteria","Bacilli","Desulfovibrionia","Desulfuromonadia","Kiritimatiellae","Desulfobacteria","Myxococcia","Clostridia","Cloacimonadia","Dadabacteriia","Spirochaetia","Nanoarchaeia","Desulfobulbia","Fusobacteriia","Polyangia","Oligoflexia","Lentisphaeria","Phylum_WPS-2","Pla3_lineage","Deferribacteres","Dehalococcoidia","Actinobacteria","Nitrososphaeria","Kapabacteria","Ignavibacteria","Phylum_Latescibacterota","Phylum_Proteobacteria","Vampirivibrionia","Phylum_Margulisbacteria","Phylum_Spirochaetota","Anaerolineae","Thermotogae","vadinHA49","Holophagae","Phylum_Patescibacteria","Thermoanaerobaculia","Phylum_NB1-j","Phylum_Verrucomicrobiota","Syntrophobacteria","Negativicutes","Omnitrophia","Phylum_Desulfobacterota","Subgroup_22","Synergistia"],["0.39723","0.18158","0.16630","0.09498","0.03706","0.02885","0.01791","0.01016","0.00923","0.00918","0.00721","0.00510","0.00428","0.00412","0.00401","0.00251","0.00226","0.00212","0.00200","0.00167","0.00160","0.00131","0.00127","0.00101","0.00087","0.00081","0.00069","0.00041","0.00041","0.00041","0.00039","0.00034","0.00032","0.00031","0.00027","0.00024","0.00018","0.00018","0.00017","0.00016","0.00016","0.00015","0.00013","0.00007","0.00006","0.00004","0.00004","0.00004","0.00003","0.00003","0.00003","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00000"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":9,"scroller":true,"lengthMenu":[9,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<p>Again, Time to group low abundance taxa into an <em>Other</em> catagory for the bar graph. Since we cannot possibly display all 59 differnt taxa in one figure, we need to collapse the low abundance groups.</p>
+<p>Again, Time to group low abundance taxa into an <em>Other</em> category for the bar graph. Since we cannot possibly display all 59 different taxa in one figure, we need to collapse the low abundance groups.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1933,7 +1933,7 @@ hyp_v_norm &lt;- spread(hyp_v_norm, Sample, x)</code></pre>
 </div>
 <p></br></p>
 <h1 id="differentially-abundant-asvs">Differentially Abundant ASVs</h1>
-<p>Time to drill down a little deeper and look at differntially abundant (DA) ASVs between the two oxygen conditions. DETAILS ON METHOD.</p>
+<p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. DETAILS ON METHOD.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 set.seed(119)
@@ -1990,7 +1990,7 @@ indvalsummary_tax$group &lt;- ifelse(indvalsummary_tax$group == &quot;1&quot;,
 <p>You can download a fasta file of DA ASVs (&gt; 100 total reads) determined using ISA by <a href="files/16s-water/idval_asv.fasta">clicking on this link</a>.</p>
 </blockquote>
 <h1 id="visualizing-da-asvs-in-anvio">Visualizing DA ASVs in Anvi’o</h1>
-<p>Next, we will combine the results of the ISA analysis with the distribution of ASVs across each sample. We are going to do the analysis in anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span> using the <code>anvi-interactive</code> command. Anvi’o likes database but it also understands that sometimes you don’t have a database. So it offers a <em>manual mode</em> for all of us slackers out there. If you type this command you can have a look at the relevant pieces we need for the visualiztion, specifically those under the headings <code>MANUAL INPUTS</code> and <code>ADDITIONAL STUFF</code>. I will go through these out of order so try to keep up ;)</p>
+<p>Next, we will combine the results of the ISA analysis with the distribution of ASVs across each sample. We are going to do the analysis in anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span> using the <code>anvi-interactive</code> command. Anvi’o likes database but it also understands that sometimes you don’t have a database. So it offers a <em>manual mode</em> for all of us slackers out there. If you type this command you can have a look at the relevant pieces we need for the visualization, specifically those under the headings <code>MANUAL INPUTS</code> and <code>ADDITIONAL STUFF</code>. I will go through these out of order so try to keep up ;)</p>
 <pre class="bash"><code>
 anvi-interactive -h</code></pre>
 <pre><code>
@@ -2025,7 +2025,7 @@ ADDITIONAL STUFF:
                         our case this is info about each ASV. The first column 
                         of the file must be the ASV names, and
                         the remaining columns should be unique attributes.                       </code></pre>
-<p>There are also a few files we generate that cannot be loaded directly. So in addition to the files that can be <em>loaded</em> when running the interactive, we also have files that must be <em>added</em> to the database created by anvi’o.</p>
+<p>There are also a few files we generate that cannot be loaded directly. So, in addition to the files that can be <em>loaded</em> when running the interactive, we also have files that must be <em>added</em> to the database created by anvi’o.</p>
 <h2 id="creating-input-files">Creating Input Files</h2>
 <p>Here is a nice tutorial on <a href="http://merenlab.org/2017/12/11/additional-data-tables/">Working with anvi’o additional data tables</a>. A lot of what we need is covered in this tutorial. To get the most out the visualization we need to create a few files to give anvi’o when we fire up the interactive interface.</p>
 <ol type="1">
@@ -2036,7 +2036,7 @@ ADDITIONAL STUFF:
 <li>Dendrograms ordering the ASVs and samples (based on view data).</li>
 </ol>
 <h4 id="view-data">1. View data</h4>
-<p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization we will use ASVs represented by 100 or more total reads.</p>
+<p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization, we will use ASVs represented by 100 or more total reads.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ps_water_100 &lt;- prune_taxa(taxa_sums(ps_water) &gt; 100, ps_water)
@@ -2059,7 +2059,7 @@ write.table(data_tab, &quot;16s-anvio/data.txt&quot;, sep = &quot;\t&quot;,
 <strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--view-data</code> flag.
 </aside>
 <h3 id="additional-layers-for-asvs">2. Additional Layers for ASVs</h3>
-<p>Next, we need some additional data <strong>about the ASVs</strong> to overlay on the visual. This can be anything however what I specifically want are the details of the ISA analysis, total reads, and lineage info. I warn you, this code will get ugly and I urge you to find a better way.</p>
+<p>Next, we need some additional data <strong>about the ASVs</strong> to overlay on the visual. This can be anything however what I specifically want are the details of the ISA analysis, total reads, and lineage info. I warn you; this code will get ugly and I urge you to find a better way.</p>
 <aside>
 <strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--additional-layers</code> flag.
 </aside>
@@ -2089,7 +2089,7 @@ write.table(additional_layers, &quot;16s-anvio/additional_layers.txt&quot;,
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
 <h3 id="additional-views-for-samples">3. Additional Views for Samples</h3>
-<p>Now I want some general data <strong>about the samples</strong> to overlay on the visual. Again, this can be anything. How about a table of alpha diverity metric. We actually have such a table that was generate a ways back up the road. Just need to fix the column names.</p>
+<p>Now I want some general data <strong>about the samples</strong> to overlay on the visual. Again, this can be anything. How about a table of alpha diversity metrics? We actually have such a table that was generated way back up the road. Just need to fix the column names.</p>
 <aside>
 <strong>Added</strong> to profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layers</code> flag.
 </aside>
@@ -2103,8 +2103,8 @@ write.table(additional_view, &quot;16s-anvio/additional_views.txt&quot;,
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
 <h4 id="taxon-rank-abundance-by-sample">4. Taxon rank abundance by sample</h4>
-<p>Turned out this was a little tricky to figure out, but thanks to this <a href="https://github.com/joey711/phyloseq/issues/418#issuecomment-262637034">little nifty block of code</a> written by <a href="https://github.com/guoyanzhao">guoyanzhao</a> on the phyloseq Issues forum, it was a piece of cake. The code can be altered to take any rank. See the post for an explaination.</p>
-<p>Anyway, the goal is to sum each taxa at sum rank and present that as a bar chart for each sample in the visualization. Anvi’o has a specific format it needs where each row is a sample and each column is a taxa. Taxa names need the prefix <code>t_&lt;RANK&gt;!</code>. For example, <code>t_class!</code> should be added for Class rank.</p>
+<p>Turned out this was a little tricky to figure out, but thanks to this <a href="https://github.com/joey711/phyloseq/issues/418#issuecomment-262637034">little nifty block of code</a> written by <a href="https://github.com/guoyanzhao">guoyanzhao</a> on the phyloseq Issues forum, it was a piece of cake. The code can be altered to take any rank. See the post for an explanation.</p>
+<p>Anyway, the goal is to sum each taxon at sum rank and present that as a bar chart for each sample in the visualization. Anvi’o has a specific format it needs where each row is a sample and each column is a taxon. Taxa names need the prefix <code>t_&lt;RANK&gt;!</code>. For example, <code>t_class!</code> should be added for Class rank.</p>
 <aside>
 <strong>Added</strong> to profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layers</code> flag.
 </aside>
@@ -2133,7 +2133,7 @@ write.table(layers, &quot;16s-anvio/tax_layers.txt&quot;,
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
 <h4 id="construct-dendrograms">5. Construct Dendrograms</h4>
-<p>The last piece we need is to generate dedrograms that order the ASVs by their distribution in the samples and the samples by their ASV composition. For this task we will use anvi’o.</p>
+<p>The last piece we need is to generate dendrograms that order the ASVs by their distribution in the samples and the samples by their ASV composition. For this task we will use anvi’o.</p>
 <pre class="bash"><code>
 anvi-matrix-to-newick data.txt --distance euclidean \
                                --linkage ward \
@@ -2142,7 +2142,7 @@ anvi-matrix-to-newick data.txt --distance euclidean \
                                --linkage ward \
                                -o sample.tre \
                                --transpose</code></pre>
-<p>The first command reads the view data we generated above, and uses Euclidean distance and Ward linkage for hierarchical clustering of the ASVs. The second command transposes the view data table and then does the same for the samples. There are many distance metrics and linkage methods available. Boom.</p>
+<p>The first command reads the view data we generated above and uses Euclidean distance and Ward linkage for hierarchical clustering of the ASVs. The second command transposes the view data table and then does the same for the samples. There are many distance metrics and linkage methods available. Boom.</p>
 <aside>
 The file <code>asv.tre</code> is <strong>loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--tree</code> flag.
 </aside>
@@ -2173,7 +2173,7 @@ The file <code>asv.tre</code> is <strong>loaded</strong> with <code>anvi-interac
 </tr>
 </tbody>
 </table>
-<p>This is easy to do by hand, but I <em>really</em> need the practice so I will do it in R. Anvi’o is very particular about formatting. For example, if this file ends with a blank line, which it will because when anvi’o made the initial dendragram it add a new line. We need to get rid of that or we get an error when trying to import the table.</p>
+<p>This is easy to do by hand, but I <em>really</em> need the practice so I will do it in R. Anvi’o is very particular about formatting. For example, if this file ends with a blank line, which it will because when anvi’o made the initial dendrogram it add a new line. We need to get rid of that or we get an error when trying to import the table.</p>
 <aside>
 The file <code>sample.tre</code> is <strong>added</strong> to the profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layer_orders</code> flag.
 </aside>
@@ -2191,7 +2191,7 @@ write.table(sam_tre_tab, &quot;16s-anvio/sample_tree_tab.txt&quot;,
             sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
 </div>
 <h4 id="make-a-fasta-file">7. Make a fasta file</h4>
-<p>We don’t need to add a fasta file but it is a nice way to keep everything in one place. Plus you can do BLAST searches directly in the interface by right clicking on the ASV of interest, so it is nice to have the sequences.</p>
+<p>We don’t need to add a fasta file, but it is a nice way to keep everything in one place. Plus, you can do BLAST searches directly in the interface by right clicking on the ASV of interest, so it is nice to have the sequences.</p>
 <aside>
 <strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--fasta-file</code> flag.
 </aside>
@@ -2212,7 +2212,7 @@ write.table(anvio_tab_trim_df, &quot;16s-anvio/anvio.fasta&quot;,
             quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
 </div>
 <h2 id="building-the-profile-database">Building the Profile Database</h2>
-<p>Time to put all of these pieces together. This get’s a little tricky since we do not have a database to start with becasue some of these files can be loaded directly in the interface but some need to be added to a database. When we fire up the interactive in <code>--manual</code> mode, we <strong><em>must</em></strong> give anvi’o the name of a database and it will <em>create</em> that database for us. Then we can shut down the interactive, add the necessary data files, and start back up.</p>
+<p>Time to put all of these pieces together. This gets a little tricky since we do not have a database to start with because some of these files can be loaded directly in the interface but some need to be added to a database. When we fire up the interactive in <code>--manual</code> mode, we <strong><em>must</em></strong> give anvi’o the name of a database and it will <em>create</em> that database for us. Then we can shut down the interactive, add the necessary data files, and start back up.</p>
 <pre class="bash"><code>
 anvi-interactive --view-data data.txt \
                  --tree asv.tre \
@@ -2234,7 +2234,7 @@ anvi-import-misc-data tax_layers.txt \
                       --target-data-table layers</code></pre>
 <p>In fact, we could just as easily append the taxonomy total data onto the <code>additional_layers.txt</code> and import in one command. But we didn’t.</p>
 <h2 id="interactive-interface">Interactive Interface</h2>
-<p>With a poupulated database in hand, we can now begin modifying the visual by running the interactive command again.</p>
+<p>With a populated database in hand, we can now begin modifying the visual by running the interactive command again.</p>
 <pre class="bash"><code>
 anvi-interactive --view-data data.txt \
                  --tree asv.tre \
@@ -2245,8 +2245,8 @@ anvi-interactive --view-data data.txt \
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="figures/16s-water/before.png" width="1034" /></p>
 </div>
-<p>Remember, we added a lot of data so the tree looks crazy when you first open the interactive. This is the interactive part of the process where we select the data we want to display and how we want to display it.</p>
-<p>Now have a look after some changing the way everything looks. It is not possible to go through all the steps here but it didn’t take very long.</p>
+<p>Remember, we added a lot of data, so the tree looks crazy when you first open the interactive. This is the interactive part of the process where we select the data we want to display and how we want to display it.</p>
+<p>Now have a look after some changing the way everything looks. It is not possible to go through all the steps here, but it didn’t take very long.</p>
 <div class="layout-chunk" data-layout="l-page">
 <p><img src="figures/16s-water/after.png" width="1306" /></p>
 </div>
