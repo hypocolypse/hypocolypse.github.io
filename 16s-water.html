@@ -2037,7 +2037,7 @@ ADDITIONAL STUFF:
 <li>Fasta file of all ASVs in the analysis.</li>
 </ol>
 <h3 id="view-data">1. View data</h3>
-<p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization, we will use ASVs represented by 100 or more total reads.</p>
+<p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization, we will use <strong><em>all</em></strong> ASVs represented by 100 or more total reads, including those identified as differentially abundant by the ISA.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ps_water_100 &lt;- prune_taxa(taxa_sums(ps_water) &gt; 100, ps_water)
