@@ -754,6 +754,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1478,13 +1488,13 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
 <a href="intro.html">Introduction</a>
 <a href="field.html">A. Field Analyses</a>
@@ -1501,6 +1511,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1525,7 +1536,7 @@ C. Metagenomic
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1672,17 +1683,17 @@ mkdir 00_TRIMMED
 mkdir 00_TRIMMED_UNPAIRED</code></pre>
 <p>Next we run TRIMMOMATIC<span class="citation" data-cites="bolger2014trimmomatic">(Bolger, Lohse, and Usadel <a href="#ref-bolger2014trimmomatic">2014</a>)</span> assuming the raw data is in a directory called <code>RAW</code>. Here is an example for a single sample (<code>WCCR_1913</code>). Since we ran these samples on a NextSeq, there are 4 files per paired-end. So, we have 8 files total. We need to run the command 4 times, one for each pair. Here is the command for the first pair.</p>
 <aside>
-<a href="https://github.com/timflutre/trimmomatic">GitHub Repo for TRIMMOMATIC</a>.
+<a href="https://github.com/timflutre/trimmomatic">GitHub Repo for TRIMMOMATIC</a>. You will need <a href="https://github.com/timflutre/trimmomatic/blob/master/adapters/NexteraPE-PE.fa">this file</a> for trimming.
 </aside>
 <pre class="bash"><code>
-runtrimmomatic PE -threads $NSLOTS RAW/WCCR_1913_S74_L001_R1_001.fastq.gz /
-                                   RAW/WCCR_1913_S74_L001_R2_001.fastq.gz /
-                                   00_TRIMMED/WCCR_1913_S74_L001_R1_001_trim.fastq.gz /
-                                   00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R1_001_trim_unpaired.fastq.gz /
-                                   00_TRIMMED/WCCR_1913_S74_L001_R2_001_trim.fastq.gz /
-                                   00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R2_001_trim_unpaired.fastq.gz /
-          ILLUMINACLIP:/share/apps/bioinformatics/trimmomatic/0.33/adapters/NexteraPE-PE.fa:2:30:10 /
-          MINLEN:40</code></pre>
+trimmomatic PE -threads $NSLOTS RAW/WCCR_1913_S74_L001_R1_001.fastq.gz /
+                                RAW/WCCR_1913_S74_L001_R2_001.fastq.gz /
+                                00_TRIMMED/WCCR_1913_S74_L001_R1_001_trim.fastq.gz /
+                                00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R1_001_trim_unpaired.fastq.gz /
+                                00_TRIMMED/WCCR_1913_S74_L001_R2_001_trim.fastq.gz /
+                                00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R2_001_trim_unpaired.fastq.gz / 
+                                ILLUMINACLIP:NexteraPE-PE.fa:2:30:10 / 
+                                MINLEN:40</code></pre>
 <p>Now we can run the command for the other 3 pairs,</p>
 <ul>
 <li>WCCR_1913_S74_L002_R1_001 &amp; WCCR_1913_S74_L002_R2_001</li>
@@ -3681,6 +3692,17 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
 }
 </script>
 <!--/radix_placeholder_appendices-->

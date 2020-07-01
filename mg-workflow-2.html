@@ -737,6 +737,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1265,7 +1275,7 @@
   <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1477,13 +1487,13 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
 <a href="intro.html">Introduction</a>
 <a href="field.html">A. Field Analyses</a>
@@ -1500,6 +1510,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1524,7 +1535,7 @@ C. Metagenomic
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1566,8 +1577,8 @@ C. Metagenomic
 <h2 id="qc-results">QC Results</h2>
 <p>The first thing we should do is look at the results of the initial QC step. For each sample, anvi’o spits out individual quality control reports. Thankfully anvi’o also concatenates those files into one table. This table contains information like the number of pairs analyzed, the total pairs passed, etc.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-64045855dd8363e46877" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-64045855dd8363e46877">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">QC results<\/caption>","autoHideNavigation":true,"data":[["WCCR_1913","WCCR_1916","WROL_1914","WROL_1915"],[2869358,4053466,3401120,3568123],[2703302,3852213,3229485,3383451],[94.21,95.04,94.95,94.82],[0,0,0,0],[0,0,0,0],[1379,1859,1629,1761],[0.05,0.05,0.05,0.05],[166056,201253,171635,184672],[5.79,4.96,5.05,5.18],[18998,23813,20776,21349],[11.44,11.83,12.1,11.56],[94145,120670,103458,107716],[56.69,59.96,60.28,58.33],[52913,56770,47401,55607],[31.86,28.21,27.62,30.11],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>number_of_pairs_analyzed<\/th>\n      <th>total_pairs_passed<\/th>\n      <th>percent_total_pairs_passed<\/th>\n      <th>total_pair_1_trimmed<\/th>\n      <th>percent_total_pair_1_trimmed<\/th>\n      <th>total_pair_2_trimmed<\/th>\n      <th>percent_total_pair_2_trimmed<\/th>\n      <th>total_pairs_failed<\/th>\n      <th>percent_total_pairs_failed<\/th>\n      <th>pairs_failed_due_to_pair_1<\/th>\n      <th>percent_pairs_failed_due_to_pair_1<\/th>\n      <th>pairs_failed_due_to_pair_2<\/th>\n      <th>percent_pairs_failed_due_to_pair_2<\/th>\n      <th>pairs_failed_due_to_both<\/th>\n      <th>percent_pairs_failed_due_to_both<\/th>\n      <th>FAILED_REASON_P<\/th>\n      <th>percent_FAILED_REASON_P<\/th>\n      <th>FAILED_REASON_N<\/th>\n      <th>percent_FAILED_REASON_N<\/th>\n      <th>FAILED_REASON_C33<\/th>\n      <th>percent_FAILED_REASON_C33<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}],"dom":"Btir","buttons":["csv","copy","colvis"],"scrollX":true,"scrollCollapse":true,"scrollY":"300px","paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b7d628e6a506a8b03203" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b7d628e6a506a8b03203">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">QC results<\/caption>","autoHideNavigation":true,"data":[["WCCR_1913","WCCR_1916","WROL_1914","WROL_1915"],[2869358,4053466,3401120,3568123],[2703302,3852213,3229485,3383451],[94.21,95.04,94.95,94.82],[0,0,0,0],[0,0,0,0],[1379,1859,1629,1761],[0.05,0.05,0.05,0.05],[166056,201253,171635,184672],[5.79,4.96,5.05,5.18],[18998,23813,20776,21349],[11.44,11.83,12.1,11.56],[94145,120670,103458,107716],[56.69,59.96,60.28,58.33],[52913,56770,47401,55607],[31.86,28.21,27.62,30.11],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>number_of_pairs_analyzed<\/th>\n      <th>total_pairs_passed<\/th>\n      <th>percent_total_pairs_passed<\/th>\n      <th>total_pair_1_trimmed<\/th>\n      <th>percent_total_pair_1_trimmed<\/th>\n      <th>total_pair_2_trimmed<\/th>\n      <th>percent_total_pair_2_trimmed<\/th>\n      <th>total_pairs_failed<\/th>\n      <th>percent_total_pairs_failed<\/th>\n      <th>pairs_failed_due_to_pair_1<\/th>\n      <th>percent_pairs_failed_due_to_pair_1<\/th>\n      <th>pairs_failed_due_to_pair_2<\/th>\n      <th>percent_pairs_failed_due_to_pair_2<\/th>\n      <th>pairs_failed_due_to_both<\/th>\n      <th>percent_pairs_failed_due_to_both<\/th>\n      <th>FAILED_REASON_P<\/th>\n      <th>percent_FAILED_REASON_P<\/th>\n      <th>FAILED_REASON_N<\/th>\n      <th>percent_FAILED_REASON_N<\/th>\n      <th>FAILED_REASON_C33<\/th>\n      <th>percent_FAILED_REASON_C33<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}],"dom":"Btir","buttons":["csv","copy","colvis"],"scrollX":true,"scrollCollapse":true,"scrollY":"300px","paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h2 id="assembly-results">Assembly Results</h2>
 <p>Next we can look at the results of the co-assembly, the number of HMM hits, and the estimated number of genomes. These data not only give us a general idea of assembly quality but will also help us decide parameters for automatic clustering down the road.</p>
@@ -1576,8 +1587,8 @@ C. Metagenomic
 anvi-display-contigs-stats 03_CONTIGS/WATER-contigs.db -o 03_CONTIGS/WATER-contig-stats -o contig-stats.txt</code></pre>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-8eaa0ab723af1ed46b0c" style="width:50%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8eaa0ab723af1ed46b0c">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3ba21f24923c0345df9c" style="width:50%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3ba21f24923c0345df9c">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
 <h1 id="krona-plots-explained">Krona Plots Explained</h1>
@@ -1630,8 +1641,8 @@ anvi-export-table 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o wa
 <p>And then we simply parse out the class data and make a table.</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-943a55846508a9f81bdc" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-943a55846508a9f81bdc">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3f82114e9ab9bf9e620b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3f82114e9ab9bf9e620b">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
 <h1 id="mapping-results">Mapping Results</h1>
@@ -1642,8 +1653,8 @@ anvi-export-table 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o wa
 <p>What we want is a table with <code>sample</code>, <code>total_reads</code>, <code>total_reads_mapped</code>, and <code>num_SNVs_reported</code>. After a little fancy grep work in <a href="https://www.barebones.com/products/bbedit/">BBEdit</a> (the free mode) we have a table the looks like this…</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-28f5cb61d4bf48e78591" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-28f5cb61d4bf48e78591">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c7ed548effed8aee1ae3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c7ed548effed8aee1ae3">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
 <h1 id="contig-classification">Contig Classification</h1>
@@ -1689,7 +1700,7 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p><a href="mg-auto-binning.html" rel="prev">N<sup><u>o</u></sup> 5. Automated Binning</a></p>
+<p><a href="mg-binning.html" rel="prev">N<sup><u>o</u></sup> 5. Automated Binning</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
@@ -2159,6 +2170,17 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
 }
 </script>
 <!--/radix_placeholder_appendices-->

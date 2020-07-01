@@ -1569,6 +1569,9 @@ C. Metagenomic
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <blockquote>
 <p>You will either need to run the <a href="16s-dada2.html">DADA2 workflow</a> or the grab output file <code>combo_pipeline.rdata</code> from the workflow. This file contains the sequence and taxonomy tables. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
@@ -1687,6 +1690,8 @@ taxa_names(ps) &lt;- paste0(&quot;ASV&quot;, seq(ntaxa(ps)))
 tax_table(ps) &lt;- cbind(tax_table(ps),
                            rownames(tax_table(ps)))
 head(taxa_names(ps))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <pre><code>
 [1] &quot;ASV1&quot; &quot;ASV2&quot; &quot;ASV3&quot; &quot;ASV4&quot; &quot;ASV5&quot; &quot;ASV6&quot;</code></pre>
 </div>
@@ -1750,6 +1755,8 @@ head(taxa_names(ps))</code></pre>
 colnames(tax_table(ps)) &lt;- c(&quot;Kingdom&quot;, &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;,
     &quot;Family&quot;, &quot;Genus&quot;, &quot;ASV_SEQ&quot;, &quot;ASV_ID&quot;)
 ps</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <pre><code>
 phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 1424 taxa and 8 samples ]
@@ -1812,6 +1819,8 @@ MT1df &lt;- as.factor(MT1)
 goodTaxa &lt;- setdiff(taxa_names(ps), MT1df)
 ps_no_mito &lt;- prune_taxa(goodTaxa, ps)
 ps_no_mito</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <pre><code>
 phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 1412 taxa and 8 samples ]
@@ -1830,6 +1839,8 @@ CH1df &lt;- as.factor(CH1)
 goodTaxa &lt;- setdiff(taxa_names(ps_no_mito), CH1df)
 ps_no_chloro &lt;- prune_taxa(goodTaxa, ps_no_mito)
 ps_no_chloro</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <pre><code>
 phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 1275 taxa and 8 samples ]
@@ -1854,7 +1865,15 @@ ps_no_euk</code></pre>
 <p>Here we can just use the straight up <code>subset_taxa</code> command since we do not need to worry about any ranks above Kingdom also being removed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-ps_filt &lt;- subset_taxa(ps_no_chloro, !is.na(Kingdom))</code></pre>
+ps_filt &lt;- subset_taxa(ps_no_chloro, !is.na(Kingdom))
+ps_filt</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 1272 taxa and 8 samples ]
+sample_data() Sample Data:       [ 8 samples by 3 sample variables ]
+tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
 <p>The code eliminated an additional <strong>3 Kingdom level NA ASVs</strong> from the phyloseq object.</p>
 <p>Now that we have a trimmed data set, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
@@ -1893,9 +1912,9 @@ write.table(table2format_trim_df, &quot;tables/16s-data-prep/trim_asv.fasta&quot
 <pre class="r"><code>
 ps_water &lt;- ps_filt
 save.image(&quot;rdata/16s-data-prep/16s-data_prep.rdata&quot;)
-saveRDS(otu_table(ps_water), &quot;rdata/16s-water/ps_water-seqtab.rds&quot;)
-saveRDS(sample_data(ps_water), &quot;rdata/16s-water/ps_water-sample.rds&quot;)
-saveRDS(tax_table(ps_water), &quot;rdata/16s-water/ps_water-taxtab.rds&quot;)</code></pre>
+saveRDS(otu_table(ps_water), &quot;rdata/16s-data-prep/ps_water-seqtab.rds&quot;)
+saveRDS(sample_data(ps_water), &quot;rdata/16s-data-prep/ps_water-sample.rds&quot;)
+saveRDS(tax_table(ps_water), &quot;rdata/16s-data-prep/ps_water-taxtab.rds&quot;)</code></pre>
 </div>
 <p>That’s all for this part! In the next section we work through analyzing the diversity of the water samples.</p>
 <p></br></p>
