@@ -737,6 +737,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1265,7 +1275,7 @@
   <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1284,23 +1294,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1476,15 +1494,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1499,6 +1517,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1519,11 +1538,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1535,7 +1555,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 3. Diversity</h1>
-<p>In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).</p>
+<p><p>In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).</p></p>
 </div>
 
 <div class="d-byline">
@@ -1551,9 +1571,10 @@ C. Metagenomic
 <li><a href="#summary-of-water-samples">Summary of Water Samples</a></li>
 <li><a href="#diversity">Diversity</a><ul>
 <li><a href="#taxonomic-diversity">Taxonomic Diversity</a></li>
-<li><a href="#hypoxic-vs.normoxic">Hypoxic vs. Normoxic</a></li>
-<li><a href="#during-vs.after-the-event">During vs. After the Event</a></li>
+<li><a href="#hypoxic-vs.-normoxic">Hypoxic vs. Normoxic</a></li>
+<li><a href="#during-vs.-after-the-event">During vs. After the Event</a></li>
 <li><a href="#source-code">Source Code</a></li>
+<li><a href="#data-availability">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -1562,7 +1583,7 @@ C. Metagenomic
 
 </div>
 <h1 id="summary-of-water-samples">Summary of Water Samples</h1>
-<p>Now that we have a phyloseq object containing the water samples only, we can summarize the data in the water phyloseq object. Again, we use the <code>summarize_phyloseq</code> from the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a><span class="citation" data-cites="lahti2017microbiome">(Lahti, Sudarshan, and others <a href="#ref-lahti2017microbiome">2017</a>)</span> as we did before.</p>
+<p>Now that we have a phyloseq object containing the water samples only, we can summarize the data in the water phyloseq object. Again, we use the <code>summarize_phyloseq</code> from the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a><span class="citation" data-cites="lahti2017microbiome">(Lahti, Sudarshan, and others <a href="#ref-lahti2017microbiome" role="doc-biblioref">2017</a>)</span> as we did before.</p>
 <p>First, load the R objects that contain the sample data, sequence table, and taxonomy table (saved at the end of the previous section) and merge them into a single phyloseq object. Doing it this way keeps the memory footprint low.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1581,7 +1602,7 @@ otu_table()   OTU Table:         [ 1272 taxa and 8 samples ]
 sample_data() Sample Data:       [ 8 samples by 5 sample variables ]
 tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
-<p>Notic we made a copy of the <code>ps_water</code> phyloseq object called <code>ps_water_o</code>. This is because we are going to change the names of <code>NA</code> taxa below and we want a copy of the original object before making changes. Next, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
+<p>Notice we made a copy of the <code>ps_water</code> phyloseq object called <code>ps_water_o</code>. This is because we are going to change the names of <code>NA</code> taxa below and we want a copy of the original object before making changes. Next, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 write.table(tax_table(ps_water),
@@ -1725,7 +1746,7 @@ colnames(merge_tab2) &lt;- c(&quot;Sample&lt;br/&gt;ID&quot;, &quot;Type&quot;, 
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div id="mex738zeiysgiy3fysb8" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="mex738zeiysgiy3fysb8">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Total reads &amp; ASVs by sample.<\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["W","W","W","W","W","W","W","W"],["CC","CC","CC","CC","CR","CR","CR","CR"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["cc_after","cc_during","cc_during","cc_during","cr_after","cr_during","cr_during","cr_during"],[24290,24278,23962,19817,28616,12804,13479,33311],[305,287,287,237,323,242,304,552],[3.79586821583198,3.40949079884578,3.61556802457059,3.60334996135797,3.19266288364594,3.87638453942529,4.45854339112232,4.59793953134247],[8.64499926459407,5.452464523952,6.75399022762029,6.9033065773033,4.3230831643379,15.3718361806848,37.7312581395943,35.1458238662054]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>Oxstate<\/th>\n      <th>Period<\/th>\n      <th>total<br/>reads<\/th>\n      <th>total<br/>ASVs<\/th>\n      <th>Shannon<\/th>\n      <th>InvSimpson<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"lengthMenu":[5,10],"columnDefs":[{"targets":[7,8],"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 2, 3, \",\", \".\"); }"},{"className":"dt-right","targets":[5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.rowCallback"],"jsHooks":[]}</script>
+<script type="application/json" data-for="mex738zeiysgiy3fysb8">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Total reads &amp; ASVs by sample.<\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["W","W","W","W","W","W","W","W"],["CC","CC","CC","CC","CR","CR","CR","CR"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["cc_after","cc_during","cc_during","cc_during","cr_after","cr_during","cr_during","cr_during"],[24290,24278,23962,19817,28616,12804,13479,33311],[305,287,287,237,323,242,304,552],[3.79586821583198,3.40949079884578,3.61556802457059,3.60334996135797,3.19266288364594,3.87638453942529,4.45854339112232,4.59793953134247],[8.64499926459407,5.452464523952,6.75399022762029,6.9033065773033,4.3230831643379,15.3718361806848,37.7312581395943,35.1458238662054]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>Oxstate<\/th>\n      <th>Period<\/th>\n      <th>total<br/>reads<\/th>\n      <th>total<br/>ASVs<\/th>\n      <th>Shannon<\/th>\n      <th>InvSimpson<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"lengthMenu":[5,10],"columnDefs":[{"targets":7,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 2, 3, \",\", \".\"); }"},{"targets":8,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 2, 3, \",\", \".\"); }"},{"className":"dt-right","targets":[5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.rowCallback"],"jsHooks":[]}</script>
 </div>
 <h1 id="diversity">Diversity</h1>
 <h2 id="taxonomic-diversity">Taxonomic Diversity</h2>
@@ -1785,7 +1806,7 @@ names(taxa_read_asv_tab) &lt;- c(&quot;Taxa&quot;, &quot;total reads&quot;, &quo
 <li>Cyanobacteriia, Alphaproteobacteria, Bacteroidia, Gammaproteobacteria, Thermoplasmata, Acidimicrobiia, Phylum_Marinimicrobia_(SAR406_clade), Campylobacteria contain the <strong>most reads</strong> and</li>
 <li>Bacteroidia, Gammaproteobacteria, Alphaproteobacteria, Cyanobacteriia, Kingdom_Bacteria, Bdellovibrionia, Thermoplasmata, Verrucomicrobiae contain the <strong>most ASVs</strong>.</li>
 </ul>
-<h2 id="hypoxic-vs.normoxic">Hypoxic vs. Normoxic</h2>
+<h2 id="hypoxic-vs.-normoxic">Hypoxic vs. Normoxic</h2>
 <p>How does the taxonomic composition of normoxic compare to hypoxic samples? To look at this, we will combine samples by the <code>oxstate</code> variable and then calculate the <em>relative abundance</em> for each taxon for both oxygen states. Note one of the Cayo Roldan samples (WCR0) was collected after the hypoxic event when oxygen levels had returned to normal. Therefore, WCR0 is considered a normoxic sample.</p>
 <p>There are a few steps we need to run for this analysis.</p>
 <h3 id="choose-a-rank-1">1. Choose a rank</h3>
@@ -1864,7 +1885,7 @@ target &lt;- c(&quot;Cyanobacteriia&quot;, &quot;Alphaproteobacteria&quot;,
             &quot;Bacteroidia&quot;, &quot;Gammaproteobacteria&quot;, 
             &quot;Thermoplasmata&quot;, &quot;Phylum_Marinimicrobia_(SAR406_clade)&quot;, 
             &quot;Acidimicrobiia&quot;, &quot;Campylobacteria&quot;, &quot;Other&quot;)
-meltd_w1[[TRANK]] &lt;- reorder.factor(meltd_w1[[TRANK]], new.order=target)</code></pre>
+meltd_w1[[TRANK]] &lt;- reorder.factor(meltd_w1[[TRANK]], new.order = target)</code></pre>
 </div>
 <h3 id="construct-a-bar-graph">7. Construct a bar graph</h3>
 <p>Finally.</p>
@@ -1889,7 +1910,7 @@ hyp_v_norm &lt;- spread(hyp_v_norm, Sample, x)</code></pre>
 <script type="application/json" data-for="wewuidn73q2ceico4vyw">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic \n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Campylobacteria","Other"],[0.1328,0.2142,0.2391,0.235,0.0075,0.0028,0.0075,0.0406,0.1205],[0.4832,0.1691,0.1456,0.049,0.0449,0.0252,0.0356,0,0.0475]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Rank<\/th>\n      <th>hypoxic<\/th>\n      <th>normoxic<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br/></p>
-<h2 id="during-vs.after-the-event">During vs. After the Event</h2>
+<h2 id="during-vs.-after-the-event">During vs. After the Event</h2>
 <p>What did taxonomic composition look like during and after the event at <strong>each site</strong>? To look at this, we will combine samples by the <code>period</code> variable and then calculate the <em>relative abundance</em> for each taxon. The code for this analysis is basically the same as the code above where we compared hypoxic to normoxic samples. Therefore, all of the code is hidden. See the link at the bottom of the page for the page source code if you are interested in the code we used here. We go through the same steps:</p>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -1960,7 +1981,9 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-water.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<h2 id="data-availability" class="appendix">Data Availability</h2>
+<p>Output files from this workflow available on figshare at <a href="YYY">XXX</a>. The <em>16s-water.rdata</em> file contains all variables and phyloseq objects from this pipeline and is needed for the next workflow (as are the .rds files).</p>
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-lahti2017microbiome">
 <p>Lahti, Leo, Shetty Sudarshan, and others. 2017. “Tools for Microbiome Analysis in R. Version 1.9.97.” <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.</p>
 </div>
@@ -2425,6 +2448,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

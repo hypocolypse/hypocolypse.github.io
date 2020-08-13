@@ -741,6 +741,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1269,7 +1279,7 @@
   <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1288,23 +1298,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1480,15 +1498,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1503,6 +1521,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1523,11 +1542,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1539,7 +1559,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 1. DADA2 Workflow</h1>
-<p>Complete, reproducible DADA2 workflow for processing the raw <strong>16S rRNA</strong> Illumina data from hypoxic and normoxic water samples collected during a 2017 hypoxic event in Bocas del Toro, Panama.</p>
+<p><p>Complete, reproducible DADA2 workflow for processing the raw <strong>16S rRNA</strong> Illumina data from hypoxic and normoxic water samples collected during a 2017 hypoxic event in Bocas del Toro, Panama.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1586,7 +1606,7 @@ C. Metagenomic
 <blockquote>
 <p>In order to run this workflow, you either need the <em>raw</em> data—available on the figshare project site—or the <em>trimmed</em> data, available from the ENA under project accession number … See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
-<p>This pipeline below is exactly how we processed our 16S rRNA data using <a href="https://benjjneb.github.io/dada2/">DADA2</a><span class="citation" data-cites="callahan2016dada2">(Callahan et al. <a href="#ref-callahan2016dada2">2016</a>)</span>. This is not meant to be a tutorial and we only provide minimal annotation. There are many great tutorials and explanations out there on amplicon processing that you can dive into.</p>
+<p>This pipeline below is exactly how we processed our 16S rRNA data using <a href="https://benjjneb.github.io/dada2/">DADA2</a><span class="citation" data-cites="callahan2016dada2">(Callahan et al. <a href="#ref-callahan2016dada2" role="doc-biblioref">2016</a>)</span>. This is not meant to be a tutorial and we only provide minimal annotation. There are many great tutorials and explanations out there on amplicon processing that you can dive into.</p>
 <p>Depending on the DADA2 version you have installed, you may get <a href="https://github.com/benjjneb/dada2/issues/532">slightly different results</a> due to fundamental changes in the code base. This is unavoidable at times and the developers do the best they can to maintain fidelity across versions. To see the package versions of tools used in this workflow, please see the <a href="#r-session-information">Session Info</a> at the end of this page. We set random number seeds to ensure full reproducibility.</p>
 <p>This is a workflow for processing the raw 16S rRNA Illumina data for the study. The workflow consists of the following steps:</p>
 <table>
@@ -1665,7 +1685,7 @@ C. Metagenomic
 
 </div>
 <h1 id="remove-primers">1. Remove Primers</h1>
-<p>Before we start the DADA2 pipeline we need to run <a href="https://github.com/marcelm/cutadapt">catadapt</a><span class="citation" data-cites="martin2011cutadapt">(Martin <a href="#ref-martin2011cutadapt">2011</a>)</span> on all <code>fastq.gz</code> files to trim the primers. We will set the error rate (<code>-e</code>) to 0.12 (= 12%).</p>
+<p>Before we start the DADA2 pipeline we need to run <a href="https://github.com/marcelm/cutadapt">catadapt</a><span class="citation" data-cites="martin2011cutadapt">(Martin <a href="#ref-martin2011cutadapt" role="doc-biblioref">2011</a>)</span> on all <code>fastq.gz</code> files to trim the primers. We will set the error rate (<code>-e</code>) to 0.12 (= 12%).</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="bash"><code>
 cutadapt -g {F-ADAPTER} -G {R-ADAPTER} /
@@ -1674,7 +1694,7 @@ cutadapt -g {F-ADAPTER} -G {R-ADAPTER} /
                         ${R1} ${R2} /
                         --discard-untrimmed -e 0.12</code></pre>
 </div>
-<p>Where <code>-g</code> is GTGYCAGCMGCCGCGGTAA (the 515F primer) <code>-G</code> is CCGYCAATTYMTTTRAGTTT (the 926R primer)<span class="citation" data-cites="parada2016every">(Parada, Needham, and Fuhrman <a href="#ref-parada2016every">2016</a>)</span> and <code>R1</code> and <code>R2</code> are the forward and reverse reads, respectively. More information can be found on the <a href="https://earthmicrobiome.org/protocols-and-standards/16s/">16S Illumina Amplicon Protocol</a> page of the Earth Microbiome Project.</p>
+<p>Where <code>-g</code> is GTGYCAGCMGCCGCGGTAA (the 515F primer) <code>-G</code> is CCGYCAATTYMTTTRAGTTT (the 926R primer)<span class="citation" data-cites="parada2016every">(Parada, Needham, and Fuhrman <a href="#ref-parada2016every" role="doc-biblioref">2016</a>)</span> and <code>R1</code> and <code>R2</code> are the forward and reverse reads, respectively. More information can be found on the <a href="https://earthmicrobiome.org/protocols-and-standards/16s/">16S Illumina Amplicon Protocol</a> page of the Earth Microbiome Project.</p>
 <p>This will yield a ~370 bp amplicon. The input files for cutadapt are in the <code>RAW/</code> directory and the output files from cutadapt are in the <code>INPUT_FILES</code> directory. The output files are input for the DADA2 portion of the workflow.</p>
 <h1 id="set-working-environment">2. Set Working Environment</h1>
 <p>Next, we need to set the working directory for the input files. When we ran <code>cutadapt</code> we saved the trimmed files to a directory called <code>01_TRIMMED/</code>. We also create a variable to hold the file path.</p>
@@ -1966,7 +1986,7 @@ seqtab &lt;- readRDS(&quot;seqtab.2.nochim.rds&quot;)</code></pre>
 </div>
 <p>This may seem redundant (and it probably is) but it lets us work with only the data in the <code>rds</code> file instead of everything generated in the pipeline thus far. This becomes important when we save the final <code>rdata</code> file from the workflow. If we were to save the whole workflow the final file would be large and clunky. This way it contains only the data we need going forward. The variable <code>st.all</code> is the combined sequence tables of Run01 and Run02.</p>
 <h1 id="assign-taxonomy">11. Assign Taxonomy</h1>
-<p>The <code>assignTaxonomy</code> command implements the naive Bayesian classifier<span class="citation" data-cites="wang2007naive">(Wang et al. <a href="#ref-wang2007naive">2007</a>)</span>, so for reproducible results you need to set a random number seed (see issue <a href="https://github.com/benjjneb/dada2/issues/538">#538</a>). We did this at the beginning of the workflow. For taxonomic assignment, we are using the Silva version 132<span class="citation" data-cites="quast2012silva">(Quast et al. <a href="#ref-quast2012silva">2012</a>)</span>. The developers of DADA2 maintain a <a href="https://zenodo.org/record/3731176">formatted version of the database</a>. As of the time of this writing, version 138 was just released.</p>
+<p>The <code>assignTaxonomy</code> command implements the naive Bayesian classifier<span class="citation" data-cites="wang2007naive">(Wang et al. <a href="#ref-wang2007naive" role="doc-biblioref">2007</a>)</span>, so for reproducible results you need to set a random number seed (see issue <a href="https://github.com/benjjneb/dada2/issues/538">#538</a>). We did this at the beginning of the workflow. For taxonomic assignment, we are using the Silva version 132<span class="citation" data-cites="quast2012silva">(Quast et al. <a href="#ref-quast2012silva" role="doc-biblioref">2012</a>)</span>. The developers of DADA2 maintain a <a href="https://zenodo.org/record/3731176">formatted version of the database</a>. As of the time of this writing, version 138 was just released.</p>
 <p>And then native Baysian classifier against the Silva database.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -2143,10 +2163,10 @@ Next
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-dada2.Rmd">clicking this link</a>. Please note, that in order to process the data <em>and</em> build the website, we needed to run the pipeline and get the results. Then hard code the results and turn off the individual commands. So the raw file for this page is a bit messy—you have been warned.</p>
 <h2 id="data-availability" class="appendix">Data Availability</h2>
-<p>Raw fastq files available on figshare at <a href="https://doi.org/10.25573/data.11819745.v1">doi:10.25573/data.11819745.v1</a>. Trimmed fastq files (primers removed) available through the ENA under project accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632</a>. Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403865">doi:0.25573/data.12403865</a>.</p>
+<p>Raw fastq files available on figshare at <a href="https://doi.org/10.25573/data.11819745">doi:10.25573/data.11819745</a>. Trimmed fastq files (primers removed) available through the ENA under project accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632</a>. Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403865">doi:0.25573/data.12403865</a>.</p>
 <h2 id="addendum" class="appendix">Addendum</h2>
 <p>In the paper itself, we only focuses on the water samples, however we did sequence additional sample types not included in this analysis. For your information, several of these other samples were re-sequenced and processed independently before being merged in the last section of the workflow, prior to analysis. We sequenced 30 samples in the first run (Run01) and then re-sequenced several samples because of low initial yield (Run02). See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-callahan2016dada2">
 <p>Callahan, Benjamin J, Paul J McMurdie, Michael J Rosen, Andrew W Han, Amy Jo A Johnson, and Susan P Holmes. 2016. “DADA2: High-Resolution Sample Inference from Illumina Amplicon Data.” <em>Nature Methods</em> 13 (7): 581. <a href="https://doi.org/10.1038/nmeth.3869">https://doi.org/10.1038/nmeth.3869</a>.</p>
 </div>
@@ -2623,6 +2643,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

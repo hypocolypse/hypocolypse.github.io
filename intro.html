@@ -19,32 +19,33 @@
  <!--/radix_placeholder_import_source-->
 
   <!--radix_placeholder_meta_tags-->
-  <title>: Introduction</title>
+  <title>: Site Overview</title>
   
-  <meta property="description" itemprop="description" content="In this section ..."/>
+  <meta property="description" itemprop="description" content="A brief description of the Website and the various workflows."/>
   
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
   
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content=": Introduction"/>
+  <meta property="og:title" content=": Site Overview"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="In this section ..."/>
+  <meta property="og:description" content="A brief description of the Website and the various workflows."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
   
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content=": Introduction"/>
-  <meta property="twitter:description" content="In this section ..."/>
+  <meta property="twitter:title" content=": Site Overview"/>
+  <meta property="twitter:description" content="A brief description of the Website and the various workflows."/>
   
   <!--/radix_placeholder_meta_tags-->
   
+  <meta name="citation_reference" content="citation_title=Points of view: Color blindness;citation_publication_date=2011;citation_volume=8;citation_number=6;citation_author=Bang Wong"/>
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Introduction"]},{"type":"character","attributes":{},"value":["In this section ...\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Site Overview"]},{"type":"character","attributes":{},"value":["A brief description of the Website and the various workflows. \n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -735,6 +736,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1267,23 +1278,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1450,7 +1469,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Introduction","description":"In this section ...","authors":[]}
+{"title":"Site Overview","description":"A brief description of the Website and the various workflows.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1459,15 +1478,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1482,6 +1501,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1502,11 +1522,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1517,8 +1538,8 @@ C. Metagenomic
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Introduction</h1>
-<p>In this section …</p>
+<h1>Site Overview</h1>
+<p><p>A brief description of the Website and the various workflows.</p></p>
 </div>
 
 
@@ -1526,16 +1547,12 @@ C. Metagenomic
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#goals-of-the-study">Goals of the Study</a></li>
-<li><a href="#definitions-abbreviations">Definitions &amp; Abbreviations</a></li>
+<li><a href="#using-this-site">Using this Site</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 <li><a href="#workflow">Workflow</a><ul>
 <li><a href="#a.-field-analyses">A. Field Analyses</a></li>
 <li><a href="#b.-16s-rrna-analysis">B. 16S rRNA Analysis</a></li>
-<li><a href="#c.-water-column-metagenomes">C. Water Column Metagenomes</a></li>
-</ul></li>
-<li><a href="#publication-related-material">Publication Related Material</a><ul>
-<li><a href="#figures-tables">Figures &amp; Tables</a></li>
+<li><a href="#c.-metagenomics">C. Metagenomics</a></li>
 </ul></li>
 <li><a href="#color-graphics">Color &amp; Graphics</a><ul>
 <li><a href="#creating-color-palletes">Creating Color Palletes</a></li>
@@ -1544,47 +1561,43 @@ C. Metagenomic
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<p>In this study, we looked at INSERT DETAIL</span>.</p>
-<h1 id="goals-of-the-study">Goals of the Study</h1>
-<h1 id="definitions-abbreviations">Definitions &amp; Abbreviations</h1>
-<ul>
-<li>Amplicon Sequence Variant (<strong>ASV</strong>): Exact sequence variant—analogous to an OTU—but with single nucleotide resolution.</li>
-<li>Differentially abundant (<strong>DA</strong>) feature: Taxa, ASV, etc. that is disproportionately abundant in a group of samples and statistically different than other groups.</li>
-</ul>
+<p>This website provides reproducible workflows for our study on the Bocas del Toro hypoxic event in 2017. We go through the steps used to process the raw 16S rRNA marker and metagenomic data. We describe the various tools used to analyze and interpret the data. We also provide access to all data, data products, and code. With this workflow you can generate the figures and tables from the paper as well as many additional data products.</p>
+<p>The workflows are mainly written in <a href="https://rmarkdown.rstudio.com/">R Markdown</a> meaning that they contain a mixture of Markdown text and R code. Anyone should be able to reproduce our results with just this workflow and the <a href="data-availability.html">raw data</a>.</p>
+<h1 id="using-this-site">Using this Site</h1>
+<p>The navigation bar at the top contains links to workflows, data/data products, and a variety of other useful information. The site itself has many dynamic components. For example, you can sort and scroll through most of the tables, tabular data can be download in different formats, and several figures expand when clicked.</p>
+<p>On the bottom of each page you can find a link to the page’s source code or visit the main GitHub repo for the site, also linked at the bottom of each page. Should you find any problems, there is a link to the issue page of the source repository. References are also included as are DOI links to the publications where applicable. Data pertaining to individual workflows are also linked on the bottom of each page.</p>
 <h1 id="data-availability">Data Availability</h1>
 <p>For access to all raw data and data products please see the <a href="data-availability.html">Data Availability</a> page. There you will find more details and links to the figshare project site and European Nucleotide Archive project page. Please also check at the bottom of individual workflow pages for access to related data.</p>
 <h1 id="workflow">Workflow</h1>
 <p>You can access each step of the workflow by using the navigation bar at the top of the page. Below is a brief description of each step.</p>
 <h2 id="a.-field-analyses">A. Field Analyses</h2>
-<p>👋 Hi Maggie &amp; Noelle!!!! I bet you really, really want to add content to this section ☺️.</p>
 <h2 id="b.-16s-rrna-analysis">B. 16S rRNA Analysis</h2>
-<p>We sequence a total of 30</p>
+<p>This section contains four separate workflows for processing and analyzing the 16s rRNA data set.</p>
 <h3 id="no-1.-dada2-workflow">No 1. DADA2 Workflow</h3>
-<p>In this part we go through the steps of processing raw 16S rRNA read data including assessing read quality, filtering reads, correcting errors, and infersing amplicon sequence variants (ASVs).</p>
+<p>In this part we go through the steps of processing raw 16S rRNA read data including assessing read quality, filtering reads, correcting errors, and inferring amplicon sequence variants (ASVs). You can access the workflow from the navbar above or <a href="16s-dada2.html">this link</a>.</p>
 <h3 id="no-2.-data-preparation">No 2. Data Preparation</h3>
-<p>Next we go through the process of defining sample groups, creating phyloseq objects, removing unwanted samples, and removing contaminant ASVs. Various parts of this section can easily be modified to perform different analyses. For example, if you were only interested in a specific group of samples, you could change the code here to create new phyloseq objects.</p>
-<h3 id="no-3.-water-sample-diversity">No 3. Water Sample Diversity</h3>
-<p>Now we move are attention to just the water samples. We wanted to understand how ASVs partitioned between normoxic and hypoxic conditions. We also wanted to assess the specificity of each ASV to determine habitat preference. To our knowledge there is no quantitative way to do this. The only attempt we are aware of was <a href="http://mmdb.aori.u-tokyo.ac.jp/">MetaMetaDB</a> but it is based on a 454 database and no longer seems to be in active development.</p>
-<h2 id="c.-water-column-metagenomes">C. Water Column Metagenomes</h2>
-<p>We sequenced four samples for metagenomic analysis—two from Crawl Caye and two from Cayo Roldan. The Crawl Caye</p>
-<h3 id="no-1.-setup-working-environment">No 1. Setup Working Environment</a></h3>
-<p>For the metagenomic analysis we largely leave the R environment and enter the <a href="http://merenlab.org/software/anvio/">anvi’o</a> ecosystem. The first major step in our analysis of metagenomic samples from hypoxic and normoxic conditions is to setup our working environment. We will do this in two steps. The first is to install the backbone of our computational operations, which consists of Miniconda and anvio. Next we build the annotation databases and install the associated tools. We provide complete details of these steps.</p>
-<h3 id="no-2.-annotation-databases">No 2. Annotation Databases</a></h3>
-<p>Next we describe the various database we used to annotate the metagenomes. There are two main types of annotations we are interested in for this metagenomic project—taxonomic and functional—and there are many, many ways to accomplish both of these goals. This next section involves building the databases and installing any additional tools we need for annotation.</p>
-<h3 id="no-3.-assembly-annotations">No 3. Assembly &amp; Annotations</a></h3>
-<p>Here we move to the processing part of the workflow, which involves the following: adapter trimming of raw data; quality filtering of trimmed reads; co-assembling QCed reads; mapping reads to the assembly; profiling the mapping results; merging profile dbs; classify reads and genes; annotating genes; and running HMM profiles.</p>
-<h3 id="no-4.-assembley-annotation-summary">No 4. Assembley &amp; Annotation Summary</a></h3>
-<p>In this section of the workflow we summarize the QC &amp; assemby results, the Kraken short read taxonomy, mapping results. and contig classifications.</p>
-<h1 id="publication-related-material">Publication Related Material</h1>
-<h2 id="figures-tables">Figures &amp; Tables</h2>
-<p>Use the links below if you want to jump directly to the code used to produce the <strong>figures and tables</strong> from the original publication. You can also find the full Supplementary files for the paper <a href="supplemental-material.html">here</a> but there is no R code on this page. If you want to see the code that produced the supplemental material, the direct links are also below.</p>
-<h3 id="main-paper">Main Paper</h3>
-<p>INSERT LINKS TO MAIN FIGURES AND TABLES</p>
-<h3 id="supplemental-material">Supplemental Material</h3>
-<p>INSERT LINKS TO SUPP FIGURES AND TABLES</p>
+<p>Next we go through the process of defining sample groups, creating phyloseq objects, removing unwanted samples, and removing contaminant ASVs. Various parts of this section can easily be modified to perform different analyses. For example, if you were only interested in a specific group of samples, you could change the code here to create new phyloseq objects. You can access the workflow from the navbar above or <a href="16s-data-prep.html">this link</a>.</p>
+<h3 id="no-3.-diversity">No 3. Diversity</h3>
+<p>In this workflow, we compare the taxonomic diversity of normoxic v. hypoxic samples as well as diversity during and after the event. You can access the workflow from the navbar above or <a href="16s-water.html">this link</a>.</p>
+<h3 id="no-4.-differentially-abundant-asvs">No 4. Differentially Abundant ASVs</h3>
+<p>Finally, we wanted to understand how ASVs partitioned between normoxic and hypoxic conditions. We used Indicator Species Analysis (ISA) to identify Differentially Abundant (DA) ASVs across the two oxygen states and then visualized the results. You can access the workflow from the navbar above or <a href="16s-da-asvs.html">this link</a>.</p>
+<h2 id="c.-metagenomics">C. Metagenomics</h2>
+<p>We sequenced four samples for metagenomic analysis—two from Coral Caye and two from Cayo Roldan—both during and after the event. Coral Caye the control site (not impacted) and Cayo Roldan was the impacted site. This section contains seven workflows.</p>
+<h3 id="no-1.-setup-working-environment">No 1. Setup Working Environment</h3>
+<p>For the metagenomic analysis we largely leave the R environment and enter the <a href="http://merenlab.org/software/anvio/">anvi’o</a> ecosystem. The first major step in our analysis of metagenomic samples from hypoxic and normoxic conditions is to setup our working environment. We do this in two steps. The first is to install the backbone of our computational operations, which consists of Miniconda and anvio. Next we build the annotation databases and install the associated tools. We provide complete details of these steps. You can access the workflow from the navbar above or <a href="mg-setup.html">this link</a>.</p>
+<h3 id="no-2.-annotation-databases">No 2. Annotation Databases</h3>
+<p>Next we describe the various database we used to annotate the metagenomes. There are two main types of annotations we are interested in for this metagenomic project—taxonomic and functional—and there are many, many ways to accomplish both of these goals. This next section involves building the databases and installing any additional tools we need for annotation. You can access the workflow from the navbar above or <a href="mg-databases.html">this link</a>.</p>
+<h3 id="no-3.-assembly-annotations">No 3. Assembly &amp; Annotations</h3>
+<p>Here we move to the processing part of the workflow, which involves the following: adapter trimming of raw data; quality filtering of trimmed reads; co-assembling QCed reads; mapping reads to the assembly; profiling the mapping results; merging profile dbs; classify reads and genes; annotating genes; and running HMM profiles. You can access the workflow from the navbar above or <a href="mg-workflow-1.html">this link</a>.</p>
+<h3 id="no-4.-assembley-annotation-summary">No 4. Assembley &amp; Annotation Summary</h3>
+<p>In this section of the workflow, we assess the QC &amp; assembly results, Kraken short read taxonomy, mapping results, and contig classifications. You can access the workflow from the navbar above or <a href="mg-workflow-2.html">this link</a>.</p>
+<h3 id="no-5.-binning-mags">No 5. Binning MAGs</h3>
+<p>In this section of the workflow we reconstruct metagenome assembled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement. You can access the workflow from the navbar above or <a href="mg-binning.html">this link</a>.</p>
+<h3 id="no-6.-mag02-phylogenomic-analysis">No 6. MAG02 Phylogenomic Analysis</h3>
+<p>In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample. You can access the workflow from the navbar above or <a href="mag02-phylogenomics.html">this link</a>.</p>
 <h1 id="color-graphics">Color &amp; Graphics</h1>
 <p>We will rely on color a lot to display information about diversity, distinguish between sample types, etc. Many of us have different abilities to perceive color and/or differences in color. <a href="http://mkweb.bcgsc.ca/colorblind/index.mhtml#page-container">Color blindness</a>, also known as color vision deficiency, is a decreased ability to see color or differences in color. It is important that we use <strong>a</strong>) a relatively small color palette and <strong>b</strong>) a palette that is friendly to a variety of people.</p>
-<p>Bang Wong has a paper in Nature Methods paper called <a href="http://dx.doi.org/10.1038/nmeth.1618">Points of view: Color blindness</a><span class="citation" data-cites="wong2011points">(Wong <a href="#ref-wong2011points">2011</a>)</span> where proposes a color-blind friendly color palette that uses contrasting colors that can be distinguished by a range of people. Consider that roughly 8% of people (mostly males) are color blind. So what do you think? Do you want Keanu Reeves to understand your figures or not?</p>
+<p>Bang Wong has a paper in Nature Methods paper called <a href="http://dx.doi.org/10.1038/nmeth.1618">Points of view: Color blindness</a><span class="citation" data-cites="wong2011points">(Wong <a href="#ref-wong2011points" role="doc-biblioref">2011</a>)</span> where proposes a color-blind friendly color palette that uses contrasting colors that can be distinguished by a range of people. Consider that roughly 8% of people (mostly males) are color blind. So what do you think? Do you want Keanu Reeves to understand your figures or not?</p>
 <p>Wong’s scheme is conservative—–there are only 8 colors. Martin Krzywinsk has a marvelous post on <a href="http://mkweb.bcgsc.ca/colorblind/palettes.mhtml#page-container">designing color friendly palettes</a> that includes additional <a href="http://mkweb.bcgsc.ca/colorblind/img/colorblindness.palettes.v11.pdf">12, 15, and 24</a> color palette schemes, which offer more options than Wong’s 8-color palette. We just need to be careful—–figures with too many colors can inhibit our ability to discern patterns. Limited color palettes like these force us to be more selective when deciding what information to target or how many groups to display.</p>
 <h2 id="creating-color-palletes">Creating Color Palletes</h2>
 <p>Here are a few color palette examples. A light grey (<code>#7F7F7F</code>) was added to the 8-color palette. Shown here are the hex codes for these palettes but if you want the color names and <a href="https://en.wikipedia.org/wiki/RGB_color_model">sRGB</a> codes you can download plain text versions of the palettes from Martin’s website <a href="http://mkweb.bcgsc.ca/colorblind/palettes/color.blindness.palettes.v11.tgz">here</a>.</p>
@@ -1633,12 +1646,12 @@ grid.arrange(gs1, gs2, ncol = 2)
 <div class="meta-nav">
 Next
 </div>
-<p><a href="pc.html" rel="next">Field Analyses</a></p>
+<p><a href="pc.html" rel="next">A. Field Analyses</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/intro.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-wong2011points">
 <p>Wong, Bang. 2011. “Points of View: Color Blindness.” <em>Nature Methods</em>. <a href="https://doi.org/10.1038/nmeth.1618">https://doi.org/10.1038/nmeth.1618</a>.</p>
 </div>
@@ -2103,6 +2116,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

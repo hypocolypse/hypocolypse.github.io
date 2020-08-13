@@ -740,6 +740,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1272,23 +1282,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1464,15 +1482,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1487,6 +1505,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1507,11 +1526,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1523,7 +1543,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 2. Annotation Databases</h1>
-<p>Constructing taxonomic &amp; functional annotation databases.</p>
+<p><p>Constructing taxonomic &amp; functional annotation databases.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1536,18 +1556,27 @@ C. Metagenomic
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#taxonomic-classification">Taxonomic Classification</a></li>
-<li><a href="#functional-annotations">Functional Annotations</a></li>
+<li><a href="#taxonomic-classification">Taxonomic Classification</a><ul>
+<li><a href="#centrifuge">Centrifuge</a></li>
+<li><a href="#kaiju">Kaiju</a></li>
+<li><a href="#virsorter">VirSorter</a></li>
+</ul></li>
+<li><a href="#functional-annotations">Functional Annotations</a><ul>
+<li><a href="#pfam-and-cog">Pfam and COG</a></li>
+<li><a href="#ghostkoalakegg">GhostKOALA/KEGG</a></li>
+</ul></li>
+<li><a href="#concluding-remarks">Concluding remarks</a><ul>
 <li><a href="#source-code">Source Code</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
 <p>There are two main types of annotations we are interested in for this metagenomic project—<strong>taxonomic</strong> and <strong>functional</strong>—and there are many, many ways to accomplish both of these goals. This next section involves building the databases and installing any additional tools we need for annotation.</p>
 <p>Let’s start with the tools and databases for <strong>taxonomic</strong> classification.</p>
-<h2 id="taxonomic-classification">Taxonomic Classification</h2>
+<h1 id="taxonomic-classification">Taxonomic Classification</h1>
 <p>There are many algorithms and databases for taxonomic classification. We will use <a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a> to classify short reads. We will also use <a href="https://ccb.jhu.edu/software/centrifuge/">Centrifuge</a>, <a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a>, and <a href="https://github.com/simroux/VirSorter">VirSorter</a> for contigs. Anvio has methods of importing data from each of these approaches but if you have a have a favorite tool/database there are workarounds to get most results into the appropriate anvio database.</p>
-<h3 id="centrifuge">Centrifuge</h3>
-<p><em><a href="https://ccb.jhu.edu/software/centrifuge/">Centrifuge</a><span class="citation" data-cites="kim2016centrifuge">(Kim et al. <a href="#ref-kim2016centrifuge">2016</a>)</span> is a very rapid and memory-efficient system for the classification of DNA sequences from microbial samples…uses a novel indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for the metagenomic classification problem…</em></p>
+<h2 id="centrifuge">Centrifuge</h2>
+<p><em><a href="https://ccb.jhu.edu/software/centrifuge/">Centrifuge</a><span class="citation" data-cites="kim2016centrifuge">(Kim et al. <a href="#ref-kim2016centrifuge" role="doc-biblioref">2016</a>)</span> is a very rapid and memory-efficient system for the classification of DNA sequences from microbial samples…uses a novel indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index, optimized specifically for the metagenomic classification problem…</em></p>
 <p>We will use centrifuge to classify assembled reads, or contigs. Centrifuge was installed with anvi’o above so all we need to do here is build the database.</p>
 <pre class="bash"><code>
 mkdir centrifuge_dbs
@@ -1556,8 +1585,8 @@ wget ftp://ftp.ccb.jhu.edu/pub/infphilo/centrifuge/data/p+h+v.tar.gz
 tar -zxvf p+h+v.tar.gz &amp;&amp; rm -rf p+h+v.tar.gz</code></pre>
 <p>Extracted, these files use roughly 12GB of disk space.</p>
 <p>That’s it.</p>
-<h3 id="kaiju">Kaiju</h3>
-<p><em><a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a><span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast">2016</a>)</span>… finds maximum (in-)exact matches on the protein-level using the Burrows–Wheeler transform.</em> <em>Kaiju is a program for the taxonomic classification… of metagenomic DNA. Reads are directly assigned to taxa using the NCBI taxonomy and a reference database of protein sequences from microbial and viral genomes.</em></p>
+<h2 id="kaiju">Kaiju</h2>
+<p><em><a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a><span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast" role="doc-biblioref">2016</a>)</span>… finds maximum (in-)exact matches on the protein-level using the Burrows–Wheeler transform.</em> <em>Kaiju is a program for the taxonomic classification… of metagenomic DNA. Reads are directly assigned to taxa using the NCBI taxonomy and a reference database of protein sequences from microbial and viral genomes.</em></p>
 <p>Kaiju pretty much does the same thing as Centrifuge but uses a different methodological approach. First we need to install Kaiju. Again, I will run kaiju in a separate conda environment. Now I can either install kaiju from the source code or as conda package. The latter is easier but often conda packages may lag behind the source code versions. I usually compare the release dates of the <a href="https://anaconda.org/bioconda/kaiju">conda package</a> with the <a href="https://github.com/bioinformatics-centre/kaiju">source code</a> and look at the number of downloads. In this case, the conda version of kaiju looks fine.</p>
 <pre class="bash"><code>
 # create generic environment
@@ -1610,7 +1639,7 @@ echo = `date` job $JOB_NAME done
 </code></pre>
 </details>
 <h3 id="krakenuniq">KrakenUniq</h3>
-<p><em><a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a> (formerly KrakenHLL)<span class="citation" data-cites="breitwieser2018krakenuniq">(Breitwieser, Baker, and Salzberg <a href="#ref-breitwieser2018krakenuniq">2018</a>)</span> is a novel metagenomics classifier that combines the fast k-mer-based classification of Kraken with an efficient algorithm for assessing the coverage of unique k-mers found in each species in a dataset.</em></p>
+<p><em><a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a> (formerly KrakenHLL)<span class="citation" data-cites="breitwieser2018krakenuniq">(Breitwieser, Baker, and Salzberg <a href="#ref-breitwieser2018krakenuniq" role="doc-biblioref">2018</a>)</span> is a novel metagenomics classifier that combines the fast k-mer-based classification of Kraken with an efficient algorithm for assessing the coverage of unique k-mers found in each species in a dataset.</em></p>
 <p>Installed in separate conda environment</p>
 <pre class="bash"><code>
 conda create -n krakenuniq
@@ -1670,8 +1699,8 @@ krakenuniq-build --db DB --kmer-len 31 --threads $NSLOTS --taxids-for-genomes --
 echo = `date` job $JOB_NAME done
 </code></pre>
 </details>
-<h3 id="virsorter">VirSorter</h3>
-<p><em><a href="https://github.com/simroux/VirSorter">VirSorter</a><span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter">2015</a>)</span>, a tool designed to detect viral signal in these different types of microbial sequence data in both a reference-dependent and reference-independent manner, leveraging probabilistic models and extensive virome data to maximize detection of novel viruses.</em></p>
+<h2 id="virsorter">VirSorter</h2>
+<p><em><a href="https://github.com/simroux/VirSorter">VirSorter</a><span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter" role="doc-biblioref">2015</a>)</span>, a tool designed to detect viral signal in these different types of microbial sequence data in both a reference-dependent and reference-independent manner, leveraging probabilistic models and extensive virome data to maximize detection of novel viruses.</em></p>
 <p>I generally followed <a href="https://github.com/simroux/VirSorter">this recipe</a> for installing VirSorter except I separated out the installation of dependencies to individual commands because I like to monitor any conflicts between packages.</p>
 <pre class="bash"><code>
 conda create --name virsorter python==3.6
@@ -1714,8 +1743,8 @@ md5sum virsorter-data-v2.tar.gz
 tar -xvzf virsorter-data-v2.tar.gz
 rm virsorter-data-v2.tar.gz</code></pre>
 <p>The uncompressed database is a little over 13GB.</p>
-<h2 id="functional-annotations">Functional Annotations</h2>
-<h3 id="pfam-and-cog">Pfam and COG</h3>
+<h1 id="functional-annotations">Functional Annotations</h1>
+<h2 id="pfam-and-cog">Pfam and COG</h2>
 <p>Now we can install databases for <strong>functional</strong> annotation. Anvi’o has native support for building <a href="https://pfam.xfam.org/">Pfam</a> and <a href="https://www.ncbi.nlm.nih.gov/COG/">COG</a> databases.</p>
 <p>Anvi’o makes this super simple.</p>
 <pre class="bash"><code>
@@ -1723,9 +1752,9 @@ anvi-setup-ncbi-cogs  --cog-data-dir PATH_TO_COG_DIR -T 10
 anvi-setup-pfams  --pfam-data-dir PATH_TO_PFAM_DIR</code></pre>
 <p>The COG db is 2.3GB and the PFAM db is 283MB.</p>
 <p>And that’s it. We can add more databases as we need them.</p>
-<h3 id="ghostkoalakegg">GhostKOALA/KEGG</h3>
+<h2 id="ghostkoalakegg">GhostKOALA/KEGG</h2>
 <p>Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>. But since we run the analysis on the GhostKOALA webserver, there is no database to set up here. We provide more details when it comes time to actually set up for the analysis and parse the data.</p>
-<h3 id="concluding-remarks">Concluding remarks</h3>
+<h1 id="concluding-remarks">Concluding remarks</h1>
 <p>At this point we should be good to go with the main setup. We may need to install other tools along the way—we can add those instructions here. Or you may decide to use other tools instead. For example, we are using <a href="https://github.com/voutcn/megahit">megahit</a> for the assemblies but you may want to use <a href="https://github.com/ablab/spades">metaspades</a> or <a href="https://github.com/loneknightpy/idba">idba_ud</a>. These packages need to be installed separately.</p>
 <div class="post-nav">
 <div class="post-nav-item">
@@ -1745,7 +1774,7 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-databases.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-breitwieser2018krakenuniq">
 <p>Breitwieser, FP, DN Baker, and Steven L Salzberg. 2018. “KrakenUniq: Confident and Fast Metagenomics Classification Using Unique K-Mer Counts.” <em>Genome Biology</em> 19 (1): 1–10. <a href="https://doi.org/10.5281/zenodo.1412647">https://doi.org/10.5281/zenodo.1412647</a>.</p>
 </div>
@@ -2219,6 +2248,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+  <!--radix_placeholder_meta_tags-->
+  <title>: No 4. Differentially Abundant ASVs</title>
+  
+  <meta property="description" itemprop="description" content="In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic)."/>
+  
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+  <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
+  
+  <meta name="article:author" content="Jarrod J Scott"/>
+  
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content=": No 4. Differentially Abundant ASVs"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic)."/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content=""/>
+  
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content=": No 4. Differentially Abundant ASVs"/>
+  <meta property="twitter:description" content="In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic)."/>
+  
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Anvi’o: An advanced analysis and visualization platform for ‘omics data;citation_publication_date=2015;citation_volume=3;citation_author=A Murat Eren;citation_author=Özcan C Esen;citation_author=Christopher Quince;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin;citation_author=Tom O Delmont"/>
+  <meta name="citation_reference" content="citation_title=Metacoder: An r package for visualization and manipulation of community taxonomic diversity data;citation_publication_date=2017;citation_volume=13;citation_author=Zachary SL Foster;citation_author=Thomas J Sharpton;citation_author=Niklaus J Grünwald"/>
+  <meta name="citation_reference" content="citation_title=Species assemblages and indicator species: The need for a flexible asymmetrical approach;citation_publication_date=1997;citation_volume=67;citation_author=Marc Dufrêne;citation_author=Pierre Legendre"/>
+  <meta name="citation_reference" content="citation_title=Labdsv: Ordination and multivariate analysis for ecology;citation_publication_date=2007;citation_volume=1;citation_author=David W Roberts;citation_author=Labdsv: Ordination and multivariate analysis for ecology"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 4. Differentially Abundant ASVs"]},{"type":"character","attributes":{},"value":["In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  
+  <script type="application/javascript">
+  
+    window.headroom_prevent_pin = false;
+  
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+  
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+  
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+  
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+  
+  <style type="text/css">
+  
+  /* Theme (user-documented overrideables for nav appearance) */
+  
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #455a64;
+    font-size: 15px;
+    font-weight: 300;
+  }
+  
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .distill-site-nav a:hover {
+    color: white;
+  }
+  
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+  
+  .distill-site-header {
+  
+  }
+  
+  .distill-site-footer {
+  
+  }
+  
+  
+  /* Site Header */
+  
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+  
+  
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+  
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+  
+  .distill-site-header .title {
+    font-size: 18px;
+  }
+  
+  .distill-site-header .logo {
+    padding: 0;
+  }
+  
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+  
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+  
+  
+  
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+  
+  
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+  
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+  
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-dropdown-active {
+    display: block;
+  }
+  
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+  
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+  
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  /* Site Footer */
+  
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Headroom */
+  
+  d-title {
+    padding-top: 6rem;
+  }
+  
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+  
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+  
+  .headroom--unpinned {
+    top: -100px;
+  }
+  
+  .headroom--pinned {
+    top: 0;
+  }
+  
+  </style>
+  
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+  
+  <style type="text/css">
+  
+  body {
+    background-color: white;
+  }
+  
+  .pandoc-table {
+    width: 100%;
+  }
+  
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+  
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+  
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+  
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+  
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+  
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+  
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .shaded .shaded-content {
+    background: white;
+  }
+  
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  d-article {
+    padding-bottom: 30px;
+  }
+  
+  d-appendix {
+    padding-top: 30px;
+  }
+  
+  d-article>p>img {
+    width: 100%;
+  }
+  
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for table of contents */
+  
+  .d-toc {
+    color: rgba(0,0,0,0.8);
+    font-size: 0.8em;
+    line-height: 1em;
+  }
+  
+  .d-toc-header {
+    font-size: 0.6rem;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 1.3em;
+  }
+  
+  .d-toc a {
+    border-bottom: none;
+  }
+  
+  .d-toc ul {
+    padding-left: 0;
+  }
+  
+  .d-toc li>ul {
+    padding-top: 0.8em;
+    padding-left: 16px;
+    margin-bottom: 0.6em;
+  }
+  
+  .d-toc ul,
+  .d-toc li {
+    list-style-type: none;
+  }
+  
+  .d-toc li {
+    margin-bottom: 0.9em;
+  }
+  
+  .d-toc-separator {
+    margin-top: 20px;
+    margin-bottom: 2em;
+  }
+  
+  .d-article-with-toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  
+  
+  
+  /* Tweak code blocks (note that this CSS is repeated above in an injection
+     into the d-code shadow dom) */
+  
+  d-code {
+    overflow-x: auto !important;
+  }
+  
+  pre.d-code code.d-code {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+  
+  pre.text-output {
+  
+    font-size: 12px;
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  @media(min-width: 768px) {
+  
+  d-code {
+    overflow-x: visible !important;
+  }
+  
+  pre.d-code code.d-code  {
+      padding-left: 18px;
+      font-size: 14px;
+  }
+  pre.text-output {
+    font-size: 14px;
+  }
+  }
+  
+  /* Figure */
+  
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+  
+  .figure img {
+    width: 100%;
+  }
+  
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+  
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+  
+  
+  
+  /* Tweak 1000px media break to show more text */
+  
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+  
+    .grid {
+      grid-column-gap: 16px;
+    }
+  
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+  
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+  
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+  
+  
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+  
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  
+  /* Social footer */
+  
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+  
+  .disqus-comments {
+    margin-right: 30px;
+  }
+  
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+  
+  #disqus_thread {
+    margin-top: 30px;
+  }
+  
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+  
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+  
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+  
+  
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+  
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+  
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+  
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+  
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+  
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+  
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+  
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+  
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+  
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+  
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+  
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+  
+  </style>
+  
+  <script type="application/javascript">
+  
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+  
+  // show body when load is complete
+  function on_load_complete() {
+  
+    // set body to visible
+    document.body.style.visibility = 'visible';
+  
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+  
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+  
+  function init_distill() {
+  
+    init_common();
+  
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+  
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+  
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+  
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+  
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+  
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+  
+    // create d-bibliography
+    var bibliography = $('<d-bibliography></d-bibliography>');
+    $('#distill-bibliography').wrap(bibliography);
+  
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+  
+    // replace citations with <d-cite>
+    $('.citation').each(function(i, val) {
+      appendix = true;
+      var cites = $(this).attr('data-cites').split(" ");
+      var dt_cite = $('<d-cite></d-cite>');
+      dt_cite.attr('key', cites.join());
+      $(this).replaceWith(dt_cite);
+    });
+    // remove refs
+    $('#refs').remove();
+  
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+  
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+  
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+  
+    // replace code blocks with d-code
+    $('pre>code').each(function(i, val) {
+      var code = $(this);
+      var pre = code.parent();
+      var clz = "";
+      var language = pre.attr('class');
+      if (language) {
+        // map unknown languages to "clike" (without this they just dissapear)
+        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
+                                 "javascript", "js", "julia", "lua", "markdown",
+                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
+          language = "clike";
+        language = ' language="' + language + '"';
+        var dt_code = $('<d-code block' + language + clz + '></d-code>');
+        dt_code.text(code.text());
+        pre.replaceWith(dt_code);
+      } else {
+        code.addClass('text-output').unwrap().changeElementType('pre');
+      }
+    });
+  
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+  
+      // capture layout
+      var layout = $(this).attr('data-layout');
+  
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('d-code, pre.text-output, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+  
+  
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+  
+    // load distill framework
+    load_distill_framework();
+  
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+  
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+  
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+  
+      // table of contents
+      if (have_authors) // adjust border if we are in authors
+        $('.d-toc').parent().addClass('d-article-with-toc');
+  
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+  
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+  
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+  
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+  
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+  
+      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
+      $('d-code').each(function(i, val) {
+        var style = document.createElement('style');
+        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
+                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
+        if (this.shadowRoot)
+          this.shadowRoot.appendChild(style);
+      });
+  
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+  
+      // clear polling timer
+      clearInterval(tid);
+  
+      // show body now that everything is ready
+      on_load_complete();
+    }
+  
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+  
+  }
+  
+  function init_downlevel() {
+  
+    init_common();
+  
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+  
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+  
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+  
+    // remove toc
+    $('.d-toc-header').remove();
+    $('.d-toc').remove();
+    $('.d-toc-separator').remove();
+  
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+  
+  
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+  
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+  
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+  
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+  
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+  
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+  
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+  
+    $('body').addClass('downlevel');
+  
+    on_load_complete();
+  }
+  
+  
+  function init_common() {
+  
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+  
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+  
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+  
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+  
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+  
+      }
+    });
+  
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+  
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+  
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+  
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+  
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+  
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+  
+  </script>
+  
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+  <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+  <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
+  <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+  <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+  <script src="site_libs/jszip-1.10.20/jszip.min.js"></script>
+  <link href="site_libs/dt-ext-buttons-1.10.20/css/buttons.dataTables.min.css" rel="stylesheet" />
+  <script src="site_libs/dt-ext-buttons-1.10.20/js/dataTables.buttons.min.js"></script>
+  <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.flash.min.js"></script>
+  <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.html5.min.js"></script>
+  <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.colVis.min.js"></script>
+  <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
+  <link href="site_libs/dt-ext-fixedcolumns-1.10.20/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+  <script src="site_libs/dt-ext-fixedcolumns-1.10.20/js/dataTables.fixedColumns.min.js"></script>
+  <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  /* Whole document: */
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
+  /* controls general properties of site*/
+  body {
+    color: #414141;
+  /*  line-height: 1.7;
+    font-size: 17px; */
+    background-color: #FEFEFE;
+  }
+  
+  d-title h1{
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
+  }
+  
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
+  }
+  
+  d-article h3 {
+    margin-top: 1em;
+  }
+  
+  blockquote p {
+  	font-size: 1.3em;
+  	font-family: 'Lato';
+    font-style: normal;
+    margin: 0.5em 0 0.5em;
+  }
+  
+  d-code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-size: 0.8em;
+    border-left: 5px solid #006ddb;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
+    margin-bottom: 20px;
+  }
+  
+  pre.text-output {
+    margin-top: 0px;
+     color: #333333;
+     background-color: #FAFAFA;
+     font-size: 0.8em
+   }
+  
+  pre {
+    border: 1px solid #ccc;
+    padding: 0px 10px 10px 18px;
+    margin: 1em 0px;
+    border-radius: 5px;
+  }
+  
+  .nav-dropdown-content .nav-dropdown-header {
+    text-transform: none;
+  }
+  
+  d-article li {
+    margin: 0px 0px 4px;
+  }
+  
+  /*************************************************
+  *  code for side by side krona plot
+  **************************************************/
+  
+  .column {
+    float: left;
+    width: 48%;
+    padding: 5px;
+  }
+  
+  /* Clear floats after image containers */
+  .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  div.krona {
+    width: 100%;
+  	height: 90%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 25px;
+  	margin-top: 5px;
+  }
+  
+  div.container-krona {
+    text-align: center;
+    padding: 1px 10px;
+  	color: #414141;
+  	font-size: 1.48em;
+  	line-height: 0.8em;
+  	font-family: 'Inconsolata';
+  }
+  
+  div.container-krona p {
+    margin: 20px;
+  }
+  
+  div.krona img {
+    border:1px solid white;
+    margin: 25px;
+  }
+  
+  img {
+    margin: 25px;
+  }
+  
+  /** LIGHTBOX MARKUP **/
+  .thumbnail {
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .lightbox {
+  	/** Default lightbox to hidden */
+  	display: none;
+  
+  	/** Position and style */
+  	position: fixed;
+  	z-index: 999;
+  	width: 100%;
+  	height: 100%;
+  	text-align: center;
+  	top: 0;
+  	left: 0;
+  	background: rgba(0,0,0,0.8);
+  }
+  
+  .lightbox img {
+  	/** Pad the lightbox image */
+  	position: fixed;
+  	top: 0;
+  	left: 0;
+  	right: 0;
+  	bottom: 0;
+  	max-width: 0%;
+  	max-height: 0%;
+  	margin: auto;
+  	box-sizing: border-box;
+  }
+  
+  .lightbox:target {
+  	/** Remove default browser outline */
+  	outline: none;
+  
+  	/** Unhide lightbox **/
+  	display: block;
+  }
+  
+  .lightbox:target img {
+  	max-height: 100%;
+  	max-width: 100%;
+  }
+  
+  .distill-site-header .logo img {
+    margin-top: 10px;
+    max-height: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .distill-site-nav {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: #143D59;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  }
+  
+  </style>
+  <!--/radix_placeholder_site_in_header-->
+
+  <link rel="stylesheet" href="assets/styles.css" type="text/css"/>
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"No 4. Differentially Abundant ASVs","description":"In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).","authors":[{"author":"Jarrod J Scott","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a class="logo" href="index.html">
+<img src="assets/icon.png" alt="Logo"/>
+</a>
+<a href="index.html" class="title"></a>
+</div>
+<div class="nav-right">
+<a href="index.html">
+<i class="fa fa-home" aria-hidden="true"></i>
+</a>
+<a href="intro.html">Site Overview</a>
+<a href="field.html">A. Field Analyses</a>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+B. 16S rRNA
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<span class="nav-dropdown-header">16S rRNA Processing</span>
+<a href="16s-dada2.html">1. DADA2</a>
+<a href="16s-data-prep.html">2. Data Prep</a>
+<hr/>
+<span class="nav-dropdown-header">16S rRNA Analyses</span>
+<a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
+</div>
+</div>
+<div class="nav-dropdown">
+<button class="nav-dropbtn">
+C. Metagenomic
+ 
+<span class="down-arrow">&#x25BE;</span>
+</button>
+<div class="nav-dropdown-content">
+<span class="nav-dropdown-header">Setup</span>
+<a href="mg-setup.html">1. Working Envrionment</a>
+<a href="mg-databases.html">2. Annotation Databases</a>
+<hr/>
+<span class="nav-dropdown-header">Read Processing</span>
+<a href="mg-workflow-1.html">3. Assembly &amp; Annotations</a>
+<a href="mg-workflow-2.html">4. Assembley &amp; Annotation Summary</a>
+<hr/>
+<span class="nav-dropdown-header">MAG Analysis</span>
+<a href="mg-binning.html">5. Binning</a>
+<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
+</div>
+</div>
+<a href="data-availability.html">Data</a>
+<a href="https://github.com/hypocolypse/web/">
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>No 4. Differentially Abundant ASVs</h1>
+<p><p>In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).</p></p>
+</div>
+
+<div class="d-byline">
+  Jarrod J Scott  
+  
+
+</div>
+
+<div class="d-article">
+<h3 class="d-toc-header">Table of Contents</h3>
+<nav class="d-toc" id="TOC">
+<ul>
+<li><a href="#differentially-abundant-asvs">Differentially Abundant ASVs</a></li>
+<li><a href="#visualizing-da-asvs-in-anvio">Visualizing DA ASVs in Anvi’o</a><ul>
+<li><a href="#creating-input-files">Creating Input Files</a></li>
+<li><a href="#building-the-profile-database">Building the Profile Database</a></li>
+<li><a href="#interactive-interface">Interactive Interface</a></li>
+</ul></li>
+<li><a href="#heat-tree">Heat Tree</a><ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#setup-for-analysis">Setup for Analysis</a></li>
+<li><a href="#building-heat-maps">Building Heat Maps</a></li>
+<li><a href="#source-code">Source Code</a></li>
+</ul></li>
+</ul>
+</nav>
+<hr class="d-toc-separator"/>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<h1 id="differentially-abundant-asvs">Differentially Abundant ASVs</h1>
+<p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. ASVs that were enriched and more frequent in hypoxic and normoxic samples were identified using the Indicator Species Analysis (ISA)<span class="citation" data-cites="dufrene1997species">(Dufrêne and Legendre <a href="#ref-dufrene1997species" role="doc-biblioref">1997</a>)</span>, computed with the R package labdsv<span class="citation" data-cites="roberts2007labdsv">(Roberts and others <a href="#ref-roberts2007labdsv" role="doc-biblioref">2007</a>)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+set.seed(119)
+#rm(class, order, phylum, kingdom)
+#ls(all.names = TRUE)
+water_seq_table &lt;- data.frame(otu_table(ps_water))
+# Delete columns when sum == 0 Should not be any
+water_seq_table &lt;- water_seq_table[, which(colSums(water_seq_table) != 0)]
+
+water_seq_table &lt;- cbind(oxstate = c(&quot;normoxic&quot;,&quot;normoxic&quot;,
+                                     &quot;normoxic&quot;,&quot;normoxic&quot;,
+                                     &quot;normoxic&quot;,&quot;hypoxic&quot;,
+                                     &quot;hypoxic&quot;,&quot;hypoxic&quot;),
+                            water_seq_table)
+
+iva &lt;- indval(water_seq_table[,-1], water_seq_table[,1])
+gr &lt;- iva$maxcls[iva$pval &lt;= 0.05]
+iv &lt;- iva$indcls[iva$pval &lt;= 0.05]
+pv &lt;- iva$pval[iva$pval &lt;= 0.05]
+fr &lt;- apply(water_seq_table[,-1] &gt; 0, 2, sum)[iva$pval &lt;= 0.05]
+indvalsummary &lt;- data.frame(group = gr, indval = iv,
+                            pvalue = pv, freq = fr)
+indvalsummary &lt;- indvalsummary[order(indvalsummary$group,
+                                     -indvalsummary$indval),]
+water_tax_table &lt;- data.frame(tax_table(ps_water))
+indvalsummary_tax &lt;- merge(indvalsummary, water_tax_table,
+                           by = &quot;row.names&quot;,
+                           all = TRUE)
+indvalsummary_tax &lt;- indvalsummary_tax[!(is.na(indvalsummary_tax$group)),]
+
+lapply(indvalsummary_tax, class)
+class(indvalsummary_tax$group) = &quot;character&quot;
+indvalsummary_tax$group &lt;- ifelse(indvalsummary_tax$group == &quot;1&quot;,
+                                  as.character(&quot;hypoxic&quot;),
+                                  as.character(&quot;normoxic&quot;))</code></pre>
+</div>
+<p>Now we can save a few files and display the data.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p><br/></p>
+<div class="layout-chunk" data-layout="l-page">
+<div id="twykw9v4dzmp1lymga92" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="twykw9v4dzmp1lymga92">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Differentially Abundant ASVs assessed by\n    Indicator Species Analysis (ISA).<\/caption>","autoHideNavigation":true,"data":[["ASV1","ASV10","ASV101","ASV102","ASV103","ASV104","ASV105","ASV106","ASV11","ASV111","ASV113","ASV115","ASV117","ASV118","ASV12","ASV126","ASV127","ASV128","ASV13","ASV130","ASV131","ASV133","ASV134","ASV14","ASV140","ASV147","ASV15","ASV151","ASV152","ASV154","ASV155","ASV156","ASV16","ASV160","ASV163","ASV164","ASV17","ASV175","ASV18","ASV180","ASV182","ASV183","ASV184","ASV186","ASV188","ASV189","ASV19","ASV194","ASV200","ASV203","ASV211","ASV214","ASV219","ASV22","ASV220","ASV222","ASV225","ASV23","ASV232","ASV233","ASV234","ASV235","ASV237","ASV238","ASV24","ASV242","ASV243","ASV246","ASV25","ASV250","ASV251","ASV254","ASV26","ASV267","ASV268","ASV27","ASV270","ASV281","ASV282","ASV29","ASV291","ASV296","ASV297","ASV3","ASV30","ASV301","ASV308","ASV319","ASV329","ASV33","ASV334","ASV335","ASV34","ASV347","ASV348","ASV35","ASV355","ASV356","ASV36","ASV360","ASV37","ASV373","ASV38","ASV383","ASV39","ASV392","ASV394","ASV397","ASV4","ASV40","ASV41","ASV429","ASV43","ASV435","ASV439","ASV444","ASV45","ASV46","ASV47","ASV48","ASV49","ASV5","ASV50","ASV53","ASV533","ASV54","ASV57","ASV58","ASV59","ASV6","ASV60","ASV601","ASV62","ASV64","ASV65","ASV66","ASV67","ASV68","ASV69","ASV7","ASV70","ASV71","ASV72","ASV75","ASV76","ASV77","ASV78","ASV79","ASV80","ASV81","ASV87","ASV88","ASV89","ASV90","ASV91","ASV93","ASV95","ASV96","ASV99"],[52810,2148,268,266,263,259,255,253,2069,226,222,218,214,213,1989,196,193,192,1977,190,189,188,188,1689,180,165,1632,162,159,156,155,155,1626,142,136,134,1570,129,1536,125,123,122,121,120,119,119,1431,112,104,102,97,94,92,1387,90,90,87,1320,83,82,82,81,80,80,1298,78,77,76,1290,75,75,74,1279,69,69,1275,67,63,63,1246,60,58,58,4009,1181,57,55,53,51,1090,49,49,1078,47,47,976,45,45,810,44,808,41,806,40,795,37,37,36,3681,781,753,31,725,30,30,29,699,691,690,665,652,3665,647,612,20,600,559,544,542,3609,541,16,536,509,499,493,493,470,464,3448,411,411,404,371,360,357,355,344,339,338,310,309,304,304,300,290,284,277,274],[48245,3,0,0,73,0,230,253,0,226,222,0,214,213,1818,194,0,22,0,0,178,188,50,1450,167,165,1632,0,159,156,35,0,0,127,0,21,1379,34,1453,125,112,0,0,0,119,119,1350,0,0,102,0,78,92,1350,90,0,0,1257,0,82,82,81,8,0,1203,7,5,20,1202,75,0,0,0,0,0,0,0,16,0,1157,0,6,0,0,0,0,0,0,0,999,0,0,943,0,0,768,0,0,810,0,0,0,0,0,689,7,0,0,3164,72,0,0,266,30,0,0,699,691,690,548,580,13,0,68,0,600,559,453,0,3147,404,0,0,0,499,476,463,445,399,0,389,385,0,371,67,357,355,344,330,320,284,241,257,289,262,224,284,250,0],[4565,2145,268,266,190,259,25,0,2069,0,0,218,0,0,171,2,193,170,1977,190,11,0,138,239,13,0,0,162,0,0,120,155,1626,15,136,113,191,95,83,0,11,122,121,120,0,0,81,112,104,0,97,16,0,37,0,90,87,63,83,0,0,0,72,80,95,71,72,56,88,0,75,74,1279,69,69,1275,67,47,63,89,60,52,58,4009,1181,57,55,53,51,91,49,49,135,47,47,208,45,45,0,44,808,41,806,40,106,30,37,36,517,709,753,31,459,0,30,29,0,0,0,117,72,3652,647,544,20,0,0,91,542,462,137,16,536,509,0,17,30,25,65,3448,22,26,404,0,293,0,0,0,9,18,26,68,47,15,38,66,0,27,274],["normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic"],[0.863780138457866,0.999161542761319,1,1,0.812660393498717,1,0.846625766871166,1,1,1,1,1,1,1,0.864479315263909,0.983108108108108,1,0.927947598253275,1,1,0.906621392190153,1,0.821428571428571,0.784490532010821,0.885159010600707,1,1,1,1,1,0.851063829787234,1,1,0.835526315789474,1,0.89968152866242,0.812450903377848,0.823223570190641,0.913070800167574,1,0.859335038363171,1,1,1,1,1,0.909090909090909,1,1,1,1,0.745222929936306,1,0.956316410861865,1,1,1,0.922907488986784,1,1,1,1,0.9375,1,0.883692458374143,0.944148936170213,0.96,0.823529411764706,0.891250617894216,1,1,1,1,1,1,1,1,0.830388692579505,1,0.886363636363636,1,0.935251798561151,1,1,1,1,1,1,1,0.86819235225956,1,1,0.80736301369863,1,1,0.688995215311005,1,1,1,1,1,1,1,1,0.795918367346939,0.87719298245614,1,1,0.785956777345367,0.942568465833555,1,1,0.741998060135791,1,1,1,1,1,1,0.737550471063257,0.828571428571429,0.997868735996503,1,0.930232558139535,1,1,1,0.749173098125689,1,0.803420985448047,0.638903531892462,1,1,1,1,0.943820224719101,0.902534113060429,0.914383561643836,0.78646517739816,1,0.913860610806578,0.898832684824903,1,1,0.879351740696278,1,1,1,0.956521739130435,0.914285714285714,0.867617107942973,0.680150517403575,0.766401590457257,0.920382165605096,0.805327868852459,0.67065868263473,1,0.847457627118644,1],[0.014,0.024,0.017,0.02,0.016,0.026,0.038,0.023,0.018,0.015,0.024,0.026,0.02,0.029,0.023,0.021,0.03,0.023,0.02,0.016,0.018,0.021,0.042,0.026,0.017,0.018,0.021,0.023,0.024,0.017,0.045,0.023,0.014,0.023,0.02,0.048,0.011,0.048,0.011,0.015,0.018,0.018,0.027,0.018,0.018,0.01,0.02,0.025,0.017,0.015,0.018,0.028,0.016,0.023,0.017,0.026,0.022,0.021,0.013,0.018,0.017,0.018,0.015,0.013,0.016,0.024,0.015,0.045,0.019,0.015,0.017,0.011,0.012,0.015,0.015,0.018,0.024,0.047,0.024,0.014,0.025,0.019,0.022,0.021,0.023,0.016,0.024,0.02,0.015,0.022,0.021,0.021,0.05,0.021,0.022,0.039,0.014,0.017,0.019,0.014,0.015,0.014,0.018,0.018,0.031,0.037,0.02,0.022,0.014,0.042,0.016,0.022,0.049,0.017,0.017,0.017,0.018,0.021,0.019,0.028,0.019,0.033,0.019,0.011,0.018,0.02,0.025,0.018,0.015,0.022,0.033,0.019,0.016,0.024,0.022,0.015,0.014,0.016,0.021,0.013,0.02,0.02,0.014,0.017,0.037,0.014,0.018,0.025,0.02,0.022,0.013,0.02,0.016,0.019,0.019,0.023,0.021,0.019,0.021],[8,4,3,3,7,3,7,5,3,5,5,3,5,5,8,6,3,4,3,3,7,5,7,8,7,5,5,3,5,5,4,3,3,7,3,5,8,4,7,5,8,3,3,3,5,5,6,3,3,5,3,7,5,6,5,3,3,7,3,5,5,5,4,3,8,4,4,4,7,5,3,3,3,3,3,3,3,4,3,7,3,4,3,3,3,3,3,3,3,7,3,3,8,3,3,8,3,3,5,3,3,3,3,3,8,4,3,3,8,5,3,3,8,5,3,3,5,5,5,8,7,5,3,7,3,5,5,7,3,8,8,3,3,3,5,6,7,6,7,3,6,8,3,5,5,5,5,5,6,6,7,8,7,6,7,8,5,6,3],["Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Archaea","Bacteria","Archaea","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria"],["Cyanobacteria","Campilobacterota","Cyanobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Proteobacteria","Thermoplasmatota","Marinimicrobia_(SAR406_clade)","Bacteroidota","Proteobacteria","Proteobacteria","Actinobacteriota","Marinimicrobia_(SAR406_clade)","Planctomycetota","Bacteroidota","Proteobacteria","Cloacimonadota","Proteobacteria","Thermoplasmatota","Planctomycetota","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Planctomycetota","Proteobacteria","Actinobacteriota","Proteobacteria","Proteobacteria","Proteobacteria","Dadabacteria","Bacteroidota","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Bacteroidota","Desulfobacterota","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Proteobacteria","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Bacteroidota","Bacteroidota","Marinimicrobia_(SAR406_clade)","Bdellovibrionota","Marinimicrobia_(SAR406_clade)","Planctomycetota","Proteobacteria","Marinimicrobia_(SAR406_clade)","Verrucomicrobiota","Verrucomicrobiota","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Bacteroidota","Planctomycetota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Planctomycetota","Proteobacteria","Planctomycetota","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Proteobacteria","Verrucomicrobiota","Proteobacteria","Proteobacteria","Planctomycetota","Thermoplasmatota","Planctomycetota","Actinobacteriota","Actinobacteriota","Bacteroidota","Bacteroidota","Actinobacteriota","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Verrucomicrobiota","Planctomycetota","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Bacteroidota","Proteobacteria","Bacteroidota","Firmicutes","Bacteroidota","Cyanobacteria","Proteobacteria","Proteobacteria","Thermoplasmatota","Bacteroidota","Bacteroidota","Bacteroidota","Nanoarchaeota","Bacteroidota","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Firmicutes","Bacteroidota","Proteobacteria","Thermoplasmatota","Thermoplasmatota","Proteobacteria","Thermoplasmatota","Thermoplasmatota","Proteobacteria","Proteobacteria","Proteobacteria","Cyanobacteria","Proteobacteria","Bacteroidota","Thermoplasmatota","Actinobacteriota","Cyanobacteria","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Thermoplasmatota","Proteobacteria","Proteobacteria","Marinimicrobia_(SAR406_clade)","Actinobacteriota","Proteobacteria","Proteobacteria"],["Cyanobacteriia","Campylobacteria","Cyanobacteriia","Gammaproteobacteria","Bacteroidia","Bacteroidia","Phycisphaerae","Gammaproteobacteria","Alphaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Planctomycetes","Bacteroidia","Alphaproteobacteria","Cloacimonadia","Gammaproteobacteria","Thermoplasmata","OM190","Bacteroidia","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Phycisphaerae","Gammaproteobacteria","Acidimicrobiia","Gammaproteobacteria","Gammaproteobacteria","Gammaproteobacteria","Dadabacteriia","Bacteroidia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Bacteroidia","Bacteroidia","Desulfovibrionia","Alphaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Bacteroidia","Gammaproteobacteria","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Alphaproteobacteria","Bacteroidia","Bacteroidia","Bacteroidia","Bacteroidia","Phylum_Marinimicrobia_(SAR406_clade)","Bdellovibrionia","Phylum_Marinimicrobia_(SAR406_clade)","OM190","Gammaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellae","Verrucomicrobiae","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Bacteroidia","Planctomycetes","Gammaproteobacteria","Bacteroidia","Bacteroidia","OM190","Alphaproteobacteria","OM190","Gammaproteobacteria","Planctomycetes","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Rhodothermia","Gammaproteobacteria","Verrucomicrobiae","Alphaproteobacteria","Gammaproteobacteria","Planctomycetes","Thermoplasmata","OM190","Acidimicrobiia","Acidimicrobiia","Bacteroidia","Bacteroidia","Acidimicrobiia","Bacteroidia","Gammaproteobacteria","Bacteroidia","Rhodothermia","Phycisphaerae","Alphaproteobacteria","Verrucomicrobiae","Planctomycetes","Bacteroidia","Alphaproteobacteria","Bacteroidia","Bacteroidia","Planctomycetes","Rhodothermia","Gammaproteobacteria","Bacteroidia","Clostridia","Bacteroidia","Cyanobacteriia","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Bacteroidia","Bacteroidia","Bacteroidia","Nanoarchaeia","Bacteroidia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Gammaproteobacteria","Clostridia","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Thermoplasmata","Alphaproteobacteria","Thermoplasmata","Thermoplasmata","Gammaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Thermoplasmata","Acidimicrobiia","Cyanobacteriia","Bacteroidia","Alphaproteobacteria","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Alphaproteobacteria","Alphaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Gammaproteobacteria","Gammaproteobacteria"],["Synechococcales","Campylobacterales","Cyanobacteriales","Oceanospirillales","Flavobacteriales","Flavobacteriales","Phycisphaerales","SAR86_clade","Rhodobacterales","Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Bacteroidales","SAR11_clade","Thiotrichales","Actinomarinales","Phylum_Marinimicrobia_(SAR406_clade)","Planctomycetales","Flavobacteriales","Rhodobacterales","Cloacimonadales","SAR86_clade","Thermoplasmata_or","Class_OM190","Flavobacteriales","SAR11_clade","SAR11_clade","Flavobacteriales","Phycisphaerales","SAR86_clade","Microtrichales","Cellvibrionales","Alteromonadales","Oceanospirillales","Dadabacteriales","Flavobacteriales","Flavobacteriales","Puniceispirillales","Chromatiales","SAR11_clade","Defluviicoccales","Flavobacteriales","Flavobacteriales","Bacteroidales","Desulfovibrionales","Rhodobacterales","Puniceispirillales","SAR11_clade","Flavobacteriales","Bacteroidales","SAR86_clade","Flavobacteriales","Parvibaculales","SAR86_clade","Cytophagales","Puniceispirillales","Chitinophagales","Bacteroidales","Flavobacteriales","Bacteroidales","Phylum_Marinimicrobia_(SAR406_clade)","Bacteriovoracales","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Thiotrichales","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellales","Verrucomicrobiales","Flavobacteriales","SAR11_clade","Alteromonadales","Rhodospirillales","Flavobacteriales","Oceanospirillales","Chitinophagales","Planctomycetales","Oceanospirillales","Class_Bacteroidia","Flavobacteriales","Class_OM190","Rhodobacterales","Class_OM190","KI89A_clade","Pirellulales","Rhodobacterales","Oceanospirillales","Flavobacteriales","Balneolales","HOC36","Opitutales","Puniceispirillales","Oceanospirillales","Pirellulales","Marine_Group_II","Class_OM190","Microtrichales","Actinomarinales","Flavobacteriales","Bacteroidales","Actinomarinales","Flavobacteriales","Oceanospirillales","Bacteroidales","Balneolales","Phycisphaerales","Rhodobacterales","Arctic97B-4_marine_group","Planctomycetales","Flavobacteriales","SAR11_clade","Chitinophagales","Flavobacteriales","Planctomycetales","Balneolales","Cellvibrionales","Chitinophagales","Peptostreptococcales-Tissierellales","Flavobacteriales","Synechococcales","Rhodobacterales","SAR86_clade","Marine_Group_II","Chitinophagales","Flavobacteriales","Flavobacteriales","Woesearchaeales","Flavobacteriales","Flavobacteriales","SAR11_clade","Chromatiales","Flavobacteriales","Cellvibrionales","Peptostreptococcales-Tissierellales","Chitinophagales","Chromatiales","Marine_Group_II","Marine_Group_II","Rhodobacterales","Marine_Group_II","Marine_Group_II","Oceanospirillales","Puniceispirillales","Defluviicoccales","Limnotrichales","SAR11_clade","Flavobacteriales","Marine_Group_II","Actinomarinales","Synechococcales","Flavobacteriales","Puniceispirillales","Rhodospirillales","SAR86_clade","Marine_Group_II","Puniceispirillales","SAR11_clade","Phylum_Marinimicrobia_(SAR406_clade)","Actinomarinales","Cellvibrionales","Oceanospirillales"],["Cyanobiaceae","Arcobacteraceae","Phormidiaceae","Nitrincolaceae","Flavobacteriaceae","Flavobacteriaceae","Phycisphaeraceae","Order_SAR86_clade","Rhodobacteraceae","Order_Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Marinilabiliaceae","Clade_II","Thiotrichaceae","Actinomarinaceae","Phylum_Marinimicrobia_(SAR406_clade)","Rubinisphaeraceae","Cryomorphaceae","Rhodobacteraceae","MSBL8","Order_SAR86_clade","Thermoplasmata_fa","Class_OM190","Flavobacteriaceae","Clade_III","Clade_I","Flavobacteriaceae","Phycisphaeraceae","Order_SAR86_clade","Microtrichaceae","Halieaceae","Alteromonadaceae","Nitrincolaceae","Order_Dadabacteriales","Flavobacteriaceae","Flavobacteriaceae","SAR116_clade","Chromatiaceae","Clade_I","Order_Defluviicoccales","Flavobacteriaceae","Cryomorphaceae","Prolixibacteraceae","Desulfovibrionaceae","Rhodobacteraceae","SAR116_clade","Clade_I","Flavobacteriaceae","Prolixibacteraceae","Order_SAR86_clade","Flavobacteriaceae","PS1_clade","Order_SAR86_clade","Cyclobacteriaceae","SAR116_clade","Saprospiraceae","Prolixibacteraceae","Flavobacteriaceae","Prolixibacteraceae","Phylum_Marinimicrobia_(SAR406_clade)","Bacteriovoracaceae","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Thiotrichaceae","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellaceae","Rubritaleaceae","Flavobacteriaceae","Clade_II","Alteromonadaceae","Terasakiellaceae","Cryomorphaceae","Nitrincolaceae","Saprospiraceae","Rubinisphaeraceae","Nitrincolaceae","Class_Bacteroidia","Cryomorphaceae","Class_OM190","Rhodobacteraceae","Class_OM190","Order_KI89A_clade","Pirellulaceae","Rhodobacteraceae","Nitrincolaceae","Order_Flavobacteriales","Balneolaceae","Order_HOC36","Puniceicoccaceae","SAR116_clade","Nitrincolaceae","Pirellulaceae","Order_Marine_Group_II","Class_OM190","Ilumatobacteraceae","Actinomarinaceae","Flavobacteriaceae","Marinifilaceae","Actinomarinaceae","NS9_marine_group","Nitrincolaceae","Prolixibacteraceae","Balneolaceae","Phycisphaeraceae","Rhodobacteraceae","Order_Arctic97B-4_marine_group","Rubinisphaeraceae","Cryomorphaceae","Clade_I","Saprospiraceae","Flavobacteriaceae","Rubinisphaeraceae","Balneolaceae","Halieaceae","Order_Chitinophagales","Peptostreptococcaceae","Flavobacteriaceae","Cyanobiaceae","Rhodobacteraceae","Order_SAR86_clade","Order_Marine_Group_II","Saprospiraceae","Flavobacteriaceae","Flavobacteriaceae","Order_Woesearchaeales","NS9_marine_group","Flavobacteriaceae","Clade_I","Chromatiaceae","Flavobacteriaceae","Halieaceae","Peptostreptococcales-Tissierellales_fa","Saprospiraceae","Chromatiaceae","Order_Marine_Group_II","Order_Marine_Group_II","Rhodobacteraceae","Order_Marine_Group_II","Order_Marine_Group_II","Nitrincolaceae","SAR116_clade","Order_Defluviicoccales","Limnotrichaceae","Clade_II","Flavobacteriaceae","Order_Marine_Group_II","Actinomarinaceae","Cyanobiaceae","Flavobacteriaceae","SAR116_clade","AEGEAN-169_marine_group","Order_SAR86_clade","Order_Marine_Group_II","SAR116_clade","Clade_I","Phylum_Marinimicrobia_(SAR406_clade)","Actinomarinaceae","Halieaceae","Nitrincolaceae"],["Synechococcus_CC9902","Family_Arcobacteraceae","Trichodesmium_IMS101","Amphritea","Family_Flavobacteriaceae","Family_Flavobacteriaceae","Urania-1B-19_marine_sediment_group","Order_SAR86_clade","Family_Rhodobacteraceae","Order_Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Family_Marinilabiliaceae","Family_Clade_II","Family_Thiotrichaceae","Candidatus_Actinomarina","Phylum_Marinimicrobia_(SAR406_clade)","Family_Rubinisphaeraceae","Family_Cryomorphaceae","Family_Rhodobacteraceae","Family_MSBL8","Order_SAR86_clade","Marine_Group_III","Class_OM190","NS5_marine_group","Family_Clade_III","Clade_Ib","NS2b_marine_group","CL500-3","Order_SAR86_clade","Sva0996_marine_group","OM60(NOR5)_clade","Family_Alteromonadaceae","Family_Nitrincolaceae","Order_Dadabacteriales","NS4_marine_group","Family_Flavobacteriaceae","Family_SAR116_clade","Candidatus_Thiobios","Clade_Ia","Order_Defluviicoccales","NS4_marine_group","Family_Cryomorphaceae","Roseimarinus","Desulfovibrio","Family_Rhodobacteraceae","Family_SAR116_clade","Clade_Ia","NS4_marine_group","Draconibacterium","Order_SAR86_clade","NS4_marine_group","Family_PS1_clade","Order_SAR86_clade","Marinoscillum","Family_SAR116_clade","Family_Saprospiraceae","Draconibacterium","NS4_marine_group","Sunxiuqinia","Phylum_Marinimicrobia_(SAR406_clade)","Family_Bacteriovoracaceae","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Family_Thiotrichaceae","Phylum_Marinimicrobia_(SAR406_clade)","R76-B128","Roseibacillus","NS4_marine_group","Family_Clade_II","Aliiglaciecola","Terasakiella","Family_Cryomorphaceae","Pontibacterium","Family_Saprospiraceae","Family_Rubinisphaeraceae","Marinobacterium","Class_Bacteroidia","Family_Cryomorphaceae","Class_OM190","Family_Rhodobacteraceae","Class_OM190","Order_KI89A_clade","Rhodopirellula","Thalassobius","Pontibacterium","Order_Flavobacteriales","Balneola","Order_HOC36","MB11C04_marine_group","Family_SAR116_clade","Neptuniibacter","Blastopirellula","Order_Marine_Group_II","Class_OM190","Family_Ilumatobacteraceae","Candidatus_Actinomarina","NS4_marine_group","Family_Marinifilaceae","Candidatus_Actinomarina","Family_NS9_marine_group","Pontibacterium","Roseimarinus","Balneola","SM1A02","Family_Rhodobacteraceae","Order_Arctic97B-4_marine_group","Family_Rubinisphaeraceae","Family_Cryomorphaceae","Clade_Ia","Family_Saprospiraceae","Tenacibaculum","Family_Rubinisphaeraceae","Balneola","Luminiphilus","Order_Chitinophagales","Peptoclostridium","NS2b_marine_group","Synechococcus_CC9902","Family_Rhodobacteraceae","Order_SAR86_clade","Order_Marine_Group_II","Family_Saprospiraceae","Formosa","Family_Flavobacteriaceae","Order_Woesearchaeales","Family_NS9_marine_group","NS2b_marine_group","Clade_Ib","Candidatus_Thiobios","NS2b_marine_group","OM60(NOR5)_clade","Family_Peptostreptococcales-Tissierellales_fa","Family_Saprospiraceae","Candidatus_Thiobios","Order_Marine_Group_II","Order_Marine_Group_II","Roseovarius","Order_Marine_Group_II","Order_Marine_Group_II","Marinobacterium","Candidatus_Puniceispirillum","Order_Defluviicoccales","Limnothrix","Family_Clade_II","NS4_marine_group","Order_Marine_Group_II","Candidatus_Actinomarina","Synechococcus_CC9902","NS5_marine_group","Family_SAR116_clade","Family_AEGEAN-169_marine_group","Order_SAR86_clade","Order_Marine_Group_II","Family_SAR116_clade","Clade_Ib","Phylum_Marinimicrobia_(SAR406_clade)","Candidatus_Actinomarina","OM60(NOR5)_clade","Family_Nitrincolaceae"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ASV<\/th>\n      <th>reads<\/th>\n      <th>norm<\/th>\n      <th>hypo<\/th>\n      <th>group<\/th>\n      <th>indval<\/th>\n      <th>pval<\/th>\n      <th>freq<\/th>\n      <th>Kingdom<\/th>\n      <th>Phylum<\/th>\n      <th>Class<\/th>\n      <th>Order<\/th>\n      <th>Family<\/th>\n      <th>Genus<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":true,"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"targets":6,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,5,6,7]}],"dom":"Blfrtip","buttons":[{"extend":"collection","buttons":["csv","excel","copy"],"text":"Download"}],"pageLength":10,"lengthMenu":[5,10,50,160],"scrollX":true,"scrollCollapse":false,"scrollY":false,"paging":true,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'80%'});\nvar value=data[10]; $(this.api().cell(row, 10).node()).css({'font-size':'80%'});\nvar value=data[11]; $(this.api().cell(row, 11).node()).css({'font-size':'80%'});\nvar value=data[12]; $(this.api().cell(row, 12).node()).css({'font-size':'80%'});\nvar value=data[13]; $(this.api().cell(row, 13).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<p>We also save fasta files of DA ASVs. For the visualization below we will only consider ASVs that were represented by &gt; 100 reads so we need a fasta of just those ASVs.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Now. What do we get from all of this? Well, we started with 1272 and ran Indicator Species Analysis (ISA) to see if we could identify Differentially Abundant (DA) ASVs between the normoxic and hypoxic conditions. ISA found 159 ASVs that were DA between the two, specifically 76 ASVs enriched in the normoxic samples and 83 in the hypoxic. If we consider only ASVs with more than 100 total reads we get 76 normoxic ASVs and 83 hypoxic ASVs.</p>
+<h1 id="visualizing-da-asvs-in-anvio">Visualizing DA ASVs in Anvi’o</h1>
+<p>Next, we will combine the results of the ISA analysis with the distribution of ASVs across each sample. We are going to do the analysis in anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> using the <code>anvi-interactive</code> command. Anvi’o likes database but it also understands that sometimes you don’t have a database. So it offers a <em>manual mode</em> for all of us slackers out there. If you type this command you can have a look at the relevant pieces we need for the visualization, specifically those under the headings <code>MANUAL INPUTS</code> and <code>ADDITIONAL STUFF</code>. I will go through these out of order so try to keep up ;)</p>
+<pre class="bash"><code>
+anvi-interactive -h</code></pre>
+<pre><code>
+MANUAL INPUTS:
+  Mandatory input parameters to start the interactive interface without
+  anvi&#39;o databases.
+
+--manual-mode           We need this flag to run anvi&#39;o in an ad hoc
+                        manner, i.e., no database.
+-f FASTA, --fasta-file FASTA
+                        A FASTA-formatted input file. This is sort of
+                        optional
+-d VIEW_DATA, --view-data VIEW_DATA
+                        A TAB-delimited file for view data. This is the ASV
+                        by sample matrix. We need this
+-t NEWICK, --tree NEWICK
+                        NEWICK formatted tree structure. How the ASVs are
+                        ordered in our case.
+ADDITIONAL STUFF:
+  Parameters to provide additional layers, views, or layer data.
+
+-V ADDITIONAL_VIEW, --additional-view ADDITIONAL_VIEW
+                        A TAB-delimited file for an additional view to be used
+                        in the interface. This file should contain all split
+                        names, and values for each of them in all samples.
+                        Each column in this file must correspond to a sample
+                        name. Content of this file will be called &#39;user_view&#39;,
+                        which will be available as a new item in the &#39;views&#39;
+                        combo box in the interface
+-A ADDITIONAL_LAYERS, --additional-layers ADDITIONAL_LAYERS
+                        A TAB-delimited file for additional layer info. In
+                        our case this is info about each ASV. The first column
+                        of the file must be the ASV names, and
+                        the remaining columns should be unique attributes.</code></pre>
+<p>There are also a few files we generate that cannot be loaded directly. So, in addition to the files that can be <em>loaded</em> when running the interactive, we also have files that must be <em>added</em> to the database created by anvi’o.</p>
+<h2 id="creating-input-files">Creating Input Files</h2>
+<p>Here is a nice tutorial on <a href="http://merenlab.org/2017/12/11/additional-data-tables/">Working with anvi’o additional data tables</a>. A lot of what we need is covered in this tutorial. To get the most out the visualization we need to create a few files to give anvi’o when we fire up the interactive interface.</p>
+<ol type="1">
+<li>View data: in our case, a sample by ASV abundance matrix.</li>
+<li>Additional info about each ASV.</li>
+<li>Additional info about each sample.</li>
+<li>Taxa abundance data for each sample at some rank.</li>
+<li>Dendrograms ordering the ASVs and samples (based on view data).</li>
+<li>Fasta file of all ASVs in the analysis.</li>
+</ol>
+<h3 id="view-data">1. View data</h3>
+<p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization, we will use <strong><em>all</em></strong> ASVs represented by 100 or more total reads, including those identified as differentially abundant by the ISA.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ps_water_100 &lt;- prune_taxa(taxa_sums(ps_water) &gt; 100, ps_water)
+ps_water_100</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>
+phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 189 taxa and 8 samples ]
+sample_data() Sample Data:       [ 8 samples by 5 sample variables ]
+tax_table()   Taxonomy Table:    [ 189 taxa by 8 taxonomic ranks ]</code></pre>
+</div>
+<p>Looks like this are 189 total ASVs. We know from the ISA analysis above that 159 ASVs were differentially abundant between the two groups so there will be 30 ASVs in our graph that showed no difference.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data_tab &lt;- as.data.frame(t(otu_table(ps_water_100)))
+data_tab &lt;- data_tab %&gt;% rownames_to_column(&quot;Group&quot;)
+write.table(data_tab, &quot;16s-anvio/data.txt&quot;, sep = &quot;\t&quot;,
+            quote = FALSE, row.names = FALSE)</code></pre>
+</div>
+<aside>
+<strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--view-data</code> flag.
+</aside>
+<h3 id="additional-layers-for-asvs">2. Additional Layers for ASVs</h3>
+<p>Next, we need some additional data <strong>about the ASVs</strong> to overlay on the visual. This can be anything however what I specifically want are the details of the ISA analysis, total reads, and lineage info. I warn you; this code will get ugly and I urge you to find a better way.</p>
+<aside>
+<strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--additional-layers</code> flag.
+</aside>
+<p>Start with an ASV + lineage table for the ASVs in the <code>ps_water_100</code> phyloseq object.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+data_tab2 &lt;- as.data.frame(t(otu_table(ps_water_100)))
+total_reads2 &lt;- cbind(data_tab2, total_reads = rowSums(data_tab2))
+total_reads2[1:8] &lt;- NULL
+tax_tab2 &lt;- as.data.frame(tax_table(ps_water_100))
+tax_tab2[7] &lt;- NULL
+total_reads2 &lt;- tibble::rownames_to_column(total_reads2, &quot;Group&quot;)
+tax_tab2 &lt;- tibble::rownames_to_column(tax_tab2, &quot;Group&quot;)
+
+merge_tabX &lt;- merge(total_reads2, tax_tab2,
+                           by = &quot;Group&quot;,
+                           all = TRUE)
+drop_c &lt;- c(&quot;reads&quot;, &quot;norm&quot;, &quot;hypo&quot;, &quot;Kingdom&quot;,
+            &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;, &quot;Family&quot;, &quot;Genus&quot;)
+idval2 &lt;- full_indval_sum_noseq[ , !(names(full_indval_sum_noseq) %in% drop_c)]
+colnames(idval2)[1:2] &lt;- c(&quot;Group&quot;, &quot;enriched&quot;)
+
+additional_layers &lt;- merge(idval2, merge_tabX,
+                           by = &quot;Group&quot;,
+                           all.y = TRUE)
+write.table(additional_layers, &quot;16s-anvio/additional_layers.txt&quot;,
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+</div>
+<h3 id="additional-views-for-samples">3. Additional Views for Samples</h3>
+<p>Now we want some general data <strong>about the samples</strong> to overlay on the visual. Again, this can be anything. How about a table of alpha diversity metrics? We actually have such a table that was generated way back up the road. Just need to fix the column names.</p>
+<aside>
+<strong>Added</strong> to profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layers</code> flag.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+additional_view &lt;- merge_tab2
+additional_view[2] &lt;- NULL
+colnames(additional_view) &lt;- c(&quot;id&quot;, &quot;site&quot;, &quot;oxstate&quot;, &quot;period&quot;, &quot;no_reads&quot;,
+    &quot;no_asvs&quot;, &quot;Shannon&quot;, &quot;InvSimpson&quot;)
+write.table(additional_view, &quot;16s-anvio/additional_views.txt&quot;,
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+</div>
+<h3 id="taxon-rank-abundance-by-sample">4. Taxon rank abundance by sample</h3>
+<p>Turned out this was a little tricky to figure out, but thanks to this <a href="https://github.com/joey711/phyloseq/issues/418#issuecomment-262637034">little nifty block of code</a> written by <a href="https://github.com/guoyanzhao">guoyanzhao</a> on the phyloseq Issues forum, it was a piece of cake. The code can be altered to take any rank. See the post for an explanation.</p>
+<p>Anyway, the goal is to sum each taxon at sum rank and present that as a bar chart for each sample in the visualization. Anvi’o has a specific format it needs where each row is a sample and each column is a taxon. Taxa names need the prefix <code>t_&lt;RANK&gt;!</code>. For example, <code>t_class!</code> should be added for Class rank.</p>
+<aside>
+<strong>Added</strong> to profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layers</code> flag.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Make the table
+anvio_taxa &lt;- ps_water
+glom_rank &lt;- tax_glom(anvio_taxa, taxrank = &#39;Class&#39;)
+melt_rank &lt;- psmelt(glom_rank)
+melt_rank$Class &lt;- as.character(melt_rank$Class)
+rank_abundance &lt;- aggregate(Abundance~Sample+Class, melt_rank, FUN = sum)
+rank_abundance &lt;- as.data.frame(cast(rank_abundance, Sample ~ Class))
+#rank_abundance &lt;- as.data.frame(rank_abundance)
+rank_abundance &lt;- tibble::remove_rownames(rank_abundance)
+rank_abundance &lt;- tibble::column_to_rownames(rank_abundance, &quot;Sample&quot;)
+
+# Reorder table column by summ
+layers &lt;- rank_abundance[,names(sort(colSums(rank_abundance), decreasing = TRUE))]
+
+# Add the prefix
+layers &lt;- layers %&gt;% dplyr::rename_all(function(x) paste0(&quot;t_class!&quot;, x))
+layers &lt;- tibble::rownames_to_column (layers, &quot;taxon&quot;)
+
+# save the table
+write.table(layers, &quot;16s-anvio/tax_layers.txt&quot;,
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+</div>
+<h3 id="construct-dendrograms">5. Construct Dendrograms</h3>
+<p>The last piece we need is to generate dendrograms that order the ASVs by their distribution in the samples and the samples by their ASV composition. For this task we will use anvi’o.</p>
+<pre class="bash"><code>
+anvi-matrix-to-newick data.txt --distance euclidean \
+                               --linkage ward \
+                               -o asv.tre
+anvi-matrix-to-newick data.txt --distance euclidean \
+                               --linkage ward \
+                               -o sample.tre \
+                               --transpose</code></pre>
+<p>The first command reads the view data we generated above and uses Euclidean distance and Ward linkage for hierarchical clustering of the ASVs. The second command transposes the view data table and then does the same for the samples. There are many distance metrics and linkage methods available. Boom.</p>
+<aside>
+The file <code>asv.tre</code> is <strong>loaded</strong> with <code>anvi-interactive</code> command &amp; the <code>--tree</code> flag.
+</aside>
+<p>The ASV tree is fine as is, but the sample tree needs a <a href="http://merenlab.org/2017/12/11/additional-data-tables/#layer-orders-additional-data-table">special format</a>. Specifically, the tree needs to be in a three column, tab delimited, <em>table</em>. This way you can add multiple orderings to the same file and view them all in the interactive. The table needs to be in this format:</p>
+<table>
+<thead>
+<tr class="header">
+<th>item_name</th>
+<th>data_type</th>
+<th>data_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tree_1</td>
+<td>newick</td>
+<td>((WCR0:0.0793043,(WCC0:0.0431881,(WCC1:0.0301642,..</td>
+</tr>
+<tr class="even">
+<td>tree_2</td>
+<td>newick</td>
+<td>(WCR1:0.142825,(WCR2:0.0466953,WCR3:0.0466953),…</td>
+</tr>
+<tr class="odd">
+<td>(…)</td>
+<td>(…)</td>
+<td>(…)</td>
+</tr>
+</tbody>
+</table>
+<p>This is easy to do by hand, but I <em>really</em> need the practice so I will do it in R. Anvi’o is very particular about formatting. For example, if this file ends with a blank line, which it will because when anvi’o made the initial dendrogram it add a new line. We need to get rid of that or we get an error when trying to import the table.</p>
+<aside>
+The file <code>sample.tre</code> is <strong>added</strong> to the profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layer_orders</code> flag.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+sam_tree &lt;- read_file(&quot;16s-anvio/sample.tre&quot;)
+sam_tree &lt;- gsub(&quot;[\r\n]&quot;, &quot;&quot;, sam_tree)
+item_name &lt;- c(&quot;euc_ward&quot;)
+data_type &lt;- c(&quot;newick&quot;)
+data_value &lt;- c(sam_tree)
+sam_tre_tab &lt;- data.frame(item_name, data_type, data_value)
+library(janitor)
+sam_tre_tab %&gt;% remove_empty(&quot;rows&quot;)
+write.table(sam_tre_tab, &quot;16s-anvio/sample_tree_tab.txt&quot;,
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+</div>
+<h3 id="make-a-fasta-file">6. Make a fasta file</h3>
+<p>We don’t need to add a fasta file, but it is a nice way to keep everything in one place. Plus, you can do BLAST searches directly in the interface by right clicking on the ASV of interest, so it is nice to have the sequences.</p>
+<aside>
+<strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--fasta-file</code> flag.
+</aside>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+# Create fasta file from tax_table
+anvio_tab &lt;- tax_table(ps_water_100)
+#retain only the column with the sequences
+anvio_tab_trim &lt;- anvio_tab[, 7]
+anvio_tab_trim_df &lt;- data.frame(row.names(anvio_tab_trim),
+                                   anvio_tab_trim)
+colnames(anvio_tab_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
+#format fasta
+anvio_tab_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, anvio_tab_trim_df$ASV_ID)
+
+write.table(anvio_tab_trim_df, &quot;16s-anvio/anvio.fasta&quot;,
+            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
+            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
+</div>
+<h2 id="building-the-profile-database">Building the Profile Database</h2>
+<p>Time to put all of these pieces together. This gets a little tricky since we do not have a database to start with because some of these files can be loaded directly in the interface but some need to be added to a database. When we fire up the interactive in <code>--manual</code> mode, we <strong><em>must</em></strong> give anvi’o the name of a database and it will <em>create</em> that database for us. Then we can shut down the interactive, add the necessary data files, and start back up.</p>
+<pre class="bash"><code>
+anvi-interactive --view-data data.txt \
+                 --tree asv.tre \
+                 --additional-layers additional_layers.txt \
+                 --profile-db profile.db \
+                 --manual</code></pre>
+<p>Now we have a new profile database that we can add the sample metadata (<code>additional_layers.txt</code>) and the sample dendrogram (sample.tre) using the command <code>anvi-import-misc-data</code>. These commands add the table to the new <code>profile.db</code>. First, kill the interactive.</p>
+<pre class="bash"><code>
+anvi-import-misc-data additional_views.txt \
+                      --pan-or-profile-db profile.db \
+                      --target-data-table layers
+anvi-import-misc-data sample_tree_tab.txt \
+                      --pan-or-profile-db profile.db \
+                      --target-data-table layer_orders</code></pre>
+<p>One last this is to get the table with the taxonomy total by sample (<code>tax_layers.txt</code>) into the profile database. We will run the same command we just used.</p>
+<pre class="bash"><code>
+anvi-import-misc-data tax_layers.txt \
+                      --pan-or-profile-db profile.db \
+                      --target-data-table layers</code></pre>
+<p>In fact, we could just as easily append the taxonomy total data onto the <code>additional_layers.txt</code> and import in one command. But we didn’t.</p>
+<h2 id="interactive-interface">Interactive Interface</h2>
+<p>With a populated database in hand, we can now begin modifying the visual by running the interactive command again.</p>
+<pre class="bash"><code>
+anvi-interactive --view-data data.txt \
+                 --tree asv.tre \
+                 --additional-layers additional_layers.txt \
+                 --profile-db profile.db
+                 --fasta-file anvio.fasta \
+                 --manual</code></pre>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="figures/16s-da-asvs/before.png" width="1034" /></p>
+</div>
+<p>Remember, we added a lot of data, so the tree looks crazy when you first open the interactive. This is the interactive part of the process where we select the data we want to display and how we want to display it.</p>
+<p>Now have a look after some changing the way everything looks. It is not possible to go through all the steps here, but it didn’t take very long.</p>
+<div class="layout-chunk" data-layout="l-page">
+<p><img src="figures/16s-da-asvs/after.png" width="1306" /></p>
+</div>
+<p><em>Hopefully</em> you agree that this is a near publication quality figure. Obviously some tweaking still left to do but most of it can be done in anvi’o.</p>
+<p>All files generated for this analysis can be found in the Data Availabilty appendix below. You should only need to run the command above and the final figure should pop up in your browser.</p>
+<p>Alternatively, an interactive version of this figure can be found on the anvi-server using either <a href="https://anvi-server.org/jscott/hypocolypse_16s_rrna_indicator_species_analysis">this link</a> or <a href="https://bit.ly/2BY5bNs">that link</a>. Works best on Chrome.</p>
+<p>One final thing I like to do is save a <em>state</em> file. After you set everything the way you want it you can hit the <strong>Save State</strong> button, which will store your settings in the database. That way you have a backup text file should something bad happen to the profile database.</p>
+<pre class="bash"><code>
+anvi-export-state --pan-or-profile-db profile.db
+                  --state default
+                  --output-file states.json</code></pre>
+<h1 id="heat-tree">Heat Tree</h1>
+<p>Time for something a little different. We have been using some pretty standard graphical constructs to display diversity data from these samples. Especially when looking at taxonomic diversity, we are pigeonholing the data by selecting and isolating specific ranks to look at—Class, Family, ASV, etc. But we are not really considering these pieces <em>together</em>. For example, when we asked what the differences between normoxic and hypoxic samples were, we looked at which ASVs were differentially abundant. Nice. But what about higher taxonomic ranks? Two treatments may differ at the ASV level but not say the Family level. This is important becuase it can tell us where, on a <em>lineage map</em>, sample type start to diverge from one another. And this of course has important ecological consequences. In fact, we can perform this analysis and actually visualize the lineage map and significant results as a <em>heat tree</em> using the R package <a href="https://grunwaldlab.github.io/metacoder_documentation/">metacoder</a><span class="citation" data-cites="foster2017metacoder">(Foster, Sharpton, and Grünwald <a href="#ref-foster2017metacoder" role="doc-biblioref">2017</a>)</span>. Let’s take a look at a simple example using the Phylum Cyanobacteria.</p>
+<h2 id="example">Example</h2>
+<p>The map is like a network, composed of nodes (circles) connected by edges (lines). Each node is a taxonomic level, and along with the edges, forms part of a taxonomic lineage. Start at the big <strong>P</strong>—this is the phylum Cyanobacteria. Then the single Class in this example (big <strong>C</strong>), then 4 orders, 5 familes, 9 genera, and finally 21 terminal nodes, which are the individual ASVs.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="figures/16s-da-asvs/cyano_example.png" width="1125" /></p>
+</div>
+<p>Color indicates a node (or entire lineage) that is enriched in normoxic or hypoxic samples, while the intensity of the color is dervived from the strength of that difference. Grey shades indicate no difference. Testing is happening at each taxonomic level. For example, the nodes for phylum and class are both blue, indicating at thos levels, normoxic samples are enriched. However, moving down ranks, we can see that 2 orders are actually enriched in the hypoxic samples, 1 in the normoxic, and 1 where there is no difference, and so on.</p>
+<h2 id="setup-for-analysis">Setup for Analysis</h2>
+<p>Ok, right off the bat I will say that I found some of the metacoder code a little esoteric. I chalk this up to my own ignorance but mention it because my explanations may be confusing. So, grain of salt as they say because I am still learning. I highly recommend going through the tutorials on the <a href="https://grunwaldlab.github.io/metacoder_documentation/">metacoder</a> site before using this tool. We can start by copying the original phyloseq object.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ps_water_mc &lt;- ps_water</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Now we need to decide if we want to remove rare ASVs and/or taxa before proceeding. Honestly, I am not sure. Certainly with a large dataset it will take a long time to run the analysis and ASVs that only have a few reads are uninformative. How about we use the same ASVs we used in the anvi’o visualization of the ISA, in other words all ASVs represented by more than 100 reads.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ps_water_mc_100 &lt;- prune_taxa(taxa_sums(ps_water_mc) &gt; 100, ps_water_mc)
+ps_water_mc_10 &lt;- prune_taxa(taxa_sums(ps_water_mc) &gt; 10, ps_water_mc)
+total_reads_ps_water &lt;- sum(readcount(ps_water_mc))
+total_reads_ps_water_100 &lt;- sum(readcount(ps_water_mc_100))
+total_reads_ps_water_10 &lt;- sum(readcount(ps_water_mc_10))
+ps_obj &lt;- ps_water_mc_100</code></pre>
+</div>
+<p>Next, we need a properly formatted data frame for metacoder, specifically one where each row is an ASV and the coulmns are sample abundances and taxonomic lineage. I am sure there is a way to directly export this from a phyloseq object but I could not figure out how. So I made the data frame myself from the tax_table and sample_data table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#summarize_phyloseq(ps_water_o)
+#summarize_phyloseq(ps_water_mc)
+tax_tab1 &lt;- as.data.frame(tax_table(ps_obj))
+tax_tab1 &lt;- tibble::rownames_to_column(tax_tab1, &quot;otu_id&quot;)
+asv_tab1 &lt;- as.data.frame(t(otu_table(ps_obj)))
+asv_tab1 &lt;- tibble::rownames_to_column(asv_tab1, &quot;otu_id&quot;)
+sam_tab1 &lt;- data.frame(sample_data(ps_obj))
+sam_tab1[1] &lt;- NULL
+da_samp &lt;- tibble::rownames_to_column(sam_tab1, &quot;sample_id&quot;)
+water_mc &lt;- merge(asv_tab1, tax_tab1, by=&quot;otu_id&quot;)
+water_mc$ASV_SEQ &lt;- NULL</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Metacoder uses <a href="https://tibble.tidyverse.org/">tibbles</a>. Tibbles basically replace the traditional data frame in R. R for Data Science has a nice <a href="https://r4ds.had.co.nz/tibbles.html">section on tibbles</a> if you want to learn more.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+obj &lt;- parse_tax_data(water_mc, class_cols = c(&quot;Kingdom&quot;, &quot;Phylum&quot;,
+                                             &quot;Class&quot;, &quot;Order&quot;,
+                                             &quot;Family&quot;, &quot;Genus&quot;, &quot;ASV_ID&quot; ))
+obj$data$tax_abund &lt;- calc_taxon_abund(obj, &quot;tax_data&quot;,
+                                       cols = da_samp$sample_id)
+obj$data$tax_occ &lt;- calc_n_samples(obj, &quot;tax_abund&quot;,
+                                   groups = da_samp$oxstate,
+                                   cols = da_samp$sample_id)</code></pre>
+</div>
+<p>Now we calculate the differences between the two conditions and add the results as a new table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+obj$data$diff_table &lt;- compare_groups(obj,
+                                      data = &quot;tax_abund&quot;,
+                                      cols = da_samp$sample_id,
+                                      groups = da_samp$oxstate)</code></pre>
+</div>
+<h2 id="building-heat-maps">Building Heat Maps</h2>
+<p>Now we can build the heat map(s). There are a lot of parameters to set and you need to play around with your data set to see what is most appropriate. Our data set has a few Archaea but we just want to focus on Bacteria. So we select only the Bacteria and also remove any taxa with fewer than 100 reads.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#set.seed(1999)
+obj %&gt;%
+  filter_taxa(taxon_names %in% c(&quot;Bacteria&quot;), subtaxa = TRUE) %&gt;%
+#  filter_taxa(taxon_ranks == &quot;o&quot;, supertaxa = TRUE) %&gt;% # subset to the order rank
+#  filter_taxa(taxon_names %in% c(&quot;Proteobacteria&quot;, &quot;Bacteroidia&quot;, &quot;Archaea&quot;), subtaxa = TRUE, invert = TRUE) # to remove taxa
+  heat_tree(
+          node_label = taxon_names,
+          node_size = n_obs,
+         # node_size_range = c(0.01, 0.05),
+          node_label_size_range = c(0.008, 0.04),
+          node_color = log2_median_ratio,
+          node_color_interval = c(-5.5, 4),
+          edge_color_interval = c(-5.5, 4),
+          node_color_trans = &quot;area&quot;,
+          node_color_range = c(&quot;#D55E00&quot;, &quot;gray&quot;, &quot;#0072B2&quot;),
+          node_size_axis_label = &quot;OTU count&quot;,
+          node_color_axis_label = &quot;Log 2 median ratio&quot;,
+          layout = &quot;da&quot;,
+          initial_layout = &quot;re&quot;,
+          overlap_avoidance = 2,
+          output_file = &quot;figures/16s-da-asvs/differential_heat_tree.png&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="figures/16s-da-asvs/differential_heat_tree.png" width="1500" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+## This is for the example above
+#set.seed(10)
+obj %&gt;%
+  filter_taxa(taxon_names %in% c(&quot;Cyanobacteria&quot;),
+              subtaxa = TRUE) %&gt;%
+  heat_tree(node_label = taxon_names,
+            node_size = n_obs,
+            node_size_range = c(0.02, 0.03),
+            node_label_size_range = c(0.02, 0.04),
+            node_color = log2_median_ratio,
+            node_color_interval = c(-5, 5),
+            edge_color_interval = c(-5, 5),
+            node_color_range = c(&quot;#D55E00&quot;, &quot;gray&quot;, &quot;#0072B2&quot;),
+            tree_label = taxon_names,
+            initial_layout = &quot;re&quot;, layout = &quot;da&quot;,
+            node_color_axis_label = &quot;Sum of root reads&quot;,
+            node_size_axis_label = &quot;Number of OTUs&quot;,
+            output_file = &quot;figures/16s-da-asvs/cyano_example.svg&quot;)</code></pre>
+</div>
+<p>We can also look only the two major classes—Proteobacteria and Bacteroidia.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#set.seed(10)
+obj %&gt;%
+  filter_taxa(taxon_names %in% c(&quot;Proteobacteria&quot;, &quot;Bacteroidia&quot;),
+              subtaxa = TRUE) %&gt;%
+  heat_tree(node_label = taxon_names,
+            node_size = n_obs,
+            node_color = log2_median_ratio,
+            node_color_range = c(&quot;#D55E00&quot;, &quot;gray&quot;, &quot;#0072B2&quot;),
+            node_color_interval = c(-3, 3),
+            tree_label = taxon_names,
+            initial_layout = &quot;re&quot;, layout = &quot;da&quot;,
+            node_color_axis_label = &quot;Sum of root reads&quot;,
+            node_size_axis_label = &quot;Number of OTUs&quot;,
+            output_file = &quot;figures/16s-da-asvs/by_major_taxa.png&quot;)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="figures/16s-da-asvs/by_major_taxa.png" width="1500" /></p>
+</div>
+<p>Or compare by site and time.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+set.seed(1)
+obj$data$diff_table2 &lt;- compare_groups(obj,
+                                      data = &quot;tax_abund&quot;,
+                                      cols = da_samp$sample_id, # What columns of sample data to use
+                                      groups = da_samp$period) # What category each sample is assigned to
+heat_tree_matrix(obj,
+                 data = &quot;diff_table2&quot;,
+                 node_size = n_obs, # n_obs is a function that calculates, in this case, the number of OTUs per taxon
+                 node_label = taxon_names,
+                 node_color = log2_median_ratio, # A column from `obj$data$diff_table`
+                 node_color_range = diverging_palette(), # The built-in palette for diverging data
+                 node_color_trans = &quot;linear&quot;, # The default is scaled by circle area
+                 node_color_interval = c(-3, 3), # The range of `log2_median_ratio` to display
+                 edge_color_interval = c(-3, 3), # The range of `log2_median_ratio` to display
+                 node_size_axis_label = &quot;Number of OTUs&quot;,
+                 node_color_axis_label = &quot;Log2 ratio median proportions&quot;,
+                 layout = &quot;davidson-harel&quot;, # The primary layout algorithm
+                 initial_layout = &quot;reingold-tilford&quot;, # The layout algorithm that initializes node locations
+                 output_file = &quot;figures/16s-da-asvs/differential_heat_tree2.png&quot;) # Saves the plot as a png file</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body-outset">
+<p><img src="figures/16s-da-asvs/differential_heat_tree2.png" width="1500" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p><br></p>
+<div class="post-nav">
+<div class="post-nav-item">
+<div class="meta-nav">
+Previous
+</div>
+<p><a href="16s-water.html" rel="next">N<sup><u>o</u></sup> 3. Diversity</a></p>
+</div>
+</div>
+<div class="post-nav">
+<div class="post-nav-item">
+<div class="meta-nav">
+Next
+</div>
+<p>PROCEED to METAGENOMIC WORKFLOW<br/> <a href="mg-setup.html" rel="prev">N<sup><u>o</u></sup> 1. Setup Working Environment</a></p>
+</div>
+</div>
+<h2 id="source-code" class="appendix">Source Code</h2>
+<p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-da-asvs.Rmd">clicking this link</a>.</p>
+<div id="refs" class="references" role="doc-bibliography">
+<div id="ref-dufrene1997species">
+<p>Dufrêne, Marc, and Pierre Legendre. 1997. “Species Assemblages and Indicator Species: The Need for a Flexible Asymmetrical Approach.” <em>Ecological Monographs</em> 67 (3): 345–66. <a href="https://doi.org/10.1890/0012-9615(1997)067%5B0345:SAAIST%5D2.0.CO;2">https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2</a>.</p>
+</div>
+<div id="ref-eren2015anvi">
+<p>Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morrison, Mitchell L Sogin, and Tom O Delmont. 2015. “Anvi’o: An Advanced Analysis and Visualization Platform for ‘Omics Data.” <em>PeerJ</em> 3: e1319. <a href="https://doi.org/10.7717/peerj.1319">https://doi.org/10.7717/peerj.1319</a>.</p>
+</div>
+<div id="ref-foster2017metacoder">
+<p>Foster, Zachary SL, Thomas J Sharpton, and Niklaus J Grünwald. 2017. “Metacoder: An R Package for Visualization and Manipulation of Community Taxonomic Diversity Data.” <em>PLoS Computational Biology</em> 13 (2): e1005404. <a href="https://doi.org/10.1371/journal.pcbi.1005404">https://doi.org/10.1371/journal.pcbi.1005404</a>.</p>
+</div>
+<div id="ref-roberts2007labdsv">
+<p>Roberts, David W, and others. 2007. “Labdsv: Ordination and Multivariate Analysis for Ecology.” <em>R Package Version</em> 1 (1).</p>
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="updates-and-corrections">Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hypocolypse/web/issues/new">create an issue</a> on the source repository.</p>
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hypocolypse/web/">https://github.com/hypocolypse/web/</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
+<script id="distill-bibliography" type="text/bibtex">
+@article{callahan2016dada2,
+  title={DADA2: high-resolution sample inference from Illumina amplicon data},
+  author={Callahan, Benjamin J and McMurdie, Paul J and Rosen, Michael J and Han, Andrew W and Johnson, Amy Jo A and Holmes, Susan P},
+  journal={Nature Methods},
+  volume={13},
+  number={7},
+  pages={581},
+  year={2016},
+  url = {https://doi.org/10.1038/nmeth.3869},
+}
+
+@article{martin2011cutadapt,
+  title={Cutadapt removes adapter sequences from high-throughput sequencing reads},
+  author={Martin, Marcel},
+  journal={EMBnet. journal},
+  volume={17},
+  number={1},
+  pages={10--12},
+  year={2011},
+  url = {https://doi.org/10.14806/ej.17.1.200}
+}
+
+@article{quast2012silva,
+  title={The SILVA ribosomal RNA gene database project: improved data processing and web-based tools},
+  author={Quast, Christian and Pruesse, Elmar and Yilmaz, Pelin and Gerken, Jan and Schweer, Timmy and Yarza, Pablo and Peplies, J{\"o}rg and Gl{\"o}ckner, Frank Oliver},
+  journal={Nucleic Acids Research},
+  volume={41},
+  number={D1},
+  pages={D590--D596},
+  year={2012},
+  url = {https://doi.org/10.1093/nar/gks1219}
+}
+
+@article{mcmurdie2013phyloseq,
+  title={phyloseq: an R package for reproducible interactive analysis and graphics of microbiome census data},
+  author={McMurdie, Paul J and Holmes, Susan},
+  journal={PLoS One},
+  volume={8},
+  number={4},
+  pages={e61217},
+  year={2013},
+  url = {https://doi.org/10.1371/journal.pone.0061217}
+}
+
+@misc{wong2011points,
+  title={Points of view: Color blindness},
+  author={Wong, Bang},
+  journal={Nature Methods},
+  volume={8},
+  number={6},
+  pages={441},
+  year={2011},
+  url = {https://doi.org/10.1038/nmeth.1618}
+}
+
+@misc{lahti2017microbiome,
+  author = {Lahti, Leo and Shetty Sudarshan and others},
+  title = {Tools for microbiome analysis in R. Version 1.9.97},
+  year = {2017},
+  url = {https://github.com/microbiome/microbiome},
+}
+
+@article{eren2015anvi,
+  title={Anvi’o: an advanced analysis and visualization platform for ‘omics data},
+  author={Eren, A Murat and Esen, {\"O}zcan C and Quince, Christopher and Vineis, Joseph H and Morrison, Hilary G and Sogin, Mitchell L and Delmont, Tom O},
+  journal={PeerJ},
+  volume={3},
+  pages={e1319},
+  year={2015},
+  url = {https://doi.org/10.7717/peerj.1319}
+}
+
+@article{bolger2014trimmomatic,
+  title={Trimmomatic: a flexible trimmer for Illumina sequence data},
+  author={Bolger, Anthony M and Lohse, Marc and Usadel, Bjoern},
+  journal={Bioinformatics},
+  volume={30},
+  number={15},
+  pages={2114--2120},
+  year={2014},
+  url = {https://doi.org/10.1093/bioinformatics/btu170}
+}
+
+@article{koster2012snakemake,
+  title={Snakemake—a scalable bioinformatics workflow engine},
+  author={K{\"o}ster, Johannes and Rahmann, Sven},
+  journal={Bioinformatics},
+  volume={28},
+  number={19},
+  pages={2520--2522},
+  year={2012},
+  url = {https://doi.org/10.1093/bioinformatics/bts480}
+}
+
+@article{menzel2016fast,
+  title={Fast and sensitive taxonomic classification for metagenomics with Kaiju},
+  author={Menzel, Peter and Ng, Kim Lee and Krogh, Anders},
+  journal={Nature Communications},
+  volume={7},
+  pages={11257},
+  year={2016},
+  url = {https://doi.org/10.1038/ncomms11257}
+}
+
+@article{roux2015virsorter,
+  title={VirSorter: mining viral signal from microbial genomic data},
+  author={Roux, Simon and Enault, Francois and Hurwitz, Bonnie L and Sullivan, Matthew B},
+  journal={PeerJ},
+  volume={3},
+  pages={e985},
+  year={2015},
+  url = {https://doi.org/10.1093/bioinformatics/btu170}
+}
+
+@article{kim2016centrifuge,
+  title={Centrifuge: rapid and sensitive classification of metagenomic sequences},
+  author={Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg, Steven L},
+  journal={Genome Research},
+  volume={26},
+  number={12},
+  pages={1721--1729},
+  year={2016},
+  url = {https://doi.org/10.1101/gr.210641.116.}
+}
+
+@article{hyatt2010prodigal,
+  title={Prodigal: prokaryotic gene recognition and translation initiation site identification},
+  author={Hyatt, Doug and Chen, Gwo-Liang and LoCascio, Philip F and Land, Miriam L and Larimer, Frank W and Hauser, Loren J},
+  journal={BMC Bioinformatics},
+  volume={11},
+  number={1},
+  pages={119},
+  year={2010},
+  url = {https://doi.org/10.1186/1471-2105-11-119}
+}
+
+@article{edgar2004muscle,
+  title={MUSCLE: multiple sequence alignment with high accuracy and high throughput},
+  author={Edgar, Robert C},
+  journal={Nucleic Acids Research},
+  volume={32},
+  number={5},
+  pages={1792--1797},
+  year={2004},
+  url = {https://doi.org/10.1093/nar/gkh340}
+}
+
+@article{li2015megahit,
+  title={MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph},
+  author={Li, Dinghua and Liu, Chi-Man and Luo, Ruibang and Sadakane, Kunihiko and Lam, Tak-Wah},
+  journal={Bioinformatics},
+  volume={31},
+  number={10},
+  pages={1674--1676},
+  year={2015},
+  url = {https://doi.org/10.1093/bioinformatics/btv033}
+}
+
+@article{langmead2012fast,
+  title={Fast gapped-read alignment with Bowtie 2},
+  author={Langmead, Ben and Salzberg, Steven L},
+  journal={Nature Methods},
+  volume={9},
+  number={4},
+  pages={357},
+  year={2012},
+  url = {https://doi.org/10.1038/nmeth.1923}
+}
+
+@article{li2009fast,
+  title={Fast and accurate short read alignment with Burrows--Wheeler transform},
+  author={Li, Heng and Durbin, Richard},
+  journal={Bioinformatics},
+  volume={25},
+  number={14},
+  pages={1754--1760},
+  year={2009},
+  url = {https://doi.org/10.1093/bioinformatics/btp324}
+}
+
+@article{li2009sequence,
+  title={The sequence alignment/map format and SAMtools},
+  author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
+  journal={Bioinformatics},
+  volume={25},
+  number={16},
+  pages={2078--2079},
+  year={2009},
+  url = {https://doi.org/10.1093/bioinformatics/btp352}
+}
+
+@article{breitwieser2018krakenuniq,
+  title={KrakenUniq: confident and fast metagenomics classification using unique k-mer counts},
+  author={Breitwieser, FP and Baker, DN and Salzberg, Steven L},
+  journal={Genome Biology},
+  volume={19},
+  number={1},
+  pages={1--10},
+  year={2018},
+  url = {https://doi.org/10.5281/zenodo.1412647}
+}
+
+@article{eren2013filtering,
+  title={A filtering method to generate high quality short reads using Illumina paired-end technology},
+  author={Eren, A Murat and Vineis, Joseph H and Morrison, Hilary G and Sogin, Mitchell L},
+  journal={PLoS One},
+  volume={8},
+  number={6},
+  year={2013},
+  url = {https://doi.org/10.1371/journal.pone.0066643}
+}
+
+@article{alneberg2014binning,
+  title={Binning metagenomic contigs by coverage and composition},
+  author={Alneberg, Johannes and Bjarnason, Brynjar Sm{\'a}ri and De Bruijn, Ino and Schirmer, Melanie and Quick, Joshua and Ijaz, Umer Z and Lahti, Leo and Loman, Nicholas J and Andersson, Anders F and Quince, Christopher},
+  journal={Nature Methods},
+  volume={11},
+  number={11},
+  pages={1144--1146},
+  year={2014},
+  url = {https://doi.org/10.1038/nmeth.3103}
+}
+
+@article{sieber2018recovery,
+  title={Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy},
+  author={Sieber, Christian MK and Probst, Alexander J and Sharrar, Allison and Thomas, Brian C and Hess, Matthias and Tringe, Susannah G and Banfield, Jillian F},
+  journal={Nature Microbiology},
+  volume={3},
+  number={7},
+  pages={836--843},
+  year={2018},
+}
+
+@article{kang2019metabat,
+  title={MetaBAT 2: an adaptive binning algorithm for robust and efficient genome reconstruction from metagenome assemblies},
+  author={Kang, Dongwan D and Li, Feng and Kirton, Edward and Thomas, Ashleigh and Egan, Rob and An, Hong and Wang, Zhong},
+  journal={PeerJ},
+  volume={7},
+  pages={e7359},
+  year={2019},
+}
+@article{wu2016maxbin,
+  title={MaxBin 2.0: an automated binning algorithm to recover genomes from multiple metagenomic datasets},
+  author={Wu, Yu-Wei and Simmons, Blake A and Singer, Steven W},
+  journal={Bioinformatics},
+  volume={32},
+  number={4},
+  pages={605--607},
+  year={2016},
+}
+
+@article{ondov2011krona,
+  title={Interactive metagenomic visualization in a Web browser},
+  author={Ondov, Brian D and Bergman, Nicholas H and Phillippy, Adam M},
+  journal={BMC Bioinformatics},
+  volume={12},
+  number={1},
+  pages={385},
+  year={2011},
+  url = {https://doi.org/10.1186/1471-2105-12-385}
+}
+
+@article{buchfink2015fast,
+  title={Fast and sensitive protein alignment using DIAMOND},
+  author={Buchfink, Benjamin and Xie, Chao and Huson, Daniel H},
+  journal={Nature Methods},
+  volume={12},
+  number={1},
+  pages={59--60},
+  year={2015},
+  url = {https://doi.org/10.1038/nmeth.3176}
+}
+
+@article{delmont2018nitrogen,
+  title={Nitrogen-fixing populations of Planctomycetes and Proteobacteria are abundant in surface ocean metagenomes},
+  author={Delmont, Tom O and Quince, Christopher and Shaiber, Alon and Esen, {\"O}zcan C and Lee, Sonny TM and Rapp{\'e}, Michael S and McLellan, Sandra L and L{\"u}cker, Sebastian and Eren, A Murat},
+  journal={Nature Microbiology},
+  volume={3},
+  number={7},
+  pages={804--813},
+  year={2018},
+  url = {https://doi.org/10.1038/s41564-018-0176-9}
+}
+
+@article{dongen2000cluster,
+  title={A cluster algorithm for graphs},
+  author={Dongen, Stijn},
+  year={2000},
+  publisher={CWI (Centre for Mathematics and Computer Science)},
+  url = {https://www.micans.org/mcl/index.html?sec_software}
+}
+
+@article{jain2018high,
+  title={High throughput ANI analysis of 90K prokaryotic genomes reveals clear species boundaries},
+  author={Jain, Chirag and Rodriguez-R, Luis M and Phillippy, Adam M and Konstantinidis, Konstantinos T and Aluru, Srinivas},
+  journal={Nature Communications},
+  volume={9},
+  number={1},
+  pages={1--8},
+  year={2018},
+  url={https://doi.org/10.1038/s41467-018-07641-9}
+}
+
+@article{stamatakis2014raxml,
+  title={RAxML version 8: a tool for phylogenetic analysis and post-analysis of large phylogenies},
+  author={Stamatakis, Alexandros},
+  journal={Bioinformatics},
+  volume={30},
+  number={9},
+  pages={1312--1313},
+  year={2014},
+  url={https://doi.org/10.1093/bioinformatics/btu033}
+}
+
+@article{minh2020iq,
+  title={IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era},
+  author={Minh, Bui Quang and Schmidt, Heiko A and Chernomor, Olga and Schrempf, Dominik and Woodhams, Michael D and Von Haeseler, Arndt and Lanfear, Robert},
+  journal={Molecular Biology and Evolution},
+  volume={37},
+  number={5},
+  pages={1530--1534},
+  year={2020},
+  url={https://doi.org/10.1093/molbev/msaa015}
+}
+
+@article{kalyaanamoorthy2017modelfinder,
+  title={ModelFinder: fast model selection for accurate phylogenetic estimates},
+  author={Kalyaanamoorthy, Subha and Minh, Bui Quang and Wong, Thomas KF and von Haeseler, Arndt and Jermiin, Lars S},
+  journal={Nature Methods},
+  volume={14},
+  number={6},
+  pages={587},
+  year={2017},
+  url={https://doi.org/10.1038/nmeth.4285}
+}
+
+@article{quince2011removing,
+  title={Removing noise from pyrosequenced amplicons},
+  author={Quince, Christopher and Lanzen, Anders and Davenport, Russell J and Turnbaugh, Peter J},
+  journal={BMC bioinformatics},
+  volume={12},
+  number={1},
+  pages={38},
+  year={2011},
+  url={https://doi.org/10.1186/1471-2105-12-38}
+}
+@article{caporaso2011global,
+  title={Global patterns of 16S rRNA diversity at a depth of millions of sequences per sample},
+  author={Caporaso, J Gregory and Lauber, Christian L and Walters, William A and Berg-Lyons, Donna and Lozupone, Catherine A and Turnbaugh, Peter J and Fierer, Noah and Knight, Rob},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={108},
+  number={Supplement 1},
+  pages={4516--4522},
+  year={2011},
+  url={https://doi.org/10.1073/pnas.1000080107}
+}
+@article{kanehisa2000kegg,
+  title={KEGG: kyoto encyclopedia of genes and genomes},
+  author={Kanehisa, Minoru and Goto, Susumu},
+  journal={Nucleic Acids Research},
+  volume={28},
+  number={1},
+  pages={27--30},
+  year={2000},
+  url={https://doi.org/10.1093/nar/28.1.27}
+}
+
+@article{kanehisa2016blastkoala,
+  title={BlastKOALA and GhostKOALA: KEGG tools for functional characterization of genome and metagenome sequences},
+  author={Kanehisa, Minoru and Sato, Yoko and Morishima, Kanae},
+  journal={Journal of Molecular Biology},
+  volume={428},
+  number={4},
+  pages={726--731},
+  year={2016},
+  url={https://doi.org/10.1016/j.jmb.2015.11.006}
+}
+
+@article{minoche2011evaluation,
+  title={Evaluation of genomic high-throughput sequencing data generated on Illumina HiSeq and genome analyzer systems},
+  author={Minoche, Andr{\'e} E and Dohm, Juliane C and Himmelbauer, Heinz},
+  journal={Genome Biology},
+  volume={12},
+  number={11},
+  pages={R112},
+  year={2011},
+  url={https://doi.org/10.1186/gb-2011-12-11-r112}
+}
+
+@article{lee2019gtotree,
+  title={GToTree: a user-friendly workflow for phylogenomics},
+  author={Lee, Michael D},
+  journal={Bioinformatics},
+  volume={35},
+  number={20},
+  pages={4162--4164},
+  year={2019},
+  url={https://doi.org/10.1093/bioinformatics/btz188}
+}
+
+@article{wang2007naive,
+  title={Naive Bayesian classifier for rapid assignment of rRNA sequences into the new bacterial taxonomy},
+  author={Wang, Qiong and Garrity, George M and Tiedje, James M and Cole, James R},
+  journal={Applied & Environmental Microbiology},
+  volume={73},
+  number={16},
+  pages={5261--5267},
+  year={2007},
+  url={https://doi.org/10.1128/AEM.00062-07}
+}
+
+@article{hoang2017ultrafast,
+  author = {Hoang, Diep Thi and Chernomor, Olga and von Haeseler, Arndt and Minh, Bui Quang and Vinh, Le Sy},
+  title = {UFBoot2: Improving the Ultrafast Bootstrap Approximation},
+  journal = {Molecular Biology and Evolution},
+  volume = {35},
+  number = {2},
+  pages = {518-522},
+  year = {2017},
+  url = {https://doi.org/10.1093/molbev/msx281}
+}
+
+@article{parada2016every,
+  title={Every base matters: assessing small subunit rRNA primers for marine microbiomes with mock communities, time series and global field samples},
+  author={Parada, Alma E and Needham, David M and Fuhrman, Jed A},
+  journal={Environmental microbiology},
+  volume={18},
+  number={5},
+  pages={1403--1414},
+  year={2016},
+  url = {https://doi.org/10.1111/1462-2920.13023}
+}
+
+@article{parks2018gtgb,
+  title={A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life},
+  author={Parks, Donovan H and Chuvochina, Maria and Waite, David W and Rinke, Christian and Skarshewski, Adam and Chaumeil, Pierre-Alain and Hugenholtz, Philip},
+  journal={Nature Biotechnology},
+  volume={36},
+  number={10},
+  pages={1546-1696},
+  year={2018},
+  url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
+}
+</script>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+<p>© Copyright 2020 The HYPOCOLYPSE Project.</p>
+<p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

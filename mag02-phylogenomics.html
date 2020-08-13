@@ -1302,23 +1302,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1502,7 +1510,7 @@
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1538,6 +1546,7 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
@@ -1554,7 +1563,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 6. MAG02 Phylogenomic Analysis</h1>
-<p>In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.</p>
+<p><p>In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1584,14 +1593,14 @@ C. Metagenomic
 <li><a href="#pangenome-analysis">Pangenome Analysis</a></li>
 <li><a href="#generating-visualizing-tree">Generating &amp; Visualizing Tree</a></li>
 </ul></li>
-<li><a href="#s-rrna-phylogenetic-analysis-of-mag02">16S rRNA Phylogenetic Analysis of MAG02</a></li>
+<li><a href="#phylogenetic-analysis-of-mag02">Phylogenetic Analysis of MAG02</a></li>
 <li><a href="#conclusion">Conclusion</a><ul>
 <li><a href="#source-code">Source Code</a></li>
 </ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<p>What we want to do next is compare MAG02<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> to publicly available genomes. We know from our binning and binning summary that MAG02 has a lot of hits to <em>Arcobacter</em>, an Epsilonproteobacteria. However, when we run <code>anvi-estimate-scg-taxonomy</code> we get something a little different.</p>
+<p>What we want to do next is compare MAG02<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to publicly available genomes. We know from our binning and binning summary that MAG02 has a lot of hits to <em>Arcobacter</em>, an Epsilonproteobacteria. However, when we run <code>anvi-estimate-scg-taxonomy</code> we get something a little different.</p>
 <pre class="bash"><code>
 anvi-estimate-scg-taxonomy -c 18_NR-MAGs-SPLIT/WATER_MAG_00002/CONTIGS.db</code></pre>
 <div class="l-body-outset">
@@ -1700,7 +1709,7 @@ Arcobacter_anaerophilus_GCA_000935065_1 /pool/genomics/stri_istmobiome/data/HYPO
 <p>If you change the names they MUST be unique and contain no spaces, periods, dashes, or other weird characters. Letters, numbers, and underscores only.</p>
 </blockquote>
 <h1 id="running-snakemake-contigs-workflow">Running Snakemake Contigs Workflow</h1>
-<p>Now it is time for some comparisons. First we will run the <em>contigs</em> workflow since this will produce annotated contig databases and properly formatted fasta files for all genomes. We will need these for phylogenomics. Ok, renamed file in hand, we use Snakemake workflow<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake">2012</a>)</span> to run the built-in anvi’o <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#contigs-workflow">contigs workflow</a>. If you do not know what workflows are available you can run this command:</p>
+<p>Now it is time for some comparisons. First we will run the <em>contigs</em> workflow since this will produce annotated contig databases and properly formatted fasta files for all genomes. We will need these for phylogenomics. Ok, renamed file in hand, we use Snakemake workflow<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span> to run the built-in anvi’o <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#contigs-workflow">contigs workflow</a>. If you do not know what workflows are available you can run this command:</p>
 <pre class="bash"><code>
 anvi-run-workflow --list-workflows</code></pre>
 <pre><code>
@@ -2024,7 +2033,7 @@ echo = `date` job $JOB_NAME don
 <p>We have two goals here. First, we need to get rid of low completion genomes since they will compromise our ability to use single copy core genes for phylogenomics. Second, we want to keep only genomes that have a 16S rRNA sequence. Why? Good question. Because we found an ASV in our 16S rRNA analysis that is 100% identical across it’s length to a 16S rRNA sequence retrieved from MAG02. In addition to the phylogenomic analysis we will also conduct a 16S rRNA analysis of MAG02 with publicly available genomes to see how the topologies compare.</p>
 <h2 id="estimate-taxonomy">Estimate Taxonomy</h2>
 <p>Microbial taxonomy is a fluid system, meaning that classifications change often. One thing we can do is look at the predicted taxonomy for each genome even though they each came prepackaged with a taxonomic designation. We already know <a href="mg-binning.html#esimate-mag-taxonomy">MAG02’s predicted taxonomy is <em>Poseidonibacter</em></a> but what about the rest</p>
-<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
+<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
 <pre class="bash"><code>
 for genome in `cat list_genomes.txt`; 
 do 
@@ -2072,7 +2081,7 @@ HMM SOURCES COMMON TO ALL 125 GENOMES
 * Bacteria_71 [type: singlecopy] [num genes: 885]
 * Transfer_RNAs [type: Transfer_RNAs] [num genes: 547]
 * Protista_83 [type: singlecopy] [num genes: 1741]</code></pre>
-<p>The HMM source we are interested in is <code>Bacteria_71</code><span class="citation" data-cites="lee2019gtotree">(Lee <a href="#ref-lee2019gtotree">2019</a>)</span>. Now, rerun the command and we get a table that lists the number of times each of the 71 HMM genes were found in each of the 125 genomes.</p>
+<p>The HMM source we are interested in is <code>Bacteria_71</code><span class="citation" data-cites="lee2019gtotree">(Lee <a href="#ref-lee2019gtotree" role="doc-biblioref">2019</a>)</span>. Now, rerun the command and we get a table that lists the number of times each of the 71 HMM genes were found in each of the 125 genomes.</p>
 <pre class="bash"><code>
 anvi-script-gen-hmm-hits-matrix-across-genomes 
                   -e external-genomes.txt \
@@ -2139,7 +2148,7 @@ Note. Arcobacter_sp_NORP14 failed subsequent the composition Chi-squared test in
 </aside>
 <h1 id="dereplicate-genome-collection">Dereplicate Genome Collection</h1>
 <p>Finally, we can dereplicate the genome collection using the command <code>anvi-dereplicate-genomes</code> to assess the number of genome clusters. This command has a lot of options for fine-tuning but since we are interested in a quick and dirty assessment, we’ll keep it simple. We can either give anvi’o an <code>external-genomes</code> file like we just did or a <code>fasta-text-file</code> similar to the one from the <a href="#running-snakemake-contigs-workflow">Snakemake workflow</a> above. Remember, the <code>external-genomes</code> file provides names and paths to <em>contig.dbs</em> and the <code>fasta-text-file</code> provides names and paths to <em>fasta</em> files. Either way, we first need to remove the 11 genomes that we are cutting from the analysis. Let’s stick with the <code>external-genomes</code> file since we will use this downstream anyway.</p>
-<p>Since accuracy is not paramount we use <code>--program fastANI</code><span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high">2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
+<p>Since accuracy is not paramount we use <code>--program fastANI</code><span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
 <aside>
 The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-dereplicate.txt">external-genomes file</a> for dereplication.
 </aside>
@@ -2269,7 +2278,7 @@ anvi-gen-genomes-storage -e arco-phylo-external-genomes.txt \
 anvi-pan-genome -g ARCOBACTER-GENOMES.db \
                 --min-occurrence 3 \
                 --project-name ARCOBACTER -T $NSLOTS</code></pre>
-<p>Anvi’o will create gene cluster using the MCL (Markov Cluster) algorithm<span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high">2018</a>)</span> and calculate homogeneity indices. Then we can visualize the results using the anvi’o interactive interface.</p>
+<p>Anvi’o will create gene cluster using the MCL (Markov Cluster) algorithm<span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> and calculate homogeneity indices. Then we can visualize the results using the anvi’o interactive interface.</p>
 <pre class="bash"><code>
 anvi-display-pan -g ARCOBACTER-GENOMES.db -p ARCOBACTER-PAN.db</code></pre>
 <p>Once inside the interactive, we performed the following steps:</p>
@@ -2316,7 +2325,7 @@ anvi-get-sequences-for-gene-clusters -p ARCOBACTER-PAN.db \
                                      --concatenate-gene-clusters \
                                      --align-with muscle \
                                      -o ARCOBACTER-proteins-better-core.fa</code></pre>
-<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE<span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle">2004</a>)</span>), and then concatenates the sequences.</p>
+<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE<span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle" role="doc-biblioref">2004</a>)</span>), and then concatenates the sequences.</p>
 <p>It is important to note that everything we just in the interface can instead be done in the command line. If you look at the help menu for <code>anvi-get-sequences-for-gene-clusters</code> you will see that you can apply the filtering steps described above directly in the command line without the pangenomic interactive. Personally, I like to use the interactive because I can <em>visually</em> inspect each gene cluster to make sure nothing fishy is going on. The parameters you choose will depend on your question and the peculiarities of your data set, so play around.</p>
 <p>Just for the fun of it, let’s have a look at what this entails without running interactive.</p>
 <pre class="bash"><code>
@@ -2340,13 +2349,13 @@ for downstream analyses. Just so you know.
 Sequence type ...............................................: Amino acid
 Output file for phylogenomics ...............................: ARCOBACTER-proteins-better-core_no_interactive.fa</code></pre>
 <p>As expected, 36 gene clusters encompassing a total of 2736 genes. <em>Note, the order of genes in the concatenate file may differ but the content should be the same.</em></p>
-<p>Anyway, regardless of the approach you choose, now we can use your curated SCG fasta file to construct a new phylogenomic tree. You can either do this is anvi’o, which will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq">2020</a>)</span>, or you can run a program outside anvi’o.</p>
+<p>Anyway, regardless of the approach you choose, now we can use your curated SCG fasta file to construct a new phylogenomic tree. You can either do this is anvi’o, which will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span>, or you can run a program outside anvi’o.</p>
 <p>The anvi’o way…</p>
 <pre class="bash"><code>
 anvi-gen-phylogenomic-tree -f ARCOBACTER-proteins-better-core.fa 
                            -o ARCOBACTER-proteins-better-core.tre</code></pre>
 <h2 id="generating-visualizing-tree">Generating &amp; Visualizing Tree</h2>
-<p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq">2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder">2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
+<p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
 <aside>
 It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in the IQ-TREE. This genome was removed retroactively.
 </aside>
@@ -2354,7 +2363,7 @@ It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in
 iqtree -s ARCOBACTER-proteins-better-core.fa 
                   --prefix arcobacterMFP 
                   -m MFP</code></pre>
-<p><em>ModelFinder</em> tested 51 models (it will test up to 546 protein models) and selected LG+F+R6 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast">2017</a>)</span>.</p>
+<p><em>ModelFinder</em> tested 51 models (it will test up to 546 protein models) and selected LG+F+R6 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
 <pre class="bash"><code>
 iqtree -s ARCOBACTER-proteins-better-core.fa 
        --prefix arcobacterLG+F+R6-5000  
@@ -2390,8 +2399,8 @@ anvi-interactive --profile-db profile.db
                  --tree arcobacterLG+F+R6-5000.treefile  
                  --additional-layers metadata.txt
                  --manual</code></pre>
-<h1 id="s-rrna-phylogenetic-analysis-of-mag02">16S rRNA Phylogenetic Analysis of MAG02</h1>
-<p>Next, we performed the same process for 16S rRNA genes from all the genomes in the phylogenomic analysis.</p>
+<h1 id="phylogenetic-analysis-of-mag02">Phylogenetic Analysis of MAG02</h1>
+<p>Next, we performed the same process for <strong>16S rRNA genes</strong> from all the genomes in the phylogenomic analysis.</p>
 <pre class="bash"><code>
 anvi-get-sequences-for-hmm-hits 
                      -e arco-phylo-external-genomes.txt \
@@ -2406,12 +2415,12 @@ anvi-get-sequences-for-hmm-hits
 <p>|&gt;<em>Bacterial_16S_rRNA_Ribosomal_RNAs_2c53c82ce374e7c1bd22dd51720f5f90b9f43fdfb6b3b3d6cb0623b9 bin_id:Aliiarcobacter_faecis_AF1078|source:Ribosomal_RNAs|e_value:0|</em></p>
 </div>
 <p>We used <a href="http://www.barebones.com/products/bbedit/index.html">BBEdit</a> and some grep search and replace to extract the sample names.</p>
-<p>Next, we again ran <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq">2020</a>)</span> (v. 2.0.3) with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder">2017</a>)</span> to perform extended model selection followed by tree inference.</p>
+<p>Next, we again ran <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference.</p>
 <pre class="bash"><code>
 iqtree -s sequences-for-16s-rrna-hits-rename.fa 
                   --prefix arcobacter-16s-MFP 
                   -m MFP</code></pre>
-<p><em>ModelFinder</em> tested 29 models (it will test up to 286 DNA models) and selected TVM+F+I+G4 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast">2017</a>)</span>.</p>
+<p><em>ModelFinder</em> tested 29 models (it will test up to 286 DNA models) and selected TVM+F+I+G4 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
 <pre class="bash"><code>
 iqtree -s sequences-for-16s-rrna-hits-rename.fa 
                   --prefix arcobacter-16s-TVM+F+I+G4 
@@ -2432,12 +2441,12 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p><a href="mag02-phylogenomics.html" rel="prev">N<sup><u>o</u></sup> 7. SOMETHING</a></p>
+<p><a href="mg-function.html" rel="prev">N<sup><u>o</u></sup> 7. KEGG/KOFam Analysis</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mag02-phylogenomics.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-edgar2004muscle">
 <p>Edgar, Robert C. 2004. “MUSCLE: Multiple Sequence Alignment with High Accuracy and High Throughput.” <em>Nucleic Acids Research</em> 32 (5): 1792–7. <a href="https://doi.org/10.1093/nar/gkh340">https://doi.org/10.1093/nar/gkh340</a>.</p>
 </div>
@@ -2463,10 +2472,10 @@ Next
 <p>Parks, Donovan H, Maria Chuvochina, David W Waite, Christian Rinke, Adam Skarshewski, Pierre-Alain Chaumeil, and Philip Hugenholtz. 2018. “A Standardized Bacterial Taxonomy Based on Genome Phylogeny Substantially Revises the Tree of Life.” <em>Nature Biotechnology</em> 36 (10): 1546–1696. <a href="https://doi.org/10.1038/nbt.4229">https://doi.org/10.1038/nbt.4229</a>.</p>
 </div>
 </div>
-<section class="footnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>In the analysis, this MAG is named WATER_MAG_00002. For brevity we refer to it henceforth as MAG02<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1" role="doc-endnote"><p>In the analysis, this MAG is named WATER_MAG_00002. For brevity we refer to it henceforth as MAG02<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
@@ -2940,6 +2949,26 @@ Next
   pages={e1005404},
   year={2017},
   url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

@@ -741,6 +741,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1269,7 +1279,7 @@
   <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1289,23 +1299,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1481,15 +1499,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1504,6 +1522,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1524,11 +1543,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1540,7 +1560,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 5. Binning MAGs</h1>
-<p>In this section of the workflow we reconstruct metagenome assembled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement.</p>
+<p><p>In this section of the workflow we reconstruct metagenome assembled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1553,18 +1573,27 @@ C. Metagenomic
 <h3 class="d-toc-header">Table of Contents</h3>
 <nav class="d-toc" id="TOC">
 <ul>
-<li><a href="#automated-binning">Automated Binning</a></li>
+<li><a href="#automated-binning">Automated Binning</a><ul>
+<li><a href="#inspect-results">Inspect Results</a></li>
+<li><a href="#estimate-genome-completeness">Estimate genome completeness</a></li>
+</ul></li>
 <li><a href="#manual-refinement">Manual Refinement</a></li>
-<li><a href="#identification-curation-of-mags">Identification &amp; Curation of MAGs</a></li>
+<li><a href="#identification-curation-of-mags">Identification &amp; Curation of MAGs</a><ul>
+<li><a href="#rename-bins">Rename Bins</a></li>
+<li><a href="#summarize-mags">Summarize MAGs</a></li>
+<li><a href="#check-for-redundant-mags">Check for Redundant MAGs</a></li>
+<li><a href="#profile-nonredundant-mags">Profile Nonredundant MAGs</a></li>
+<li><a href="#creating-self-contained-profiles-for-mags">Creating Self-Contained Profiles for MAGs</a></li>
 <li><a href="#estimate-mag-taxonomy">Estimate MAG Taxonomy</a></li>
 <li><a href="#estimate-bin-taxonomy">Estimate Bin Taxonomy</a></li>
 <li><a href="#source-code">Source Code</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
 <p>This workflow is largely based on the <a href="http://merenlab.org/data/tara-oceans-mags/#binning-mags">Recovering Microbial Genomes from TARA Oceans Metagenomes</a> binning section provided by Delmont and Eren.</p>
-<h2 id="automated-binning">Automated Binning</h2>
-<p>The latest iteration of anvi’o (v6 as of this writing) ports several popular automated binning algorithms into its ecosystem. We will bin the water meatgenomic assembly using <a href="https://github.com/BinPro/CONCOCT">CONCOCT</a> (Clustering cONtigs with COverage and ComposiTion)<span class="citation" data-cites="alneberg2014binning">(Alneberg et al. <a href="#ref-alneberg2014binning">2014</a>)</span>—a program for unsupervised binning of metagenomic contigs by using nucleotide composition, coverage data in multiple samples and linkage data from paired end reads. But you can also use <a href="https://bitbucket.org/berkeleylab/metabat">MetaBAT2</a><span class="citation" data-cites="kang2019metabat">(Kang et al. <a href="#ref-kang2019metabat">2019</a>)</span>, <a href="https://sourceforge.net/projects/maxbin2/">MaxBIN2</a><span class="citation" data-cites="wu2016maxbin">(Wu, Simmons, and Singer <a href="#ref-wu2016maxbin">2016</a>)</span> and/or <a href="https://github.com/cmks/DAS_Tool">DASTOOL</a><span class="citation" data-cites="sieber2018recovery">(Sieber et al. <a href="#ref-sieber2018recovery">2018</a>)</span> if you wish.</p>
+<h1 id="automated-binning">Automated Binning</h1>
+<p>The latest iteration of anvi’o (v6 as of this writing) ports several popular automated binning algorithms into its ecosystem. We will bin the water meatgenomic assembly using <a href="https://github.com/BinPro/CONCOCT">CONCOCT</a> (Clustering cONtigs with COverage and ComposiTion)<span class="citation" data-cites="alneberg2014binning">(Alneberg et al. <a href="#ref-alneberg2014binning" role="doc-biblioref">2014</a>)</span>—a program for unsupervised binning of metagenomic contigs by using nucleotide composition, coverage data in multiple samples and linkage data from paired end reads. But you can also use <a href="https://bitbucket.org/berkeleylab/metabat">MetaBAT2</a><span class="citation" data-cites="kang2019metabat">(Kang et al. <a href="#ref-kang2019metabat" role="doc-biblioref">2019</a>)</span>, <a href="https://sourceforge.net/projects/maxbin2/">MaxBIN2</a><span class="citation" data-cites="wu2016maxbin">(Wu, Simmons, and Singer <a href="#ref-wu2016maxbin" role="doc-biblioref">2016</a>)</span> and/or <a href="https://github.com/cmks/DAS_Tool">DASTOOL</a><span class="citation" data-cites="sieber2018recovery">(Sieber et al. <a href="#ref-sieber2018recovery" role="doc-biblioref">2018</a>)</span> if you wish.</p>
 <p>When we run CONCOCT, we can specify the number of bins the program generates. To my knowledge CONCOCT is the only binning tools that allows you to specify the number of clusters. The command is pretty straightforward. We will set the number of automated clusters to 5. Why 5? If you remember back to the <a href="mg-workflow-2.html#assembly-results">Assembly results</a> section, anvi’o estimated the total number of MAGs is the data set was 15 (based on the presence of signle copy genes). In my experience, shoosing a value smaller than this gives you greater control over the manual refinement.</p>
 <pre class="bash"><code>
 anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -T $NSLOTS -C  CONCOCT_5 --driver concoct --just-do-it --clusters 5</code></pre>
@@ -1644,7 +1673,7 @@ anvi-cluster-contigs -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.d
 echo = `date` job $JOB_NAME done
 </code></pre>
 </details>
-<h3 id="inspect-results">Inspect Results</h3>
+<h2 id="inspect-results">Inspect Results</h2>
 <p>Let’s take a look at the results of automated binning using the command <code>anvi-export-collection</code> with the <code>--list-collections</code> flag. Anvio won’t do anything here except show us what <em>collections</em> are in the <code>PROFILE.db</code>.</p>
 <pre class="bash"><code>
 anvi-export-collection -p 06_MERGED/WATER/PROFILE.db --list-collections</code></pre>
@@ -1657,7 +1686,7 @@ COLLECTIONS FOUND
 <p>Here we can see the number of bins (which we forced to be 5) and the total number of contigs included in the collection. Remember the original assembly had 23,758 contigs (at a minimum length of 1000bp). We can take a quick look at the estimates of genome completion and redundancy using domain-specific single-copy core genes for each collection using <code>anvi-estimate-genome-completeness</code>.</p>
 <p>The command <code>anvi-export-collection</code> produces two files—one is an items file, which is a two-column text file that contains the contig name and the bin it belongs to. The other is a three-column bins info file. These are important files and you will use them a lot to manipulate collections.</p>
 <p>One thing to remember if you use the other tools is how each algorithm names bins, or else this can get confusing. CONCOCT adds the prefix <code>Bin_</code>, MaxBin adds the prefix <code>MAXBIN_</code>, and MetaBAT adds the prefix <code>METABAT__</code> (with two underscores). DAS Tool then adds its own <code>Bin_</code> prefix to the parent name. For example, DAS Tool <code>Bin_Bin_11</code> is CONCOCT bin <code>Bin_11</code> while DASTOOL <code>Bin_METABAT__2</code> is MetaBAT2 bin <code>METABAT__2</code>.</p>
-<h4 id="summarize-initial-concoct-clusters">Summarize Initial CONCOCT Clusters</h4>
+<h3 id="summarize-initial-concoct-clusters">Summarize Initial CONCOCT Clusters</h3>
 <p>Now we can have a look at the results of the initial binning and for that we use <code>anvi-summarize</code>. This command is <em>very</em> useful, especially during bin refinement. It produces a lot of report files will that will help you assess your bins. We need to give the command contig and profile databases, a collection name, and an output directory.</p>
 <pre class="bash"><code>
 anvi-summarize -c 03_CONTIGS/WATER-contigs.db \
@@ -1669,7 +1698,7 @@ anvi-summarize -c 03_CONTIGS/WATER-contigs.db \
 <script type="application/json" data-for="pnq0rgqiudam5dqpodrc">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">CONCOCT 5 forced cluster binning results<\/caption>","autoHideNavigation":true,"data":[["Bin_0","Bin_1","Bin_2","Bin_3","Bin_4"],["Unknown","Unknown","Unknown_Myoviridae","Unknown","Synechococcus"],[10394293,7140550,14323882,3355056,7392044],[6461,4691,6508,2043,3996],[1550,1457,2293,1556,1767],[35.3,49.5,41.1,47.9,61.1],[100,82.9,0,98.6,98.6],[467.6,110.5,0,160.6,263.4]],"container":"<table class=\"FixedColumns\">\n  <thead>\n    <tr>\n      <th>bins<\/th>\n      <th>taxon<\/th>\n      <th>total length<\/th>\n      <th>num contigs<\/th>\n      <th>N50<\/th>\n      <th>GC content<\/th>\n      <th>% completion<\/th>\n      <th>% redundancy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,3,4,5,6,7]}],"dom":"Brti","buttons":["csv","copy"],"pageLength":5,"FixedColumns":{"leftColumns":2,"rightColumns":1},"scrollY":false,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>Messy.</p>
-<h4 id="estimate-genome-completeness">Estimate genome completeness</h4>
+<h2 id="estimate-genome-completeness">Estimate genome completeness</h2>
 <p>We can also the estimate genome completeness of each. The output of this command is a simple table and can give you quick access to some important details.</p>
 <pre class="bash"><code>
 anvi-estimate-genome-completeness -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -C CONCOCT_5</code></pre>
@@ -1679,8 +1708,7 @@ anvi-estimate-genome-completeness -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WA
 <script type="application/json" data-for="si6nhep817xedxvbqvfj">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">CONCOCT 5 forced cluster completeness esitmates<\/caption>","autoHideNavigation":true,"data":[["Bin_0","Bin_2","Bin_4","Bin_1","Bin_3"],["BACTERIA","BLANK","BACTERIA","ARCHAEA","BACTERIA"],[0.9,1,0.8,0.2,1],[100,0,98.59,82.89,98.59],[467.61,0,263.38,110.53,160.56],[6461,6525,3996,4691,2043],[10394293,14323882,7392044,7140550,3355056]],"container":"<table class=\"FixedColumns\">\n  <thead>\n    <tr>\n      <th>bin name<\/th>\n      <th>domain<\/th>\n      <th>confidence<\/th>\n      <th>% completion<\/th>\n      <th>% redundancy<\/th>\n      <th>num_splits<\/th>\n      <th>total length<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,3,4,5,6]}],"dom":"Brti","buttons":["csv","copy"],"pageLength":5,"FixedColumns":{"leftColumns":2,"rightColumns":1},"scrollY":false,"scroller":true,"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>In truth, none of this is particularly useful right now since we know are bins are messy. These tell us just how messy the bins are but later on commands like <code>anvi-summarize</code> and <code>anvi-estimate-genome-completeness</code> will be indispensable.</p>
-<h2 id="manual-refinement">Manual Refinement</h2>
-<p>DETAILS</p>
+<h1 id="manual-refinement">Manual Refinement</h1>
 <p>Once I have gone through all the bins and am happy with the manual refinement, I make a new collection to have a clean slate. This involves a little text file manipulation but its pretty easy. First I run…</p>
 <pre class="bash"><code>
 anvi-export-collection -p 06_MERGED/WATER/PROFILE.db -C CONCOCT_5</code></pre>
@@ -1709,9 +1737,9 @@ COLLECTIONS FOUND
 * CONCOCT_MANUAL (136 bins, representing 23716 items).
 * VIRAL_REFINED (92 bins, representing 12144 items).
 * MICROBIAL_REFINED (44 bins, representing 11572 items).</code></pre>
-<h2 id="identification-curation-of-mags">Identification &amp; Curation of MAGs</h2>
-<h3 id="rename-bins">Rename Bins</h3>
-<p>Now that we have gone through the process of refining the bins and modifying the collections it is time to <strong>a</strong> define metagenomic bins with &gt; 70% completion or &gt; 2 Mbp in length <em>AND</em> &lt; 10% redundancy<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> as metagenome-assembled genomes (MAGs), and <strong>b</strong>) rename the MAGs and all the remaining bins.</p>
+<h1 id="identification-curation-of-mags">Identification &amp; Curation of MAGs</h1>
+<h2 id="rename-bins">Rename Bins</h2>
+<p>Now that we have gone through the process of refining the bins and modifying the collections it is time to <strong>a</strong> define metagenomic bins with &gt; 70% completion or &gt; 2 Mbp in length <em>AND</em> &lt; 10% redundancy<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> as metagenome-assembled genomes (MAGs), and <strong>b</strong>) rename the MAGs and all the remaining bins.</p>
 <pre class="bash"><code>
 anvi-rename-bins -c 03_CONTIGS/WATER-contigs.db \
                  -p 06_MERGED/WATER/PROFILE.db \
@@ -1744,7 +1772,7 @@ anvi-summarize -c 03_CONTIGS/WATER-contigs.db \
                -p 06_MERGED/WATER/PROFILE.db \
                -C VIRAL_FINAL \
                -o VIRAL_FINAL</code></pre>
-<h3 id="summarize-mags">Summarize MAGs</h3>
+<h2 id="summarize-mags">Summarize MAGs</h2>
 <p>Now, for a little sanity check we can summarize the MAGs. We can employ the same trick above to make a collection of just MAGs called, well, <code>MAGS</code>.</p>
 <pre class="bash"><code>
 anvi-summarize -c 03_CONTIGS/WATER-contigs.db
@@ -1760,7 +1788,7 @@ anvi-estimate-genome-completeness
 <script type="application/json" data-for="w28jrs85gyggqx35xq83">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">MAG summary<\/caption>","autoHideNavigation":true,"data":[["WATER_MAG_00001","WATER_MAG_00002","WATER_MAG_00003","WATER_MAG_00004","WATER_MAG_00005"],["BACTERIA","BACTERIA","BACTERIA","BACTERIA","BACTERIA"],[1,0.9,0.9,0.7,0.7],["Synechococcus","Arcobacter","Synechococcus","Aliiroseovarius","Ca Pelagibacter"],[1862616,1180544,1654044,1776907,715941],[509,504,891,1062,438],[5803,2589,1871,1692,1661],[62.8,29.8,62.2,59.9,31.2],[94.4,93,90.1,83.1,74.6],[2.8,8.5,7,4.2,5.6]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>bins<\/th>\n      <th>domain<\/th>\n      <th>confidence<\/th>\n      <th>taxon<\/th>\n      <th>total_length<\/th>\n      <th>num_contigs<\/th>\n      <th>N50<\/th>\n      <th>GC_content<\/th>\n      <th>%_completion<\/th>\n      <th>%_redundancy<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[2,4,5,6,7,8,9]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>As you can see, the genomes are pretty fragmented, but you get what you get so let’s move on.</p>
-<h3 id="check-for-redundant-mags">Check for Redundant MAGs</h3>
+<h2 id="check-for-redundant-mags">Check for Redundant MAGs</h2>
 <p>Since we only have one metagenomic assembly, we shouldn’t need to worry about having redundant MAGs. But I like to check anyway.</p>
 <p>We need fasta files with proper deflines for each MAG.</p>
 <pre class="bash"><code>
@@ -1832,7 +1860,7 @@ anvi-dereplicate-genomes --ani-dir 12_GENOME-SIMILARITY
 </tr>
 </tbody>
 </table>
-<h3 id="profile-nonredundant-mags">Profile Nonredundant MAGs</h3>
+<h2 id="profile-nonredundant-mags">Profile Nonredundant MAGs</h2>
 <p>After the binning, curation of the MAGs, and renaming of scaffolds, we can start focusing on the distribution and detection of each MAG across the metagenomes. For this we will need a contigs database of the 5 MAGs. We will add HMM profiles and predict taxonomy. This is very similar to what we did in the initial assembly part of the <a href="mg-workflow-1.html#snakemake-workflow">Snakemake Workflow</a>.</p>
 <pre class="bash"><code>
 mkdir 14_NON-REDUNDANT-MAGs-CONTIGS
@@ -1916,14 +1944,14 @@ anvi-export-collection -p 17_NON-REDUNDANT-MAGs-MERGED/PROFILE.db --list-collect
 COLLECTIONS FOUND
 ===============================================
 * NON_REDUNDANT_MAGs (5 bins, representing 3404 items).</code></pre>
-<h3 id="creating-self-contained-profiles-for-mags">Creating Self-Contained Profiles for MAGs</h3>
+<h2 id="creating-self-contained-profiles-for-mags">Creating Self-Contained Profiles for MAGs</h2>
 <pre class="bash"><code>
 anvi-split -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db \
                                -p 17_NR-MAGs-MERGED/PROFILE.db \
                                -C NR_MAGs -o 18_NR-MAGs-SPLIT</code></pre>
 <p>That’s it for this section. Next we will perform a phylogenomic analysis on a MAG or two.</p>
 <h2 id="estimate-mag-taxonomy">Estimate MAG Taxonomy</h2>
-<p>One last thing to do is look at the predicted taxonomy for each MAG. To do this we will run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we ran <code>anvi-run-scg-taxonomy</code>. We can either run <code>anvi-estimate-scg-taxonomy</code> on the self-contained profile and contig databases we just create OR just use the combined databases. We will do the latter, so we only need to run a single command. You can add the <code>--debug</code> flag to see a more verbose output. We will keep it simple for now.</p>
+<p>One last thing to do is look at the predicted taxonomy for each MAG. To do this we will run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we ran <code>anvi-run-scg-taxonomy</code>. We can either run <code>anvi-estimate-scg-taxonomy</code> on the self-contained profile and contig databases we just create OR just use the combined databases. We will do the latter, so we only need to run a single command. You can add the <code>--debug</code> flag to see a more verbose output. We will keep it simple for now.</p>
 <pre class="bash"><code>
 anvi-estimate-scg-taxonomy -c 14_NR-MAGs-CONTIGS/NR-MAGs-CONTIGS.db
                            -p 17_NR-MAGs-MERGED/PROFILE.db
@@ -2082,7 +2110,7 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-binning.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-alneberg2014binning">
 <p>Alneberg, Johannes, Brynjar Smári Bjarnason, Ino De Bruijn, Melanie Schirmer, Joshua Quick, Umer Z Ijaz, Leo Lahti, Nicholas J Loman, Anders F Andersson, and Christopher Quince. 2014. “Binning Metagenomic Contigs by Coverage and Composition.” <em>Nature Methods</em> 11 (11): 1144–6. <a href="https://doi.org/10.1038/nmeth.3103">https://doi.org/10.1038/nmeth.3103</a>.</p>
 </div>
@@ -2099,10 +2127,10 @@ Next
 <p>Wu, Yu-Wei, Blake A Simmons, and Steven W Singer. 2016. “MaxBin 2.0: An Automated Binning Algorithm to Recover Genomes from Multiple Metagenomic Datasets.” <em>Bioinformatics</em> 32 (4): 605–7.</p>
 </div>
 </div>
-<section class="footnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>This redundancy cutoff only works for bacteria or archaea. If you have eukaryotic bins, the redundancy should be set to 100.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1" role="doc-endnote"><p>This redundancy cutoff only works for bacteria or archaea. If you have eukaryotic bins, the redundancy should be set to 100.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
@@ -2565,6 +2593,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

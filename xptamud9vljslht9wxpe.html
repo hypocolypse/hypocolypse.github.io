@@ -1282,23 +1282,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1482,7 +1490,7 @@
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1518,6 +1526,7 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
@@ -1534,7 +1543,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>Sandbox</h1>
-<p>A place to test</p>
+<p><p>A place to test</p></p>
 </div>
 
 
@@ -1563,7 +1572,7 @@ C. Metagenomic
 <p><a href="figures/sandbox/16s-anvio.png" download="16s-anvio.png"> Download a <strong>PNG</strong> file for Commenting.</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <p><a href="figures/sandbox/16s-anvio.eps" download="16s-anvio.eps"> Download a <strong>EPS</strong> file for Editing</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <h2 id="figure-legend">Figure Legend</h2>
-<p><strong>Figure X. Microbial assemblages of hypoxic and normoxic conditions.</strong> Community composition determined through 16S rRNA sequencing of water samples from the hypoxic (vermillion) and normoxic (blue) samples during the hypoxic event (N = 3 per site) and one month after the event (N = 1 per site). Hierarchical clustering of samples (right dendrogram) and ASVs (top dendrogram) based on Euclidean distance and Ward linkage against the ASV abundance matrix. Only ASVs represented by more than 100 reads were included in the analysis (189 ASVs). Each vertical line in the plot area represents a unique ASV, and color intensity indicates log normalized ASV abundance for a given sample. No color indicates an ASV was not detected. The colored bar below the plot area indicates which ASVs were enriched in the hypoxic (vermillion) vs. normoxic (blue) states as determined by Indicator Species Analysis (ISA). No color indicates ASVs that were not differentially abundant. For each sample, total reads and total ASVs, as well as estimates of inverse Simpson and Shannon diversity are presented. Taxonomic profiles for each sample are also provided, showing the proportion of major bacterial classes. Arrow points to ASV10, an Arcobacteraceae (Campylobacteria) abundant in hypoxic samples and absent from normoxic samples. ASV10 has a 100% match across its length to the 16S rRNA gene sequence retrieved from the metagenome assembled genome, MAG02. Clustering and visualization were conducted in the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span> environment and finishing touches performed in Inkscape (<a href="https://inkscape.org/" class="uri">https://inkscape.org/</a>).</p>
+<p><strong>Figure X. Microbial assemblages of hypoxic and normoxic conditions.</strong> Community composition determined through 16S rRNA sequencing of water samples from the hypoxic (vermillion) and normoxic (blue) samples during the hypoxic event (N = 3 per site) and one month after the event (N = 1 per site). Hierarchical clustering of samples (right dendrogram) and ASVs (top dendrogram) based on Euclidean distance and Ward linkage against the ASV abundance matrix. Only ASVs represented by more than 100 reads were included in the analysis (189 ASVs). Each vertical line in the plot area represents a unique ASV, and color intensity indicates log normalized ASV abundance for a given sample. No color indicates an ASV was not detected. The colored bar below the plot area indicates which ASVs were enriched in the hypoxic (vermillion) vs. normoxic (blue) states as determined by Indicator Species Analysis (ISA). No color indicates ASVs that were not differentially abundant. For each sample, total reads and total ASVs, as well as estimates of inverse Simpson and Shannon diversity are presented. Taxonomic profiles for each sample are also provided, showing the proportion of major bacterial classes. Arrow points to ASV10, an Arcobacteraceae (Campylobacteria) abundant in hypoxic samples and absent from normoxic samples. ASV10 has a 100% match across its length to the 16S rRNA gene sequence retrieved from the metagenome assembled genome, MAG02. Clustering and visualization were conducted in the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment and finishing touches performed in Inkscape (<a href="https://inkscape.org/" class="uri">https://inkscape.org/</a>).</p>
 <h1 id="mag02-phylogenomic-analysis">MAG02 Phylogenomic Analysis</h1>
 <p>The taxonomy estimate is new and important. Not sure I like the colors, but they need to be different from the isolation sources I think. Comments welcome.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -1572,7 +1581,7 @@ C. Metagenomic
 <p><a href="figures/sandbox/mag02-phylogenomic-tree.png" download="mag02-phylogenomic-tree.png"> Download a <strong>PNG</strong> file for Commenting.</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <p><a href="figures/sandbox/mag02-phylogenomic-tree.eps" download="mag02-phylogenomic-tree.eps"> Download a <strong>EPS</strong> file for Editing</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <h2 id="figure-legend-1">Figure Legend</h2>
-<p><strong>Figure X. Phylogenomic analysis of MAG02.</strong> Phylogenomic placement of MAG02 against a manually curated collection of 72 <em>Arcobacter</em> group genomes. The tree was rooted with three <em>Sulfurimonas</em> genomes. Tree based on concatenated protein alignment of 36 single copy genes (SCG) present in all 76 genomes. SCG were selected using a maximum functional homogeneity index of 0.95 and a minimum geometric homogeneity index of 0.99. Tree constructed using IQ-Tree<span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq">2020</a>)</span> and 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast">2017</a>)</span>. <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder">2017</a>)</span> was used to determine the best fit substitution model (LG+F+R6). Colored bar on the left indicates broad habitat category (<em>vertebrate host</em>, <em>invertebrate host</em>, <em>marine surface</em>, <em>marine subsurface</em>, <em>fuel cell</em>, and <em>sewage</em>) assigned based on the host and isolation source retrieved from NCBI’s BioSample database for each genome (one genome had no information). Vertebrate hosts almost entirely encompassed terrestrial animals such as cow, duck, human, and pig, and isolation sources like aborted fetus (not human), blood, eye, skin, and slaughterhouse. One genome came from a cloacal swab of an elephant seal. Invertebrate hosts were exclusively marine and included mussel, oyster, abalone, scallop, and clam. Marine surface sources included seawater and surface seawater, while marine subsurface sources included sediment and marine subsurface aquifer. Fuel cells were isolates obtained from fuel cell enrichment. Genomes in the sewage category came from terrestrial origin and also included wastewater and reclaimed water. Values in parentheses indicate the number of genomes per category. See Supplementary TABLE ZZZ for a metadata record of all genomes used. To the right of the isolation source are different genome metrics followed by the NCBI genome name. On the right are the results of taxonomy estimates for each genome based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. MAG02 was classified as a <em>Poseidonibacter</em> based on the presence of 20 genes and fell within the <em>Poseidonibacter</em> clade. Unless otherwise note, all analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span> environment.</p>
+<p><strong>Figure X. Phylogenomic analysis of MAG02.</strong> Phylogenomic placement of MAG02 against a manually curated collection of 72 <em>Arcobacter</em> group genomes. The tree was rooted with three <em>Sulfurimonas</em> genomes. Tree based on concatenated protein alignment of 36 single copy genes (SCG) present in all 76 genomes. SCG were selected using a maximum functional homogeneity index of 0.95 and a minimum geometric homogeneity index of 0.99. Tree constructed using IQ-Tree<span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> and 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>. <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> was used to determine the best fit substitution model (LG+F+R6). Colored bar on the left indicates broad habitat category (<em>vertebrate host</em>, <em>invertebrate host</em>, <em>marine surface</em>, <em>marine subsurface</em>, <em>fuel cell</em>, and <em>sewage</em>) assigned based on the host and isolation source retrieved from NCBI’s BioSample database for each genome (one genome had no information). Vertebrate hosts almost entirely encompassed terrestrial animals such as cow, duck, human, and pig, and isolation sources like aborted fetus (not human), blood, eye, skin, and slaughterhouse. One genome came from a cloacal swab of an elephant seal. Invertebrate hosts were exclusively marine and included mussel, oyster, abalone, scallop, and clam. Marine surface sources included seawater and surface seawater, while marine subsurface sources included sediment and marine subsurface aquifer. Fuel cells were isolates obtained from fuel cell enrichment. Genomes in the sewage category came from terrestrial origin and also included wastewater and reclaimed water. Values in parentheses indicate the number of genomes per category. See Supplementary TABLE ZZZ for a metadata record of all genomes used. To the right of the isolation source are different genome metrics followed by the NCBI genome name. On the right are the results of taxonomy estimates for each genome based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. MAG02 was classified as a <em>Poseidonibacter</em> based on the presence of 20 genes and fell within the <em>Poseidonibacter</em> clade. Unless otherwise note, all analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment.</p>
 <h1 id="distribution-of-metagenomic-bins">Distribution of Metagenomic Bins</h1>
 <p>This is to replace the “death star” supplemental figure. Basically, I separated viral and microbial bins and overlaid the bins that were identified as MAGs. These are the tiny death stars on the outside.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -1582,8 +1591,8 @@ C. Metagenomic
 <p><a href="figures/sandbox/binning.eps" download="binning.eps"> Download a <strong>EPS</strong> file for Editing</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <h2 id="figure-legend-2">Figure Legend</h2>
 <p><strong>Figure X. Distribution of microbial and viral bins across samples.</strong> Results of binning four co-assembled metagenomic samples from Cayo Roldan and Cayo Coral during and after the hypoxic event. Each layer represents a sample colored by oxygen state (vermillion, hypoxic; blue, normoxic) and each spoke a distinct bin. Color intensity is the relative abundance of a bin across all samples and no color indicates a bin was not detected. Inner and outer layers provide information on the length and GC content, as well as the completion and redundancy estimates, for each bin. Metrics for each sample—total reads, number of reds mapped to the co-assembly, percent of reads mapped, and the number of single nucleotide variants (SNVs)—as well as taxonomic content (based on short-read assignment), are provided in the bar charts on the left.</p>
-<p>The bottom semicircle is all 92 viral bins and the top semicircle are all 44 microbial bins. Overlaid on the microbial portion of the graph are the 5 MAGs recovered from the assembly. For each MAG we include the completion (C) and redundancy (R) estimates based on an HMM profile of 71 bacterial single copy genes (SCG). For each MAG, we added are the genus-level taxonomy estimates based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. Numbers in parentheses indicate the number of these ribosomal genes found in each MAG. We also include BIN-13—an unresolved bin with a high completion estimate but also high redundancy. This abundant bin was only found in the hypoxic sample. All analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span> environment.</p>
-<div id="refs" class="references">
+<p>The bottom semicircle is all 92 viral bins and the top semicircle are all 44 microbial bins. Overlaid on the microbial portion of the graph are the 5 MAGs recovered from the assembly. For each MAG we include the completion (C) and redundancy (R) estimates based on an HMM profile of 71 bacterial single copy genes (SCG). For each MAG, we added are the genus-level taxonomy estimates based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. Numbers in parentheses indicate the number of these ribosomal genes found in each MAG. We also include BIN-13—an unresolved bin with a high completion estimate but also high redundancy. This abundant bin was only found in the hypoxic sample. All analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment.</p>
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-eren2015anvi">
 <p>Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morrison, Mitchell L Sogin, and Tom O Delmont. 2015. “Anvi’o: An Advanced Analysis and Visualization Platform for ‘Omics Data.” <em>PeerJ</em> 3: e1319. <a href="https://doi.org/10.7717/peerj.1319">https://doi.org/10.7717/peerj.1319</a>.</p>
 </div>
@@ -2071,6 +2080,26 @@ C. Metagenomic
   pages={e1005404},
   year={2017},
   url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

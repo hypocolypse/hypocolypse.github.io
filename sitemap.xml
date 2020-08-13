@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
+    <loc>https://hypocolypse.github.io/16s-da-asvs.html</loc>
+    <lastmod>2020-08-12T09:04:05-05:00</lastmod>
+  </url>
+  <url>
     <loc>https://hypocolypse.github.io/16s-dada2.html</loc>
-    <lastmod>2020-06-14T21:28:06-05:00</lastmod>
+    <lastmod>2020-08-12T07:09:01-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/16s-data-prep.html</loc>
-    <lastmod>2020-06-24T16:26:30-05:00</lastmod>
+    <lastmod>2020-08-13T09:55:16-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/16s-water.html</loc>
-    <lastmod>2020-06-25T09:26:18-05:00</lastmod>
+    <lastmod>2020-08-12T07:47:42-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/404.html</loc>
@@ -22,35 +26,39 @@
   </url>
   <url>
     <loc>https://hypocolypse.github.io/data-availability.html</loc>
-    <lastmod>2020-06-14T21:37:56-05:00</lastmod>
+    <lastmod>2020-08-13T09:44:40-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/field.html</loc>
-    <lastmod>2020-05-31T16:43:18-05:00</lastmod>
+    <lastmod>2020-08-13T10:37:55-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/</loc>
-    <lastmod>2020-06-18T11:14:47-05:00</lastmod>
+    <lastmod>2020-08-13T09:39:30-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/intro.html</loc>
-    <lastmod>2020-06-01T08:03:23-05:00</lastmod>
+    <lastmod>2020-08-12T10:24:48-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/mag02-phylogenomics.html</loc>
-    <lastmod>2020-07-01T10:15:50-05:00</lastmod>
+    <lastmod>2020-08-13T10:40:40-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/mg-binning.html</loc>
-    <lastmod>2020-06-23T10:20:12-05:00</lastmod>
+    <lastmod>2020-08-13T09:51:26-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/mg-databases.html</loc>
-    <lastmod>2020-06-14T21:40:41-05:00</lastmod>
+    <lastmod>2020-08-13T09:48:56-05:00</lastmod>
+  </url>
+  <url>
+    <loc>https://hypocolypse.github.io/mg-function.html</loc>
+    <lastmod>2020-08-13T10:47:32-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/mg-setup.html</loc>
-    <lastmod>2020-06-14T21:45:26-05:00</lastmod>
+    <lastmod>2020-08-13T09:47:29-05:00</lastmod>
   </url>
   <url>
     <loc>https://hypocolypse.github.io/mg-workflow-1.html</loc>

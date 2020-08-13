@@ -738,6 +738,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1266,7 +1276,7 @@
   <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1289,23 +1299,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1481,15 +1499,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1504,6 +1522,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1524,11 +1543,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1540,7 +1560,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 2. Data Preparation</h1>
-<p>Complete, reproducible workflow for preparation of the <strong>16S rRNA</strong> data set. These steps are needed before analyzing the data. For aesthetic reasons, the R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw <code>.Rmd</code> file). R code for everything else is generally shown.</p>
+<p><p>Complete, reproducible workflow for preparation of the <strong>16S rRNA</strong> data set. These steps are needed before analyzing the data. For aesthetic reasons, the R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw <code>.Rmd</code> file). R code for everything else is generally shown.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1556,7 +1576,7 @@ C. Metagenomic
 <li><a href="#read-counts-assessment">Read Counts Assessment</a></li>
 <li><a href="#defining-groups">Defining Groups</a></li>
 <li><a href="#phyloseq-objects">Phyloseq Objects</a></li>
-<li><a href="#remove-contaminants-unwanted-taxa">Remove Contaminants &amp; Unwanted Taxa</a><ul>
+<li><a href="#curation">Curation</a><ul>
 <li><a href="#remove-mitochondria-asvs">Remove Mitochondria ASVs</a></li>
 <li><a href="#remove-chloroplast-asvs">Remove Chloroplast ASVs</a></li>
 <li><a href="#remove-eukaryotic-asvs">Remove Eukaryotic ASVs</a></li>
@@ -1575,7 +1595,7 @@ C. Metagenomic
 <blockquote>
 <p>You will either need to run the <a href="16s-dada2.html">DADA2 workflow</a> or the grab output file <code>combo_pipeline.rdata</code> from the workflow. This file contains the sequence and taxonomy tables. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
-<p>Unless otherwise noted, we primarily use <a href="https://joey711.github.io/phyloseq/">phyloseq</a><span class="citation" data-cites="mcmurdie2013phyloseq">(McMurdie and Holmes <a href="#ref-mcmurdie2013phyloseq">2013</a>)</span> in this section of the workflow to analyze the 16S rRNA data set. Before we conduct any analyses we first need to <em>prepare our data set</em> by curating samples, removing <em>contaminants</em>, and creating phyloseq objects.</p>
+<p>Unless otherwise noted, we primarily use <a href="https://joey711.github.io/phyloseq/">phyloseq</a><span class="citation" data-cites="mcmurdie2013phyloseq">(McMurdie and Holmes <a href="#ref-mcmurdie2013phyloseq" role="doc-biblioref">2013</a>)</span> in this section of the workflow to analyze the 16S rRNA data set. Before we conduct any analyses we first need to <em>prepare our data set</em> by curating samples, removing <em>contaminants</em>, and creating phyloseq objects.</p>
 <h1 id="read-counts-assessment">Read Counts Assessment</h1>
 <p>Before we begin, let’s create a summary table containing some basic sample metadata and the read count data from the <a href="16s-dada2.html">DADA2 pipeline</a>. We need to inspect how total reads changed through the pipeline. Just to get an idea, we combined the results of the <a href="16s-dada2.html#track-read-changes">Track Changes</a> analysis for these 8 samples. Table headers are as follows:</p>
 <table>
@@ -1695,7 +1715,7 @@ head(taxa_names(ps))</code></pre>
 <pre><code>
 [1] &quot;ASV1&quot; &quot;ASV2&quot; &quot;ASV3&quot; &quot;ASV4&quot; &quot;ASV5&quot; &quot;ASV6&quot;</code></pre>
 </div>
-<p>So the complete data set contains 1424 ASVs. We can also use the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a><span class="citation" data-cites="lahti2017microbiome">(Lahti, Sudarshan, and others <a href="#ref-lahti2017microbiome">2017</a>)</span> to get some additional summary data from the phyloseq object.</p>
+<p>So the complete data set contains 1424 ASVs. We can also use the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a><span class="citation" data-cites="lahti2017microbiome">(Lahti, Sudarshan, and others <a href="#ref-lahti2017microbiome" role="doc-biblioref">2017</a>)</span> to get some additional summary data from the phyloseq object.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1790,10 +1810,10 @@ write.table(table2format_trim_df, &quot;tables/16s-data-prep/full_asv.fasta&quot
             sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
             quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
 </div>
-<h1 id="remove-contaminants-unwanted-taxa">Remove Contaminants &amp; Unwanted Taxa</h1>
+<h1 id="curation">Curation</h1>
 <p>Let’s see if we have any potential contaminants. We can use some <a href="https://rmarkdown.rstudio.com/lesson-4.html">inline R code</a> to see the taxonomy table for any taxa of interest.</p>
 <aside>
-The code (hidden by default) is written as <code>`r &quot;Chloroplast&quot; %in% tax_table(ps)`</code>.
+The code (hidden by default) is written as <code>`r "Chloroplast" %in% tax_table(ps)`</code>.
 </aside>
 <ul>
 <li>Are Mitochondria present? TRUE</li>
@@ -1801,7 +1821,7 @@ The code (hidden by default) is written as <code>`r &quot;Chloroplast&quot; %in%
 <li>Are Eukaryota present? FALSE</li>
 </ul>
 <p>Let’s remove these taxa—Eukaryota because we used bacterial/archaeal primers, Mitochondria because those are likely from eukaryotes, and Chloroplast because those are likely from algae. We must do each of these in turn using phyloseq and it gets a little messy.</p>
-<p>Why messy? The <code>subset_taxa</code> command removes anything that is <code>NA</code> for the specified taxonomic level or above. For example, let’s say you run the <code>subset_taxa</code> command using <code>Family != &quot;Mitochondria</code>&quot;. Seems like you should get a phyloseq object with everything except Mitochondria. But actually, the command not only gets rid of Mitochondria but everything else that has <code>NA</code> for Family and above. In my experience this is not well documented, and I had to dig through the files to figure out what was happening.</p>
+<p>Why messy? The <code>subset_taxa</code> command removes anything that is <code>NA</code> for the specified taxonomic level or above. For example, let’s say you run the <code>subset_taxa</code> command using <code>Family != "Mitochondria</code>". Seems like you should get a phyloseq object with everything except Mitochondria. But actually, the command not only gets rid of Mitochondria but everything else that has <code>NA</code> for Family and above. In my experience this is not well documented, and I had to dig through the files to figure out what was happening.</p>
 <p>Anyway, to remove the taxa we do the following:</p>
 <ul>
 <li>Subset the taxa and generate a <code>ps</code> object of just the taxa of interest,</li>
@@ -1884,7 +1904,10 @@ write.table(tax_table(ps_filt),
             quote = FALSE, col.names=NA)
 write.table(t(otu_table(ps_filt)),
             &quot;tables/16s-data-prep/trim_seq_table.txt&quot;, sep=&quot;\t&quot;,
-            quote = FALSE, col.names=NA)</code></pre>
+            quote = FALSE, col.names=NA)
+write.table(sample_data(ps_filt),
+            &quot;tables/16s-data-prep/sample_table.txt&quot;,
+            sep=&quot;\t&quot;, quote = FALSE, col.names=NA)</code></pre>
 </div>
 <p>And generate a fasta file for all ASVs in the trimmed data set.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1936,8 +1959,9 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>You can find the source code for this page by <a href="https://github.com/hypocolypse/web/blob/master/16s-data-prep.Rmd">clicking this link</a>.</p>
-<h2 id="data-availability" class="unnumbered appendix">Data Availability</h2>
-<div id="refs" class="references">
+<h2 id="data-availability" class="appendix">Data Availability</h2>
+<p>Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403925">doi:10.25573/data.12403925</a>. Here you will find the sample metadata table, sequence tables, taxonomy tables, and ASV fasta files from the full phyloseq object (before removing contaminants) and the trimmed data set (after removing contaminants). The <em>16s-data_prep.rdata</em> file contains all variables and phyloseq objects from this pipeline and is needed for the next workflow (as are the .rds files).</p>
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-lahti2017microbiome">
 <p>Lahti, Leo, Shetty Sudarshan, and others. 2017. “Tools for Microbiome Analysis in R. Version 1.9.97.” <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.</p>
 </div>
@@ -2405,6 +2429,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

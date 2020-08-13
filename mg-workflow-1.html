@@ -42,7 +42,6 @@
   
   <!--/radix_placeholder_meta_tags-->
   
-  <meta name="citation_reference" content="citation_title=Anvi’o: An advanced analysis and visualization platform for ‘omics data;citation_publication_date=2015;citation_volume=3;citation_author=A Murat Eren;citation_author=Özcan C Esen;citation_author=Christopher Quince;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin;citation_author=Tom O Delmont"/>
   <meta name="citation_reference" content="citation_title=Trimmomatic: A flexible trimmer for illumina sequence data;citation_publication_date=2014;citation_volume=30;citation_author=Anthony M Bolger;citation_author=Marc Lohse;citation_author=Bjoern Usadel"/>
   <meta name="citation_reference" content="citation_title=Snakemake—a scalable bioinformatics workflow engine;citation_publication_date=2012;citation_volume=28;citation_author=Johannes Köster;citation_author=Sven Rahmann"/>
   <meta name="citation_reference" content="citation_title=Fast and sensitive taxonomic classification for metagenomics with kaiju;citation_publication_date=2016;citation_volume=7;citation_author=Peter Menzel;citation_author=Kim Lee Ng;citation_author=Anders Krogh"/>
@@ -56,7 +55,6 @@
   <meta name="citation_reference" content="citation_title=A filtering method to generate high quality short reads using illumina paired-end technology;citation_publication_date=2013;citation_volume=8;citation_author=A Murat Eren;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin"/>
   <meta name="citation_reference" content="citation_title=Interactive metagenomic visualization in a web browser;citation_publication_date=2011;citation_volume=12;citation_author=Brian D Ondov;citation_author=Nicholas H Bergman;citation_author=Adam M Phillippy"/>
   <meta name="citation_reference" content="citation_title=Fast and sensitive protein alignment using diamond;citation_publication_date=2015;citation_volume=12;citation_author=Benjamin Buchfink;citation_author=Chao Xie;citation_author=Daniel H Huson"/>
-  <meta name="citation_reference" content="citation_title=Nitrogen-fixing populations of planctomycetes and proteobacteria are abundant in surface ocean metagenomes;citation_publication_date=2018;citation_volume=3;citation_author=Tom O Delmont;citation_author=Christopher Quince;citation_author=Alon Shaiber;citation_author=Özcan C Esen;citation_author=Sonny TM Lee;citation_author=Michael S Rappé;citation_author=Sandra L McLellan;citation_author=Sebastian Lücker;citation_author=A Murat Eren"/>
   <meta name="citation_reference" content="citation_title=KEGG: Kyoto encyclopedia of genes and genomes;citation_publication_date=2000;citation_volume=28;citation_author=Minoru Kanehisa;citation_author=Susumu Goto"/>
   <meta name="citation_reference" content="citation_title=BlastKOALA and ghostkoala: KEGG tools for functional characterization of genome and metagenome sequences;citation_publication_date=2016;citation_volume=428;citation_author=Minoru Kanehisa;citation_author=Yoko Sato;citation_author=Kanae Morishima"/>
   <meta name="citation_reference" content="citation_title=Evaluation of genomic high-throughput sequencing data generated on illumina hiseq and genome analyzer systems;citation_publication_date=2011;citation_volume=12;citation_author=André E Minoche;citation_author=Juliane C Dohm;citation_author=Heinz Himmelbauer"/>
@@ -1296,23 +1294,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1496,7 +1502,7 @@
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1532,6 +1538,7 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
@@ -1548,7 +1555,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 3. Assembly &amp; Annotations</h1>
-<p>This section describes the steps we took to co-assemble the metagenomic samples, classify taxonomy, and assign functions.</p>
+<p><p>This section describes the steps we took to co-assemble the metagenomic samples, classify taxonomy, and assign functions.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1584,7 +1591,7 @@ C. Metagenomic
 </nav>
 <hr class="d-toc-separator"/>
 <h1 id="the-workflow">The Workflow</h1>
-<p>In this section of the workflow we begin with raw, paired-end Illumina data. We will use a Snakemake<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake">2012</a>)</span> workflow in the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span> environment for most of the steps, though we will at time call on additional tools for specific steps. The overall structure of our workflow was modelled after the one described by Delmont &amp; Eren on <a href="http://merenlab.org/data/tara-oceans-mags/">Recovering Microbial Genomes from TARA Oceans Metagenomes</a><span class="citation" data-cites="delmont2018nitrogen">(Delmont et al. <a href="#ref-delmont2018nitrogen">2018</a>)</span>.</p>
+<p>In this section of the workflow we begin with raw, paired-end Illumina data. We will use a Snakemake<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span> workflow in the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment for most of the steps, though we will at time call on additional tools for specific steps. The overall structure of our workflow was modelled after the one described by Delmont &amp; Eren on <a href="http://merenlab.org/data/tara-oceans-mags/">Recovering Microbial Genomes from TARA Oceans Metagenomes</a><span class="citation" data-cites="delmont2018nitrogen">(Delmont et al. <a href="#ref-delmont2018nitrogen" role="doc-biblioref">2018</a>)</span>.</p>
 <p>Specifically, we will:</p>
 <ol type="1">
 <li>Perform adapter trimming.</li>
@@ -1681,7 +1688,7 @@ C. Metagenomic
 <pre class="bash"><code>
 mkdir 00_TRIMMED
 mkdir 00_TRIMMED_UNPAIRED</code></pre>
-<p>Next we run TRIMMOMATIC<span class="citation" data-cites="bolger2014trimmomatic">(Bolger, Lohse, and Usadel <a href="#ref-bolger2014trimmomatic">2014</a>)</span> assuming the raw data is in a directory called <code>RAW</code>. Here is an example for a single sample (<code>WCCR_1913</code>). Since we ran these samples on a NextSeq, there are 4 files per paired-end. So, we have 8 files total. We need to run the command 4 times, one for each pair. Here is the command for the first pair.</p>
+<p>Next we run TRIMMOMATIC<span class="citation" data-cites="bolger2014trimmomatic">(Bolger, Lohse, and Usadel <a href="#ref-bolger2014trimmomatic" role="doc-biblioref">2014</a>)</span> assuming the raw data is in a directory called <code>RAW</code>. Here is an example for a single sample (<code>WCCR_1913</code>). Since we ran these samples on a NextSeq, there are 4 files per paired-end. So, we have 8 files total. We need to run the command 4 times, one for each pair. Here is the command for the first pair.</p>
 <aside>
 <a href="https://github.com/timflutre/trimmomatic">GitHub Repo for TRIMMOMATIC</a>. You will need <a href="https://github.com/timflutre/trimmomatic/blob/master/adapters/NexteraPE-PE.fa">this file</a> for trimming.
 </aside>
@@ -2290,7 +2297,7 @@ echo = `date` job $JOB_NAME don
 </details>
 <h2 id="snakemake-citations">Snakemake Citations</h2>
 <p>There are many tools used in the workflow that need to be cited.</p>
-<p>First there is the workflow engine itself—Snakemake<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake">2012</a>)</span>. QUALITY-FILTERING of raw reads was performed using Illumina Utils<span class="citation" data-cites="eren2013filtering">(Eren et al. <a href="#ref-eren2013filtering">2013</a>)</span> implementation of the filter developed by Minoche and collegues<span class="citation" data-cites="minoche2011evaluation">(Minoche, Dohm, and Himmelbauer <a href="#ref-minoche2011evaluation">2011</a>)</span>. CO-ASSEMBLY of metagenomic samples performed using MEGAHIT<span class="citation" data-cites="li2015megahit">(Li et al. <a href="#ref-li2015megahit">2015</a>)</span>. GENE CALLING was performed using PRODIGAL<span class="citation" data-cites="hyatt2010prodigal">(Hyatt et al. <a href="#ref-hyatt2010prodigal">2010</a>)</span>. RECRUITMENT (a.k.a. mapping) of reads to assembly performed using BOWTIE2<span class="citation" data-cites="langmead2012fast">(Langmead and Salzberg <a href="#ref-langmead2012fast">2012</a>)</span> and SAMtools<span class="citation" data-cites="li2009sequence">(Li et al. <a href="#ref-li2009sequence">2009</a>)</span>. TAXONOMIC CLASSIFICATION of genes using CENTRIFUGE<span class="citation" data-cites="kim2016centrifuge">(Kim et al. <a href="#ref-kim2016centrifuge">2016</a>)</span>.</p>
+<p>First there is the workflow engine itself—Snakemake<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span>. QUALITY-FILTERING of raw reads was performed using Illumina Utils<span class="citation" data-cites="eren2013filtering">(Eren et al. <a href="#ref-eren2013filtering" role="doc-biblioref">2013</a>)</span> implementation of the filter developed by Minoche and collegues<span class="citation" data-cites="minoche2011evaluation">(Minoche, Dohm, and Himmelbauer <a href="#ref-minoche2011evaluation" role="doc-biblioref">2011</a>)</span>. CO-ASSEMBLY of metagenomic samples performed using MEGAHIT<span class="citation" data-cites="li2015megahit">(Li et al. <a href="#ref-li2015megahit" role="doc-biblioref">2015</a>)</span>. GENE CALLING was performed using PRODIGAL<span class="citation" data-cites="hyatt2010prodigal">(Hyatt et al. <a href="#ref-hyatt2010prodigal" role="doc-biblioref">2010</a>)</span>. RECRUITMENT (a.k.a. mapping) of reads to assembly performed using BOWTIE2<span class="citation" data-cites="langmead2012fast">(Langmead and Salzberg <a href="#ref-langmead2012fast" role="doc-biblioref">2012</a>)</span> and SAMtools<span class="citation" data-cites="li2009sequence">(Li et al. <a href="#ref-li2009sequence" role="doc-biblioref">2009</a>)</span>. TAXONOMIC CLASSIFICATION of genes using CENTRIFUGE<span class="citation" data-cites="kim2016centrifuge">(Kim et al. <a href="#ref-kim2016centrifuge" role="doc-biblioref">2016</a>)</span>.</p>
 <aside>
 Documentation for <a href="https://snakemake.readthedocs.io/en/stable/">Snakemake</a>. GitHub repo for <a href="https://github.com/merenlab/illumina-utils">Illumina Utils</a>. GitHub repo for <a href="https://github.com/voutcn/megahit">MEGAHIT</a>. GitHub repo for <a href="https://github.com/hyattpd/Prodigal">PRODIGAL</a>. GitHub repo for <a href="https://github.com/BenLangmead/bowtie2">BOWTIE2</a>. Documentation for <a href="http://samtools.sourceforge.net/">SAMtools</a> GitHub repo for <a href="https://github.com/DaehwanKimLab/centrifuge">CENTRIFUGE</a>.
 </aside>
@@ -2298,7 +2305,7 @@ Documentation for <a href="https://snakemake.readthedocs.io/en/stable/">Snakemak
 <h1 id="taxonomic-annotations">Taxonomic Annotations</h1>
 <p>In this section we conduct taxonomic classification of short reads, contigs, and gene calls.</p>
 <h2 id="kaken-annotation">Kaken Annotation</h2>
-<p>In this section we use KrakenUniq<span class="citation" data-cites="breitwieser2018krakenuniq">(Breitwieser, Baker, and Salzberg <a href="#ref-breitwieser2018krakenuniq">2018</a>)</span> to classify the <strong>short reads</strong>. Because of the memory demands of KrakenUniq, we could not get this to work in the Snakemake workflow, so we ran the analysis separately. For several of these commands we used lists of sample names and <code>for</code> loops to run through each sample.</p>
+<p>In this section we use KrakenUniq<span class="citation" data-cites="breitwieser2018krakenuniq">(Breitwieser, Baker, and Salzberg <a href="#ref-breitwieser2018krakenuniq" role="doc-biblioref">2018</a>)</span> to classify the <strong>short reads</strong>. Because of the memory demands of KrakenUniq, we could not get this to work in the Snakemake workflow, so we ran the analysis separately. For several of these commands we used lists of sample names and <code>for</code> loops to run through each sample.</p>
 <aside>
 GitHub repo for <a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a>.
 </aside>
@@ -2318,7 +2325,7 @@ for sample in `cat list.txt`
 do
     $KRA_to_KRON/kraken_to_krona.py $KRAKEN/$sample-kraken.trans &gt; $KRAKEN/$sample-kraken.krona
 done</code></pre>
-<p>And finally construct Krona<span class="citation" data-cites="ondov2011krona">(Ondov, Bergman, and Phillippy <a href="#ref-ondov2011krona">2011</a>)</span> plots. We will come back to Krona plots when we explain what they are and how to use them in the <a href="mg-workflow-2.html#krona-plots-explained">Assembly &amp; Annotation Summary</a> section of the workflow.</p>
+<p>And finally construct Krona<span class="citation" data-cites="ondov2011krona">(Ondov, Bergman, and Phillippy <a href="#ref-ondov2011krona" role="doc-biblioref">2011</a>)</span> plots. We will come back to Krona plots when we explain what they are and how to use them in the <a href="mg-workflow-2.html#krona-plots-explained">Assembly &amp; Annotation Summary</a> section of the workflow.</p>
 <aside>
 <a href="https://github.com/marbl/Krona/wiki">GitHub Repo for Krona</a>.
 </aside>
@@ -2464,7 +2471,7 @@ echo = `date` job $JOB_NAME don
 <p><br/></p>
 <p>After this you need to rerun <code>anvi-merge</code> so that the short-read annotations make it into the merged <code>PROFILE.db</code>. But we will get to that in a minute.</p>
 <h2 id="virsorter-annotation">VirSorter Annotation</h2>
-<p>To classify any viral sequences, we ran VirSorter<span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter">2015</a>)</span> on contigs from the co-assembly using our newly created <code>contig.db</code> generated after the co-assembly step. We ran VirSorter with and without the <code>--virome</code> flag. See <a href="https://github.com/simroux/VirSorter/issues/40">issue 40</a> on the VirSorter GitHub site for a discussion of why we did this. We used DIAMOND<span class="citation" data-cites="buchfink2015fast">(Buchfink, Xie, and Huson <a href="#ref-buchfink2015fast">2015</a>)</span> as the local sequence aligner.</p>
+<p>To classify any viral sequences, we ran VirSorter<span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter" role="doc-biblioref">2015</a>)</span> on contigs from the co-assembly using our newly created <code>contig.db</code> generated after the co-assembly step. We ran VirSorter with and without the <code>--virome</code> flag. See <a href="https://github.com/simroux/VirSorter/issues/40">issue 40</a> on the VirSorter GitHub site for a discussion of why we did this. We used DIAMOND<span class="citation" data-cites="buchfink2015fast">(Buchfink, Xie, and Huson <a href="#ref-buchfink2015fast" role="doc-biblioref">2015</a>)</span> as the local sequence aligner.</p>
 <aside>
 <a href="https://github.com/simroux/VirSorter">GitHub Repo for VirSorter</a>. Documentation for <a href="http://www.diamondsearch.org/index.php">DIAMOND</a>.
 </aside>
@@ -2516,7 +2523,7 @@ echo = `date` job $JOB_NAME don
 </code></pre>
 </details>
 <h2 id="kaiju-annotation">Kaiju Annotation</h2>
-<p>In addition to the Centrifuge classification we are going to use Kaiju<span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast">2016</a>)</span> to classify gene calls. We do this against the <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">two databases</a> we built on the <a href="mg-databases.html/#kaiju">Annotation Databases</a> page.</p>
+<p>In addition to the Centrifuge classification we are going to use Kaiju<span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast" role="doc-biblioref">2016</a>)</span> to classify gene calls. We do this against the <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">two databases</a> we built on the <a href="mg-databases.html/#kaiju">Annotation Databases</a> page.</p>
 <aside>
 GitHub repo for <a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a>.
 </aside>
@@ -2766,7 +2773,7 @@ echo = `date` job $JOB_NAME done
 </code></pre>
 </details>
 <h2 id="ghostkoala-annotations">GhostKOALA Annotations</h2>
-<p>The last thing we can do is run KEGG<span class="citation" data-cites="kanehisa2000kegg">(Kanehisa and Goto <a href="#ref-kanehisa2000kegg">2000</a>)</span> annotations using the <a href="http://www.kegg.jp/ghostkoala/">GhostKOALA server</a><span class="citation" data-cites="kanehisa2016blastkoala">(Kanehisa, Sato, and Morishima <a href="#ref-kanehisa2016blastkoala">2016</a>)</span>. Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>.</p>
+<p>The last thing we can do is run KEGG<span class="citation" data-cites="kanehisa2000kegg">(Kanehisa and Goto <a href="#ref-kanehisa2000kegg" role="doc-biblioref">2000</a>)</span> annotations using the <a href="http://www.kegg.jp/ghostkoala/">GhostKOALA server</a><span class="citation" data-cites="kanehisa2016blastkoala">(Kanehisa, Sato, and Morishima <a href="#ref-kanehisa2016blastkoala" role="doc-biblioref">2016</a>)</span>. Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>.</p>
 <p>The steps we used to annotate genes with GhostKOALA/KEGG are reproduced from the tutorial.</p>
 <p>A little setup first. Make a directory for the analysis and grab the parsing script.</p>
 <pre class="bash"><code>
@@ -3176,7 +3183,7 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-workflow-1.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-bolger2014trimmomatic">
 <p>Bolger, Anthony M, Marc Lohse, and Bjoern Usadel. 2014. “Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.” <em>Bioinformatics</em> 30 (15): 2114–20. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.</p>
 </div>
@@ -3703,6 +3710,26 @@ Next
   pages={e1005404},
   year={2017},
   url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->

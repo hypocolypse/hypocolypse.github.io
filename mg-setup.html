@@ -737,6 +737,16 @@
   }
   
   
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+  
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+  
+  
   /* Improve display for browsers without grid (IE/Edge <= 15) */
   
   .downlevel {
@@ -1269,23 +1279,31 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
   /* controls general properties of site*/
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
-    background-color: #FAFAFA;
+    background-color: #FEFEFE;
   }
   
   d-title h1{
-  font-size: 2.5em;
-  font-family: Roboto;
-  font-weight: 500;
+  font-size: 2.1em;
+  font-family: 'Work Sans';
+  font-weight: 300;
   }
   
-  d-article h1, h2 {
-    font-family: Roboto;
+  d-article h1 {
+    font-size: 2.2em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 300;
+  }
+  
+  d-article h2 {
+    font-size: 1.65em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
+    font-weight: 500;
   }
   
   d-article h3 {
@@ -1461,15 +1479,15 @@
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
 <a class="logo" href="index.html">
-<img src="assets/icon.png"/>
+<img src="assets/icon.png" alt="Logo"/>
 </a>
 <a href="index.html" class="title"></a>
 </div>
 <div class="nav-right">
 <a href="index.html">
-<i class="fa fa-home"></i>
+<i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Introduction</a>
+<a href="intro.html">Site Overview</a>
 <a href="field.html">A. Field Analyses</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
@@ -1484,6 +1502,7 @@ B. 16S rRNA
 <hr/>
 <span class="nav-dropdown-header">16S rRNA Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
+<a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -1504,11 +1523,12 @@ C. Metagenomic
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
 <a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
 <a href="data-availability.html">Data</a>
 <a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg"></i>
+<i class="fa fa-github fa-lg" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -1520,7 +1540,7 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 1. Working Environment</h1>
-<p>In this section we go through our steps to build a working environment for data processing and analysis.</p>
+<p><p>In this section we go through our steps to build a working environment for data processing and analysis.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1534,9 +1554,14 @@ C. Metagenomic
 <nav class="d-toc" id="TOC">
 <ul>
 <li><a href="#miniconda">Miniconda</a></li>
-<li><a href="#anvio">Anvi’o</a></li>
-<li><a href="#other-software">Other Software</a></li>
+<li><a href="#anvio">Anvi’o</a><ul>
+<li><a href="#development-anvio">Development anvi’o</a></li>
+<li><a href="#stable-anvio">Stable anvi’o</a></li>
+<li><a href="#accessing-anvio-like-a-pro">Accessing anvi’o like a pro</a></li>
+</ul></li>
+<li><a href="#other-software">Other Software</a><ul>
 <li><a href="#source-code">Source Code</a></li>
+</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1546,7 +1571,7 @@ C. Metagenomic
 <p>By the time you read this, some of these instructions may be out of date. Consult the source material for programs/databases to ensure up-to-date installations.</p>
 <p>For the metagenomic analysis we mainly use <a href="http://merenlab.org/software/anvio/network/">anvi’o</a>—an innovative (dare I say gnarly) platform for metagenomic analysis and visualization. If you put in the time to learn this platform, you will be rewarded—beautifully rendered interactive graphics, a deeper understanding of metagenomics, and the ability to explore your data in novel ways. As the developers like to say, anvi’o helps you get your hands dirty. More on that in a minute.</p>
 <p>We will also use other tools to generate data products that we can port into the anvi’o ecosystem. First though, let’s set up a Miniconda environment. We will use Miniconda to install a stable version of anvi’o as well as several other tools as the need arises.</p>
-<h2 id="miniconda">Miniconda</h2>
+<h1 id="miniconda">Miniconda</h1>
 <p>I chose to use <a href="https://docs.conda.io/en/latest/">conda</a> as my package management system and <a href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> as the conda installer. I prefer Miniconda because it is a (free) minimal installer with a small footprint that I can customize to suite my needs. We will use conda to install almost every program in this workflow.</p>
 <p>Conda allows you to create environments that are isolated from the rest of your system. This is useful for many reasons. For example, as a user on a server you may not have <code>sudo</code> privileges and installing software can be a huge pain for everyone. With conda you basically create a computer within a computer so that what you do does not affect anything outside the Miniconda directory. In addition, every environment is isolated from each other within miniconda. This is important because you can install software packages that require different versions Python for example.</p>
 <p>The first step is to install Miniconda (available in multiple flavors).</p>
@@ -1562,8 +1587,8 @@ conda config --env --add channels conda-forge
 conda config --env --add channels bioconda</code></pre>
 <p>If you are not familiar with conda and plan to use it as a package management system, I strongly encourage you to take some time and learn the ins and outs. I promise it will be worth your time. conda is fairly straightforward to use and you will use it a lot. There are a ton of resources out there accessible using your favorite search engine.</p>
 <p>If you ever want to know if there is a conda package for some program, just search for the program name + conda in your favorite search engine. If there is, the first link should be to the Anaconda Cloud. There you will find details about the package like installation instructions, last update, total downloads, etc.</p>
-<h2 id="anvio">Anvi’o</h2>
-<p>Now we are ready to install anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi">2015</a>)</span>. If you plan to work with anvi’o I have a few recommendations.</p>
+<h1 id="anvio">Anvi’o</h1>
+<p>Now we are ready to install anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span>. If you plan to work with anvi’o I have a few recommendations.</p>
 <ol type="1">
 <li>Take some time to look around the <a href="http://merenlab.org/software/anvio/">anvi’o website</a>. There is a TON of information, not just about the software platform but about metagenomics in general. For example, have a look at the metagenomic <a href="http://merenlab.org/vocabulary/">vocabulary</a> page.</li>
 <li>The anvi’o developers offer many options for <a href="http://merenlab.org/2019/10/07/getting-help/">getting help</a>. I suggest joining their Slack channel or Google Group. For technical issues check out the <a href="https://github.com/merenlab/anvio">anvi’o GitHub site</a>.</li>
@@ -1573,7 +1598,7 @@ conda config --env --add channels bioconda</code></pre>
 <li>Another excellent resource if you’re just getting started is <a href="https://astrobiomike.github.io/">Happy Belly Bioinformatics</a>. That’s right. Great name, great site.</li>
 </ol>
 <p>For posterity, I will describe here exactly how I installed anvi’o at the time of this analysis.</p>
-<h3 id="development-anvio">Development anvi’o</h3>
+<h2 id="development-anvio">Development anvi’o</h2>
 <p>I like to run the development version of anvi’o so I can keep up with the <code>master</code> branch. This allows me to access new features and bug fixes as they are released. The way this is done is that any time we fire up anvi’o, a set of instructions will compare our version of anvi’o with the <code>master</code> repository. If any differences are detected, the script will replace the out-of-date local files with the updated files from the repository.</p>
 <p>The downside of this is that in the <strong>extremely unlikely</strong> event that the remarkably talented <a href="https://github.com/merenlab/anvio/blob/master/AUTHORS.txt">anvi’o developers</a> make a mistake, you could break your anvi’o install. So just in case we will also install a stable version of the codebase (see below).</p>
 <p>Moving on. At the time of this writing, the miniconda install default Python version was <code>3.7.3</code>. Many of the anvi’o dependencies required Python <code>3.6.x</code>. The first step is to create a conda environment running Python <code>3.6</code>. This is an example of the power of package management—running different versions of python.</p>
@@ -1654,7 +1679,7 @@ anvi-self-test --suite mini</code></pre>
 <p>I also like to run the <code>full</code> version of the test. It takes longer but it makes me feel better because sometimes the <code>mini</code> test passes while the <code>full</code> test fails.</p>
 <pre class="bash"><code>
 anvi-self-test --suite full</code></pre>
-<h3 id="stable-anvio">Stable anvi’o</h3>
+<h2 id="stable-anvio">Stable anvi’o</h2>
 <p>Next we install a <code>stable</code> version just in case we break something in the <code>master</code>, want to test the behavior of a code change, etc. It’s probably a good idea to check the anvio <a href="https://github.com/merenlab/anvio/releases">release page</a> from time to time for new releases and update this install accordingly. The easiest thing to do is remove the environment and reinstall or start a completely new environment. I find trying to update an install to be a pain. More on that below…</p>
 <p>First we create a conda environment and activate it. We will name the environment <code>anvio-6</code> but you can call it whatever you want.</p>
 <pre class="bash"><code>
@@ -1682,7 +1707,7 @@ conda activate anvio-6</code></pre>
 <p>Or add an alias to your <code>.bash_profile</code> file like so…</p>
 <pre class="bash"><code>
 echo &#39;alias anvi-activate-stable=&quot;conda activate anvio-6&quot;&#39; &gt;&gt; ~/.bash_profile</code></pre>
-<h3 id="accessing-anvio-like-a-pro">Accessing anvi’o like a pro</h3>
+<h2 id="accessing-anvio-like-a-pro">Accessing anvi’o like a pro</h2>
 <p>Meren wrote this little ditty to access the two different anvi’o installs with just simple alias commands. And he tucked it is a cool dropdown. I present this here exactly as he had it on the anvio website :)</p>
 <details>
 <p><summary>Show/hide Meren’s BASH profile setup</summary></p>
@@ -1741,7 +1766,7 @@ Auxiliary data storage version ...............: 2
 Structure DB version .........................: 1
  :: anvi&#39;o v6 master ::  ~ &gt;&gt;&gt;</code></pre>
 </details>
-<h2 id="other-software">Other Software</h2>
+<h1 id="other-software">Other Software</h1>
 <p>As mentioned above, we will use many other tools. Some are installed with anvi’o, some we installed while installing anvi’o, while others need to be installed separately. We will do this as the need arises and document it as we move through the workflow. In the next section for example we build some databases and install the tools we need at the same time. :)</p>
 <div class="post-nav">
 <div class="post-nav-item">
@@ -1753,7 +1778,7 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-setup.Rmd">clicking this link</a>.</p>
-<div id="refs" class="references">
+<div id="refs" class="references" role="doc-bibliography">
 <div id="ref-eren2015anvi">
 <p>Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morrison, Mitchell L Sogin, and Tom O Delmont. 2015. “Anvi’o: An Advanced Analysis and Visualization Platform for ‘Omics Data.” <em>PeerJ</em> 3: e1319. <a href="https://doi.org/10.7717/peerj.1319">https://doi.org/10.7717/peerj.1319</a>.</p>
 </div>
@@ -2218,6 +2243,37 @@ Next
   pages={1546-1696},
   year={2018},
   url = {https://doi.org/10.1038/nbt.4229}
+}
+
+@article{foster2017metacoder,
+  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
+  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
+  journal={PLoS Computational Biology},
+  volume={13},
+  number={2},
+  pages={e1005404},
+  year={2017},
+  url={https://doi.org/10.1371/journal.pcbi.1005404}
+}
+
+@article{dufrene1997species,
+  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
+  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
+  journal={Ecological Monographs},
+  volume={67},
+  number={3},
+  pages={345--366},
+  year={1997},
+  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
+}
+
+@article{roberts2007labdsv,
+  title={labdsv: Ordination and multivariate analysis for ecology},
+  author={Roberts, David W and others},
+  journal={R package version},
+  volume={1},
+  number={1},
+  year={2007}
 }
 </script>
 <!--/radix_placeholder_appendices-->
