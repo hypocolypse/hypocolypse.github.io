@@ -26,7 +26,6 @@
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
   
-  <meta name="article:author" content="Jarrod J Scott"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content=": No 2. Annotation Databases"/>
@@ -49,7 +48,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 2. Annotation Databases"]},{"type":"character","attributes":{},"value":["Constructing taxonomic & functional annotation databases.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 2. Annotation Databases"]},{"type":"character","attributes":{},"value":["Constructing taxonomic & functional annotation databases.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1312,6 +1311,20 @@
   d-article h3 {
     margin-top: 1em;
   }
+  d-byline .authors-affiliations {
+    grid-column-end: span 3;
+    grid-column-gap: 8px;
+  }
+  
+  a.name:-webkit-any-link {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
+  
+  a.affiliation:-webkit-any-link {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
   
   blockquote p {
   	font-size: 1.3em;
@@ -1324,10 +1337,23 @@
     background-color: #E8E8E8;
     border-radius: 3px;
     font-size: 0.8em;
-    border-left: 5px solid #006ddb;
     font-family: 'Monaco', 'PT Mono', monospace;
     overflow-x: scroll !important;
     margin-bottom: 20px;
+    border-left: 5px solid #006ddb;
+    border-top: 1px solid #B7B7B7;
+    border-right: 1px solid #B7B7B7;
+    border-bottom: 1px solid #B7B7B7;
+  }
+  
+  code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
+    margin-bottom: 20px;
+    color: #BF2727;
   }
   
   pre.text-output {
@@ -1473,7 +1499,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"No 2. Annotation Databases","description":"Constructing taxonomic & functional annotation databases.","authors":[{"author":"Jarrod J Scott","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}]}
+{"title":"No 2. Annotation Databases","description":"Constructing taxonomic & functional annotation databases.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1546,11 +1572,6 @@ C. Metagenomic
 <p><p>Constructing taxonomic &amp; functional annotation databases.</p></p>
 </div>
 
-<div class="d-byline">
-  Jarrod J Scott  
-  
-
-</div>
 
 <div class="d-article">
 <h3 class="d-toc-header">Table of Contents</h3>

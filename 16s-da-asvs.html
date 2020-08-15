@@ -26,7 +26,6 @@
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
   
-  <meta name="article:author" content="Jarrod J Scott"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content=": No 4. Differentially Abundant ASVs"/>
@@ -49,7 +48,7 @@
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 4. Differentially Abundant ASVs"]},{"type":"character","attributes":{},"value":["In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Jarrod J Scott"]}]}]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 4. Differentially Abundant ASVs"]},{"type":"character","attributes":{},"value":["In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -1329,6 +1328,20 @@
   d-article h3 {
     margin-top: 1em;
   }
+  d-byline .authors-affiliations {
+    grid-column-end: span 3;
+    grid-column-gap: 8px;
+  }
+  
+  a.name:-webkit-any-link {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
+  
+  a.affiliation:-webkit-any-link {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
   
   blockquote p {
   	font-size: 1.3em;
@@ -1341,10 +1354,23 @@
     background-color: #E8E8E8;
     border-radius: 3px;
     font-size: 0.8em;
-    border-left: 5px solid #006ddb;
     font-family: 'Monaco', 'PT Mono', monospace;
     overflow-x: scroll !important;
     margin-bottom: 20px;
+    border-left: 5px solid #006ddb;
+    border-top: 1px solid #B7B7B7;
+    border-right: 1px solid #B7B7B7;
+    border-bottom: 1px solid #B7B7B7;
+  }
+  
+  code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
+    margin-bottom: 20px;
+    color: #BF2727;
   }
   
   pre.text-output {
@@ -1490,7 +1516,7 @@
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"No 4. Differentially Abundant ASVs","description":"In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).","authors":[{"author":"Jarrod J Scott","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#"}]}
+{"title":"No 4. Differentially Abundant ASVs","description":"In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1563,11 +1589,6 @@ C. Metagenomic
 <p><p>In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).</p></p>
 </div>
 
-<div class="d-byline">
-  Jarrod J Scott  
-  
-
-</div>
 
 <div class="d-article">
 <h3 class="d-toc-header">Table of Contents</h3>
@@ -1584,6 +1605,7 @@ C. Metagenomic
 <li><a href="#setup-for-analysis">Setup for Analysis</a></li>
 <li><a href="#building-heat-maps">Building Heat Maps</a></li>
 <li><a href="#source-code">Source Code</a></li>
+<li><a href="#data-availability">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2114,6 +2136,8 @@ Next
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-da-asvs.Rmd">clicking this link</a>.</p>
+<h2 id="data-availability" class="appendix">Data Availability</h2>
+<p>Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12808427">doi:10.25573/data.12808427</a>. The <code>da_asvs_pipeline.rdata</code> file contains all variables and objects from this pipeline. The directory within <code>da_asv_anvio.zip</code> contains all the files needed to visualize the DA ASVs in anvi’o.</p>
 <div id="refs" class="references" role="doc-bibliography">
 <div id="ref-dufrene1997species">
 <p>Dufrêne, Marc, and Pierre Legendre. 1997. “Species Assemblages and Indicator Species: The Need for a Flexible Asymmetrical Approach.” <em>Ecological Monographs</em> 67 (3): 345–66. <a href="https://doi.org/10.1890/0012-9615(1997)067%5B0345:SAAIST%5D2.0.CO;2">https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2</a>.</p>

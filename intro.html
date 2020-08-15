@@ -1308,6 +1308,20 @@
   d-article h3 {
     margin-top: 1em;
   }
+  d-byline .authors-affiliations {
+    grid-column-end: span 3;
+    grid-column-gap: 8px;
+  }
+  
+  a.name:-webkit-any-link {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
+  
+  a.affiliation:-webkit-any-link {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
   
   blockquote p {
   	font-size: 1.3em;
@@ -1320,10 +1334,23 @@
     background-color: #E8E8E8;
     border-radius: 3px;
     font-size: 0.8em;
-    border-left: 5px solid #006ddb;
     font-family: 'Monaco', 'PT Mono', monospace;
     overflow-x: scroll !important;
     margin-bottom: 20px;
+    border-left: 5px solid #006ddb;
+    border-top: 1px solid #B7B7B7;
+    border-right: 1px solid #B7B7B7;
+    border-bottom: 1px solid #B7B7B7;
+  }
+  
+  code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-size: 0.9em;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
+    margin-bottom: 20px;
+    color: #BF2727;
   }
   
   pre.text-output {
@@ -1603,39 +1630,36 @@ C. Metagenomic
 <p>Here are a few color palette examples. A light grey (<code>#7F7F7F</code>) was added to the 8-color palette. Shown here are the hex codes for these palettes but if you want the color names and <a href="https://en.wikipedia.org/wiki/RGB_color_model">sRGB</a> codes you can download plain text versions of the palettes from Martin’s website <a href="http://mkweb.bcgsc.ca/colorblind/palettes/color.blindness.palettes.v11.tgz">here</a>.</p>
 <p>If you are interested in the R code used to make these palettes, click the arrow to expand the code block.</p>
 <details>
-<summary>Show/hide code to make palette figures</summary>
+<p><summary>Show/hide code to make palette figures</summary></p>
 <pre><code>
-```
 # Wong palette
-wong_pal <- c("#009E73", "#D55E00", "#F0E442",
-                "#CC79A7", "#56B4E9", "#E69F00",
-                "#0072B2", "#7F7F7F", "#000000")
+wong_pal &lt;- c(&quot;#009E73&quot;, &quot;#D55E00&quot;, &quot;#F0E442&quot;,
+                &quot;#CC79A7&quot;, &quot;#56B4E9&quot;, &quot;#E69F00&quot;,
+                &quot;#0072B2&quot;, &quot;#7F7F7F&quot;, &quot;#000000&quot;)
 palette(wong_pal)
-gs1 <- lapply(wong_pal, function(ii, wong_pal)
+gs1 &lt;- lapply(wong_pal, function(ii, wong_pal)
   grobTree(
     rectGrob(
       gp = gpar(fill = ii)),
-    textGrob(ii, gp = gpar(col = "white"))))
-gs1 <- grid.arrange(grobs = gs1, ncol = 3,
-               top = "8-COLOR PALETTE", right = "")
+    textGrob(ii, gp = gpar(col = &quot;white&quot;))))
+gs1 &lt;- grid.arrange(grobs = gs1, ncol = 3,
+               top = &quot;8-COLOR PALETTE&quot;, right = &quot;&quot;)
 
 # 12 color palette
-twelve_pal <- c("#323232", "#BF3465", "#50B29E", "#D9D9D9",
-                 "#731683", "#1C6CCC", "#21BCFF", "#DFA5E5",
-                 "#874310", "#DB6D1B", "#B8CE17", "#F4E345")
+twelve_pal &lt;- c(&quot;#323232&quot;, &quot;#BF3465&quot;, &quot;#50B29E&quot;, &quot;#D9D9D9&quot;,
+                 &quot;#731683&quot;, &quot;#1C6CCC&quot;, &quot;#21BCFF&quot;, &quot;#DFA5E5&quot;,
+                 &quot;#874310&quot;, &quot;#DB6D1B&quot;, &quot;#B8CE17&quot;, &quot;#F4E345&quot;)
 palette(twelve_pal)
-gs2 <- lapply(twelve_pal, function(ii, twelve_pal)
+gs2 &lt;- lapply(twelve_pal, function(ii, twelve_pal)
   grobTree(
     rectGrob(
       gp = gpar(fill = ii)),
-    textGrob(ii, gp = gpar(col = "white"))))
-gs2 <- grid.arrange(grobs = gs2, ncol = 4,
-               top = "12-COLOR PALETTE", left = "")
-grid.arrange(gs1, gs2, ncol = 2)
-```
-</code></pre>
+    textGrob(ii, gp = gpar(col = &quot;white&quot;))))
+gs2 &lt;- grid.arrange(grobs = gs2, ncol = 4,
+               top = &quot;12-COLOR PALETTE&quot;, left = &quot;&quot;)
+grid.arrange(gs1, gs2, ncol = 2)</code></pre>
 </details>
-<p><br/></p>
+<p><br/> <br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="intro_files/figure-html5/color_8-1.png" width="624" /></p>
 </div>
@@ -1646,7 +1670,7 @@ grid.arrange(gs1, gs2, ncol = 2)
 <div class="meta-nav">
 Next
 </div>
-<p><a href="pc.html" rel="next">A. Field Analyses</a></p>
+<p><a href="field.html" rel="next">A. Field Analyses</a></p>
 </div>
 </div>
 <h2 id="source-code" class="appendix">Source Code</h2>
