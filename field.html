@@ -1293,7 +1293,7 @@
   }
   
   d-article h1 {
-    font-size: 2.2em;
+    font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
@@ -1483,6 +1483,19 @@
     }
   }
   
+  .article-banner {
+    width: auto;
+    height: auto;
+    border: 0;
+  }
+  
+  img[src="assets/banner.png"] {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    margin: 100px 50px 0px 25px;
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1576,7 +1589,7 @@ C. Metagenomic
 <li><a href="#hypoxic-reef-conditions">Hypoxic Reef Conditions</a></li>
 <li><a href="#coral-bleaching">Coral Bleaching</a></li>
 <li><a href="#coral-community-structure">Coral Community Structure</a></li>
-<li><a href="#analysis-workflow">Analysis Workflow</a><ul>
+<li><a href="#analysis-workflow">Analysis Workflow</a></li>
 <li><a href="#pulse-amplitude-modulated-pam-fluorometry">Pulse Amplitude Modulated (PAM) Fluorometry</a><ul>
 <li><a href="#non-transformed-data">Non-Transformed Data</a></li>
 </ul></li>
@@ -1592,10 +1605,15 @@ C. Metagenomic
 <li><a href="#non-transformed-data-3">Non-Transformed Data</a></li>
 <li><a href="#transformed-data-2">Transformed Data</a></li>
 </ul></li>
-</ul></li>
 <li><a href="#figures">Figures</a><ul>
-<li><a href="#source-code">Source Code</a></li>
+<li><a href="#calculate-means-for-figures">Calculate Means for Figures</a></li>
+<li><a href="#pam">PAM</a></li>
+<li><a href="#zooxanthellae-counts">Zooxanthellae Counts</a></li>
+<li><a href="#pigment-data">Pigment Data</a></li>
+<li><a href="#fine-tuning">Fine Tuning</a></li>
 </ul></li>
+<li><a href="#panel-figure">Panel Figure</a></li>
+<li><a href="#source-code">Source Code</a></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
@@ -1606,24 +1624,12 @@ C. Metagenomic
 <h2 id="coral-community-structure">Coral Community Structure</h2>
 <p>The hypoxic and normoxic sites are the location of permanent benthic monitoring. We evaluated changes in benthic community structure from four months before, during, and one year after the hypoxic event using permanent photoquadrats. At each site, permanent quadrats were photographed every 5m along one 50m permanent transect, and community structure was determined from 50 randomly overlaid points using the online platform <a href="https://coralnet.ucsd.edu/">CoralNet</a>. Taxa were identified to the finest resolution possible, and then grouped into different functional groups for subsequent analyses.</p>
 <p>We used nonmetric multidimensional scaling (nMDS) to visually represent benthic community structure at each time point, and evaluated changes over time with a permutational analysis of variance (PERMANOVA), with pairwise contrasts. The benthic community did not change significantly over time at the normoxic site, so changes in the coral community over time were evaluated only at the hypoxic site.</p>
-<h1 id="analysis-workflow">Analysis Workflow</h1>
-<p>Next, we present the workflows we used to analyze coral response variables specifically the Pulse Amplitude Modulated (PAM) Fluorometry, Zooxanthellae, Chlorophyll a (Chla), and Chlorophyll C (Chlc) data. For each data set, we visually assess residuals, test for normality (Shapiro-Wilk Test), and test for equality of variances (Levene’s Test). In some cases, data are subsequently transformed.</p>
+<h2 id="analysis-workflow">Analysis Workflow</h2>
+<p>Next, we present the workflows we used to analyze coral response variables, specifically the Pulse Amplitude Modulated (PAM) Fluorometry, Zooxanthellae, Chlorophyll a (Chla), and Chlorophyll C (Chlc) data. For each data set, we visually assess residuals, test for normality (Shapiro-Wilk Test), and test for equality of variances (Levene’s Test). In some cases, data are subsequently transformed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-data &lt;- read.table(&quot;tables/field/coralhypoxia.csv&quot;, 
-                   header = T, sep = &quot;,&quot;)
-attach(data)
-class(site)</code></pre>
-<pre><code>
-[1] &quot;character&quot;</code></pre>
-<pre class="r"><code>
-levels(site)</code></pre>
-<pre><code>
-NULL</code></pre>
-<pre class="r"><code>
-class(colony)</code></pre>
-<pre><code>
-[1] &quot;character&quot;</code></pre>
+data &lt;- read.table(&quot;tables/field/coralhypoxia.csv&quot;, header = T, sep = &quot;,&quot;)
+attach(data)</code></pre>
 </div>
 <h2 id="pulse-amplitude-modulated-pam-fluorometry">Pulse Amplitude Modulated (PAM) Fluorometry</h2>
 <p>First, we test all data for assumptions of normality and homogeneity of variances based on raw data (i.e., not transformed) and residuals. Data are normal, variances hetergeneous (transform doesn’t improve). Look at distribution of data with histogram.</p>
@@ -1631,44 +1637,43 @@ class(colony)</code></pre>
 <h4 id="visual-assessment">Visual Assessment</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plotNormalHistogram(yield)</code></pre>
+plotNormalHistogram(yield, main = &quot;PAM&quot;, xlab = &quot;Yield&quot;)</code></pre>
 <p><img src="field_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>
-<p>First run the model to generate the residuals, then look at residuals to see if they are normally distributed; mixed model with fragment nested in colony, site as fixed effect.</p>
+<p>First, we run the model to generate the residuals, then look at residuals to see if they are normally distributed. This is a mixed model with fragment nested in colony and site as the fixed effect.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-lmepam &lt;- lmer(yield ~ site + (1|colony), 
-               REML = FALSE, na.action = na.exclude)
+lmepam &lt;- lmer(yield ~ site + (1|colony), REML = FALSE, na.action = na.exclude)
 res1 &lt;- resid(lmepam)</code></pre>
 </div>
-<p>Produce a histogram of the residuals.</p>
+<p>And then produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res1, main = &quot;Yield&quot;, xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res1)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-4-2.png" width="624" /></p>
+plotNormalHistogram(res1, main = &quot;PAM&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test">Shapiro-Wilk Normality Test</h4>
+<p>Next, we run a normality test on residuals. The null hypothesis is that the data is normally distributed, while a p-value &lt; 0.05 means the data is non-normally distributed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-pam.shapiro &lt;- shapiro.test(res1) #runs a normality test on residuals
-print(pam.shapiro) # null = normally distrubuted P&lt;0.05 = non-normal</code></pre>
+pam.shapiro &lt;- shapiro.test(res1)
+print(pam.shapiro)  </code></pre>
 <pre><code>
     Shapiro-Wilk normality test
 
 data:  res1
 W = 0.97021, p-value = 0.4312</code></pre>
 </div>
-<p>QQ plots of residuals from lme model</p>
+<p>Ok, the p-value is 0.4311851, meaning the result is not significant and the data are normally distributed.</p>
+<p>Next, we generate QQ plots of residuals from the lme model.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 qqnorm(res1, ylab = &quot;Sample Quantiles for PAM&quot;)
 qqline(res1, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test">Levene’s Test</h4>
+<p>And the Levene’s Test, which tests for homogeneity of variance across groups.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 leveneTest(yield ~ as.factor(site), data = data)</code></pre>
@@ -1687,9 +1692,9 @@ bartlett.test(x = yield, g = site)</code></pre>
 data:  yield and site
 Bartlett&#39;s K-squared = 6.3431, df = 1, p-value = 0.01178</code></pre>
 </div>
-<p>Data is normal but not homogenous—log transform does not improve.</p>
+<p>So the data is <strong><em>normal but not homogenous</em></strong>.</p>
 <h4 id="mixed-effects-models">Mixed Effects Models</h4>
-<p>Site is the fixed effect, colony is random, fragment is random nested in colony. Compared full model with fragment dropped. Best fit model (with lowest AIC) was the model with colony dropped. But using model that includes fragment because it’s necessary random effect.</p>
+<p>In our mixed model approach, <strong>site</strong> is the <em>fixed</em> effect, <strong>colony</strong> the <em>random</em> effect, and <strong>fragment</strong> is random nested in <strong>colony</strong>. We compared the full model with fragment dropped. The best fit model (with lowest AIC) was the model with colony dropped. But we use a model that includes fragment because it’s a necessary random effect.</p>
 <p>When comparing models with different random effects like here—use <code>REML = FALSE</code>. But when not comparing use <code>REML = TRUE</code> (default). The full model includes site, colony, and fragment nested in colony. Colony/frag includes a term for colony alone and nests fragment in colony.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
@@ -1706,7 +1711,7 @@ yield ~ site + (1 | frag:colony) + (1 | colony)
 (1 | frag:colony)    4 65.561 -123.12   0  1          1
 (1 | colony)         4 65.561 -123.12   0  1          1</code></pre>
 </div>
-<p>Frag nested in colony dropped—I think colony accounts for fragment nested inherently?</p>
+<p>So we drop fragment nested in colony.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 pam2 &lt;- lmer(yield ~ site + (1|colony), data = data, 
@@ -1717,11 +1722,11 @@ ANOVA-like table for random-effects: Single term deletions
 
 Model:
 yield ~ site + (1 | colony)
-             npar logLik     AIC                   LRT Df Pr(&gt;Chisq)
-&lt;none&gt;          4 65.561 -123.12                                    
-(1 | colony)    3 65.561 -125.12 -0.000000000000028422  1          1</code></pre>
+             npar logLik     AIC         LRT Df Pr(&gt;Chisq)
+&lt;none&gt;          4 65.561 -123.12                          
+(1 | colony)    3 65.561 -125.12 -2.8422e-14  1          1</code></pre>
 </div>
-<p>Use the full model to account for nesting fragments</p>
+<p>And then use the full model to account for nesting fragments.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 mod.AIC &lt;- AIC(pam1, pam2) 
@@ -1731,7 +1736,7 @@ mod.AIC </code></pre>
 pam1  5 -121.1218
 pam2  4 -123.1218</code></pre>
 </div>
-<p>Final models uses REML—not comparing models with different random effects.</p>
+<p>And the final models use REML but without comparing models with different random effects.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalpam &lt;- lmer(yield ~ site + (1|colony), 
@@ -1742,14 +1747,19 @@ finalpam &lt;- lmer(yield ~ site + (1|colony),
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalrandpam &lt;- ranova(finalpam)
-pam.table &lt;- anova(finalpam, type = 2)
+pam.table &lt;- anova(finalpam, type = 2)</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
 pam.table</code></pre>
 <pre><code>
 Type II Analysis of Variance Table with Satterthwaite&#39;s method
-       Sum Sq  Mean Sq NumDF DenDF F value      Pr(&gt;F)    
-site 0.056551 0.056551     1    34  34.827 0.000001156 ***
+       Sum Sq  Mean Sq NumDF DenDF F value    Pr(&gt;F)    
+site 0.056551 0.056551     1    34  34.827 1.156e-06 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalrandpam</code></pre>
 <pre><code>
@@ -1757,22 +1767,21 @@ ANOVA-like table for random-effects: Single term deletions
 
 Model:
 yield ~ site + (1 | colony)
-             npar logLik     AIC                   LRT Df Pr(&gt;Chisq)
-&lt;none&gt;          4 58.057 -108.11                                    
-(1 | colony)    3 58.057 -110.11 -0.000000000000014211  1          1</code></pre>
+             npar logLik     AIC         LRT Df Pr(&gt;Chisq)
+&lt;none&gt;          4 58.057 -108.11                          
+(1 | colony)    3 58.057 -110.11 -1.4211e-14  1          1</code></pre>
 </div>
 <h2 id="zooxanthellae">Zooxanthellae</h2>
-<p>First testing all data for assumptions of normality and homogeneity of variances. Based on raw data and residuals, CR6B is an outlier and removed—log-transform data makes data normal and homogenous.</p>
+<p>First, we test all data for assumptions of normality and homogeneity of variances. Based on the raw data and residuals, CR6B is an outlier and was removed. Log-transforming the data makes the data normal and homogeneous. We will look at both non-transformed transformed data.</p>
 <h3 id="non-transformed-data-1">Non-Transformed Data</h3>
-<h4 id="visual-assessment-1">Visual Assessment</h4>
 <p>Look at distribution of the raw data with histogram.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 attach(data)
-plotNormalHistogram(zoox)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-13-1.png" width="624" /></p>
+plotNormalHistogram(zoox, main = &quot;Zooxanthellae&quot;, xlab = &quot;Counts&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-16-1.png" width="624" /></p>
 </div>
-<p>First run the model to generate the residuals, then look at residuals to see if normally distributed. Mixed model with fragment nested in colony, site as fixed effect. Yield is normally distributed, but variances not homogenous.</p>
+<p>First, run the model to generate the residuals, then look at residuals to see if thay are normally distributed. Mixed model with fragment nested in colony, site as fixed effect. Yield is normally distributed, but variances not homogeneous.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 lmezoox &lt;- lmer(zoox ~ site + (1|colony), REML = FALSE, na.action = na.exclude)
@@ -1781,13 +1790,11 @@ res2 &lt;- resid(lmezoox)</code></pre>
 <p>Produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res2, main = &quot;Zoox&quot;, xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-15-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res2)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-15-2.png" width="624" /></p>
+plotNormalHistogram(res2, main = &quot;Zooxanthellae&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-19-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test-1">Shapiro-Wilk Normality Test</h4>
+<p>Next, we again run a normality test on residuals. And again, the null hypothesis is that the data is normally distributed, while a p-value &lt; 0.05 means the data is non-normally distributed.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 zoox.shapiro &lt;- shapiro.test(res2) #runs a normality test on residuals
@@ -1798,12 +1805,13 @@ print(zoox.shapiro) # null = normally distrubuted (P&lt;0.05 = non-normal</code>
 data:  res2
 W = 0.9031, p-value = 0.004795</code></pre>
 </div>
-<p>QQ plots of residuals from lme model.</p>
+<p>We see the p-value (0.004795) is less than 0.05, and thus the data is non-normally distributed.</p>
+<p>And a quick look at the QQ plot of residuals from lme model.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 qqnorm(res2, ylab = &quot;Sample Quantiles for Zoox&quot;)
 qqline(res2, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-17-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-21-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test-1">Levene’s Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -1818,28 +1826,22 @@ group  1  13.805 0.0007486 ***
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 </div>
 <h3 id="transformed-data">Transformed Data</h3>
-<p>Log transform improves normality—data are homogenous. Add a new column to dataframe for log transformation. Check that log transformed data is added as a new column.</p>
+<p>Log transformation improves normality. First, we add a new column to data frame for the log transformation and check that log transformed data is added as a new column.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 data$zoox_log = log(zoox)
-head(data)</code></pre>
+attach(data)
+colnames(data)</code></pre>
 <pre><code>
-   site colony frag      zoox     chla      chlc     yield zoox_log
-1 Coral    One    A  411086.2 2.597060 0.5928972 0.6503333 12.92656
-2 Coral    One    B  199325.3 1.235098 0.4116325 0.6453333 12.20269
-3 Coral    One    C  411812.2 2.620320 0.6300991 0.6513333 12.92832
-4 Coral    Two    A 1089420.7 4.557184 1.1952204 0.6393333 13.90116
-5 Coral    Two    B  353670.7 1.852745 0.6181671 0.6213333 12.77612
-6 Coral    Two    C  891722.1 2.815479 0.7507814 0.6383333 13.70091</code></pre>
-<pre class="r"><code>
-attach(data)</code></pre>
+[1] &quot;site&quot;     &quot;colony&quot;   &quot;frag&quot;     &quot;zoox&quot;     &quot;chla&quot;     &quot;chlc&quot;    
+[7] &quot;yield&quot;    &quot;zoox_log&quot;</code></pre>
 </div>
-<h4 id="visual-assessment-2">Visual Assessment</h4>
-<p>Check normality of log-transformed data</p>
+<h4 id="visual-assessment-1">Visual Assessment</h4>
+<p>Check normality of log-transformed data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plotNormalHistogram(zoox_log)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-20-1.png" width="624" /></p>
+plotNormalHistogram(zoox_log, main = &quot;Zooxanthellae&quot;, xlab = &quot;log (counts)&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-24-1.png" width="624" /></p>
 </div>
 <p>Check normality of log-transformed residuals</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1852,34 +1854,33 @@ res3 &lt;- resid(lmezoox_log)</code></pre>
 <p>Produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res3, main = &quot;zoox log&quot;, xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-22-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res3)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-22-2.png" width="624" /></p>
+plotNormalHistogram(res3, main = &quot;Zooxanthellae log&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-27-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test-2">Shapiro-Wilk Normality Test</h4>
+<p>We then run a normality test on residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-zooxlog.shapiro &lt;- shapiro.test(res3) #runs a normality test on residuals
-print(zooxlog.shapiro) # null = normally distrubuted (P&lt;0.05 = non-normal</code></pre>
+zooxlog.shapiro &lt;- shapiro.test(res3)
+print(zooxlog.shapiro)</code></pre>
 <pre><code>
     Shapiro-Wilk normality test
 
 data:  res3
 W = 0.96613, p-value = 0.3461</code></pre>
 </div>
-<p>QQ plots of residuals from lme model</p>
+<p>Now the p-value (0.3460954) is greater than 0.05, indicating the log-transformed data is normally distributed.</p>
+<p>QQ plots of residuals from lme model.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 qqnorm(res3, ylab = &quot;Sample Quantiles for Zooxlog&quot;)
 qqline(res3, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-24-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-29-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test-2">Levene’s Test</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-leveneTest(zoox_log ~ as.factor(site), data = data) # p = 0.7968</code></pre>
+leveneTest(zoox_log ~ as.factor(site), data = data)</code></pre>
 <pre><code>
 Levene&#39;s Test for Homogeneity of Variance (center = median)
       Df F value Pr(&gt;F)
@@ -1887,7 +1888,7 @@ group  1  0.0674 0.7968
       33               </code></pre>
 </div>
 <h4 id="mixed-effects-models-1">Mixed Effects Models</h4>
-<p>Site is fixed effect, colony is random, fragment is random nested in colony. Use log-transformed data. Ccolony/frag includes a term for colony alone and nests fragment in colony.</p>
+<p>For the Mixed Effects Models, site is a fixed effect, colony is random, and fragment is random nested in colony. Colony/fragment includes a term for colony alone and nests fragment in colony.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 zoox1 &lt;- lmer(zoox_log ~ site + (1|colony/frag), 
@@ -1905,13 +1906,13 @@ zoox_log ~ site + (1 | frag:colony) + (1 | colony)
 (1 | frag:colony)    4 -31.438 70.876 0.00000  1     1.0000
 (1 | colony)         4 -31.584 71.167 0.29147  1     0.5893</code></pre>
 </div>
-<p>frag nested in colony dropped—I think colony accounts for fragment nested inherently?</p>
+<p>Fragment nested in colony is then dropped.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 zoox2 &lt;- lmer(zoox_log ~ site + (1|colony), 
               data = data, 
               REML = FALSE, 
-              na.action = na.exclude) #AIC 70.8756
+              na.action = na.exclude)
 ranova(zoox2)</code></pre>
 <pre><code>
 ANOVA-like table for random-effects: Single term deletions
@@ -1923,13 +1924,13 @@ zoox_log ~ site + (1 | colony)
 (1 | colony)    3 -31.584 69.167 0.29147  1     0.5893</code></pre>
 <pre class="r"><code>
 mod.AIC &lt;- AIC(zoox1, zoox2) 
-mod.AIC ### use the full model to account for nesting fragments</code></pre>
+mod.AIC</code></pre>
 <pre><code>
       df     AIC
 zoox1  5 72.8756
 zoox2  4 70.8756</code></pre>
 </div>
-<p>Final models uses REML—not comparing models with different random effects.</p>
+<p>The Ffinal models uses REML but not comparing models with different random effects.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalzoox &lt;- lmer(zoox_log ~ site + (1|colony), 
@@ -1937,7 +1938,7 @@ finalzoox &lt;- lmer(zoox_log ~ site + (1|colony),
                   REML = TRUE, 
                   na.action = na.exclude)</code></pre>
 </div>
-<p>P values for random effects</p>
+<p>P-values for random effects</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalrandzoox &lt;- ranova(finalzoox)
@@ -1945,8 +1946,8 @@ zoox.table &lt;- anova(finalzoox, type = 2) #ANOVA table
 zoox.table</code></pre>
 <pre><code>
 Type II Analysis of Variance Table with Satterthwaite&#39;s method
-     Sum Sq Mean Sq NumDF  DenDF F value        Pr(&gt;F)    
-site 20.468  20.468     1 27.954  59.465 0.00000002143 ***
+     Sum Sq Mean Sq NumDF  DenDF F value    Pr(&gt;F)    
+site 20.468  20.468     1 27.954  59.465 2.143e-08 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>
@@ -1961,14 +1962,14 @@ zoox_log ~ site + (1 | colony)
 (1 | colony)    3 -33.611 73.223 0.55316  1      0.457</code></pre>
 </div>
 <h2 id="chlorophyll-a-chla">Chlorophyll a (Chla)</h2>
-<p>First testing all data for assumptions of normality and homogeneity of variances. Based on raw data and residuals</p>
+<p>As before, we first test all data for assumptions of normality and homogeneity of variances.</p>
 <h3 id="non-transformed-data-2">Non-Transformed Data</h3>
-<h4 id="visual-assessment-3">Visual Assessment</h4>
+<h4 id="visual-assessment-2">Visual Assessment</h4>
 <p>Look at distribution of the raw data with histogram.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plotNormalHistogram(chla)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-30-1.png" width="624" /></p>
+plotNormalHistogram(chla, main = &quot;Chlorophyll a&quot;, xlab = &quot;Chlorophyll&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-35-1.png" width="624" /></p>
 </div>
 <p>First run the model to generate the residuals, then look at residuals to see if normally distributed. Mixed model with fragment nested in colony, site as fixed effect. Raw data are normal but variances not homogenous—log-transformed improves homogeneity.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1981,11 +1982,8 @@ res4 &lt;- resid(lmechla)</code></pre>
 <p>Produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res4, main = &quot;Chla&quot;, xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-32-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res4)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-32-2.png" width="624" /></p>
+plotNormalHistogram(res4, main = &quot;Chlorophyll a&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-38-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test-3">Shapiro-Wilk Normality Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2003,7 +2001,7 @@ W = 0.96483, p-value = 0.3015</code></pre>
 <pre class="r"><code>
 qqnorm(res4, ylab = &quot;Sample Quantiles for Zoox&quot;)
 qqline(res4, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-34-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-40-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test-3">Levene’s Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2044,14 +2042,18 @@ head(data)</code></pre>
 5 0.6166685
 6 1.0351322</code></pre>
 <pre class="r"><code>
-attach(data)</code></pre>
+attach(data)
+colnames(data)</code></pre>
+<pre><code>
+[1] &quot;site&quot;     &quot;colony&quot;   &quot;frag&quot;     &quot;zoox&quot;     &quot;chla&quot;     &quot;chlc&quot;    
+[7] &quot;yield&quot;    &quot;zoox_log&quot; &quot;chla_log&quot;</code></pre>
 </div>
-<h4 id="visual-assessment-4">Visual Assessment</h4>
+<h4 id="visual-assessment-3">Visual Assessment</h4>
 <p>Check normality of log-transformed data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plotNormalHistogram(chla_log)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-38-1.png" width="624" /></p>
+plotNormalHistogram(chla_log, main = &quot;Chlorophyll a&quot;, xlab = &quot;log (Chlorophyll)&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-44-1.png" width="624" /></p>
 </div>
 <p>Check normality of log-transformed residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2064,11 +2066,8 @@ res7 &lt;- resid(lmechla_log)</code></pre>
 <p>Produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res7, main = &quot;chla log&quot;, xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-40-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res7)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-40-2.png" width="624" /></p>
+plotNormalHistogram(res7, main = &quot;Chlorophyll a&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-47-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test-4">Shapiro-Wilk Normality Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2081,12 +2080,12 @@ print(chlalog.shapiro) # null = normally distrubuted (P&lt;0.05 = non-normal</co
 data:  res7
 W = 0.95611, p-value = 0.1627</code></pre>
 </div>
-<p>QQ plots of residuals from lme model</p>
+<p>QQ plots of residuals from lme model.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 qqnorm(res7, ylab = &quot;Sample Quantiles for chlalog&quot;)
 qqline(res7, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-42-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-49-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test-4">Levene’s Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2117,13 +2116,13 @@ chla_log ~ site + (1 | frag:colony) + (1 | colony)
 (1 | frag:colony)    4 -22.558 53.116 0.0000  1     1.0000
 (1 | colony)         4 -23.274 54.549 1.4333  1     0.2312</code></pre>
 </div>
-<p>Frag nested in colony dropped—I think colony accounts for fragment nested inherently?</p>
+<p>Fragment nested in colony dropped.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 chla_log2 &lt;- lmer(chla_log ~ site + (1|colony), 
                   data = data, 
                   REML = FALSE, 
-                  na.action = na.exclude) #AIC 53.11567
+                  na.action = na.exclude)
 ranova(chla_log2)</code></pre>
 <pre><code>
 ANOVA-like table for random-effects: Single term deletions
@@ -2135,7 +2134,7 @@ chla_log ~ site + (1 | colony)
 (1 | colony)    3 -23.274 52.549 1.4333  1     0.2312</code></pre>
 <pre class="r"><code>
 mod.AIC &lt;- AIC(chla_log1, chla_log2) 
-mod.AIC ### use the full model to account for nesting fragments</code></pre>
+mod.AIC</code></pre>
 <pre><code>
           df      AIC
 chla_log1  5 55.11567
@@ -2157,8 +2156,8 @@ chla_log.table &lt;- anova(finalchla_log, type = 2) #ANOVA table
 chla_log.table</code></pre>
 <pre><code>
 Type II Analysis of Variance Table with Satterthwaite&#39;s method
-     Sum Sq Mean Sq NumDF DenDF F value       Pr(&gt;F)    
-site  7.508   7.508     1    29  39.802 0.0000006851 ***
+     Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)    
+site  7.508   7.508     1    29  39.802 6.851e-07 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>
@@ -2173,16 +2172,16 @@ chla_log ~ site + (1 | colony)
 (1 | colony)    3 -25.843 57.687 1.871  1     0.1714</code></pre>
 </div>
 <h2 id="chlorophyll-c-chlc">Chlorophyll c (Chlc)</h2>
-<p>First testing all data for assumptions of normality and homogeneity of variances. Based on raw data and residuals. Data need to be log transformed for normality and variances</p>
+<p>First testing all data for assumptions of normality and homogeneity of variances. Based on raw data and residuals. Data need to be log transformed for normality and variances.</p>
 <h3 id="non-transformed-data-3">Non-Transformed Data</h3>
-<h4 id="visual-assessment-5">Visual Assessment</h4>
+<h4 id="visual-assessment-4">Visual Assessment</h4>
 <p>Look at distribution of the raw data with histogram.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plotNormalHistogram(chlc)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-48-1.png" width="624" /></p>
+plotNormalHistogram(chlc, main = &quot;Chlorophyll c&quot;, xlab = &quot;Chlorophyll&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-55-1.png" width="624" /></p>
 </div>
-<p>First run the model to generate the residuals then look at residuals to see if normally distributed mixed model with fragment nested in colony, site as fixed effect yield is normally distributed, but variances not homogenous</p>
+<p>Run the model to generate the residuals then look at residuals to see if normally distributed mixed model with fragment nested in colony, site as fixed effect yield is normally distributed, but variances not homogeneous.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 lmechlc &lt;- lmer(chlc ~ site + (1|colony), 
@@ -2193,11 +2192,8 @@ res5 &lt;- resid(lmechlc)</code></pre>
 <p>Produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res5,main = &quot;chlc&quot;, xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-50-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res5)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-50-2.png" width="624" /></p>
+plotNormalHistogram(res5, main = &quot;Chlorophyll c&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-58-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test-5">Shapiro-Wilk Normality Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2210,12 +2206,12 @@ print(chlc.shapiro)</code></pre>
 data:  res5
 W = 0.90427, p-value = 0.004475</code></pre>
 </div>
-<p>QQ plots of residuals from lme model</p>
+<p>QQ plots of residuals from lme model.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 qqnorm(res5, ylab = &quot;Sample Quantiles for Zoox&quot;)
 qqline(res5, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-52-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-60-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test-5">Levene’s Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2231,37 +2227,22 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 </div>
 <p>Data not normally distributed or homogenous</p>
 <h3 id="transformed-data-2">Transformed Data</h3>
-<p>Log transform improves normality and homogeneity. Add a new column to dataframe for log transformation. Check that log transformed data is added as a new column</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 data$chlc_log = log(chlc)
-head(data)</code></pre>
+colnames(data)</code></pre>
 <pre><code>
-   site colony frag      zoox     chla      chlc     yield zoox_log
-1 Coral    One    A  411086.2 2.597060 0.5928972 0.6503333 12.92656
-2 Coral    One    B  199325.3 1.235098 0.4116325 0.6453333 12.20269
-3 Coral    One    C  411812.2 2.620320 0.6300991 0.6513333 12.92832
-4 Coral    Two    A 1089420.7 4.557184 1.1952204 0.6393333 13.90116
-5 Coral    Two    B  353670.7 1.852745 0.6181671 0.6213333 12.77612
-6 Coral    Two    C  891722.1 2.815479 0.7507814 0.6383333 13.70091
-   chla_log   chlc_log
-1 0.9543802 -0.5227343
-2 0.2111501 -0.8876244
-3 0.9632964 -0.4618782
-4 1.5167048  0.1783306
-5 0.6166685 -0.4809965
-6 1.0351322 -0.2866407</code></pre>
-<pre class="r"><code>
-attach(data)</code></pre>
+ [1] &quot;site&quot;     &quot;colony&quot;   &quot;frag&quot;     &quot;zoox&quot;     &quot;chla&quot;     &quot;chlc&quot;    
+ [7] &quot;yield&quot;    &quot;zoox_log&quot; &quot;chla_log&quot; &quot;chlc_log&quot;</code></pre>
 </div>
-<h4 id="visual-assessment-6">Visual Assessment</h4>
+<h4 id="visual-assessment-5">Visual Assessment</h4>
 <p>Check normality of log-transformed data</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-plotNormalHistogram(chlc_log)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-55-1.png" width="624" /></p>
+plotNormalHistogram(chlc_log, main = &quot;Chlorophyll c (log)&quot;, xlab = &quot;log (Chlorophyll)&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-63-1.png" width="624" /></p>
 </div>
-<p>Check normality of log-transformed residuals</p>
+<p>Check normality of log-transformed residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 lmechlc_log &lt;- lmer(chlc_log ~ site + (1|colony), 
@@ -2272,11 +2253,8 @@ res6 &lt;- resid(lmechlc_log)</code></pre>
 <p>Produce a histogram of the residuals.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-hist(res6, main = &quot;chlc log&quot;,xlab = &quot;Residuals&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-57-1.png" width="624" /></p>
-<pre class="r"><code>
-plotNormalHistogram(res6)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-57-2.png" width="624" /></p>
+plotNormalHistogram(res6, main = &quot;Chlorophyll c (log)&quot;, xlab = &quot;Residuals&quot;)</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-66-1.png" width="624" /></p>
 </div>
 <h4 id="shapiro-wilk-normality-test-6">Shapiro-Wilk Normality Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2289,12 +2267,12 @@ print(chlclog.shapiro)</code></pre>
 data:  res6
 W = 0.98465, p-value = 0.8874</code></pre>
 </div>
-<p>QQ plots of residuals from lme model</p>
+<p>QQ plots of residuals from lme model.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 qqnorm(res6, ylab = &quot;Sample Quantiles for chlclog&quot;)
 qqline(res6, col = &quot;red&quot;)</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-59-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-68-1.png" width="624" /></p>
 </div>
 <h4 id="levenes-test-6">Levene’s Test</h4>
 <div class="layout-chunk" data-layout="l-body">
@@ -2307,7 +2285,7 @@ group  1  0.0216  0.884
       34               </code></pre>
 </div>
 <h4 id="mixed-model-effects-1">Mixed Model Effects</h4>
-<p>Site is fixed effect, colony is random, fragment is random nested in colony. On log-transformed data. Colony/frag includes a term for colony alone and nests fragment in colony.</p>
+<p>Site is the fixed effect, colony is random, fragment is random nested in colony. On log-transformed data. Colony/fragment includes a term for colony alone and nests fragment in colony.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 chlc_log1 &lt;- lmer(chlc_log ~ site + (1|colony/frag), 
@@ -2325,13 +2303,13 @@ chlc_log ~ site + (1 | frag:colony) + (1 | colony)
 (1 | frag:colony)    4 -27.262 62.524 0.0000  1     1.0000
 (1 | colony)         4 -27.833 63.665 1.1412  1     0.2854</code></pre>
 </div>
-<p>frag nested in colony dropped- I think colony accounts for fragment nested inherently?</p>
+<p>Fragment nested in colony dropped.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 chlc_log2 &lt;- lmer(chlc_log ~ site+(1|colony), 
                   data = data, 
                   REML = FALSE, 
-                  na.action = na.exclude) #AIC 62.52399
+                  na.action = na.exclude)
 ranova(chlc_log2)</code></pre>
 <pre><code>
 ANOVA-like table for random-effects: Single term deletions
@@ -2343,13 +2321,13 @@ chlc_log ~ site + (1 | colony)
 (1 | colony)    3 -27.833 61.665 1.1412  1     0.2854</code></pre>
 <pre class="r"><code>
 mod.AIC &lt;- AIC(chlc_log1, chlc_log2) 
-mod.AIC ### use the full model to account for nesting fragments</code></pre>
+mod.AIC</code></pre>
 <pre><code>
           df      AIC
 chlc_log1  5 64.52399
 chlc_log2  4 62.52399</code></pre>
 </div>
-<p>Final models uses REML- not comparing models with different random effects</p>
+<p>Final models use REML.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalchlc_log &lt;- lmer(chlc_log ~ site + (1|colony), 
@@ -2357,7 +2335,7 @@ finalchlc_log &lt;- lmer(chlc_log ~ site + (1|colony),
                       REML = TRUE, 
                       na.action = na.exclude)</code></pre>
 </div>
-<p>p values for random effects</p>
+<p>P-values for random effects.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 finalchlc_logrand &lt;- ranova(finalchlc_log)
@@ -2365,8 +2343,8 @@ chlc_log.table &lt;- anova(finalchlc_log, type = 2) #ANOVA table
 chlc_log.table</code></pre>
 <pre><code>
 Type II Analysis of Variance Table with Satterthwaite&#39;s method
-     Sum Sq Mean Sq NumDF DenDF F value     Pr(&gt;F)    
-site 6.1918  6.1918     1    29  24.977 0.00002553 ***
+     Sum Sq Mean Sq NumDF DenDF F value    Pr(&gt;F)    
+site 6.1918  6.1918     1    29  24.977 2.553e-05 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>
@@ -2380,49 +2358,21 @@ chlc_log ~ site + (1 | colony)
 &lt;none&gt;          4 -29.375 66.749                     
 (1 | colony)    3 -30.148 66.297 1.5476  1     0.2135</code></pre>
 </div>
-<h1 id="figures">Figures</h1>
+<h2 id="figures">Figures</h2>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 all &lt;- read.table(&quot;tables/field/coralhypoxia.csv&quot;, header = T, sep = &quot;,&quot;)
 attach(all)</code></pre>
 </div>
+<h3 id="calculate-means-for-figures">Calculate Means for Figures</h3>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-ggplot(all,aes(x=site, y=yield))+ #group tells line what to connect
-  geom_boxplot()+ #make box
-  labs(x=&quot;Site&quot;,y=&#39;Maximum Quantum Yield&#39;)+ 
-  theme_classic()+ #makes look normal
-  #scale_fill_manual(values = c(&quot;steelblue&quot;,&quot;darkred&quot;))+
-  theme(text = element_text(size=14))+ #change text size
-  theme(axis.text.x = element_text(colour=&quot;black&quot;, angle=0, hjust=1), #make all text black ## to put x axis label at angle: angle=45, hjust=1), 
-        axis.text.y = element_text(colour=&quot;black&quot;))+
-  scale_y_continuous(expand = c(0,0),
-                     limits = c(0.4,0.75)) #set y axis</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-66-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ggplot(all,aes(x=site, y=yield, color=colony))+ #colors the dots by colony
-  geom_point(size=3)+ 
-  labs(x=&quot;Site&quot;,y=&#39;Maximum Quantum Yield&#39;)+ 
-  theme_classic()+ #makes look normal
-  #scale_fill_manual(values = c(&quot;steelblue&quot;,&quot;darkred&quot;))+
-  theme(text = element_text(size=14))+ #change text size
-  theme(axis.text.x = element_text(colour=&quot;black&quot;, angle=0, hjust=1), #make all text black ## to put x axis label at angle: angle=45, hjust=1), 
-        axis.text.y = element_text(colour=&quot;black&quot;))+
-  scale_y_continuous(expand = c(0,0),
-                     limits = c(0.4,0.75)) #set y axis</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-67-1.png" width="624" /></p>
-</div>
-<p>Calculate Means for Figures</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-means.all&lt;-ddply(all,c(&quot;site&quot;,&quot;colony&quot;),summarise,
+means.all &lt;- ddply(all, c(&quot;site&quot;, &quot;colony&quot;), summarise,
                  N    = sum(!is.na(yield)),
-                 yield_mean = mean(yield, na.rm=TRUE),
-                 zoox_mean = mean(zoox, na.rm=TRUE),
-                 chla_mean = mean(chla, na.rm=TRUE),
-                 chlc_mean = mean(chlc, na.rm=TRUE),
+                 yield_mean = mean(yield, na.rm = TRUE),
+                 zoox_mean = mean(zoox, na.rm = TRUE),
+                 chla_mean = mean(chla, na.rm = TRUE),
+                 chlc_mean = mean(chlc, na.rm = TRUE),
                  sd_yield = sd(yield),
                  sd_zoox = sd(zoox),
                  sd_chla = sd(chla),
@@ -2431,169 +2381,135 @@ means.all&lt;-ddply(all,c(&quot;site&quot;,&quot;colony&quot;),summarise,
                  zoox_se = (sd(zoox)/sqrt(N)),
                  chla_se = (sd(chla)/sqrt(N)),
                  chlc_se = (sd(chlc)/sqrt(N)))
-                
-head(means.all)</code></pre>
-<pre><code>
-   site colony N yield_mean zoox_mean chla_mean chlc_mean   sd_yield
-1 Coral   Five 3  0.6531111  713619.3  3.495386 1.1783720 0.01266813
-2 Coral   Four 3  0.6695556  741780.0  5.199911 1.9368219 0.01281203
-3 Coral    One 3  0.6490000  340741.2  2.150826 0.5448762 0.00321455
-4 Coral    Six 3  0.6153333 1360692.9  6.017438 1.9504259 0.02088327
-5 Coral  Three 3  0.6686944 1295987.7  3.830870 1.1553710 0.04261458
-6 Coral    Two 3  0.6330000  778271.2  3.075136 0.8547230 0.01011599
-   sd_zoox   sd_chla   sd_chlc    yield_se   zoox_se   chla_se
-1 192640.8 0.8182351 0.3588934 0.007313947 111221.23 0.4724083
-2 221822.6 1.3905156 0.6624581 0.007397030 128069.35 0.8028146
-3 122470.3 0.7931292 0.1168821 0.001855921  70708.27 0.4579133
-4 418268.7 1.9781461 0.8402899 0.012056964 241487.56 1.1420832
-5 734473.8 0.4410107 0.4475100 0.024603538 424048.67 0.2546176
-6 380769.4 1.3707892 0.3022425 0.005840472 219837.32 0.7914255
-    chlc_se
-1 0.2072072
-2 0.3824703
-3 0.0674819
-4 0.4851416
-5 0.2583700
-6 0.1744998</code></pre>
-<pre class="r"><code>
-write.csv(means.all, file = &quot;tables/field/allcoralmeans.csv&quot;, row.names=FALSE)</code></pre>
+write.csv(means.all, file = &quot;tables/field/allcoralmeans.csv&quot;, 
+          row.names = FALSE)</code></pre>
 </div>
-<h4 id="colony-means">Colony Means</h4>
+<h3 id="pam">PAM</h3>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
-ggplot(means.all,aes(x=site, y=yield_mean,fill=site)) +
+ggplot(all,aes(x = site, y = yield)) +
+  geom_boxplot() +
+  labs(x = &quot;Site&quot;, y=&#39;Maximum Quantum Yield&#39;) + 
+  theme_classic() +
+  theme(text = element_text(size=14)) +
+  theme(axis.text.x = element_text(colour = &quot;black&quot;, angle = 0, hjust = 1),
+        axis.text.y = element_text(colour = &quot;black&quot;)) +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0.4,0.75))</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-76-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ggplot(all,aes(x=site, y=yield, color=colony)) +
+  geom_point(size=3) + 
+  labs(x = &quot;Site&quot;, y = &#39;Maximum Quantum Yield&#39;) + 
+  theme_classic() +
+  theme(text = element_text(size=14)) +
+  theme(axis.text.x = element_text(colour=&quot;black&quot;, angle=0, hjust=1),
+        axis.text.y = element_text(colour=&quot;black&quot;)) +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0.4,0.75))</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-77-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+ggplot(means.all,aes(x = site, y = yield_mean,fill = site)) +
   geom_boxplot() +
   labs(x = &quot;Site&quot;, y = &#39;Maximum Quantum Yield&#39;) + 
-  theme_classic()+ #makes look normal
-  scale_fill_manual(values = c(&quot;steelblue&quot;,&quot;darkred&quot;))+
-  theme(text = element_text(size=14))+ #change text size
-  theme(axis.text.x = element_text(colour=&quot;black&quot;, angle=0, hjust=1),
-        axis.text.y = element_text(colour=&quot;black&quot;))+
+  theme_classic() +
+  scale_fill_manual(values = c(&quot;steelblue&quot;,&quot;darkred&quot;)) +
+  theme(text = element_text(size = 14)) + 
+  theme(axis.text.x = element_text(colour = &quot;black&quot;, angle = 0, hjust = 1),
+        axis.text.y = element_text(colour = &quot;black&quot;)) +
   scale_y_continuous(expand = c(0,0),
-                     limits = c(0.4,0.75)) #set y axis</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-69-1.png" width="624" /></p>
+                     limits = c(0.4,0.75)) </code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-78-1.png" width="624" /></p>
 </div>
-<p>set a jitter object to offset points and assign data to ggplot</p>
+<p>Set a jitter object to offset points and assign data to ggplot.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 jitter &lt;- position_jitter(width = 0.1)  
 yield_plot &lt;- ggplot(means.all, aes(x = site, y = yield_mean))</code></pre>
 </div>
-<p>make it the kind of plot you want- this makes a box plot colored by site, then overlays a scatterplot of all the data (in this case the colony means) Close to publication quality :)</p>
-<h4 id="maximum-quantum-yield-by-site-with-colony-means">Maximum Quantum Yield by site with colony means</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 yp &lt;- yield_plot+
   geom_boxplot(color=&quot;black&quot;,
                aes(fill=site),
-               width=0.4)+
-  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;))+
-  geom_point(size=2, position=jitter)+ #aes(color=colony))+
-  labs(x=&quot;Site&quot;,y=&quot;Maximum Quantum Yield&quot;)+
-  theme_classic()+
+               width=0.4) +
+  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), 
+                    name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;)) +
+  geom_point(size=2, position=jitter) +
+  labs(x=&quot;Site&quot;,y=&quot;Maximum Quantum Yield&quot;) +
+  theme_classic() +
   theme(legend.position = c(0.85,0.85),
         legend.title= element_text(color=&quot;transparent&quot;),
-        axis.text.x = element_text(colour=&quot;black&quot;), #make all text black ## to put x axis label at angle: angle=45, hjust=1), 
+        axis.text.x = element_text(colour=&quot;black&quot;), 
         axis.text.y = element_text(colour=&quot;black&quot;),
         axis.title.y = element_text(margin = margin(t=0, r=10,b=0,l=0)),
-        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5))+
-   # modifies the legend titletheme(text = element_text(size=14),     panel.background = element_rect(fill = &quot;transparent&quot;))+ # bg of the panel
-  theme(text = element_text(size=12))+
-  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;))+
-  scale_y_continuous(expand = c(0,0), limits = c(0.5,0.7))</code></pre>
+        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5)) +
+  theme(text = element_text(size=12)) +
+  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0.5,0.7))
+yp</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-80-1.png" width="624" /></p>
 </div>
-<h4 id="zooxanthellae-counts-by-site-with-colony-means">Zooxanthellae Counts by site with colony means</h4>
-<p>assign data to ggplot</p>
+<h3 id="zooxanthellae-counts">Zooxanthellae Counts</h3>
+<p>Assign data to ggplot.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 yield_zoox &lt;- ggplot(means.all, aes(x=site, y=zoox_mean))
-
 zp &lt;- yield_zoox+
   geom_boxplot(color=&quot;black&quot;,
                aes(fill=site),
-               width=0.4)+
-  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;))+
-  geom_point(size=2, position=jitter)+ #aes(color=colony))+
+               width=0.4) +
+  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), 
+                    name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;)) +
+  geom_point(size=2, position=jitter) +
   labs(x=&quot;Site&quot;,
-       y=(&quot;Endosymbiont Density (cells cm^-2)&quot;))+
-  theme_classic()+
+       y=(&quot;Endosymbiont Density (cells cm^-2)&quot;)) +
+  theme_classic() +
   theme(legend.position = &quot;none&quot;, #
-        #c(0.8,0.875),
-        #legend.title= element_text(color=&quot;transparent&quot;),
-        axis.text.x = element_text(colour=&quot;black&quot;), #make all text black ## to put x axis label at angle: angle=45, hjust=1), 
+        axis.text.x = element_text(colour=&quot;black&quot;),
         axis.text.y = element_text(colour=&quot;black&quot;),
         axis.title.y = element_text(margin = margin(t=0, r=10,b=0,l=0)),
-        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5))+
-  # modifies the legend titletheme(text = element_text(size=14),     panel.background = element_rect(fill = &quot;transparent&quot;))+ # bg of the panel
-  theme(text = element_text(size=12))+
-  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;))+
+        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5)) +
+  theme(text = element_text(size=12)) +
+  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;)) +
   scale_y_continuous(labels = scientific,
                      breaks=seq(0,1.5E6, 4.5E5),
                       expand = c(0,0), 
                      limits = c(0,1.5E6))
 zp  </code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-72-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-81-1.png" width="624" /></p>
 </div>
-<h4 id="pigment-data">Pigment Data</h4>
-<p>Convert Pigment data to long format with Chla and Chlc Stacked, so can put in same figures</p>
+<h3 id="pigment-data">Pigment Data</h3>
+<p>Convert Pigment data to long format with Chlorophyll a and Chlorophyll c stacked.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 pigs &lt;- tidyr::gather(means.all, pigment, concentration,chla_mean, chlc_mean)
-head(pigs)</code></pre>
-<pre><code>
-   site colony N yield_mean zoox_mean   sd_yield  sd_zoox   sd_chla
-1 Coral   Five 3  0.6531111  713619.3 0.01266813 192640.8 0.8182351
-2 Coral   Four 3  0.6695556  741780.0 0.01281203 221822.6 1.3905156
-3 Coral    One 3  0.6490000  340741.2 0.00321455 122470.3 0.7931292
-4 Coral    Six 3  0.6153333 1360692.9 0.02088327 418268.7 1.9781461
-5 Coral  Three 3  0.6686944 1295987.7 0.04261458 734473.8 0.4410107
-6 Coral    Two 3  0.6330000  778271.2 0.01011599 380769.4 1.3707892
-    sd_chlc    yield_se   zoox_se   chla_se   chlc_se   pigment
-1 0.3588934 0.007313947 111221.23 0.4724083 0.2072072 chla_mean
-2 0.6624581 0.007397030 128069.35 0.8028146 0.3824703 chla_mean
-3 0.1168821 0.001855921  70708.27 0.4579133 0.0674819 chla_mean
-4 0.8402899 0.012056964 241487.56 1.1420832 0.4851416 chla_mean
-5 0.4475100 0.024603538 424048.67 0.2546176 0.2583700 chla_mean
-6 0.3022425 0.005840472 219837.32 0.7914255 0.1744998 chla_mean
-  concentration
-1      3.495386
-2      5.199911
-3      2.150826
-4      6.017438
-5      3.830870
-6      3.075136</code></pre>
-<pre class="r"><code>
-pigments &lt;- dplyr::select(pigs,site,colony,pigment,concentration)
-head(pigments)</code></pre>
-<pre><code>
-   site colony   pigment concentration
-1 Coral   Five chla_mean      3.495386
-2 Coral   Four chla_mean      5.199911
-3 Coral    One chla_mean      2.150826
-4 Coral    Six chla_mean      6.017438
-5 Coral  Three chla_mean      3.830870
-6 Coral    Two chla_mean      3.075136</code></pre>
+pigments &lt;- dplyr::select(pigs,site,colony,pigment,concentration)</code></pre>
 </div>
-<p>assign data to ggplot data frame “pigments”</p>
+<p>Assign data to ggplot data frame “pigments”.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 pig_plot &lt;- ggplot(pigments,
                      aes(x=pigment, y=concentration, fill=site))</code></pre>
 </div>
-<p>Shows chl a and chl c on the x axis with site color coded</p>
+<p>Shows Chlorophyll a and Chlorophyll c on the x axis with site color coded.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 pig_plot+
-  geom_boxplot(color=&quot;black&quot;)+
-  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;))</code></pre>
-<p><img src="field_files/figure-html5/unnamed-chunk-75-1.png" width="624" /></p>
+  geom_boxplot(color=&quot;black&quot;) +
+  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), 
+                    name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;))</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-84-1.png" width="624" /></p>
 </div>
 <h4 id="chlorophyll-a-chla-plots-only">Chlorophyll a (Chla) Plots only</h4>
-<p>assign data to ggplot set a jitter object to offset points</p>
+<p>Assign data to ggplot set a jitter object to offset points.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 jitter2 &lt;- position_jitter(width=0.05)  
-
 chla_plot &lt;- ggplot(means.all,
                      aes(x=site, y=chla_mean))</code></pre>
 </div>
@@ -2602,24 +2518,23 @@ chla_plot &lt;- ggplot(means.all,
 cp &lt;- chla_plot+
   geom_boxplot(color=&quot;black&quot;,
                aes(fill=site),
-               width=0.4)+
-  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;))+
-  geom_point(size=2, position=jitter)+ #aes(color=colony))+
+               width=0.4) +
+  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;)) +
+  geom_point(size=2, position=jitter) +
   labs(x=&quot;Site&quot;,
-       y=(&quot;Chl a Concentration (ug cm^-2)&quot;))+
-  theme_classic()+
+       y=(&quot;Chl a Concentration (ug cm^-2)&quot;)) +
+  theme_classic() +
   theme(legend.position = &quot;none&quot;,
-        #c(0.8,0.875),
-        #legend.title= element_text(color=&quot;transparent&quot;),
-        axis.text.x = element_text(colour=&quot;black&quot;), #make all text black ## to put x axis label at angle: angle=45, hjust=1), 
+        axis.text.x = element_text(colour=&quot;black&quot;), 
         axis.text.y = element_text(colour=&quot;black&quot;),
         axis.title.y = element_text(margin = margin(t=0, r=10,b=0,l=0)),
-        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5))+
-  # modifies the legend titletheme(text = element_text(size=14),     panel.background = element_rect(fill = &quot;transparent&quot;))+ # bg of the panel
-  theme(text = element_text(size=12))+
-  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;))+
+        panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5)) +
+  theme(text = element_text(size=12)) +
+  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;)) +
   scale_y_continuous(expand = c(0,0), 
-                     limits = c(0,6))</code></pre>
+                     limits = c(0,6))
+cp</code></pre>
+<p><img src="field_files/figure-html5/unnamed-chunk-86-1.png" width="624" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
 
@@ -2627,30 +2542,32 @@ cp &lt;- chla_plot+
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<p>Fine tuning figures for the panel plot</p>
-<h4 id="maximum-quantum-yield-by-site-with-colony-means-1">Maximum Quantum Yield by site with colony means</h4>
+<h3 id="fine-tuning">Fine Tuning</h3>
+<h4 id="maximum-quantum-yield-by-site">Maximum Quantum Yield by site</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 ypp &lt;- yield_plot +
   geom_boxplot(color = &quot;black&quot;, aes(fill = site), width = 0.4) +
   scale_fill_manual(values = c(&quot;skyblue3&quot;, &quot;coral3&quot;), name = NULL, 
                     labels = c(&quot;Normoxic&quot;, &quot;Hypoxic&quot;)) +
-  geom_point(size = 1, position = jitter) + #aes(color=colony))+
+  geom_point(size = 1, position = jitter) +
   labs(x = &quot;Site&quot;, y = (&quot;Maximum Quantum Yield&quot;)) +
   theme_classic() +
   theme(legend.position = &quot;top&quot;, legend.direction = &quot;vertical&quot;, #
         legend.title= element_text(color = &quot;transparent&quot;),
-        #axis.text.x = element_blank(),
         axis.text.x = element_text(size = 7, colour=&quot;black&quot;), 
         axis.text.y = element_text(size = 8, colour = &quot;black&quot;),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(size = 9, margin = margin(t = 0, r = 10, b = 0, l = 0)),
-        panel.border = element_rect(colour = &quot;black&quot;, fill = NA, size = 0.5)) +
+        axis.title.y = element_text(size = 9, 
+                                    margin = margin(t = 0, r = 10, 
+                                                    b = 0, l = 0)),
+        panel.border = element_rect(colour = &quot;black&quot;, 
+                                    fill = NA, size = 0.5)) +
   theme(text = element_text(size = 12)) +
   scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;, &quot;Roldan&quot; = &quot;Cayo Roldan&quot;)) +
   scale_y_continuous(expand = c(0,0), limits = c(0.5,0.7))</code></pre>
 </div>
-<h4 id="zooxanthellae-counts-by-site-with-colony-means-1">Zooxanthellae Counts by site with colony means</h4>
+<h4 id="zooxanthellae-counts-by-site">Zooxanthellae Counts by site</h4>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 yzield_zoox &lt;- ggplot(means.all, aes(x = site, y = zoox_mean))
@@ -2658,23 +2575,20 @@ yzield_zoox &lt;- ggplot(means.all, aes(x = site, y = zoox_mean))
 zpp &lt;- yield_zoox+
   geom_boxplot(color=&quot;black&quot;,
                aes(fill=site),
-               width=0.4)+
-  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;))+
-  geom_point(size=1, position=jitter)+ #aes(color=colony))+
-  labs(x = &quot;Site&quot;, y=(&quot;Endosymbiont Density (cells cm^-2)&quot;))+
+               width=0.4) +
+  scale_fill_manual(values=c(&quot;skyblue3&quot;,&quot;coral3&quot;), name= NULL, 
+                    labels=c(&quot;Normoxic&quot;,&quot;Hypoxic&quot;)) +
+  geom_point(size=1, position=jitter) +
+  labs(x = &quot;Site&quot;, y=(&quot;Endosymbiont Density (cells cm^-2)&quot;)) +
   theme_classic() +
-  theme(legend.position = &quot;none&quot;, #
-        #c(0.8,0.875),
-        #legend.title= element_text(color=&quot;transparent&quot;),
+  theme(legend.position = &quot;none&quot;,
         axis.text.x = element_text(size = 7, colour=&quot;black&quot;), 
         axis.title.x = element_text(size = 12),
-        #axis.title.x = element_blank(),
-        #axis.text.x = element_blank(), 
         axis.text.y = element_text(size = 8, colour=&quot;black&quot;),
         axis.title.y = element_text(size = 9, margin = margin(t=0, r=10,b=0,l=0)),
         panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5)) +
-  theme(text = element_text(size=12))+
-  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;))+
+  theme(text = element_text(size=12)) +
+  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;)) +
   scale_y_continuous(labels = scientific,
                      breaks=seq(0,1.5E6, 4.5E5),
                      expand = c(0,0), 
@@ -2686,27 +2600,28 @@ zpp &lt;- yield_zoox+
 chla_plot &lt;- ggplot(means.all, aes(x = site, y = chla_mean))
 
 cpp &lt;- chla_plot +
-  geom_boxplot(color=&quot;black&quot;, aes(fill=site), width=0.4)+
+  geom_boxplot(color=&quot;black&quot;, aes(fill=site), width=0.4) +
   scale_fill_manual(values = c(&quot;skyblue3&quot;,&quot;coral3&quot;), 
                     name = NULL, labels = c(&quot;Normoxic&quot;, &quot;Hypoxic&quot;)) +
   geom_point(size=1, position=jitter) + 
   labs(x = &quot;Site&quot;, y = (&quot;Chl a Concentration (ug cm^-2)&quot;)) +
   theme_classic() +
   theme(legend.position = &quot;none&quot;,
-        #legend.title= element_text(color=&quot;transparent&quot;),
         axis.text.x = element_text(size = 7, colour=&quot;black&quot;), 
         axis.text.y = element_text(size = 8, colour=&quot;black&quot;),
-        axis.title.y = element_text(size = 9, margin = margin(t = 0, r = 10, b = 0, l = 0)),
+        axis.title.y = element_text(size = 9, 
+                                    margin = margin(t = 0, r = 10, 
+                                                    b = 0, l = 0)),
         axis.title.x = element_blank(),
-        #axis.title.x = element_text(size = 12),
         panel.border = element_rect(colour = &quot;black&quot;, fill=NA, size=.5)) +
-  theme(text = element_text(size=12))+
-  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;))+
+  theme(text = element_text(size=12)) +
+  scale_x_discrete(labels=c(&quot;Coral&quot; = &quot;Coral Cay&quot;,&quot;Roldan&quot; = &quot;Cayo Roldan&quot;)) +
   scale_y_continuous(expand = c(0,0), 
                      limits = c(0,6))</code></pre>
 </div>
+<h2 id="panel-figure">Panel Figure</h2>
 <div class="layout-chunk" data-layout="l-body-outset">
-<p><img src="field_files/figure-html5/unnamed-chunk-83-1.png" width="624" /></p>
+<p><img src="field_files/figure-html5/unnamed-chunk-92-1.png" width="624" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
