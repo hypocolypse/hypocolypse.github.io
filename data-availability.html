@@ -1293,7 +1293,7 @@
   }
   
   d-article h1 {
-    font-size: 2.2em;
+    font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
@@ -1483,6 +1483,19 @@
     }
   }
   
+  .article-banner {
+    width: auto;
+    height: auto;
+    border: 0;
+  }
+  
+  img[src="assets/banner.png"] {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    margin: 100px 50px 0px 25px;
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1575,39 +1588,35 @@ C. Metagenomic
 <ul>
 <li><a href="#archived-sequence-data">Archived Sequence Data</a></li>
 <li><a href="#pipeline-data">Pipeline Data</a></li>
-<li><a href="#submitting-sequence-data">Submitting Sequence Data</a><ul>
-<li><a href="#s-rrna">16S rRNA</a></li>
-<li><a href="#metagenomic">Metagenomic</a></li>
-<li><a href="#instructions-for-submitting-to-the-ena">Instructions for Submitting to the ENA</a></li>
+<li><a href="#submitting-sequence-data">Submitting Sequence Data</a></li>
 <li><a href="#source-code">Source Code</a></li>
-</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
-<h1 id="archived-sequence-data">Archived Sequence Data</h1>
+<h2 id="archived-sequence-data">Archived Sequence Data</h2>
 <p>All sequence data is deposited at the European Nucleotide Archive (ENA). See below for instructions on submitting data to the ENA and the files we used to deposit the data.</p>
 <p>The trimmed <strong>16S rRNA</strong> data (primers removed) are deposited under Project Accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632 (ERP119845)</a>, sample accession numbers <a href="https://www.ebi.ac.uk/ena/browser/view/ERS4291994-ERS4292031">ERS4291994-ERS4292031</a>.</p>
 <p>The <strong>metagenomic</strong> data from the four water column samples are also deposited under Project Accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632 (ERP119845)</a>. The individual sample accession numbers for these data are <a href="https://www.ebi.ac.uk/ena/browser/view/ERS4578390-ERS4578393">ERS4578390-ERS4578393</a>.</p>
-<h1 id="pipeline-data">Pipeline Data</h1>
+<h2 id="pipeline-data">Pipeline Data</h2>
 <p>Data for each individual pipeline are available through the Smithsonian figshare under a single collection at <a href="https://doi.org/10.25573/data.c.5025362">doi:10.25573/data.c.5025362</a>. In addition, data from each pipeline are available for download from figshare using the links at the bottom of each page (where applicable).</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<h1 id="submitting-sequence-data">Submitting Sequence Data</h1>
+<h2 id="submitting-sequence-data">Submitting Sequence Data</h2>
 <p>We submitted out data to the <a href="https://www.ebi.ac.uk/ena">European Nucleotide Archive (ENA)</a>. The ENA does not like RAW data and prefers to have primers removed. So we submitted the trimmed Fastq files to the ENA. You can find these data under the study accession number <strong>PRJEB36632 (ERP119845)</strong>. The RAW files on our figshare site (see above).</p>
 <p>To submit to the ENA you need two data tables (plus your sequence data). One file describes the samples and the other file describes the sequencing data.</p>
 <p>You can download these data tables here:</p>
-<h2 id="s-rrna">16S rRNA</h2>
+<h3 id="s-rrna">16S rRNA</h3>
 <ul>
 <li><a href="files/data-availability/ENA_Sample_SUBMISSION_HYPOXIA-16S.txt">Description of sample data</a></li>
 <li><a href="files/data-availability/ENA_PAIRED_FASTQ_SUBMISSION_HYPOXIA-16S.txt">Description of sequence data</a></li>
 </ul>
-<h2 id="metagenomic">Metagenomic</h2>
+<h3 id="metagenomic">Metagenomic</h3>
 <ul>
 <li><a href="files/data-availability/ENA_Sample_SUBMISSION_HYPOXIA-MG.txt">Description of sample data</a></li>
 <li><a href="files/data-availability/ENA_PAIRED_FASTQ_SUBMISSION_HYPOXIA-MG.txt">Description of sequence data</a></li>
 </ul>
-<h2 id="instructions-for-submitting-to-the-ena">Instructions for Submitting to the ENA</h2>
+<h3 id="instructions-for-submitting-to-the-ena">Instructions for Submitting to the ENA</h3>
 <ol type="1">
 <li>go to <a href="https://www.ebi.ac.uk/ena/submit" class="uri">https://www.ebi.ac.uk/ena/submit</a> and select <strong>Submit to ENA</strong>.</li>
 <li>Login or Register.</li>

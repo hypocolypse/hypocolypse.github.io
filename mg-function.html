@@ -1293,7 +1293,7 @@
   }
   
   d-article h1 {
-    font-size: 2.2em;
+    font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
@@ -1342,6 +1342,10 @@
     border-bottom: 1px solid #B7B7B7;
   }
   
+  
+  .code-container.language.bash {
+    background-color: #D55E00;
+  }
   code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -1483,6 +1487,19 @@
     }
   }
   
+  .article-banner {
+    width: auto;
+    height: auto;
+    border: 0;
+  }
+  
+  img[src="assets/banner.png"] {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    margin: 100px 50px 0px 25px;
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1615,13 +1632,27 @@ anvi-export-functions -c 03_CONTIGS/WATER-contigs.db \
                       -o METABOLISM/00_HELPER_FILES/KOfam.txt</code></pre>
 <p>Again, this file has 11,818 hits from 11,588 <em>unique</em> gene calls. The file is tab-delimited and contains the KOfam <code>accession</code> number, <code>function</code>, and <code>e_value</code> for each <code>gene_callers_id</code>. We need a list of <em>unique</em> gene IDs to build a contig database so for now we select the hit with the lowest <code>e_value</code>. It really doesn’t matter at this point but just in case we decide latter to only present a single function call per gene, this approach seems to make the most sense.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kofam &lt;- read.table(&quot;metabolism/00_HELPER_FILES/KOfam.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE,  quote = &quot;&quot;)
+kofam &lt;- kofam %&gt;% dplyr::rename(ko_function = function.)
+kofam$ko_function &lt;- stringr::str_replace(kofam$ko_function, &quot;&#39;&quot;, &quot;&quot;)
+kofam$gene_callers_id &lt;- as.factor(kofam$gene_callers_id)
+kofam &lt;- kofam[order(kofam$gene_callers_id, kofam$e_value), ]
+kofam_unique &lt;- kofam[!duplicated(kofam$gene_callers_id), ]
+write.table(kofam_unique, &quot;metabolism/00_HELPER_FILES/KOfam_unique.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)
+head(kofam_unique)</code></pre>
 </div>
 <p>Same file but with duplicate gene IDs removed.</p>
 <h3 id="get-gene-sequences-for-kofam-hits">Get gene sequences for KOfam hits</h3>
 <p>Next, we create a file containing a list of the just the unique <code>gene_callers_id</code>s so that we can parse out the KOfam annotated gene sequence.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kofam_genes &lt;- kofam_unique
+kofam_genes[, c(&#39;accession&#39;, &#39;ko_function&#39;, &#39;e_value&#39;, &#39;source&#39;)] &lt;- list(NULL)
+write.table(kofam_genes, &quot;metabolism/00_HELPER_FILES/kofam_genes_list.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, col.names = FALSE)</code></pre>
 </div>
 <p>We can now use this file to get the sequences for each gene caller ID that has a KOfam hit from the original contigs.db.</p>
 <pre class="bash"><code>
@@ -1638,15 +1669,30 @@ anvi-export-gene-calls -c 03_CONTIGS/WATER-contigs.db \
                        -o METABOLISM/00_HELPER_FILES/kofam_gene_calls.txt</code></pre>
 <p>This command gives us a file containing all 65,102 gene calls. We can use the list of unique gene calls created above (<code>kofam_genes_list.txt</code>) to pull out the relevant IDs.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+all_genes &lt;- read.table(&quot;metabolism/00_HELPER_FILES/kofam_gene_calls.txt&quot;, 
+                        sep = &quot;\t&quot;, header = TRUE)
+all_genes &lt;- all_genes %&gt;% dplyr::mutate(gene_callers_id = as.character(gene_callers_id))
+kofam_genes_tab &lt;- dplyr::inner_join(kofam_genes, all_genes, 
+                                     by = &quot;gene_callers_id&quot;)
+head(kofam_genes_tab)</code></pre>
 </div>
 <p>We need to modify this file a bit to make it compatible with what anvi’o needs to build the database. You see, anvi’o is expecting <em>contigs</em> not genes. When we give anvi’o an external gene calls file for <code>anvi-gen-contigs-database</code> we are basically saying that we performed our own gene calling on the contigs in the fasta file. Anvi’o will look at the <code>contig</code> ID in the external gene calls file and compare those IDs to the fasta deflines. Problem is that the deflines are named by genes, not contigs. We could just make up new names but then we lose the original contig information and gene IDs for each call. So instead, we add the original gene caller id to the original contig name. This not only preserves the contig information but also avoids any duplication of contig IDs, since many genes are found on the same contig.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kofam_genes_tab &lt;- kofam_genes_tab %&gt;% unite(&quot;contig&quot;, contig, gene_callers_id, 
+                                              remove = FALSE, sep = &quot;_gene_&quot;) 
+kofam_genes_tab &lt;- kofam_genes_tab[, c(2,1,7,8,4,5,3,6,9,10)]
+head(kofam_genes_tab)</code></pre>
 </div>
 <p>Better. We still have the original contig IDs, now appended with the gene ID. If we just give anvi’o this file, it will look at gene caller id <code>9</code>, and see that this gene came from position 443–896 on contig <code>WATER_000000000004_gene_9</code>. The problem is that when anvi’o looks in the fasta file at the corresponding sequence, it will not find a sequence greater than or equal to 896 bps. Instead, it will find a sequence that is 453 bps long, since this is the length of the <em>gene</em> and not the <em>contig</em>. Make sense? So we need to trick anvi’o a bit by making it think each “contig” just happens to be the exact length of a given gene. To do this, we need to adjust the start and stop values. If you don’t do this you will get an error saying something like <code>IndexError: list assignment index out of range</code>. This is because of the length discrepency just described. To circumvent this problem, we can set all start values to <code>0</code> and adjust the stop values to the full gene length.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kofam_genes_tab &lt;- kofam_genes_tab %&gt;% dplyr::mutate(stop = (stop - start), .after = 4) 
+kofam_genes_tab$start &lt;- 0
+head(kofam_genes_tab)
+write.table(kofam_genes_tab, &quot;metabolism/00_HELPER_FILES/kofam_external_gene_calls.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 </div>
 <p>Back to gene <code>9</code>, which is still 453 bp long, but now starts at the beginning of the sequence.</p>
 <blockquote>
@@ -1656,11 +1702,25 @@ anvi-export-gene-calls -c 03_CONTIGS/WATER-contigs.db \
 <p>If you take a peak at the <code>kofam_genes.fa</code> gene fasta file we generated above, you will see the deflines are named after the genes, not contigs. Again, avni’o is expecting contig IDs. Time to play another trick. We will take the new contig IDs, appended with the gene IDs, and use those in our fasta file instead of the gene IDs. Things get a bit weird here since we are trying to substitute the new <em>contig</em> name for the original gene caller id in the fasta file.</p>
 <p>We start by converting the fasta file to a data frame and then ordering the data frame by the sequence name so they are in the same order as the contig names in the <code>external-gene-calls file</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kofam_fna2 &lt;- readDNAStringSet(&quot;metabolism/00_HELPER_FILES/kofam_genes.fa&quot;)
+kofam_names &lt;-  names(kofam_fna2)
+kofam_seqs &lt;-  paste(kofam_fna2)
+fasta_df &lt;- data.frame(kofam_names, kofam_seqs)
+fasta_df$kofam_names &lt;- as.numeric(as.character(fasta_df$kofam_names))
+fasta_df &lt;- dplyr::arrange(fasta_df, kofam_names)</code></pre>
 </div>
 <p>Next, add the contigs column from the <code>external-gene-calls file</code> to the data frame and make sure the names match.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+fasta_df &lt;- fasta_df %&gt;% dplyr::mutate(new_id = kofam_genes_tab$contig)
+fasta_df &lt;- fasta_df[, c(1,3,2)]
+fasta_df$kofam_names &lt;- NULL
+fasta_df$new_id &lt;- sub(&quot;&quot;, &quot;&gt;&quot;, fasta_df$new_id)
+write.table(fasta_df, &quot;metabolism/00_HELPER_FILES/kofam_genes_rn.fa&quot;,
+            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
+            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)
+head(fasta_df)</code></pre>
 </div>
 <blockquote>
 <p>This is the new <code>contigs-fasta</code> file.</p>
@@ -1760,7 +1820,14 @@ anvi-export-functions --contigs-db 03_CONTIGS/WATER-contigs.db \
                       -output-file METABOLISM/00_HELPER_FILES/KEGG_Module.txt</code></pre>
 <p>There are two things we need to change in the <code>KEGG_Module.txt</code> file before importing the functions into the new contigs.db. The first is related to anvi’o itself, specifically the output file from the command above contains the value of <code>NONE</code> for every entry in the <code>e_value</code> column. When we try to import the function calls into our new database, anvi’o will throw an error because it needs an actual e value. We can just set the value to <code>0</code> to make anvi’o happy. The other problem is that when we read the file into R, the column called <code>function</code> is changed to <code>function.</code> with a period since <code>function</code> has a special meaning in R. So we need to change it back to the original column name. In order to import gene functions, <a href="http://merenlab.org/2016/06/18/importing-functions/#simple-matrix">anvi’o <em>needs</em> very specific column headers</a>.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kegg_mod &lt;- read.table(&quot;metabolism/00_HELPER_FILES/KEGG_Module.txt&quot;, 
+                       sep = &quot;\t&quot;, header = TRUE)
+kegg_mod$e_value &lt;- 0
+colnames(kegg_mod) &lt;- c(&quot;gene_callers_id&quot;, &quot;source&quot;, 
+                        &quot;accession&quot;, &quot;function&quot;, &quot;e_value&quot;)
+write.table(kegg_mod, &quot;metabolism/00_HELPER_FILES/KEGG_Module_mod.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 </div>
 <p>And now we import the modified annotation file. To run this you need to be in the <code>METABOLISM</code> directory.</p>
 <pre class="bash"><code>
@@ -1827,7 +1894,19 @@ anvi-export-table 03_CONTIGS/WATER-contigs.db \
                   --output-file METABOLISM/00_HELPER_FILES/taxon_names.txt</code></pre>
 <p>The first file (<code>genes_taxonomy.txt</code>) provides a taxon ids for all genes in the database. Again, we could rerun the classification on just the KOfam annotated genes but why bother. The second file (<code>taxon_names.txt</code>) is a lookup table for each taxon id. What we need to do is join these two table so that each gene id is coupled with a taxon id and a lineage. Then merge these data with of list of mock contig names in the in the KOfam database.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+tax_names &lt;- read.table(&quot;metabolism/00_HELPER_FILES/taxon_names.txt&quot;, 
+                        sep = &quot;\t&quot;, header = TRUE, quote = &quot;&quot;)
+gene_tax &lt;- read.table(&quot;metabolism/00_HELPER_FILES/genes_taxonomy.txt&quot;, 
+                       sep = &quot;\t&quot;, header = TRUE, quote = &quot;&quot;)
+gene_tax_names &lt;- dplyr::inner_join(gene_tax, tax_names, by = &quot;taxon_id&quot;)
+kofam_genes_n &lt;- kofam_genes
+kofam_genes_n$gene_callers_id &lt;- as.numeric(as.character(kofam_genes_n$gene_callers_id))
+kofam_with_tax &lt;- dplyr::left_join(kofam_genes_n, gene_tax_names, 
+                                   by = &quot;gene_callers_id&quot;)
+head(kofam_with_tax)
+write.table(kofam_with_tax, &quot;metabolism/00_HELPER_FILES/kofam_with_tax.txt&quot;, sep = &quot;\t&quot;, 
+            quote = FALSE, row.names = FALSE)</code></pre>
 </div>
 <p>As you can see, we now have each gene associated with a taxonmic lineage (when one was identified). We could remove genes with <code>NA</code> from the taxonomy file but anvi’o does not seem to have a problem with it so let’s leave it be. Now we can import the taxonomy files into the new contigs database.</p>
 <pre class="bash"><code>
@@ -1862,14 +1941,42 @@ anvi-estimate-metabolism --contigs-db 03_CONTIGS/WATER-contigs.db \
 </ol>
 <p>As before, in cases of multiple KO hits for a single gene call, we select the hit with the lowest e-value. We could do what we did above or we can use the table with unique gene hits that is stored in the variable <code>kofam_unique</code>. What we do here is merge the two tables by gene caller id <em>and</em> KO accession number. This way we get only the top hits from the <code>all_modules.txt</code> file.</p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+genes_all_ko &lt;- read.table(&quot;metabolism/00_HELPER_FILES/all_kofam_hits.txt&quot;, 
+                        sep = &quot;\t&quot;, header = TRUE, quote = &quot;&quot;)
+genes_all_ko[, c(&#39;unique_id&#39;, &#39;metagenome_name&#39;, 
+            &#39;contig&#39;, &#39;source&#39;)] &lt;- list(NULL)
+genes_all_ko &lt;- genes_all_ko[, c(2, 1, 3)]
+genes_all_ko_alt &lt;- genes_all_ko
+kofam_unique1 &lt;- kofam_unique
+kofam_unique1[, c(&#39;source&#39;, &#39;ko_function&#39;, &#39;e_value&#39; )] &lt;- NULL
+kofam_unique1$gene_callers_id &lt;- as.numeric(as.character(kofam_unique1$gene_callers_id))
+genes_all_ko &lt;-  dplyr::left_join(kofam_unique1, genes_all_ko, 
+                                  by = c(&quot;gene_callers_id&quot; = &quot;gene_caller_id&quot; , 
+                                         &quot;accession&quot; = &quot;ko&quot;))
 
+### ALT TO USE ALL GENE CALLS ###
+kofam1 &lt;- kofam
+kofam1[, c(&#39;source&#39;, &#39;ko_function&#39;, &#39;e_value&#39; )] &lt;- NULL
+kofam1$gene_callers_id &lt;- as.numeric(as.character(kofam1$gene_callers_id))
+genes_all_ko_alt &lt;-  dplyr::left_join(kofam1, genes_all_ko_alt, 
+                                  by = c(&quot;gene_callers_id&quot; = &quot;gene_caller_id&quot; , 
+                                         &quot;accession&quot; = &quot;ko&quot;))</code></pre>
 </div>
 <ol start="3" type="1">
 <li>Remove genes with no module hit.</li>
 </ol>
 <p>OK. now we have a data frame that contains gene IDs, KO hits, and module IDs (if any). Some KOs are found in multiple modules while some are not found in any modules. We will deal with the multiple module cases in a minute. For now, let’s remove any hits <em>not</em> found in a module. Anvi’o doesn’t need information for all genes and removing genes with no hits will make parsing the data a tiny bit easier.</p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+#genes_ko_only &lt;- genes_all_ko[!(genes_all_ko$modules_with_ko==&quot;None&quot;),]
+#genes_ko_only &lt;- genes_ko_only %&gt;% dplyr::rename(kegg_module = modules_with_ko)
+#genes_ko_only_long &lt;- genes_ko_only %&gt;% tidyr::separate_rows(kegg_module)
 
+### ALT TO USE ALL GENE CALLS ###
+genes_ko_only_alt &lt;- genes_all_ko_alt[!(genes_all_ko_alt$modules_with_ko==&quot;None&quot;),]
+genes_ko_only_alt &lt;- genes_ko_only_alt %&gt;% dplyr::rename(kegg_module = modules_with_ko)
+genes_ko_only_long_alt &lt;- genes_ko_only_alt %&gt;% tidyr::separate_rows(kegg_module)</code></pre>
 </div>
 <p>And we get a list of 3,210 genes that have module affiliations. All we know right now is the module numbers, not the names.</p>
 <pre class="bash"><code>
@@ -1882,23 +1989,172 @@ anvi-estimate-metabolism --contigs-db 03_CONTIGS/WATER-contigs.db
 <li>Get module information</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+all_mod &lt;- read.table(&quot;metabolism/00_HELPER_FILES/all_modules.txt&quot;, 
+                        sep = &quot;\t&quot;, header = TRUE, quote = &quot;&quot;)
+all_mod[, c(&#39;module_definition&#39;, &#39;metagenome_name&#39;, 
+            &#39;module_class&#39;, &#39;module_is_complete&#39;, 
+            &#39;module_completeness&#39;, &#39;gene_caller_ids_in_module&#39;, 
+            &#39;kofam_hits_in_module&#39;)] &lt;- list(NULL)
+all_mod &lt;- all_mod[, c(1,2,4,5,3)]
+mod_tab &lt;- all_mod[,c(1,2)]
+cat_tab &lt;- all_mod[,c(1,2,3)]
+sub_tab &lt;- all_mod[,c(1,2,4)]
+name_tab &lt;-  all_mod[,c(1,2,5)]</code></pre>
 </div>
 <ol start="5" type="1">
 <li>Combine genes &amp; module data</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+genes_mod &lt;- dplyr::left_join(genes_ko_only_long_alt, mod_tab, 
+                              by = &quot;kegg_module&quot;) %&gt;% 
+  tidyr::drop_na(&quot;unique_id&quot;)
+genes_mod &lt;- genes_mod %&gt;% tibble::rowid_to_column(&quot;unique_row_id&quot;)
+genes_mod_ko &lt;- genes_mod
+genes_mod &lt;- genes_mod[, c(2,1,4)]
+genes_mod &lt;- genes_mod %&gt;% dplyr::mutate_if(is.numeric, 
+                                            as.character, 
+                                            is.factor, 
+                                            as.character) %&gt;%
+  tidyr::unite(&quot;path&quot;, unique_row_id:kegg_module, 
+               remove = TRUE, sep =  &quot;XXX&quot;) %&gt;%  
+  tidyr::pivot_wider(names_from = c(&quot;path&quot;), values_from = c(&quot;path&quot;)) %&gt;%  
+  tidyr::unite(&quot;kegg_module&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+n_reps &lt;- max(str_count(genes_mod$kegg_module, &quot;!!!&quot;)) + 2
 
+genes_mod &lt;- genes_mod %&gt;% separate(&#39;kegg_module&#39;, 
+                                    paste(&quot;module&quot;, 1:n_reps, sep = &quot;_&quot;), 
+                                    sep = &quot;!!!&quot;, extra = &quot;drop&quot;)
+
+#######################################
+genes_cat &lt;- dplyr::left_join(genes_ko_only_long_alt, cat_tab, 
+                              by = &quot;kegg_module&quot;) %&gt;% 
+  tidyr::drop_na(&quot;unique_id&quot;)
+genes_cat[, c(&quot;accession&quot;, &quot;kegg_module&quot;)] &lt;- list(NULL)
+genes_cat &lt;- genes_cat %&gt;% tibble::rowid_to_column(&quot;unique_row_id&quot;)
+genes_cat &lt;- genes_cat[, c(2,1,4)]
+
+genes_cat &lt;- genes_cat %&gt;% dplyr::mutate_if(is.numeric, 
+                                            as.character, 
+                                            is.factor, 
+                                            as.character) %&gt;%
+  tidyr::unite(&quot;path&quot;, unique_row_id:module_category, 
+               remove = TRUE, sep =  &quot;XXX&quot;) %&gt;%  
+  tidyr::pivot_wider(names_from = c(&quot;path&quot;), values_from = c(&quot;path&quot;)) %&gt;%  
+  tidyr::unite(&quot;module_category&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+n_reps &lt;- max(str_count(genes_cat$module_category, &quot;!!!&quot;)) + 2
+
+genes_cat &lt;- genes_cat %&gt;% separate(&#39;module_category&#39;, 
+                                    paste(&quot;category&quot;, 1:n_reps, sep = &quot;_&quot;), 
+                                    sep = &quot;!!!&quot;, extra = &quot;drop&quot;)
+#######################################
+genes_sub &lt;- dplyr::left_join(genes_ko_only_long_alt, sub_tab, 
+                              by = &quot;kegg_module&quot;) %&gt;% 
+  tidyr::drop_na(&quot;unique_id&quot;)
+genes_sub[, c(&quot;accession&quot;, &quot;kegg_module&quot;)] &lt;- list(NULL)
+genes_sub &lt;- genes_sub %&gt;% tibble::rowid_to_column(&quot;unique_row_id&quot;)
+genes_sub &lt;- genes_sub[, c(2,1,4)]
+
+genes_sub &lt;- genes_sub %&gt;% dplyr::mutate_if(is.numeric, 
+                                            as.character, 
+                                            is.factor, 
+                                            as.character) %&gt;%
+  tidyr::unite(&quot;path&quot;, unique_row_id:module_subcategory, 
+               remove = TRUE, sep =  &quot;XXX&quot;) %&gt;%  
+  tidyr::pivot_wider(names_from = c(&quot;path&quot;), values_from = c(&quot;path&quot;)) %&gt;%  
+  tidyr::unite(&quot;module_subcategory&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+n_reps &lt;- max(str_count(genes_sub$module_subcategory, &quot;!!!&quot;)) + 2
+
+genes_sub &lt;- genes_sub %&gt;% separate(&#39;module_subcategory&#39;, 
+                                    paste(&quot;subcategory&quot;, 1:n_reps, sep = &quot;_&quot;), 
+                                    sep = &quot;!!!&quot;, extra = &quot;drop&quot;)
+
+#######################################
+genes_name &lt;- dplyr::left_join(genes_ko_only_long_alt, name_tab, 
+                              by = &quot;kegg_module&quot;) %&gt;% 
+  tidyr::drop_na(&quot;unique_id&quot;)
+genes_name[, c(&quot;accession&quot;, &quot;kegg_module&quot;)] &lt;- list(NULL)
+genes_name &lt;- genes_name %&gt;% tibble::rowid_to_column(&quot;unique_row_id&quot;)
+genes_name &lt;- genes_name[, c(2,1,4)]
+genes_name &lt;- genes_name %&gt;% dplyr::mutate_if(is.numeric, 
+                                            as.character, 
+                                            is.factor, 
+                                            as.character) %&gt;%
+  tidyr::unite(&quot;path&quot;, unique_row_id:module_name, 
+               remove = TRUE, sep =  &quot;XXX&quot;) %&gt;%  
+  tidyr::pivot_wider(names_from = c(&quot;path&quot;), values_from = c(&quot;path&quot;)) %&gt;%  
+  tidyr::unite(&quot;module_name&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+n_reps &lt;- max(str_count(genes_name$module_name, &quot;!!!&quot;)) + 2
+
+genes_name &lt;- genes_name %&gt;% separate(&#39;module_name&#39;, 
+                                    paste(&quot;name&quot;, 1:n_reps, sep = &quot;_&quot;), 
+                                    sep = &quot;!!!&quot;, extra = &quot;drop&quot;)
+#######################################
+genes_ko &lt;- genes_mod_ko
+genes_ko &lt;- genes_ko[, c(2,1,3)]
+genes_ko &lt;- genes_ko %&gt;% dplyr::mutate_if(is.numeric, 
+                                            as.character, 
+                                            is.factor, 
+                                            as.character) %&gt;%
+  tidyr::unite(&quot;path&quot;, unique_row_id:accession, 
+               remove = TRUE, sep =  &quot;XXX&quot;) %&gt;%  
+  tidyr::pivot_wider(names_from = c(&quot;path&quot;), values_from = c(&quot;path&quot;)) %&gt;%  
+  tidyr::unite(&quot;ko&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+n_reps &lt;- max(str_count(genes_ko$ko, &quot;!!!&quot;)) + 2
+
+genes_ko &lt;- genes_ko %&gt;% separate(&#39;ko&#39;, 
+                                    paste(&quot;module&quot;, 1:n_reps, sep = &quot;_&quot;), 
+                                    sep = &quot;!!!&quot;, extra = &quot;drop&quot;)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+genes_mod[, 2:n_reps] &lt;- apply(genes_mod[, 2:n_reps], 2, function(x) gsub(&quot;\\d+XXX&quot;, &quot;&quot;, x))
+genes_mod &lt;- genes_mod %&gt;% tidyr::unite(&quot;kegg_module&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
 
+genes_cat[, 2:n_reps] &lt;- apply(genes_cat[, 2:n_reps], 2, function(x) gsub(&quot;\\d+XXX&quot;, &quot;&quot;, x))
+genes_cat &lt;- genes_cat %&gt;% tidyr::unite(&quot;module_category&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+
+genes_sub[, 2:n_reps] &lt;- apply(genes_sub[, 2:n_reps], 2, function(x) gsub(&quot;\\d+XXX&quot;, &quot;&quot;, x))
+genes_sub &lt;- genes_sub %&gt;% tidyr::unite(&quot;module_subcategory&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+
+genes_name[, 2:n_reps] &lt;- apply(genes_name[, 2:n_reps], 2, function(x) gsub(&quot;\\d+XXX&quot;, &quot;&quot;, x))
+genes_name &lt;- genes_name %&gt;% tidyr::unite(&quot;module_name&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)
+
+genes_ko[, 2:n_reps] &lt;- apply(genes_ko[, 2:n_reps], 2, function(x) gsub(&quot;\\d+XXX&quot;, &quot;&quot;, x))
+genes_ko &lt;- genes_ko %&gt;% tidyr::unite(&quot;ko&quot;, -&quot;gene_callers_id&quot;, 
+               na.rm = TRUE, remove = TRUE, sep = &quot;!!!&quot;)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+genes_modules &lt;- dplyr::left_join(genes_ko, genes_mod, by = &quot;gene_callers_id&quot;) %&gt;%
+  dplyr::left_join(., genes_cat, by = &quot;gene_callers_id&quot;) %&gt;%
+  dplyr::left_join(., genes_sub, by = &quot;gene_callers_id&quot;) %&gt;%
+  dplyr::left_join(., genes_name, by = &quot;gene_callers_id&quot;) 
+write.table(genes_modules, &quot;metabolism/00_HELPER_FILES/genes_modules.txt&quot;, 
+            quote = FALSE, sep = &quot;\t&quot;)</code></pre>
 </div>
 <p>Now we have a table of 2842 unique genes and their KEGG module annotations. The last thing we need to do is change the gene caller IDs to “contig IDs” to match the name of the slits in the contig.db. Way back uo the road we created a variable called <code>kofam_genes_tab</code>, a table derived from a gene calls file where we added the gene call onto the end of the contig name. We need to do the same with the new KEGG modules annotation file so we can add this as an additional layer to the visualization. <em>And</em>, we also need to tack on a split name like we did for the fasta file.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+genes_modules1 &lt;- genes_modules
+kofam_genes_tab1 &lt;- kofam_genes_tab
+add_view_part_1 &lt;- dplyr::right_join(kofam_genes_tab1, genes_modules1, by = &quot;gene_callers_id&quot;)
+add_view_part_1[, 3:10] &lt;- NULL
+add_view_part_1[, 1] &lt;- NULL
+add_view_part_1 &lt;- add_view_part_1 %&gt;% dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, contig, split_id, remove = TRUE, sep = &quot;_&quot;)
+write.table(add_view_part_1, &quot;metabolism/05_ANNOTATION_FILES/additional-items-kegg-functions.txt&quot;, 
+            quote = FALSE, sep = &quot;\t&quot;, row.names = FALSE)</code></pre>
 </div>
 <p>Now we can run the following command to import the annotation data into the profile database.</p>
 <pre class="bash"><code>
@@ -1927,10 +2183,79 @@ do anvi-estimate-metabolism --contigs-db 03_CONTIGS/WATER-contigs.db \
                             --kegg-output-modes modules
 done</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+###################### mag_01 ############################
+mag_01&lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00001_kofam_hits.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag_01[, c(&quot;unique_id&quot;, &quot;ko&quot;, &quot;modules_with_ko&quot;, &quot;bin_name&quot;)] &lt;- list(NULL)
+mag_01$mag_id &lt;- &quot;MAG01&quot; 
+mag_01 &lt;- mag_01 %&gt;% dplyr::arrange(gene_caller_id)
+mag_01 &lt;- mag_01[!duplicated(mag_01$gene_caller_id), ]
+mag_01 &lt;- mag_01[, c(2,1,3)]
+mag_01 &lt;- mag_01 %&gt;% tidyr::unite(int_name, &quot;contig&quot;, &quot;gene_caller_id&quot;, sep = &quot;_gene_&quot;) %&gt;% 
+  dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 2) %&gt;%
+  tidyr::unite(items, &quot;int_name&quot;, &quot;split_id&quot;, sep = &quot;_&quot;)
+###################### mag_02 ############################
+mag_02&lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00002_kofam_hits.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag_02[, c(&quot;unique_id&quot;, &quot;ko&quot;, &quot;modules_with_ko&quot;, &quot;bin_name&quot;)] &lt;- list(NULL)
+mag_02$mag_id &lt;- &quot;MAG02&quot; 
+mag_02 &lt;- mag_02 %&gt;% dplyr::arrange(gene_caller_id)
+mag_02 &lt;- mag_02[!duplicated(mag_02$gene_caller_id), ]
+mag_02 &lt;- mag_02[, c(2,1,3)]
+mag_02 &lt;- mag_02 %&gt;% tidyr::unite(int_name, &quot;contig&quot;, &quot;gene_caller_id&quot;, sep = &quot;_gene_&quot;) %&gt;% 
+  dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, &quot;int_name&quot;, &quot;split_id&quot;, sep = &quot;_&quot;)
+###################### mag_03 ############################
+mag_03&lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00003_kofam_hits.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag_03[, c(&quot;unique_id&quot;, &quot;ko&quot;, &quot;modules_with_ko&quot;, &quot;bin_name&quot;)] &lt;- list(NULL)
+mag_03$mag_id &lt;- &quot;MAG03&quot; 
+mag_03 &lt;- mag_03 %&gt;% dplyr::arrange(gene_caller_id)
+mag_03 &lt;- mag_03[!duplicated(mag_03$gene_caller_id), ]
+mag_03 &lt;- mag_03[, c(2,1,3)]
+mag_03 &lt;- mag_03 %&gt;% tidyr::unite(int_name, &quot;contig&quot;, &quot;gene_caller_id&quot;, sep = &quot;_gene_&quot;) %&gt;% 
+  dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, &quot;int_name&quot;, &quot;split_id&quot;, sep = &quot;_&quot;)
+###################### mag_04 ############################
+mag_04&lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00004_kofam_hits.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag_04[, c(&quot;unique_id&quot;, &quot;ko&quot;, &quot;modules_with_ko&quot;, &quot;bin_name&quot;)] &lt;- list(NULL)
+mag_04$mag_id &lt;- &quot;MAG04&quot; 
+mag_04 &lt;- mag_04 %&gt;% dplyr::arrange(gene_caller_id)
+mag_04 &lt;- mag_04[!duplicated(mag_04$gene_caller_id), ]
+mag_04 &lt;- mag_04[, c(2,1,3)]
+mag_04 &lt;- mag_04 %&gt;% tidyr::unite(int_name, &quot;contig&quot;, &quot;gene_caller_id&quot;, sep = &quot;_gene_&quot;) %&gt;% 
+  dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, &quot;int_name&quot;, &quot;split_id&quot;, sep = &quot;_&quot;)
+###################### mag_05 ############################
+mag_05&lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00005_kofam_hits.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag_05[, c(&quot;unique_id&quot;, &quot;ko&quot;, &quot;modules_with_ko&quot;, &quot;bin_name&quot;)] &lt;- list(NULL)
+mag_05$mag_id &lt;- &quot;MAG05&quot; 
+mag_05 &lt;- mag_05 %&gt;% dplyr::arrange(gene_caller_id)
+mag_05 &lt;- mag_05[!duplicated(mag_05$gene_caller_id), ]
+mag_05 &lt;- mag_05[, c(2,1,3)]
+mag_05 &lt;- mag_05 %&gt;% tidyr::unite(int_name, &quot;contig&quot;, &quot;gene_caller_id&quot;, sep = &quot;_gene_&quot;) %&gt;% 
+  dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, &quot;int_name&quot;, &quot;split_id&quot;, sep = &quot;_&quot;)
+###################### bin_13 ############################
+bin_13&lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_Bin_00013_kofam_hits.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+bin_13[, c(&quot;unique_id&quot;, &quot;ko&quot;, &quot;modules_with_ko&quot;, &quot;bin_name&quot;)] &lt;- list(NULL)
+bin_13$mag_id &lt;- &quot;BIN13&quot; 
+bin_13 &lt;- bin_13 %&gt;% dplyr::arrange(gene_caller_id)
+bin_13 &lt;- bin_13[!duplicated(bin_13$gene_caller_id), ]
+bin_13 &lt;- bin_13[, c(2,1,3)]
+bin_13 &lt;- bin_13 %&gt;% tidyr::unite(int_name, &quot;contig&quot;, &quot;gene_caller_id&quot;, sep = &quot;_gene_&quot;) %&gt;% 
+  dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, &quot;int_name&quot;, &quot;split_id&quot;, sep = &quot;_&quot;)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+add_mag &lt;- rbind(mag_01, mag_02, mag_03, mag_04, mag_05, bin_13)
+write.table(add_mag, &quot;metabolism/05_ANNOTATION_FILES/additional-items-kos-in-mags.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 </div>
 <pre class="bash"><code>
 anvi-import-misc-data 05_ANNOTATION_FILES/additional-items-kos-in-mags.txt \
@@ -1938,13 +2263,66 @@ anvi-import-misc-data 05_ANNOTATION_FILES/additional-items-kos-in-mags.txt \
                       --target-data-table items</code></pre>
 <h2 id="genes-in-modules-only">Genes in modules only</h2>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+kofam_fna_mod &lt;- readDNAStringSet(&quot;metabolism/00_HELPER_FILES/kofam_genes.fa&quot;)
+kofam_names_mod &lt;-  names(kofam_fna_mod)
+kofam_seqs_mod &lt;-  paste(kofam_fna_mod)
+fasta_df_mod &lt;- data.frame(kofam_names_mod, kofam_seqs_mod)
+fasta_df_mod$kofam_names_mod &lt;- as.numeric(as.character(fasta_df_mod$kofam_names_mod))
+fasta_df_mod &lt;- dplyr::arrange(fasta_df_mod, kofam_names_mod)
 
+genes_modules_list &lt;- genes_modules1
+fasta_df_mod &lt;- fasta_df_mod %&gt;% dplyr::mutate_if(is.numeric, 
+                                            as.character, 
+                                            is.factor, 
+                                            as.character) 
+genes_modules_list[, c(&quot;ko&quot;, &quot;kegg_module&quot;, &quot;module_category&quot;, 
+                       &quot;module_subcategory&quot;, &quot;module_name&quot;)] &lt;- list(NULL)
+fasta_df_mod1 &lt;- dplyr::left_join(genes_modules_list, fasta_df_mod, 
+                                                     by = c(&quot;gene_callers_id&quot; = &quot;kofam_names_mod&quot;))</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+fasta_df_mod1 &lt;- dplyr::left_join(fasta_df_mod1, kofam_genes_tab1, 
+                                                     by = &quot;gene_callers_id&quot;)
+fasta_df_mod1 &lt;- fasta_df_mod1[, c(3,2)]
+fasta_df_mod1_rn &lt;- fasta_df_mod1
+fasta_df_mod1_rn$contig &lt;- sub(&quot;&quot;, &quot;&gt;&quot;, fasta_df_mod1_rn$contig)
+write.table(fasta_df_mod1_rn, &quot;metabolism/00_HELPER_FILES_MOD_ONLY/kofam_genes_rn.fa&quot;,
+            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
+            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)
+head(fasta_df_mod1_rn)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mod_only_list &lt;- fasta_df_mod1
+mod_only_list &lt;- mod_only_list %&gt;% dplyr::mutate(split_id = &quot;split_00001&quot;, .after = 1) %&gt;%
+  tidyr::unite(items, contig, split_id, remove = TRUE, sep = &quot;_&quot;)
 
+mod_only_list$kofam_seqs_mod &lt;- NULL
+mod_only_mag &lt;- dplyr::left_join(mod_only_list, add_mag,  by = &quot;items&quot;)
+
+gene_mod_only_list &lt;- mod_only_list %&gt;% 
+  tidyr::separate(&quot;items&quot;, 
+                  into = c(&quot;V1&quot;, &quot;V2&quot;, &quot;V3&quot;, &quot;gene_callers_id&quot;, &quot;V4&quot;, &quot;V5&quot;),  
+                  sep =&quot;_&quot;)
+gene_mod_only_list[, c(&quot;V1&quot;, &quot;V2&quot;, &quot;V3&quot;, &quot;V4&quot;, &quot;V5&quot;)] &lt;- list(NULL)
+
+gene_mod_only_list$gene_callers_id &lt;- as.numeric(as.character(gene_mod_only_list$gene_callers_id))
+mods_tax &lt;- dplyr::left_join(gene_mod_only_list, 
+                                      kofam_with_tax,  
+                                      by = &quot;gene_callers_id&quot;)
+kofam_genes_tab1$gene_callers_id &lt;- as.numeric(as.character(kofam_genes_tab$gene_callers_id))
+mod_external_gene &lt;- dplyr::left_join(gene_mod_only_list, kofam_genes_tab1,  by = &quot;gene_callers_id&quot;)
+
+write.table(mod_external_gene, &quot;metabolism/00_HELPER_FILES_MOD_ONLY/mod_external_gene.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)
+write.table(mod_only_mag, &quot;metabolism/00_HELPER_FILES_MOD_ONLY/mag-mods.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)
+write.table(mods_tax, &quot;metabolism/00_HELPER_FILES_MOD_ONLY/mods_tax.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)
+write.table(add_view_part_1, &quot;metabolism/00_HELPER_FILES_MOD_ONLY/mods.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 </div>
 <pre class="bash"><code>
 anvi-gen-contigs-database --contigs-fasta 00_HELPER_FILES_MOD_ONLY/kofam_genes_rn.fa --project-name MODS --output-db-path 00_HELPER_FILES_MOD_ONLY/KOFAMS_MODS-contigs.db  --external-gene-calls 00_HELPER_FILES_MOD_ONLY/mod_external_gene.txt --ignore-internal-stop-codons --skip-predict-frame
@@ -1954,33 +2332,242 @@ anvi-import-taxonomy-for-genes --contigs-db 00_HELPER_FILES_MOD_ONLY/KOFAMS_MODS
 <p>anvi-import-misc-data mods.txt –pan-or-profile-db 03_KOFAM_PROFILES-MERGED/PROFILE.db –target-data-table items anvi-import-misc-data mag-mods.txt –pan-or-profile-db 03_KOFAM_PROFILES-MERGED/PROFILE.db –target-data-table items</p>
 <p>distinct(genes_cat, gene_callers_id, .keep_all = T)</p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mag01_mod &lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00001_modules.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag01_mod$unique_id &lt;- NULL
+mag01_mod$bin_name &lt;- &quot;MAG01&quot;
 
+mag02_mod &lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00002_modules.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag02_mod$unique_id &lt;- NULL
+mag02_mod$bin_name &lt;- &quot;MAG02&quot;
+
+mag03_mod &lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00003_modules.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag03_mod$unique_id &lt;- NULL
+mag03_mod$bin_name &lt;- &quot;MAG03&quot;
+
+mag04_mod &lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00004_modules.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag04_mod$unique_id &lt;- NULL
+mag04_mod$bin_name &lt;- &quot;MAG04&quot;
+
+mag05_mod &lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_MAG_00005_modules.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+mag05_mod$unique_id &lt;- NULL
+mag05_mod$bin_name &lt;- &quot;MAG05&quot;
+
+bin13_mod &lt;- read.table(&quot;metabolism/06_MAG_KOFAMS/WATER_Bin_00013_modules.txt&quot;, 
+                    sep = &quot;\t&quot;, header = TRUE)
+bin13_mod$unique_id &lt;- NULL
+bin13_mod$bin_name &lt;- &quot;Bin13&quot;
+
+all_mods &lt;- read.table(&quot;metabolism/00_HELPER_FILES/all_modules.txt&quot;, 
+                        sep = &quot;\t&quot;, header = TRUE, quote = &quot;&quot;)
+all_mods &lt;- all_mods %&gt;% dplyr::rename(bin_name = metagenome_name)
+all_mods$unique_id &lt;- NULL
+all_mods$bin_name &lt;- &quot;ALL&quot;</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+modules &lt;- dplyr::left_join(all_mods, mag01_mod, 
+                            by = c(&quot;kegg_module&quot;, &quot;module_name&quot;, 
+                                   &quot;module_class&quot;, &quot;module_category&quot;, 
+                                   &quot;module_subcategory&quot;), 
+                            suffix = c(&quot;_all&quot;, &quot;_MAG_01&quot;)) %&gt;%
+  dplyr::left_join(., mag02_mod, by = c(&quot;kegg_module&quot;, &quot;module_name&quot;, 
+                                   &quot;module_class&quot;, &quot;module_category&quot;, 
+                                   &quot;module_subcategory&quot;), suffix = c(&quot;XXXX&quot;, &quot;_MAG_02&quot;)) %&gt;%
+  dplyr::left_join(., mag03_mod, by = c(&quot;kegg_module&quot;, &quot;module_name&quot;, 
+                                   &quot;module_class&quot;, &quot;module_category&quot;, 
+                                   &quot;module_subcategory&quot;), suffix = c(&quot;_MAG_02&quot;, &quot;_MAG_03&quot;)) %&gt;%
+  dplyr::left_join(., mag04_mod, by = c(&quot;kegg_module&quot;, &quot;module_name&quot;, 
+                                   &quot;module_class&quot;, &quot;module_category&quot;, 
+                                   &quot;module_subcategory&quot;), suffix = c(&quot;_MAG_03&quot;, &quot;_MAG_04&quot;)) %&gt;%
+  dplyr::left_join(., mag05_mod, by = c(&quot;kegg_module&quot;, &quot;module_name&quot;, 
+                                   &quot;module_class&quot;, &quot;module_category&quot;, 
+                                   &quot;module_subcategory&quot;), suffix = c(&quot;_MAG_04&quot;, &quot;_MAG_05&quot;)) %&gt;%
+  dplyr::left_join(., bin13_mod, by = c(&quot;kegg_module&quot;, &quot;module_name&quot;, 
+                                   &quot;module_class&quot;, &quot;module_category&quot;, 
+                                   &quot;module_subcategory&quot;), suffix = c(&quot;_MAG_05&quot;, &quot;_Bin_13&quot;))</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+modules &lt;- rbind(all_mods, mag01_mod, mag02_mod, mag03_mod, mag04_mod, mag05_mod, bin13_mod)
+modules[, c(&quot;module_definition&quot;, &quot;module_class&quot;)] &lt;- list(NULL)
+colnames(modules)
+modules_w &lt;- modules %&gt;% tidyr::pivot_wider(
+                                          names_from = c(&quot;bin_name&quot;), 
+                                          values_from = c(&quot;module_completeness&quot;, 
+                                                          &quot;module_is_complete&quot;,
+                                                          &quot;kofam_hits_in_module&quot;, 
+                                                          &quot;gene_caller_ids_in_module&quot;),
+                                          names_sep = &quot;_&quot;)
 
+items_add_data &lt;- modules_w
+items_add_data[, c(5:max(ncol(items_add_data)))] &lt;- NULL
+items_add_data &lt;- items_add_data %&gt;% dplyr::rename(&quot;items&quot; = &quot;kegg_module&quot;)
+items_add_data &lt;- items_add_data[order(items_add_data$module_category, items_add_data$module_subcategory), ]
+write.table(items_add_data, &quot;metabolism/00_HELPER_FILES/module_item_add_data.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)
+
+data_tab &lt;- modules_w
+data_tab &lt;- data_tab[order(data_tab$module_category, data_tab$module_subcategory), ]
+data_tab[, c(2:4)] &lt;- NULL
+data_tab[, c(9:max(ncol(data_tab)))] &lt;- NULL
+data_tab &lt;- data_tab %&gt;% replace(is.na(.), 0)
+
+names(data_tab) &lt;- gsub(x = names(data_tab), pattern = &quot;module_completeness_&quot;, replacement = &quot;&quot;)  
+write.table(data_tab, &quot;metabolism/00_HELPER_FILES/module_data.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)
+
+write.table(data_tab$kegg_module, &quot;metabolism/00_HELPER_FILES/module_order.txt&quot;, 
+            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, col.names = FALSE)</code></pre>
 </div>
 <p>[1] “unique_row_id” “bin_name” “kegg_module” “module_name”<br />
 [5] “module_class” “module_category” “module_subcategory” “module_definition”<br />
 [9] “module_completeness” “module_is_complete” “kofam_hits_in_module” “gene_caller_ids_in_module”</p>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+coverage &lt;-  read.table(&quot;metabolism/00_HELPER_FILES/WATER-GENE-COVERAGES.txt&quot;, header = TRUE)
+coverage$key &lt;- as.factor(coverage$key)
+kofam_unique_coveage &lt;- dplyr::left_join(kofam_unique, coverage, by = c(&quot;gene_callers_id&quot; = &quot;key&quot;))
+kofam_unique_coveage[, c(&quot;gene_callers_id&quot;, &quot;source&quot;, 
+                         &quot;ko_function&quot;, &quot;e_value&quot;, 
+                         &quot;WCCR_1913&quot;, &quot;WCCR_1916&quot;)] &lt;- list(NULL)
+kofam_unique_coveage1 &lt;- kofam_unique_coveage[which(rowSums(kofam_unique_coveage[,2:3]) != 0),]
+write.table(kofam_unique_coveage1, &quot;metabolism/00_HELPER_FILES/kofam_unique_coveage1.txt&quot;, 
+            quote = FALSE, sep = &quot;\t&quot;, row.names = FALSE)
+kofam_unique_coveage1_u &lt;- kofam_unique_coveage1[!duplicated(kofam_unique_coveage1$accession),]
+kofam_unique_coveage1_u &lt;- kofam_unique_coveage1_u %&gt;% tibble::remove_rownames() %&gt;%
+  tibble::column_to_rownames(&quot;accession&quot;)
 
+kofam_unique_coveage1_u &lt;- data.matrix(kofam_unique_coveage1_u[1:2], rownames.force = NULL)
+i &lt;- 1
+pv.out &lt;- pathview(gene.data = kofam_unique_coveage1_u[, 1:2], 
+                   pathway.id = &quot;00920&quot;, 
+                   species = &quot;ko&quot;, out.suffix = &quot;all&quot;, 
+                   kegg.native = TRUE)
+str(pv.out)
+head(pv.out$plot.data.gene)
+#result PNG file in current directory</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+mag01 &lt;- read.table(&#39;metabolism/06_MAG_KOFAMS/16s-asv_data-2019.txt&#39;, header = T)
+all_2019 &lt;- dplyr::bind_rows(rrna, amf, its)
 
+mag02 &lt;- read.table(&quot;mag02.txt&quot;, header = FALSE)
+mag02 &lt;- c(mag02$V1)
+#KEGG view: gene data only
+
+
+#load data
+data(gse16873.d)
+data(demo.paths)
+
+test &lt;- data.frame(gse16873.d)
+test &lt;- test %&gt;% tibble::rownames_to_column(&quot;id&quot;)
+
+test[duplicated(test$id),]
+dim(test[duplicated(test$id),])[1]
+
+test$id
+
+#KEGG view: gene data only
+i &lt;- 1
+pv.out &lt;- pathview(gene.data = gse16873.d[, 1], 
+                   pathway.id = demo.paths$sel.paths[i], 
+                   species = &quot;hsa&quot;, out.suffix = &quot;gse16873&quot;, 
+                   kegg.native = TRUE)
+str(pv.out)
+head(pv.out$plot.data.gene)
+#result PNG file in current directory
+
+#Graphviz view: gene data only
+pv.out &lt;- pathview(gene.data = gse16873.d[, 1], 
+                   pathway.id = demo.paths$sel.paths[i], 
+                   species = &quot;hsa&quot;, out.suffix = &quot;gse16873&quot;, 
+                   kegg.native = FALSE, sign.pos = demo.paths$spos[i])
+#result PDF file in current directory
+
+#KEGG view: both gene and compound data
+sim.cpd.data=sim.mol.data(mol.type=&quot;cpd&quot;, nmol=3000)
+i &lt;- 3
+print(demo.paths$sel.paths[i])
+pv.out &lt;- pathview(gene.data = gse16873.d[, 1], cpd.data = sim.cpd.data, 
+                   pathway.id = demo.paths$sel.paths[i], 
+                   species = &quot;hsa&quot;, out.suffix = &quot;gse16873.cpd&quot;, 
+                   keys.align = &quot;y&quot;, kegg.native = TRUE, 
+                   key.pos = demo.paths$kpos1[i])
+str(pv.out)
+head(pv.out$plot.data.cpd)
+
+#multiple states in one graph
+set.seed(10)
+sim.cpd.data2 = matrix(sample(sim.cpd.data, 18000, replace = TRUE), ncol = 6)
+pv.out &lt;- pathview(gene.data = gse16873.d[, 1:3], 
+                   cpd.data = sim.cpd.data2[, 1:2], 
+                   pathway.id = demo.paths$sel.paths[i], 
+                   species = &quot;hsa&quot;, out.suffix = &quot;gse16873.cpd.3-2s&quot;, 
+                   keys.align = &quot;y&quot;, kegg.native = TRUE, 
+                   match.data = FALSE, multi.state = TRUE, same.layer = TRUE)
+str(pv.out)
+head(pv.out$plot.data.cpd)
+
+#result PNG file in current directory
+
+##more examples of pathview usages are shown in the vignette.</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+arco &lt;- read.table(&#39;arco-phylo-kegg-modules_modules.txt&#39;, sep = &quot;\t&quot;, 
+                    header = TRUE,  quote = &quot;&quot;)
+arco_t &lt;- arco
+arco_t[, c(&quot;unique_id&quot;, &quot;db_name&quot;, &quot;module_name&quot;, &quot;module_class&quot;, &quot;module_category&quot;, &quot;module_subcategory&quot;, &quot;module_definition&quot;, &quot;kofam_hits_in_module&quot;, &quot;gene_caller_ids_in_module&quot;, &quot;module_completeness&quot;)] &lt;- list(NULL)
 
+arco_t$module_is_complete &lt;- str_replace(arco_t$module_is_complete, &quot;True&quot;, &quot;1&quot;)
+arco_t$module_is_complete &lt;- str_replace(arco_t$module_is_complete, &quot;False&quot;, &quot;0&quot;)
+arco_t$module_is_complete &lt;- as.integer(arco_t$module_is_complete)
+arco_t_w &lt;- arco_t %&gt;% tidyr::pivot_wider(names_from = c(&quot;kegg_module&quot;), values_from = c(&quot;module_is_complete&quot;))
+arco_t_w &lt;- arco_t_w[, colSums(arco_t_w != 0) &gt; 0]
+arco_t_w &lt;- column_to_rownames(arco_t_w, var = &quot;genome_name&quot;)
+arco_t_w &lt;- arco_t_w[, colSums(arco_t_w &gt; 0) &lt;= 70]
+arco_t_w &lt;- rownames_to_column(arco_t_w, var = &quot;genome_name&quot;)
+g_order &lt;- read.table(&#39;genome_order.txt&#39;, 
+                    header = TRUE,  quote = &quot;&quot;)
+
+arco_t_w_order &lt;- dplyr::left_join(g_order, arco_t_w, 
+                                   by = &quot;genome_name&quot;)
+arco_t_l &lt;- arco_t_w_order %&gt;% pivot_longer(cols = 2:34, names_to = &quot;kegg_module&quot;, values_to = &quot;module_is_complete&quot;)
+
+arco_t_w_order_no_row_id &lt;- arco_t_w_order %&gt;% tibble::column_to_rownames(&quot;genome_name&quot;)
+
+
+heatmaply(arco_t_w_order_no_row_id, 
+          Rowv = NULL, Colv = NULL, 
+          k_row = 1, k_col = 1, 
+          file = &quot;heatmaply_plot.html&quot;, 
+          colors = c(&quot;white&quot;, &quot;red&quot;), 
+          hide_colorbar = TRUE, 
+          fontsize_row = 6)</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+coverage &lt;-  read.table(&quot;WATER-GENE-COVERAGES.txt&quot;, header = TRUE)
+kofam &lt;- read.table(&quot;00_HELPER_FILES/KOfam.txt&quot;, sep = &quot;\t&quot;, 
+                    header = TRUE,  quote = &quot;&quot;)
+kofam_cov &lt;- dplyr::left_join(kofam, coverage, by = c(&quot;gene_callers_id&quot; = &quot;key&quot;))</code></pre>
 </div>
 <pre class="bash"><code>
 anvi-search-functions --contigs-db 03_CONTIGS/WATER-contigs.db  --full-report ko_search.txt --annotation-sources KOfam --search-terms K17222,K17223,K17227,K17226,K17224,K17225,K22622,K00170,K00169,K00171,K00172,K00174,K00175,K00240,K01676,K00244,K00246,K00245,K01007,K01682,K00407,K00406,K00404,K00405</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre class="r"><code>
+kofam_search &lt;- read.table(&quot;00_HELPER_FILES/ko_search.txt&quot;, sep = &quot;\t&quot;, 
+                    header = TRUE,  quote = &quot;&quot;)
+kofam_seach_cov &lt;- dplyr::left_join(kofam_search, kofam_cov, by = &quot;gene_callers_id&quot;)
+write.table(kofam_seach_cov, &quot;kofam_seach_cov.txt&quot;, sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE)</code></pre>
 </div>
 <div class="post-nav">
 <div class="post-nav-item">

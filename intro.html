@@ -1484,6 +1484,19 @@
     }
   }
   
+  .article-banner {
+    width: auto;
+    height: auto;
+    border: 0;
+  }
+  
+  img[src="assets/banner.png"] {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    margin: 100px 50px 0px 25px;
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1576,28 +1589,26 @@ C. Metagenomic
 <ul>
 <li><a href="#using-this-site">Using this Site</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
-<li><a href="#workflow">Workflow</a><ul>
+<li><a href="#workflows">Workflows</a></li>
 <li><a href="#a.-field-analyses">A. Field Analyses</a></li>
 <li><a href="#b.-16s-rrna-analysis">B. 16S rRNA Analysis</a></li>
 <li><a href="#c.-metagenomics">C. Metagenomics</a></li>
-</ul></li>
-<li><a href="#color-graphics">Color &amp; Graphics</a><ul>
-<li><a href="#creating-color-palletes">Creating Color Palletes</a></li>
+<li><a href="#color-graphics">Color &amp; Graphics</a></li>
 <li><a href="#source-code">Source Code</a></li>
-</ul></li>
 </ul>
 </nav>
 <hr class="d-toc-separator"/>
 <p>This website provides reproducible workflows for our study on the Bocas del Toro hypoxic event in 2017. We go through the steps used to process the raw 16S rRNA marker and metagenomic data. We describe the various tools used to analyze and interpret the data. We also provide access to all data, data products, and code. With this workflow you can generate the figures and tables from the paper as well as many additional data products.</p>
-<p>The workflows are mainly written in <a href="https://rmarkdown.rstudio.com/">R Markdown</a> meaning that they contain a mixture of Markdown text and R code. Anyone should be able to reproduce our results with just this workflow and the <a href="data-availability.html">raw data</a>.</p>
-<h1 id="using-this-site">Using this Site</h1>
+<p>The workflows are mainly written in <a href="https://rmarkdown.rstudio.com/">R Markdown</a>, meaning that they contain a mixture of <a href="https://www.markdownguide.org/">Markdown</a> text and R code. Anyone should be able to reproduce our results with just this workflow and the <a href="data-availability.html">raw data</a>.</p>
+<h2 id="using-this-site">Using this Site</h2>
 <p>The navigation bar at the top contains links to workflows, data/data products, and a variety of other useful information. The site itself has many dynamic components. For example, you can sort and scroll through most of the tables, tabular data can be download in different formats, and several figures expand when clicked.</p>
 <p>On the bottom of each page you can find a link to the page’s source code or visit the main GitHub repo for the site, also linked at the bottom of each page. Should you find any problems, there is a link to the issue page of the source repository. References are also included as are DOI links to the publications where applicable. Data pertaining to individual workflows are also linked on the bottom of each page.</p>
-<h1 id="data-availability">Data Availability</h1>
+<h2 id="data-availability">Data Availability</h2>
 <p>For access to all raw data and data products please see the <a href="data-availability.html">Data Availability</a> page. There you will find more details and links to the figshare project site and European Nucleotide Archive project page. Please also check at the bottom of individual workflow pages for access to related data.</p>
-<h1 id="workflow">Workflow</h1>
+<h2 id="workflows">Workflows</h2>
 <p>You can access each step of the workflow by using the navigation bar at the top of the page. Below is a brief description of each step.</p>
 <h2 id="a.-field-analyses">A. Field Analyses</h2>
+<p>This section contains information on the various field analyses conducted in the study. You can access the workflow from the navbar above or <a href="field.html">this link</a>. Please note, as of 22 August, 2020, this section is a work in progress and will be updated with haste.</p>
 <h2 id="b.-16s-rrna-analysis">B. 16S rRNA Analysis</h2>
 <p>This section contains four separate workflows for processing and analyzing the 16s rRNA data set.</p>
 <h3 id="no-1.-dada2-workflow">No 1. DADA2 Workflow</h3>
@@ -1622,11 +1633,13 @@ C. Metagenomic
 <p>In this section of the workflow we reconstruct metagenome assembled genomes (MAGs), first using CONCOCT for automated binning of the assembled contigs followed by manual refinement. You can access the workflow from the navbar above or <a href="mg-binning.html">this link</a>.</p>
 <h3 id="no-6.-mag02-phylogenomic-analysis">No 6. MAG02 Phylogenomic Analysis</h3>
 <p>In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample. You can access the workflow from the navbar above or <a href="mag02-phylogenomics.html">this link</a>.</p>
-<h1 id="color-graphics">Color &amp; Graphics</h1>
+<h3 id="no-7.-keggkofam-analysis">No 7. KEGG/KOFam Analysis</h3>
+<p>The objective of this section is to visualize all of the genes that have KEGG-KOfam annotations and assess their distribution across metagenomes. You can access the workflow from the navbar above or <a href="mg-function.html">this link</a>.</p>
+<h2 id="color-graphics">Color &amp; Graphics</h2>
 <p>We will rely on color a lot to display information about diversity, distinguish between sample types, etc. Many of us have different abilities to perceive color and/or differences in color. <a href="http://mkweb.bcgsc.ca/colorblind/index.mhtml#page-container">Color blindness</a>, also known as color vision deficiency, is a decreased ability to see color or differences in color. It is important that we use <strong>a</strong>) a relatively small color palette and <strong>b</strong>) a palette that is friendly to a variety of people.</p>
 <p>Bang Wong has a paper in Nature Methods paper called <a href="http://dx.doi.org/10.1038/nmeth.1618">Points of view: Color blindness</a><span class="citation" data-cites="wong2011points">(Wong <a href="#ref-wong2011points" role="doc-biblioref">2011</a>)</span> where proposes a color-blind friendly color palette that uses contrasting colors that can be distinguished by a range of people. Consider that roughly 8% of people (mostly males) are color blind. So what do you think? Do you want Keanu Reeves to understand your figures or not?</p>
 <p>Wong’s scheme is conservative—–there are only 8 colors. Martin Krzywinsk has a marvelous post on <a href="http://mkweb.bcgsc.ca/colorblind/palettes.mhtml#page-container">designing color friendly palettes</a> that includes additional <a href="http://mkweb.bcgsc.ca/colorblind/img/colorblindness.palettes.v11.pdf">12, 15, and 24</a> color palette schemes, which offer more options than Wong’s 8-color palette. We just need to be careful—–figures with too many colors can inhibit our ability to discern patterns. Limited color palettes like these force us to be more selective when deciding what information to target or how many groups to display.</p>
-<h2 id="creating-color-palletes">Creating Color Palletes</h2>
+<h3 id="creating-color-palletes">Creating Color Palletes</h3>
 <p>Here are a few color palette examples. A light grey (<code>#7F7F7F</code>) was added to the 8-color palette. Shown here are the hex codes for these palettes but if you want the color names and <a href="https://en.wikipedia.org/wiki/RGB_color_model">sRGB</a> codes you can download plain text versions of the palettes from Martin’s website <a href="http://mkweb.bcgsc.ca/colorblind/palettes/color.blindness.palettes.v11.tgz">here</a>.</p>
 <p>If you are interested in the R code used to make these palettes, click the arrow to expand the code block.</p>
 <details>
