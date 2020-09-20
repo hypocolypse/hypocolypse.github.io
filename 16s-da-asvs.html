@@ -18,6 +18,68 @@
  <!--radix_placeholder_import_source-->
  <!--/radix_placeholder_import_source-->
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+</style>
+
   <!--radix_placeholder_meta_tags-->
   <title>: No 4. Differentially Abundant ASVs</title>
   
@@ -52,6 +114,7 @@
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
   
   <script type="application/javascript">
   
@@ -174,6 +237,7 @@
   
   .distill-site-header .title {
     font-size: 18px;
+    min-width: 150px;
   }
   
   .distill-site-header .logo {
@@ -315,7 +379,7 @@
   
   
   @media screen and (max-width: 768px) {
-    .distill-site-header.responsive {position: relative;}
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
       position: absolute;
       right: 0;
@@ -389,6 +453,261 @@
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+  
+  <script type="application/javascript">
+  
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+  
+  function createIndex() {
+    var options = {
+      keys: [
+        "title",
+        "categories",
+        "description",
+        "contents"
+      ]
+    };
+    return new window.Fuse([],options);
+  }
+  
+  function createFuseIndex() {
+  
+    // create fuse index
+    var options = { keys: ["title", "description", "contents"] };
+    var fuse = new window.Fuse([], options);
+  
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+  
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+  
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+  
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+  
+    createFuseIndex()
+      .then(function(fuse) {
+  
+        // make search box visible
+        searchEl.classList.remove('hidden');
+  
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+              keys: [
+                { name: 'title', weight: 20 },
+                { name: 'categories', weight: 15 },
+                { name: 'description', weight: 10 },
+                { name: 'contents', weight: 5 },
+              ],
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+              .filter(function(item) { return !!item.description; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description}
+                  </div>
+                  <div class="search-item-preview">
+                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  });
+  
+  </script>
+  
+  <style type="text/css">
+  
+  /* Algolioa Autocomplete */
+  
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #455a64 solid;
+    width: 180px;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      visibility: hidden
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+  
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+  
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+  
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  </style>
+  
+  
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
   
@@ -412,6 +731,39 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+  
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+  
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
   }
   
   .html-widget {
@@ -453,6 +805,7 @@
   }
   
   d-article {
+    padding-top: 2.5rem;
     padding-bottom: 30px;
   }
   
@@ -464,91 +817,48 @@
     width: 100%;
   }
   
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+  
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+  
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
   
-  figure img.external {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
-    padding: 18px;
-    box-sizing: border-box;
+  /* Tweak code blocks */
+  
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
   
-  /* CSS for table of contents */
-  
-  .d-toc {
-    color: rgba(0,0,0,0.8);
-    font-size: 0.8em;
-    line-height: 1em;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: hidden;
   }
   
-  .d-toc-header {
-    font-size: 0.6rem;
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.5);
-    text-transform: uppercase;
-    margin-top: 0;
-    margin-bottom: 1.3em;
+  d-article div.sourceCode {
+    background-color: white;
   }
   
-  .d-toc a {
-    border-bottom: none;
-  }
-  
-  .d-toc ul {
-    padding-left: 0;
-  }
-  
-  .d-toc li>ul {
-    padding-top: 0.8em;
-    padding-left: 16px;
-    margin-bottom: 0.6em;
-  }
-  
-  .d-toc ul,
-  .d-toc li {
-    list-style-type: none;
-  }
-  
-  .d-toc li {
-    margin-bottom: 0.9em;
-  }
-  
-  .d-toc-separator {
-    margin-top: 20px;
-    margin-bottom: 2em;
-  }
-  
-  .d-article-with-toc {
-    border-top: none;
-    padding-top: 0;
-  }
-  
-  
-  
-  /* Tweak code blocks (note that this CSS is repeated above in an injection
-     into the d-code shadow dom) */
-  
-  d-code {
-    overflow-x: auto !important;
-  }
-  
-  pre.d-code code.d-code {
+  d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
   
-  pre.text-output {
-  
+  d-article pre {
     font-size: 12px;
     color: black;
     background: none;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin-top: 0;
     text-align: left;
     white-space: pre;
     word-spacing: normal;
@@ -566,20 +876,123 @@
     hyphens: none;
   }
   
+  d-article pre a {
+    border-bottom: none;
+  }
+  
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+  
   @media(min-width: 768px) {
   
-  d-code {
-    overflow-x: visible !important;
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
   }
   
-  pre.d-code code.d-code  {
-      padding-left: 18px;
-      font-size: 14px;
-  }
-  pre.text-output {
+  d-article div.sourceCode pre {
+    padding-left: 18px;
     font-size: 14px;
   }
+  
+  d-article pre {
+    font-size: 14px;
   }
+  
+  }
+  
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* CSS for d-contents */
+  
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+  
+  @media(min-width: 1000px) {
+    .d-contents {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+  
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  
+  .d-contents li {
+    list-style-type: none
+  }
+  
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+  
+  .d-contents ul {
+    padding-left: 1em
+  }
+  
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+  
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+  
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+  
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+  
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+  
+  
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+  
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+  
   
   /* Figure */
   
@@ -617,6 +1030,16 @@
     color: rgba(0, 0, 0, 1.0);
   }
   
+  /* Citations */
+  
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+  
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
   
   
   /* Tweak 1000px media break to show more text */
@@ -692,6 +1115,19 @@
     word-wrap: break-word;
   }
   
+  
+  /* Anchor.js */
+  
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
   
   /* Social footer */
   
@@ -893,6 +1329,13 @@
   // show body when load is complete
   function on_load_complete() {
   
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+  
+  
     // set body to visible
     document.body.style.visibility = 'visible';
   
@@ -938,23 +1381,8 @@
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
   
-    // create d-bibliography
-    var bibliography = $('<d-bibliography></d-bibliography>');
-    $('#distill-bibliography').wrap(bibliography);
-  
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
-    // replace citations with <d-cite>
-    $('.citation').each(function(i, val) {
-      appendix = true;
-      var cites = $(this).attr('data-cites').split(" ");
-      var dt_cite = $('<d-cite></d-cite>');
-      dt_cite.attr('key', cites.join());
-      $(this).replaceWith(dt_cite);
-    });
-    // remove refs
-    $('#refs').remove();
   
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
@@ -972,39 +1400,21 @@
     // remove footnotes
     $('.footnotes').remove();
   
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+  
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
     $('h3.appendix').each(function(i, val) {
       var id = $(this).attr('id');
-      $('.d-toc a[href="#' + id + '"]').parent().remove();
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
   
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
-    // replace code blocks with d-code
-    $('pre>code').each(function(i, val) {
-      var code = $(this);
-      var pre = code.parent();
-      var clz = "";
-      var language = pre.attr('class');
-      if (language) {
-        // map unknown languages to "clike" (without this they just dissapear)
-        if ($.inArray(language, ["bash", "clike", "css", "go", "html",
-                                 "javascript", "js", "julia", "lua", "markdown",
-                                 "markup", "mathml", "python", "svg", "xml"]) == -1)
-          language = "clike";
-        language = ' language="' + language + '"';
-        var dt_code = $('<d-code block' + language + clz + '></d-code>');
-        dt_code.text(code.text());
-        pre.replaceWith(dt_code);
-      } else {
-        code.addClass('text-output').unwrap().changeElementType('pre');
-      }
-    });
   
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
@@ -1013,7 +1423,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('d-code, pre.text-output, script');
+      var elements = $(this).children().not('div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1030,6 +1440,13 @@
       $(this).children().unwrap();
     });
   
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+  
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a[aria-hidden="true"]').remove();
+  
     // load distill framework
     load_distill_framework();
   
@@ -1045,12 +1462,26 @@
       if (!have_authors)
         $('d-byline').addClass('hidden');
   
-      // table of contents
-      if (have_authors) // adjust border if we are in authors
-        $('.d-toc').parent().addClass('d-article-with-toc');
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
   
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+  
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
   
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
@@ -1100,15 +1531,6 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
-      // inject pre code styles (can't do this with a global stylesheet b/c a shadow root is used)
-      $('d-code').each(function(i, val) {
-        var style = document.createElement('style');
-        style.innerHTML = 'pre code { padding-left: 10px; font-size: 12px; border-left: 2px solid rgba(0,0,0,0.1); } ' +
-                          '@media(min-width: 768px) { pre code { padding-left: 18px; font-size: 14px; } }';
-        if (this.shadowRoot)
-          this.shadowRoot.appendChild(style);
-      });
-  
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
@@ -1143,9 +1565,7 @@
     $('.d-byline a').remove();
   
     // remove toc
-    $('.d-toc-header').remove();
-    $('.d-toc').remove();
-    $('.d-toc-separator').remove();
+    $('.d-contents').remove();
   
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
@@ -1277,7 +1697,7 @@
   <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
   <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.14/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.15/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1292,6 +1712,7 @@
   <script src="site_libs/dt-ext-fixedcolumns-1.10.20/js/dataTables.fixedColumns.min.js"></script>
   <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
   <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
@@ -1299,7 +1720,10 @@
   <style type="text/css">
   /* Whole document: */
   @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
+  /********************************/
   /* controls general properties of site*/
+  /********************************/
+  
   body {
     color: #414141;
   /*  line-height: 1.7;
@@ -1314,7 +1738,7 @@
   }
   
   d-article h1 {
-    font-size: 2.2em;
+    font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
@@ -1350,6 +1774,80 @@
     margin: 0.5em 0 0.5em;
   }
   
+  d-article li {
+    margin: 0px 0px 4px;
+  }
+  
+  /********************************/
+  /* controls CODE*/
+  /********************************/
+  
+  /** pre.sourceCode controls code block without lang **/
+  
+  /** Controls r code  **/
+  
+  pre.sourceCode.r {
+    margin-top: 0px;
+     color: #333333;
+     background-color: #E8E8E8;
+     border-radius: 3px;
+     font-size: 0.80em;
+     font-family: 'Monaco', 'PT Mono', monospace;
+     overflow-x: scroll !important;
+     border-left: 6px solid #006ddb;
+     border-top: 1px solid #B7B7B7;
+     border-right: 1px solid #B7B7B7;
+     border-bottom: 1px solid #B7B7B7;
+     padding: 18px 0px 18px 20px;
+   }
+  
+   pre.sourceCode.bash {
+     margin-top: 0px;
+      color: #333333;
+      background-color: #E8E8E8;
+      border-radius: 3px;
+      font-size: 0.80em;
+      font-family: 'Monaco', 'PT Mono', monospace;
+      overflow-x: scroll !important;
+      border-left: 6px solid #D55E00;
+      border-top: 1px solid #B7B7B7;
+      border-right: 1px solid #B7B7B7;
+      border-bottom: 1px solid #B7B7B7;
+      padding: 18px 0px 18px 20px;
+    }
+  /** Controls code output **/
+  
+  d-article pre {
+     margin-top: 0px;
+      color: #333333;
+      background-color: #FAFAFA;
+      font-size: 0.8em;
+      border: 1px solid #ccc;
+      overflow-x: scroll !important;
+      padding:  10px 10px 10px 18px;
+      border-radius: 5px;
+  
+    }
+  
+  /** Controls inline code  **/
+  
+  p code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    margin-bottom: 20px;
+    color: #BF2727;
+  }
+  
+  d-article aside code {
+    background-color: #E8E8E8;
+    border-radius: 3px;
+    font-family: 'Monaco', 'PT Mono', monospace;
+    color: #BF2727;
+  }
+  
+  /** OLD code b4 distill update
   d-code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -1387,12 +1885,41 @@
     border-radius: 5px;
   }
   
+  **/
+  
+  /********************************/
+  /* controls NAV BAR and HEADERS*/
+  /********************************/
+  
   .nav-dropdown-content .nav-dropdown-header {
     text-transform: none;
   }
   
-  d-article li {
-    margin: 0px 0px 4px;
+  .distill-site-header .logo img {
+    margin-top: 10px;
+    max-height: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .distill-site-nav {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: #143D59;
+      font-size: 16px;
+      font-weight: 300;
+    }
+  }
+  
+  .article-banner {
+    width: auto;
+    height: auto;
+    border: 0;
+  }
+  
+  img[src="assets/banner.png"] {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    margin: 100px 10px 0px 25px;
   }
   
   /*************************************************
@@ -1443,7 +1970,10 @@
     margin: 25px;
   }
   
-  /** LIGHTBOX MARKUP **/
+  /*************************************************
+  *  code for LIGHTBOX MARKUP
+  **************************************************/
+  
   .thumbnail {
     max-width: 100%;
     position: relative;
@@ -1488,20 +2018,6 @@
   .lightbox:target img {
   	max-height: 100%;
   	max-width: 100%;
-  }
-  
-  .distill-site-header .logo img {
-    margin-top: 10px;
-    max-height: 30px;
-    margin-bottom: 10px;
-  }
-  
-  .distill-site-nav {
-      color: rgba(255, 255, 255, 0.8);
-      background-color: #143D59;
-      font-size: 16px;
-      font-weight: 300;
-    }
   }
   
   </style>
@@ -1586,13 +2102,16 @@ C. Metagenomic
 
 <div class="d-title">
 <h1>No 4. Differentially Abundant ASVs</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
 <p><p>In this section of the workflow we look at the diversity of the water samples collected from Cayo Roldan (hypoxic) and Cayo Coral (normoxic).</p></p>
 </div>
 
 
 <div class="d-article">
-<h3 class="d-toc-header">Table of Contents</h3>
-<nav class="d-toc" id="TOC">
+<div class="d-contents">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
 <li><a href="#differentially-abundant-asvs">Differentially Abundant ASVs</a></li>
 <li><a href="#visualizing-da-asvs-in-anvio">Visualizing DA ASVs in Anvi’o</a><ul>
@@ -1609,7 +2128,7 @@ C. Metagenomic
 </ul></li>
 </ul>
 </nav>
-<hr class="d-toc-separator"/>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1619,40 +2138,39 @@ C. Metagenomic
 <h1 id="differentially-abundant-asvs">Differentially Abundant ASVs</h1>
 <p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. ASVs that were enriched and more frequent in hypoxic and normoxic samples were identified using the Indicator Species Analysis (ISA)<span class="citation" data-cites="dufrene1997species">(Dufrêne and Legendre <a href="#ref-dufrene1997species" role="doc-biblioref">1997</a>)</span>, computed with the R package labdsv<span class="citation" data-cites="roberts2007labdsv">(Roberts and others <a href="#ref-roberts2007labdsv" role="doc-biblioref">2007</a>)</span>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-set.seed(119)
-#rm(class, order, phylum, kingdom)
-#ls(all.names = TRUE)
-water_seq_table &lt;- data.frame(otu_table(ps_water))
-# Delete columns when sum == 0 Should not be any
-water_seq_table &lt;- water_seq_table[, which(colSums(water_seq_table) != 0)]
-
-water_seq_table &lt;- cbind(oxstate = c(&quot;normoxic&quot;,&quot;normoxic&quot;,
-                                     &quot;normoxic&quot;,&quot;normoxic&quot;,
-                                     &quot;normoxic&quot;,&quot;hypoxic&quot;,
-                                     &quot;hypoxic&quot;,&quot;hypoxic&quot;),
-                            water_seq_table)
-
-iva &lt;- indval(water_seq_table[,-1], water_seq_table[,1])
-gr &lt;- iva$maxcls[iva$pval &lt;= 0.05]
-iv &lt;- iva$indcls[iva$pval &lt;= 0.05]
-pv &lt;- iva$pval[iva$pval &lt;= 0.05]
-fr &lt;- apply(water_seq_table[,-1] &gt; 0, 2, sum)[iva$pval &lt;= 0.05]
-indvalsummary &lt;- data.frame(group = gr, indval = iv,
-                            pvalue = pv, freq = fr)
-indvalsummary &lt;- indvalsummary[order(indvalsummary$group,
-                                     -indvalsummary$indval),]
-water_tax_table &lt;- data.frame(tax_table(ps_water))
-indvalsummary_tax &lt;- merge(indvalsummary, water_tax_table,
-                           by = &quot;row.names&quot;,
-                           all = TRUE)
-indvalsummary_tax &lt;- indvalsummary_tax[!(is.na(indvalsummary_tax$group)),]
-
-lapply(indvalsummary_tax, class)
-class(indvalsummary_tax$group) = &quot;character&quot;
-indvalsummary_tax$group &lt;- ifelse(indvalsummary_tax$group == &quot;1&quot;,
-                                  as.character(&quot;hypoxic&quot;),
-                                  as.character(&quot;normoxic&quot;))</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">set.seed</span>(<span class="dv">119</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#rm(class, order, phylum, kingdom)</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#ls(all.names = TRUE)</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>water_seq_table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">otu_table</span>(ps_water))</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Delete columns when sum == 0 Should not be any</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>water_seq_table &lt;-<span class="st"> </span>water_seq_table[, <span class="kw">which</span>(<span class="kw">colSums</span>(water_seq_table) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)]</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>water_seq_table &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">oxstate =</span> <span class="kw">c</span>(<span class="st">&quot;normoxic&quot;</span>,<span class="st">&quot;normoxic&quot;</span>,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>                                     <span class="st">&quot;normoxic&quot;</span>,<span class="st">&quot;normoxic&quot;</span>,</span>
+<span id="cb1-10"><a href="#cb1-10"></a>                                     <span class="st">&quot;normoxic&quot;</span>,<span class="st">&quot;hypoxic&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11"></a>                                     <span class="st">&quot;hypoxic&quot;</span>,<span class="st">&quot;hypoxic&quot;</span>),</span>
+<span id="cb1-12"><a href="#cb1-12"></a>                            water_seq_table)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>iva &lt;-<span class="st"> </span><span class="kw">indval</span>(water_seq_table[,<span class="op">-</span><span class="dv">1</span>], water_seq_table[,<span class="dv">1</span>])</span>
+<span id="cb1-15"><a href="#cb1-15"></a>gr &lt;-<span class="st"> </span>iva<span class="op">$</span>maxcls[iva<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>]</span>
+<span id="cb1-16"><a href="#cb1-16"></a>iv &lt;-<span class="st"> </span>iva<span class="op">$</span>indcls[iva<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>]</span>
+<span id="cb1-17"><a href="#cb1-17"></a>pv &lt;-<span class="st"> </span>iva<span class="op">$</span>pval[iva<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>]</span>
+<span id="cb1-18"><a href="#cb1-18"></a>fr &lt;-<span class="st"> </span><span class="kw">apply</span>(water_seq_table[,<span class="op">-</span><span class="dv">1</span>] <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">2</span>, sum)[iva<span class="op">$</span>pval <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>]</span>
+<span id="cb1-19"><a href="#cb1-19"></a>indvalsummary &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">group =</span> gr, <span class="dt">indval =</span> iv,</span>
+<span id="cb1-20"><a href="#cb1-20"></a>                            <span class="dt">pvalue =</span> pv, <span class="dt">freq =</span> fr)</span>
+<span id="cb1-21"><a href="#cb1-21"></a>indvalsummary &lt;-<span class="st"> </span>indvalsummary[<span class="kw">order</span>(indvalsummary<span class="op">$</span>group,</span>
+<span id="cb1-22"><a href="#cb1-22"></a>                                     <span class="op">-</span>indvalsummary<span class="op">$</span>indval),]</span>
+<span id="cb1-23"><a href="#cb1-23"></a>water_tax_table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">tax_table</span>(ps_water))</span>
+<span id="cb1-24"><a href="#cb1-24"></a>indvalsummary_tax &lt;-<span class="st"> </span><span class="kw">merge</span>(indvalsummary, water_tax_table,</span>
+<span id="cb1-25"><a href="#cb1-25"></a>                           <span class="dt">by =</span> <span class="st">&quot;row.names&quot;</span>,</span>
+<span id="cb1-26"><a href="#cb1-26"></a>                           <span class="dt">all =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb1-27"><a href="#cb1-27"></a>indvalsummary_tax &lt;-<span class="st"> </span>indvalsummary_tax[<span class="op">!</span>(<span class="kw">is.na</span>(indvalsummary_tax<span class="op">$</span>group)),]</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a><span class="kw">lapply</span>(indvalsummary_tax, class)</span>
+<span id="cb1-30"><a href="#cb1-30"></a><span class="kw">class</span>(indvalsummary_tax<span class="op">$</span>group) =<span class="st"> &quot;character&quot;</span></span>
+<span id="cb1-31"><a href="#cb1-31"></a>indvalsummary_tax<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">ifelse</span>(indvalsummary_tax<span class="op">$</span>group <span class="op">==</span><span class="st"> &quot;1&quot;</span>,</span>
+<span id="cb1-32"><a href="#cb1-32"></a>                                  <span class="kw">as.character</span>(<span class="st">&quot;hypoxic&quot;</span>),</span>
+<span id="cb1-33"><a href="#cb1-33"></a>                                  <span class="kw">as.character</span>(<span class="st">&quot;normoxic&quot;</span>))</span></code></pre></div>
 </div>
 <p>Now we can save a few files and display the data.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1673,10 +2191,8 @@ indvalsummary_tax$group &lt;- ifelse(indvalsummary_tax$group == &quot;1&quot;,
 <p>Now. What do we get from all of this? Well, we started with 1272 and ran Indicator Species Analysis (ISA) to see if we could identify Differentially Abundant (DA) ASVs between the normoxic and hypoxic conditions. ISA found 159 ASVs that were DA between the two, specifically 76 ASVs enriched in the normoxic samples and 83 in the hypoxic. If we consider only ASVs with more than 100 total reads we get 76 normoxic ASVs and 83 hypoxic ASVs.</p>
 <h1 id="visualizing-da-asvs-in-anvio">Visualizing DA ASVs in Anvi’o</h1>
 <p>Next, we will combine the results of the ISA analysis with the distribution of ASVs across each sample. We are going to do the analysis in anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> using the <code>anvi-interactive</code> command. Anvi’o likes database but it also understands that sometimes you don’t have a database. So it offers a <em>manual mode</em> for all of us slackers out there. If you type this command you can have a look at the relevant pieces we need for the visualization, specifically those under the headings <code>MANUAL INPUTS</code> and <code>ADDITIONAL STUFF</code>. I will go through these out of order so try to keep up ;)</p>
-<pre class="bash"><code>
-anvi-interactive -h</code></pre>
-<pre><code>
-MANUAL INPUTS:
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">anvi-interactive</span> -h</span></code></pre></div>
+<pre><code>MANUAL INPUTS:
   Mandatory input parameters to start the interactive interface without
   anvi&#39;o databases.
 
@@ -1721,24 +2237,21 @@ ADDITIONAL STUFF:
 <h3 id="view-data">1. View data</h3>
 <p>Let’s start with the <code>-d</code> or <code>--view-data</code> file. This file needs to be an ASV by sample matrix of read counts. To simplify the visualization, we will use <strong><em>all</em></strong> ASVs represented by 100 or more total reads, including those identified as differentially abundant by the ISA.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ps_water_100 &lt;- prune_taxa(taxa_sums(ps_water) &gt; 100, ps_water)
-ps_water_100</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>ps_water_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(ps_water) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>, ps_water)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>ps_water_<span class="dv">100</span></span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>
-phyloseq-class experiment-level object
+<pre><code>phyloseq-class experiment-level object
 otu_table()   OTU Table:         [ 189 taxa and 8 samples ]
 sample_data() Sample Data:       [ 8 samples by 5 sample variables ]
 tax_table()   Taxonomy Table:    [ 189 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
 <p>Looks like this are 189 total ASVs. We know from the ISA analysis above that 159 ASVs were differentially abundant between the two groups so there will be 30 ASVs in our graph that showed no difference.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-data_tab &lt;- as.data.frame(t(otu_table(ps_water_100)))
-data_tab &lt;- data_tab %&gt;% rownames_to_column(&quot;Group&quot;)
-write.table(data_tab, &quot;16s-anvio/data.txt&quot;, sep = &quot;\t&quot;,
-            quote = FALSE, row.names = FALSE)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>data_tab &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">otu_table</span>(ps_water_<span class="dv">100</span>)))</span>
+<span id="cb6-2"><a href="#cb6-2"></a>data_tab &lt;-<span class="st"> </span>data_tab <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">rownames_to_column</span>(<span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">write.table</span>(data_tab, <span class="st">&quot;16s-anvio/data.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4"></a>            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 </div>
 <aside>
 <strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--view-data</code> flag.
@@ -1750,28 +2263,27 @@ write.table(data_tab, &quot;16s-anvio/data.txt&quot;, sep = &quot;\t&quot;,
 </aside>
 <p>Start with an ASV + lineage table for the ASVs in the <code>ps_water_100</code> phyloseq object.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-data_tab2 &lt;- as.data.frame(t(otu_table(ps_water_100)))
-total_reads2 &lt;- cbind(data_tab2, total_reads = rowSums(data_tab2))
-total_reads2[1:8] &lt;- NULL
-tax_tab2 &lt;- as.data.frame(tax_table(ps_water_100))
-tax_tab2[7] &lt;- NULL
-total_reads2 &lt;- tibble::rownames_to_column(total_reads2, &quot;Group&quot;)
-tax_tab2 &lt;- tibble::rownames_to_column(tax_tab2, &quot;Group&quot;)
-
-merge_tabX &lt;- merge(total_reads2, tax_tab2,
-                           by = &quot;Group&quot;,
-                           all = TRUE)
-drop_c &lt;- c(&quot;reads&quot;, &quot;norm&quot;, &quot;hypo&quot;, &quot;Kingdom&quot;,
-            &quot;Phylum&quot;, &quot;Class&quot;, &quot;Order&quot;, &quot;Family&quot;, &quot;Genus&quot;)
-idval2 &lt;- full_indval_sum_noseq[ , !(names(full_indval_sum_noseq) %in% drop_c)]
-colnames(idval2)[1:2] &lt;- c(&quot;Group&quot;, &quot;enriched&quot;)
-
-additional_layers &lt;- merge(idval2, merge_tabX,
-                           by = &quot;Group&quot;,
-                           all.y = TRUE)
-write.table(additional_layers, &quot;16s-anvio/additional_layers.txt&quot;,
-            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>data_tab2 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">otu_table</span>(ps_water_<span class="dv">100</span>)))</span>
+<span id="cb7-2"><a href="#cb7-2"></a>total_reads2 &lt;-<span class="st"> </span><span class="kw">cbind</span>(data_tab2, <span class="dt">total_reads =</span> <span class="kw">rowSums</span>(data_tab2))</span>
+<span id="cb7-3"><a href="#cb7-3"></a>total_reads2[<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>tax_tab2 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">tax_table</span>(ps_water_<span class="dv">100</span>))</span>
+<span id="cb7-5"><a href="#cb7-5"></a>tax_tab2[<span class="dv">7</span>] &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>total_reads2 &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(total_reads2, <span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>tax_tab2 &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(tax_tab2, <span class="st">&quot;Group&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>merge_tabX &lt;-<span class="st"> </span><span class="kw">merge</span>(total_reads2, tax_tab2,</span>
+<span id="cb7-10"><a href="#cb7-10"></a>                           <span class="dt">by =</span> <span class="st">&quot;Group&quot;</span>,</span>
+<span id="cb7-11"><a href="#cb7-11"></a>                           <span class="dt">all =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb7-12"><a href="#cb7-12"></a>drop_c &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;reads&quot;</span>, <span class="st">&quot;norm&quot;</span>, <span class="st">&quot;hypo&quot;</span>, <span class="st">&quot;Kingdom&quot;</span>,</span>
+<span id="cb7-13"><a href="#cb7-13"></a>            <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>, <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>)</span>
+<span id="cb7-14"><a href="#cb7-14"></a>idval2 &lt;-<span class="st"> </span>full_indval_sum_noseq[ , <span class="op">!</span>(<span class="kw">names</span>(full_indval_sum_noseq) <span class="op">%in%</span><span class="st"> </span>drop_c)]</span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="kw">colnames</span>(idval2)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Group&quot;</span>, <span class="st">&quot;enriched&quot;</span>)</span>
+<span id="cb7-16"><a href="#cb7-16"></a></span>
+<span id="cb7-17"><a href="#cb7-17"></a>additional_layers &lt;-<span class="st"> </span><span class="kw">merge</span>(idval2, merge_tabX,</span>
+<span id="cb7-18"><a href="#cb7-18"></a>                           <span class="dt">by =</span> <span class="st">&quot;Group&quot;</span>,</span>
+<span id="cb7-19"><a href="#cb7-19"></a>                           <span class="dt">all.y =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="kw">write.table</span>(additional_layers, <span class="st">&quot;16s-anvio/additional_layers.txt&quot;</span>,</span>
+<span id="cb7-21"><a href="#cb7-21"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">na =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <h3 id="additional-views-for-samples">3. Additional Views for Samples</h3>
 <p>Now we want some general data <strong>about the samples</strong> to overlay on the visual. Again, this can be anything. How about a table of alpha diversity metrics? We actually have such a table that was generated way back up the road. Just need to fix the column names.</p>
@@ -1779,13 +2291,12 @@ write.table(additional_layers, &quot;16s-anvio/additional_layers.txt&quot;,
 <strong>Added</strong> to profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layers</code> flag.
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-additional_view &lt;- merge_tab2
-additional_view[2] &lt;- NULL
-colnames(additional_view) &lt;- c(&quot;id&quot;, &quot;site&quot;, &quot;oxstate&quot;, &quot;period&quot;, &quot;no_reads&quot;,
-    &quot;no_asvs&quot;, &quot;Shannon&quot;, &quot;InvSimpson&quot;)
-write.table(additional_view, &quot;16s-anvio/additional_views.txt&quot;,
-            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>additional_view &lt;-<span class="st"> </span>merge_tab2</span>
+<span id="cb8-2"><a href="#cb8-2"></a>additional_view[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">colnames</span>(additional_view) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;site&quot;</span>, <span class="st">&quot;oxstate&quot;</span>, <span class="st">&quot;period&quot;</span>, <span class="st">&quot;no_reads&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>    <span class="st">&quot;no_asvs&quot;</span>, <span class="st">&quot;Shannon&quot;</span>, <span class="st">&quot;InvSimpson&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="kw">write.table</span>(additional_view, <span class="st">&quot;16s-anvio/additional_views.txt&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">na =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <h3 id="taxon-rank-abundance-by-sample">4. Taxon rank abundance by sample</h3>
 <p>Turned out this was a little tricky to figure out, but thanks to this <a href="https://github.com/joey711/phyloseq/issues/418#issuecomment-262637034">little nifty block of code</a> written by <a href="https://github.com/guoyanzhao">guoyanzhao</a> on the phyloseq Issues forum, it was a piece of cake. The code can be altered to take any rank. See the post for an explanation.</p>
@@ -1794,39 +2305,37 @@ write.table(additional_view, &quot;16s-anvio/additional_views.txt&quot;,
 <strong>Added</strong> to profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layers</code> flag.
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# Make the table
-anvio_taxa &lt;- ps_water
-glom_rank &lt;- tax_glom(anvio_taxa, taxrank = &#39;Class&#39;)
-melt_rank &lt;- psmelt(glom_rank)
-melt_rank$Class &lt;- as.character(melt_rank$Class)
-rank_abundance &lt;- aggregate(Abundance~Sample+Class, melt_rank, FUN = sum)
-rank_abundance &lt;- as.data.frame(cast(rank_abundance, Sample ~ Class))
-#rank_abundance &lt;- as.data.frame(rank_abundance)
-rank_abundance &lt;- tibble::remove_rownames(rank_abundance)
-rank_abundance &lt;- tibble::column_to_rownames(rank_abundance, &quot;Sample&quot;)
-
-# Reorder table column by summ
-layers &lt;- rank_abundance[,names(sort(colSums(rank_abundance), decreasing = TRUE))]
-
-# Add the prefix
-layers &lt;- layers %&gt;% dplyr::rename_all(function(x) paste0(&quot;t_class!&quot;, x))
-layers &lt;- tibble::rownames_to_column (layers, &quot;taxon&quot;)
-
-# save the table
-write.table(layers, &quot;16s-anvio/tax_layers.txt&quot;,
-            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Make the table</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>anvio_taxa &lt;-<span class="st"> </span>ps_water</span>
+<span id="cb9-3"><a href="#cb9-3"></a>glom_rank &lt;-<span class="st"> </span><span class="kw">tax_glom</span>(anvio_taxa, <span class="dt">taxrank =</span> <span class="st">&#39;Class&#39;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a>melt_rank &lt;-<span class="st"> </span><span class="kw">psmelt</span>(glom_rank)</span>
+<span id="cb9-5"><a href="#cb9-5"></a>melt_rank<span class="op">$</span>Class &lt;-<span class="st"> </span><span class="kw">as.character</span>(melt_rank<span class="op">$</span>Class)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>rank_abundance &lt;-<span class="st"> </span><span class="kw">aggregate</span>(Abundance<span class="op">~</span>Sample<span class="op">+</span>Class, melt_rank, <span class="dt">FUN =</span> sum)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>rank_abundance &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cast</span>(rank_abundance, Sample <span class="op">~</span><span class="st"> </span>Class))</span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#rank_abundance &lt;- as.data.frame(rank_abundance)</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>rank_abundance &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">remove_rownames</span>(rank_abundance)</span>
+<span id="cb9-10"><a href="#cb9-10"></a>rank_abundance &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">column_to_rownames</span>(rank_abundance, <span class="st">&quot;Sample&quot;</span>)</span>
+<span id="cb9-11"><a href="#cb9-11"></a></span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="co"># Reorder table column by summ</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a>layers &lt;-<span class="st"> </span>rank_abundance[,<span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">colSums</span>(rank_abundance), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))]</span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="co"># Add the prefix</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>layers &lt;-<span class="st"> </span>layers <span class="op">%&gt;%</span><span class="st"> </span>dplyr<span class="op">::</span><span class="kw">rename_all</span>(<span class="cf">function</span>(x) <span class="kw">paste0</span>(<span class="st">&quot;t_class!&quot;</span>, x))</span>
+<span id="cb9-17"><a href="#cb9-17"></a>layers &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span> (layers, <span class="st">&quot;taxon&quot;</span>)</span>
+<span id="cb9-18"><a href="#cb9-18"></a></span>
+<span id="cb9-19"><a href="#cb9-19"></a><span class="co"># save the table</span></span>
+<span id="cb9-20"><a href="#cb9-20"></a><span class="kw">write.table</span>(layers, <span class="st">&quot;16s-anvio/tax_layers.txt&quot;</span>,</span>
+<span id="cb9-21"><a href="#cb9-21"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">na =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <h3 id="construct-dendrograms">5. Construct Dendrograms</h3>
 <p>The last piece we need is to generate dendrograms that order the ASVs by their distribution in the samples and the samples by their ASV composition. For this task we will use anvi’o.</p>
-<pre class="bash"><code>
-anvi-matrix-to-newick data.txt --distance euclidean \
-                               --linkage ward \
-                               -o asv.tre
-anvi-matrix-to-newick data.txt --distance euclidean \
-                               --linkage ward \
-                               -o sample.tre \
-                               --transpose</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="ex">anvi-matrix-to-newick</span> data.txt --distance euclidean \</span>
+<span id="cb10-2"><a href="#cb10-2"></a>                               --linkage ward \</span>
+<span id="cb10-3"><a href="#cb10-3"></a>                               -o asv.tre</span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="ex">anvi-matrix-to-newick</span> data.txt --distance euclidean \</span>
+<span id="cb10-5"><a href="#cb10-5"></a>                               --linkage ward \</span>
+<span id="cb10-6"><a href="#cb10-6"></a>                               -o sample.tre \</span>
+<span id="cb10-7"><a href="#cb10-7"></a>                               --transpose</span></code></pre></div>
 <p>The first command reads the view data we generated above and uses Euclidean distance and Ward linkage for hierarchical clustering of the ASVs. The second command transposes the view data table and then does the same for the samples. There are many distance metrics and linkage methods available. Boom.</p>
 <aside>
 The file <code>asv.tre</code> is <strong>loaded</strong> with <code>anvi-interactive</code> command &amp; the <code>--tree</code> flag.
@@ -1863,17 +2372,16 @@ The file <code>asv.tre</code> is <strong>loaded</strong> with <code>anvi-interac
 The file <code>sample.tre</code> is <strong>added</strong> to the profile.db with <code>anvi-import-misc-data</code> command &amp; <code>--target-data-table layer_orders</code> flag.
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-sam_tree &lt;- read_file(&quot;16s-anvio/sample.tre&quot;)
-sam_tree &lt;- gsub(&quot;[\r\n]&quot;, &quot;&quot;, sam_tree)
-item_name &lt;- c(&quot;euc_ward&quot;)
-data_type &lt;- c(&quot;newick&quot;)
-data_value &lt;- c(sam_tree)
-sam_tre_tab &lt;- data.frame(item_name, data_type, data_value)
-library(janitor)
-sam_tre_tab %&gt;% remove_empty(&quot;rows&quot;)
-write.table(sam_tre_tab, &quot;16s-anvio/sample_tree_tab.txt&quot;,
-            sep = &quot;\t&quot;, quote = FALSE, row.names = FALSE, na = &quot;&quot;)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>sam_tree &lt;-<span class="st"> </span><span class="kw">read_file</span>(<span class="st">&quot;16s-anvio/sample.tre&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>sam_tree &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;[</span><span class="ch">\r\n</span><span class="st">]&quot;</span>, <span class="st">&quot;&quot;</span>, sam_tree)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>item_name &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;euc_ward&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a>data_type &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;newick&quot;</span>)</span>
+<span id="cb11-5"><a href="#cb11-5"></a>data_value &lt;-<span class="st"> </span><span class="kw">c</span>(sam_tree)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>sam_tre_tab &lt;-<span class="st"> </span><span class="kw">data.frame</span>(item_name, data_type, data_value)</span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="kw">library</span>(janitor)</span>
+<span id="cb11-8"><a href="#cb11-8"></a>sam_tre_tab <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">remove_empty</span>(<span class="st">&quot;rows&quot;</span>)</span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="kw">write.table</span>(sam_tre_tab, <span class="st">&quot;16s-anvio/sample_tree_tab.txt&quot;</span>,</span>
+<span id="cb11-10"><a href="#cb11-10"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">na =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <h3 id="make-a-fasta-file">6. Make a fasta file</h3>
 <p>We don’t need to add a fasta file, but it is a nice way to keep everything in one place. Plus, you can do BLAST searches directly in the interface by right clicking on the ASV of interest, so it is nice to have the sequences.</p>
@@ -1881,52 +2389,47 @@ write.table(sam_tre_tab, &quot;16s-anvio/sample_tree_tab.txt&quot;,
 <strong>Loaded</strong> with <code>anvi-interactive</code> command &amp; <code>--fasta-file</code> flag.
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-# Create fasta file from tax_table
-anvio_tab &lt;- tax_table(ps_water_100)
-#retain only the column with the sequences
-anvio_tab_trim &lt;- anvio_tab[, 7]
-anvio_tab_trim_df &lt;- data.frame(row.names(anvio_tab_trim),
-                                   anvio_tab_trim)
-colnames(anvio_tab_trim_df) &lt;- c(&quot;ASV_ID&quot;, &quot;ASV_SEQ&quot;)
-#format fasta
-anvio_tab_trim_df$ASV_ID &lt;- sub(&quot;ASV&quot;, &quot;&gt;ASV&quot;, anvio_tab_trim_df$ASV_ID)
-
-write.table(anvio_tab_trim_df, &quot;16s-anvio/anvio.fasta&quot;,
-            sep = &quot;\r&quot;, col.names = FALSE, row.names = FALSE,
-            quote = FALSE, fileEncoding = &quot;UTF-8&quot;)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Create fasta file from tax_table</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>anvio_tab &lt;-<span class="st"> </span><span class="kw">tax_table</span>(ps_water_<span class="dv">100</span>)</span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#retain only the column with the sequences</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>anvio_tab_trim &lt;-<span class="st"> </span>anvio_tab[, <span class="dv">7</span>]</span>
+<span id="cb12-5"><a href="#cb12-5"></a>anvio_tab_trim_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">row.names</span>(anvio_tab_trim),</span>
+<span id="cb12-6"><a href="#cb12-6"></a>                                   anvio_tab_trim)</span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="kw">colnames</span>(anvio_tab_trim_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ASV_ID&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#format fasta</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>anvio_tab_trim_df<span class="op">$</span>ASV_ID &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;ASV&quot;</span>, <span class="st">&quot;&gt;ASV&quot;</span>, anvio_tab_trim_df<span class="op">$</span>ASV_ID)</span>
+<span id="cb12-10"><a href="#cb12-10"></a></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="kw">write.table</span>(anvio_tab_trim_df, <span class="st">&quot;16s-anvio/anvio.fasta&quot;</span>,</span>
+<span id="cb12-12"><a href="#cb12-12"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\r</span><span class="st">&quot;</span>, <span class="dt">col.names =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb12-13"><a href="#cb12-13"></a>            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span></code></pre></div>
 </div>
 <h2 id="building-the-profile-database">Building the Profile Database</h2>
 <p>Time to put all of these pieces together. This gets a little tricky since we do not have a database to start with because some of these files can be loaded directly in the interface but some need to be added to a database. When we fire up the interactive in <code>--manual</code> mode, we <strong><em>must</em></strong> give anvi’o the name of a database and it will <em>create</em> that database for us. Then we can shut down the interactive, add the necessary data files, and start back up.</p>
-<pre class="bash"><code>
-anvi-interactive --view-data data.txt \
-                 --tree asv.tre \
-                 --additional-layers additional_layers.txt \
-                 --profile-db profile.db \
-                 --manual</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="ex">anvi-interactive</span> --view-data data.txt \</span>
+<span id="cb13-2"><a href="#cb13-2"></a>                 --tree asv.tre \</span>
+<span id="cb13-3"><a href="#cb13-3"></a>                 --additional-layers additional_layers.txt \</span>
+<span id="cb13-4"><a href="#cb13-4"></a>                 --profile-db profile.db \</span>
+<span id="cb13-5"><a href="#cb13-5"></a>                 --manual</span></code></pre></div>
 <p>Now we have a new profile database that we can add the sample metadata (<code>additional_layers.txt</code>) and the sample dendrogram (sample.tre) using the command <code>anvi-import-misc-data</code>. These commands add the table to the new <code>profile.db</code>. First, kill the interactive.</p>
-<pre class="bash"><code>
-anvi-import-misc-data additional_views.txt \
-                      --pan-or-profile-db profile.db \
-                      --target-data-table layers
-anvi-import-misc-data sample_tree_tab.txt \
-                      --pan-or-profile-db profile.db \
-                      --target-data-table layer_orders</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="ex">anvi-import-misc-data</span> additional_views.txt \</span>
+<span id="cb14-2"><a href="#cb14-2"></a>                      --pan-or-profile-db profile.db \</span>
+<span id="cb14-3"><a href="#cb14-3"></a>                      --target-data-table layers</span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="ex">anvi-import-misc-data</span> sample_tree_tab.txt \</span>
+<span id="cb14-5"><a href="#cb14-5"></a>                      --pan-or-profile-db profile.db \</span>
+<span id="cb14-6"><a href="#cb14-6"></a>                      --target-data-table layer_orders</span></code></pre></div>
 <p>One last this is to get the table with the taxonomy total by sample (<code>tax_layers.txt</code>) into the profile database. We will run the same command we just used.</p>
-<pre class="bash"><code>
-anvi-import-misc-data tax_layers.txt \
-                      --pan-or-profile-db profile.db \
-                      --target-data-table layers</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="ex">anvi-import-misc-data</span> tax_layers.txt \</span>
+<span id="cb15-2"><a href="#cb15-2"></a>                      --pan-or-profile-db profile.db \</span>
+<span id="cb15-3"><a href="#cb15-3"></a>                      --target-data-table layers</span></code></pre></div>
 <p>In fact, we could just as easily append the taxonomy total data onto the <code>additional_layers.txt</code> and import in one command. But we didn’t.</p>
 <h2 id="interactive-interface">Interactive Interface</h2>
 <p>With a populated database in hand, we can now begin modifying the visual by running the interactive command again.</p>
-<pre class="bash"><code>
-anvi-interactive --view-data data.txt \
-                 --tree asv.tre \
-                 --additional-layers additional_layers.txt \
-                 --profile-db profile.db
-                 --fasta-file anvio.fasta \
-                 --manual</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="ex">anvi-interactive</span> --view-data data.txt \</span>
+<span id="cb16-2"><a href="#cb16-2"></a>                 --tree asv.tre \</span>
+<span id="cb16-3"><a href="#cb16-3"></a>                 --additional-layers additional_layers.txt \</span>
+<span id="cb16-4"><a href="#cb16-4"></a>                 --profile-db profile.db</span>
+<span id="cb16-5"><a href="#cb16-5"></a>                 <span class="ex">--fasta-file</span> anvio.fasta \</span>
+<span id="cb16-6"><a href="#cb16-6"></a>                 --manual</span></code></pre></div>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="figures/16s-da-asvs/before.png" width="1034" /></p>
 </div>
@@ -1939,10 +2442,9 @@ anvi-interactive --view-data data.txt \
 <p>All files generated for this analysis can be found in the Data Availabilty appendix below. You should only need to run the command above and the final figure should pop up in your browser.</p>
 <p>Alternatively, an interactive version of this figure can be found on the anvi-server using either <a href="https://anvi-server.org/jscott/hypocolypse_16s_rrna_indicator_species_analysis">this link</a> or <a href="https://bit.ly/2BY5bNs">that link</a>. Works best on Chrome.</p>
 <p>One final thing I like to do is save a <em>state</em> file. After you set everything the way you want it you can hit the <strong>Save State</strong> button, which will store your settings in the database. That way you have a backup text file should something bad happen to the profile database.</p>
-<pre class="bash"><code>
-anvi-export-state --pan-or-profile-db profile.db
-                  --state default
-                  --output-file states.json</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="ex">anvi-export-state</span> --pan-or-profile-db profile.db</span>
+<span id="cb17-2"><a href="#cb17-2"></a>                  <span class="ex">--state</span> default</span>
+<span id="cb17-3"><a href="#cb17-3"></a>                  <span class="ex">--output-file</span> states.json</span></code></pre></div>
 <h1 id="heat-tree">Heat Tree</h1>
 <p>Time for something a little different. We have been using some pretty standard graphical constructs to display diversity data from these samples. Especially when looking at taxonomic diversity, we are pigeonholing the data by selecting and isolating specific ranks to look at—Class, Family, ASV, etc. But we are not really considering these pieces <em>together</em>. For example, when we asked what the differences between normoxic and hypoxic samples were, we looked at which ASVs were differentially abundant. Nice. But what about higher taxonomic ranks? Two treatments may differ at the ASV level but not say the Family level. This is important becuase it can tell us where, on a <em>lineage map</em>, sample type start to diverge from one another. And this of course has important ecological consequences. In fact, we can perform this analysis and actually visualize the lineage map and significant results as a <em>heat tree</em> using the R package <a href="https://grunwaldlab.github.io/metacoder_documentation/">metacoder</a><span class="citation" data-cites="foster2017metacoder">(Foster, Sharpton, and Grünwald <a href="#ref-foster2017metacoder" role="doc-biblioref">2017</a>)</span>. Let’s take a look at a simple example using the Phylum Cyanobacteria.</p>
 <h2 id="example">Example</h2>
@@ -1954,59 +2456,54 @@ anvi-export-state --pan-or-profile-db profile.db
 <h2 id="setup-for-analysis">Setup for Analysis</h2>
 <p>Ok, right off the bat I will say that I found some of the metacoder code a little esoteric. I chalk this up to my own ignorance but mention it because my explanations may be confusing. So, grain of salt as they say because I am still learning. I highly recommend going through the tutorials on the <a href="https://grunwaldlab.github.io/metacoder_documentation/">metacoder</a> site before using this tool. We can start by copying the original phyloseq object.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ps_water_mc &lt;- ps_water</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>ps_water_mc &lt;-<span class="st"> </span>ps_water</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <p>Now we need to decide if we want to remove rare ASVs and/or taxa before proceeding. Honestly, I am not sure. Certainly with a large dataset it will take a long time to run the analysis and ASVs that only have a few reads are uninformative. How about we use the same ASVs we used in the anvi’o visualization of the ISA, in other words all ASVs represented by more than 100 reads.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-ps_water_mc_100 &lt;- prune_taxa(taxa_sums(ps_water_mc) &gt; 100, ps_water_mc)
-ps_water_mc_10 &lt;- prune_taxa(taxa_sums(ps_water_mc) &gt; 10, ps_water_mc)
-total_reads_ps_water &lt;- sum(readcount(ps_water_mc))
-total_reads_ps_water_100 &lt;- sum(readcount(ps_water_mc_100))
-total_reads_ps_water_10 &lt;- sum(readcount(ps_water_mc_10))
-ps_obj &lt;- ps_water_mc_100</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>ps_water_mc_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(ps_water_mc) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>, ps_water_mc)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>ps_water_mc_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(<span class="kw">taxa_sums</span>(ps_water_mc) <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>, ps_water_mc)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>total_reads_ps_water &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">readcount</span>(ps_water_mc))</span>
+<span id="cb19-4"><a href="#cb19-4"></a>total_reads_ps_water_<span class="dv">100</span> &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">readcount</span>(ps_water_mc_<span class="dv">100</span>))</span>
+<span id="cb19-5"><a href="#cb19-5"></a>total_reads_ps_water_<span class="dv">10</span> &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">readcount</span>(ps_water_mc_<span class="dv">10</span>))</span>
+<span id="cb19-6"><a href="#cb19-6"></a>ps_obj &lt;-<span class="st"> </span>ps_water_mc_<span class="dv">100</span></span></code></pre></div>
 </div>
 <p>Next, we need a properly formatted data frame for metacoder, specifically one where each row is an ASV and the coulmns are sample abundances and taxonomic lineage. I am sure there is a way to directly export this from a phyloseq object but I could not figure out how. So I made the data frame myself from the tax_table and sample_data table.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#summarize_phyloseq(ps_water_o)
-#summarize_phyloseq(ps_water_mc)
-tax_tab1 &lt;- as.data.frame(tax_table(ps_obj))
-tax_tab1 &lt;- tibble::rownames_to_column(tax_tab1, &quot;otu_id&quot;)
-asv_tab1 &lt;- as.data.frame(t(otu_table(ps_obj)))
-asv_tab1 &lt;- tibble::rownames_to_column(asv_tab1, &quot;otu_id&quot;)
-sam_tab1 &lt;- data.frame(sample_data(ps_obj))
-sam_tab1[1] &lt;- NULL
-da_samp &lt;- tibble::rownames_to_column(sam_tab1, &quot;sample_id&quot;)
-water_mc &lt;- merge(asv_tab1, tax_tab1, by=&quot;otu_id&quot;)
-water_mc$ASV_SEQ &lt;- NULL</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co">#summarize_phyloseq(ps_water_o)</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co">#summarize_phyloseq(ps_water_mc)</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a>tax_tab1 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">tax_table</span>(ps_obj))</span>
+<span id="cb20-4"><a href="#cb20-4"></a>tax_tab1 &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(tax_tab1, <span class="st">&quot;otu_id&quot;</span>)</span>
+<span id="cb20-5"><a href="#cb20-5"></a>asv_tab1 &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">t</span>(<span class="kw">otu_table</span>(ps_obj)))</span>
+<span id="cb20-6"><a href="#cb20-6"></a>asv_tab1 &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(asv_tab1, <span class="st">&quot;otu_id&quot;</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a>sam_tab1 &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">sample_data</span>(ps_obj))</span>
+<span id="cb20-8"><a href="#cb20-8"></a>sam_tab1[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a>da_samp &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">rownames_to_column</span>(sam_tab1, <span class="st">&quot;sample_id&quot;</span>)</span>
+<span id="cb20-10"><a href="#cb20-10"></a>water_mc &lt;-<span class="st"> </span><span class="kw">merge</span>(asv_tab1, tax_tab1, <span class="dt">by=</span><span class="st">&quot;otu_id&quot;</span>)</span>
+<span id="cb20-11"><a href="#cb20-11"></a>water_mc<span class="op">$</span>ASV_SEQ &lt;-<span class="st"> </span><span class="ot">NULL</span></span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <p>Metacoder uses <a href="https://tibble.tidyverse.org/">tibbles</a>. Tibbles basically replace the traditional data frame in R. R for Data Science has a nice <a href="https://r4ds.had.co.nz/tibbles.html">section on tibbles</a> if you want to learn more.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-obj &lt;- parse_tax_data(water_mc, class_cols = c(&quot;Kingdom&quot;, &quot;Phylum&quot;,
-                                             &quot;Class&quot;, &quot;Order&quot;,
-                                             &quot;Family&quot;, &quot;Genus&quot;, &quot;ASV_ID&quot; ))
-obj$data$tax_abund &lt;- calc_taxon_abund(obj, &quot;tax_data&quot;,
-                                       cols = da_samp$sample_id)
-obj$data$tax_occ &lt;- calc_n_samples(obj, &quot;tax_abund&quot;,
-                                   groups = da_samp$oxstate,
-                                   cols = da_samp$sample_id)</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>obj &lt;-<span class="st"> </span><span class="kw">parse_tax_data</span>(water_mc, <span class="dt">class_cols =</span> <span class="kw">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>,</span>
+<span id="cb21-2"><a href="#cb21-2"></a>                                             <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>,</span>
+<span id="cb21-3"><a href="#cb21-3"></a>                                             <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;ASV_ID&quot;</span> ))</span>
+<span id="cb21-4"><a href="#cb21-4"></a>obj<span class="op">$</span>data<span class="op">$</span>tax_abund &lt;-<span class="st"> </span><span class="kw">calc_taxon_abund</span>(obj, <span class="st">&quot;tax_data&quot;</span>,</span>
+<span id="cb21-5"><a href="#cb21-5"></a>                                       <span class="dt">cols =</span> da_samp<span class="op">$</span>sample_id)</span>
+<span id="cb21-6"><a href="#cb21-6"></a>obj<span class="op">$</span>data<span class="op">$</span>tax_occ &lt;-<span class="st"> </span><span class="kw">calc_n_samples</span>(obj, <span class="st">&quot;tax_abund&quot;</span>,</span>
+<span id="cb21-7"><a href="#cb21-7"></a>                                   <span class="dt">groups =</span> da_samp<span class="op">$</span>oxstate,</span>
+<span id="cb21-8"><a href="#cb21-8"></a>                                   <span class="dt">cols =</span> da_samp<span class="op">$</span>sample_id)</span></code></pre></div>
 </div>
 <p>Now we calculate the differences between the two conditions and add the results as a new table.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-obj$data$diff_table &lt;- compare_groups(obj,
-                                      data = &quot;tax_abund&quot;,
-                                      cols = da_samp$sample_id,
-                                      groups = da_samp$oxstate)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>obj<span class="op">$</span>data<span class="op">$</span>diff_table &lt;-<span class="st"> </span><span class="kw">compare_groups</span>(obj,</span>
+<span id="cb22-2"><a href="#cb22-2"></a>                                      <span class="dt">data =</span> <span class="st">&quot;tax_abund&quot;</span>,</span>
+<span id="cb22-3"><a href="#cb22-3"></a>                                      <span class="dt">cols =</span> da_samp<span class="op">$</span>sample_id,</span>
+<span id="cb22-4"><a href="#cb22-4"></a>                                      <span class="dt">groups =</span> da_samp<span class="op">$</span>oxstate)</span></code></pre></div>
 </div>
 <h2 id="building-heat-maps">Building Heat Maps</h2>
 <p>Now we can build the heat map(s). There are a lot of parameters to set and you need to play around with your data set to see what is most appropriate. Our data set has a few Archaea but we just want to focus on Bacteria. So we select only the Bacteria and also remove any taxa with fewer than 100 reads.</p>
@@ -2017,96 +2514,92 @@ obj$data$diff_table &lt;- compare_groups(obj,
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#set.seed(1999)
-obj %&gt;%
-  filter_taxa(taxon_names %in% c(&quot;Bacteria&quot;), subtaxa = TRUE) %&gt;%
-#  filter_taxa(taxon_ranks == &quot;o&quot;, supertaxa = TRUE) %&gt;% # subset to the order rank
-#  filter_taxa(taxon_names %in% c(&quot;Proteobacteria&quot;, &quot;Bacteroidia&quot;, &quot;Archaea&quot;), subtaxa = TRUE, invert = TRUE) # to remove taxa
-  heat_tree(
-          node_label = taxon_names,
-          node_size = n_obs,
-         # node_size_range = c(0.01, 0.05),
-          node_label_size_range = c(0.008, 0.04),
-          node_color = log2_median_ratio,
-          node_color_interval = c(-5.5, 4),
-          edge_color_interval = c(-5.5, 4),
-          node_color_trans = &quot;area&quot;,
-          node_color_range = c(&quot;#D55E00&quot;, &quot;gray&quot;, &quot;#0072B2&quot;),
-          node_size_axis_label = &quot;OTU count&quot;,
-          node_color_axis_label = &quot;Log 2 median ratio&quot;,
-          layout = &quot;da&quot;,
-          initial_layout = &quot;re&quot;,
-          overlap_avoidance = 2,
-          output_file = &quot;figures/16s-da-asvs/differential_heat_tree.png&quot;)</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co">#set.seed(1999)</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>obj <span class="op">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">filter_taxa</span>(taxon_names <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Bacteria&quot;</span>), <span class="dt">subtaxa =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="co">#  filter_taxa(taxon_ranks == &quot;o&quot;, supertaxa = TRUE) %&gt;% # subset to the order rank</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="co">#  filter_taxa(taxon_names %in% c(&quot;Proteobacteria&quot;, &quot;Bacteroidia&quot;, &quot;Archaea&quot;), subtaxa = TRUE, invert = TRUE) # to remove taxa</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="st">  </span><span class="kw">heat_tree</span>(</span>
+<span id="cb23-7"><a href="#cb23-7"></a>          <span class="dt">node_label =</span> taxon_names,</span>
+<span id="cb23-8"><a href="#cb23-8"></a>          <span class="dt">node_size =</span> n_obs,</span>
+<span id="cb23-9"><a href="#cb23-9"></a>         <span class="co"># node_size_range = c(0.01, 0.05),</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a>          <span class="dt">node_label_size_range =</span> <span class="kw">c</span>(<span class="fl">0.008</span>, <span class="fl">0.04</span>),</span>
+<span id="cb23-11"><a href="#cb23-11"></a>          <span class="dt">node_color =</span> log2_median_ratio,</span>
+<span id="cb23-12"><a href="#cb23-12"></a>          <span class="dt">node_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">5.5</span>, <span class="dv">4</span>),</span>
+<span id="cb23-13"><a href="#cb23-13"></a>          <span class="dt">edge_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">5.5</span>, <span class="dv">4</span>),</span>
+<span id="cb23-14"><a href="#cb23-14"></a>          <span class="dt">node_color_trans =</span> <span class="st">&quot;area&quot;</span>,</span>
+<span id="cb23-15"><a href="#cb23-15"></a>          <span class="dt">node_color_range =</span> <span class="kw">c</span>(<span class="st">&quot;#D55E00&quot;</span>, <span class="st">&quot;gray&quot;</span>, <span class="st">&quot;#0072B2&quot;</span>),</span>
+<span id="cb23-16"><a href="#cb23-16"></a>          <span class="dt">node_size_axis_label =</span> <span class="st">&quot;OTU count&quot;</span>,</span>
+<span id="cb23-17"><a href="#cb23-17"></a>          <span class="dt">node_color_axis_label =</span> <span class="st">&quot;Log 2 median ratio&quot;</span>,</span>
+<span id="cb23-18"><a href="#cb23-18"></a>          <span class="dt">layout =</span> <span class="st">&quot;da&quot;</span>,</span>
+<span id="cb23-19"><a href="#cb23-19"></a>          <span class="dt">initial_layout =</span> <span class="st">&quot;re&quot;</span>,</span>
+<span id="cb23-20"><a href="#cb23-20"></a>          <span class="dt">overlap_avoidance =</span> <span class="dv">2</span>,</span>
+<span id="cb23-21"><a href="#cb23-21"></a>          <span class="dt">output_file =</span> <span class="st">&quot;figures/16s-da-asvs/differential_heat_tree.png&quot;</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="figures/16s-da-asvs/differential_heat_tree.png" width="1500" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-## This is for the example above
-#set.seed(10)
-obj %&gt;%
-  filter_taxa(taxon_names %in% c(&quot;Cyanobacteria&quot;),
-              subtaxa = TRUE) %&gt;%
-  heat_tree(node_label = taxon_names,
-            node_size = n_obs,
-            node_size_range = c(0.02, 0.03),
-            node_label_size_range = c(0.02, 0.04),
-            node_color = log2_median_ratio,
-            node_color_interval = c(-5, 5),
-            edge_color_interval = c(-5, 5),
-            node_color_range = c(&quot;#D55E00&quot;, &quot;gray&quot;, &quot;#0072B2&quot;),
-            tree_label = taxon_names,
-            initial_layout = &quot;re&quot;, layout = &quot;da&quot;,
-            node_color_axis_label = &quot;Sum of root reads&quot;,
-            node_size_axis_label = &quot;Number of OTUs&quot;,
-            output_file = &quot;figures/16s-da-asvs/cyano_example.svg&quot;)</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co">## This is for the example above</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co">#set.seed(10)</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>obj <span class="op">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="st">  </span><span class="kw">filter_taxa</span>(taxon_names <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Cyanobacteria&quot;</span>),</span>
+<span id="cb24-5"><a href="#cb24-5"></a>              <span class="dt">subtaxa =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a><span class="st">  </span><span class="kw">heat_tree</span>(<span class="dt">node_label =</span> taxon_names,</span>
+<span id="cb24-7"><a href="#cb24-7"></a>            <span class="dt">node_size =</span> n_obs,</span>
+<span id="cb24-8"><a href="#cb24-8"></a>            <span class="dt">node_size_range =</span> <span class="kw">c</span>(<span class="fl">0.02</span>, <span class="fl">0.03</span>),</span>
+<span id="cb24-9"><a href="#cb24-9"></a>            <span class="dt">node_label_size_range =</span> <span class="kw">c</span>(<span class="fl">0.02</span>, <span class="fl">0.04</span>),</span>
+<span id="cb24-10"><a href="#cb24-10"></a>            <span class="dt">node_color =</span> log2_median_ratio,</span>
+<span id="cb24-11"><a href="#cb24-11"></a>            <span class="dt">node_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb24-12"><a href="#cb24-12"></a>            <span class="dt">edge_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb24-13"><a href="#cb24-13"></a>            <span class="dt">node_color_range =</span> <span class="kw">c</span>(<span class="st">&quot;#D55E00&quot;</span>, <span class="st">&quot;gray&quot;</span>, <span class="st">&quot;#0072B2&quot;</span>),</span>
+<span id="cb24-14"><a href="#cb24-14"></a>            <span class="dt">tree_label =</span> taxon_names,</span>
+<span id="cb24-15"><a href="#cb24-15"></a>            <span class="dt">initial_layout =</span> <span class="st">&quot;re&quot;</span>, <span class="dt">layout =</span> <span class="st">&quot;da&quot;</span>,</span>
+<span id="cb24-16"><a href="#cb24-16"></a>            <span class="dt">node_color_axis_label =</span> <span class="st">&quot;Sum of root reads&quot;</span>,</span>
+<span id="cb24-17"><a href="#cb24-17"></a>            <span class="dt">node_size_axis_label =</span> <span class="st">&quot;Number of OTUs&quot;</span>,</span>
+<span id="cb24-18"><a href="#cb24-18"></a>            <span class="dt">output_file =</span> <span class="st">&quot;figures/16s-da-asvs/cyano_example.svg&quot;</span>)</span></code></pre></div>
 </div>
 <p>We can also look only the two major classes—Proteobacteria and Bacteroidia.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-#set.seed(10)
-obj %&gt;%
-  filter_taxa(taxon_names %in% c(&quot;Proteobacteria&quot;, &quot;Bacteroidia&quot;),
-              subtaxa = TRUE) %&gt;%
-  heat_tree(node_label = taxon_names,
-            node_size = n_obs,
-            node_color = log2_median_ratio,
-            node_color_range = c(&quot;#D55E00&quot;, &quot;gray&quot;, &quot;#0072B2&quot;),
-            node_color_interval = c(-3, 3),
-            tree_label = taxon_names,
-            initial_layout = &quot;re&quot;, layout = &quot;da&quot;,
-            node_color_axis_label = &quot;Sum of root reads&quot;,
-            node_size_axis_label = &quot;Number of OTUs&quot;,
-            output_file = &quot;figures/16s-da-asvs/by_major_taxa.png&quot;)</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">#set.seed(10)</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>obj <span class="op">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="st">  </span><span class="kw">filter_taxa</span>(taxon_names <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Proteobacteria&quot;</span>, <span class="st">&quot;Bacteroidia&quot;</span>),</span>
+<span id="cb25-4"><a href="#cb25-4"></a>              <span class="dt">subtaxa =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="st">  </span><span class="kw">heat_tree</span>(<span class="dt">node_label =</span> taxon_names,</span>
+<span id="cb25-6"><a href="#cb25-6"></a>            <span class="dt">node_size =</span> n_obs,</span>
+<span id="cb25-7"><a href="#cb25-7"></a>            <span class="dt">node_color =</span> log2_median_ratio,</span>
+<span id="cb25-8"><a href="#cb25-8"></a>            <span class="dt">node_color_range =</span> <span class="kw">c</span>(<span class="st">&quot;#D55E00&quot;</span>, <span class="st">&quot;gray&quot;</span>, <span class="st">&quot;#0072B2&quot;</span>),</span>
+<span id="cb25-9"><a href="#cb25-9"></a>            <span class="dt">node_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb25-10"><a href="#cb25-10"></a>            <span class="dt">tree_label =</span> taxon_names,</span>
+<span id="cb25-11"><a href="#cb25-11"></a>            <span class="dt">initial_layout =</span> <span class="st">&quot;re&quot;</span>, <span class="dt">layout =</span> <span class="st">&quot;da&quot;</span>,</span>
+<span id="cb25-12"><a href="#cb25-12"></a>            <span class="dt">node_color_axis_label =</span> <span class="st">&quot;Sum of root reads&quot;</span>,</span>
+<span id="cb25-13"><a href="#cb25-13"></a>            <span class="dt">node_size_axis_label =</span> <span class="st">&quot;Number of OTUs&quot;</span>,</span>
+<span id="cb25-14"><a href="#cb25-14"></a>            <span class="dt">output_file =</span> <span class="st">&quot;figures/16s-da-asvs/by_major_taxa.png&quot;</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="figures/16s-da-asvs/by_major_taxa.png" width="1500" /></p>
 </div>
 <p>Or compare by site and time.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre class="r"><code>
-set.seed(1)
-obj$data$diff_table2 &lt;- compare_groups(obj,
-                                      data = &quot;tax_abund&quot;,
-                                      cols = da_samp$sample_id, # What columns of sample data to use
-                                      groups = da_samp$period) # What category each sample is assigned to
-heat_tree_matrix(obj,
-                 data = &quot;diff_table2&quot;,
-                 node_size = n_obs, # n_obs is a function that calculates, in this case, the number of OTUs per taxon
-                 node_label = taxon_names,
-                 node_color = log2_median_ratio, # A column from `obj$data$diff_table`
-                 node_color_range = diverging_palette(), # The built-in palette for diverging data
-                 node_color_trans = &quot;linear&quot;, # The default is scaled by circle area
-                 node_color_interval = c(-3, 3), # The range of `log2_median_ratio` to display
-                 edge_color_interval = c(-3, 3), # The range of `log2_median_ratio` to display
-                 node_size_axis_label = &quot;Number of OTUs&quot;,
-                 node_color_axis_label = &quot;Log2 ratio median proportions&quot;,
-                 layout = &quot;davidson-harel&quot;, # The primary layout algorithm
-                 initial_layout = &quot;reingold-tilford&quot;, # The layout algorithm that initializes node locations
-                 output_file = &quot;figures/16s-da-asvs/differential_heat_tree2.png&quot;) # Saves the plot as a png file</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb26-2"><a href="#cb26-2"></a>obj<span class="op">$</span>data<span class="op">$</span>diff_table2 &lt;-<span class="st"> </span><span class="kw">compare_groups</span>(obj,</span>
+<span id="cb26-3"><a href="#cb26-3"></a>                                      <span class="dt">data =</span> <span class="st">&quot;tax_abund&quot;</span>,</span>
+<span id="cb26-4"><a href="#cb26-4"></a>                                      <span class="dt">cols =</span> da_samp<span class="op">$</span>sample_id, <span class="co"># What columns of sample data to use</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a>                                      <span class="dt">groups =</span> da_samp<span class="op">$</span>period) <span class="co"># What category each sample is assigned to</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="kw">heat_tree_matrix</span>(obj,</span>
+<span id="cb26-7"><a href="#cb26-7"></a>                 <span class="dt">data =</span> <span class="st">&quot;diff_table2&quot;</span>,</span>
+<span id="cb26-8"><a href="#cb26-8"></a>                 <span class="dt">node_size =</span> n_obs, <span class="co"># n_obs is a function that calculates, in this case, the number of OTUs per taxon</span></span>
+<span id="cb26-9"><a href="#cb26-9"></a>                 <span class="dt">node_label =</span> taxon_names,</span>
+<span id="cb26-10"><a href="#cb26-10"></a>                 <span class="dt">node_color =</span> log2_median_ratio, <span class="co"># A column from `obj$data$diff_table`</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>                 <span class="dt">node_color_range =</span> <span class="kw">diverging_palette</span>(), <span class="co"># The built-in palette for diverging data</span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>                 <span class="dt">node_color_trans =</span> <span class="st">&quot;linear&quot;</span>, <span class="co"># The default is scaled by circle area</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a>                 <span class="dt">node_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="co"># The range of `log2_median_ratio` to display</span></span>
+<span id="cb26-14"><a href="#cb26-14"></a>                 <span class="dt">edge_color_interval =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>), <span class="co"># The range of `log2_median_ratio` to display</span></span>
+<span id="cb26-15"><a href="#cb26-15"></a>                 <span class="dt">node_size_axis_label =</span> <span class="st">&quot;Number of OTUs&quot;</span>,</span>
+<span id="cb26-16"><a href="#cb26-16"></a>                 <span class="dt">node_color_axis_label =</span> <span class="st">&quot;Log2 ratio median proportions&quot;</span>,</span>
+<span id="cb26-17"><a href="#cb26-17"></a>                 <span class="dt">layout =</span> <span class="st">&quot;davidson-harel&quot;</span>, <span class="co"># The primary layout algorithm</span></span>
+<span id="cb26-18"><a href="#cb26-18"></a>                 <span class="dt">initial_layout =</span> <span class="st">&quot;reingold-tilford&quot;</span>, <span class="co"># The layout algorithm that initializes node locations</span></span>
+<span id="cb26-19"><a href="#cb26-19"></a>                 <span class="dt">output_file =</span> <span class="st">&quot;figures/16s-da-asvs/differential_heat_tree2.png&quot;</span>) <span class="co"># Saves the plot as a png file</span></span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="figures/16s-da-asvs/differential_heat_tree2.png" width="1500" /></p>
@@ -2164,487 +2657,13 @@ Next
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
 <h3 id="updates-and-corrections">Corrections</h3>
 <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hypocolypse/web/issues/new">create an issue</a> on the source repository.</p>
 <h3 id="reuse">Reuse</h3>
 <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Source code is available at <a href="https://github.com/hypocolypse/web/">https://github.com/hypocolypse/web/</a>, unless otherwise noted. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
 </div>
-<script id="distill-bibliography" type="text/bibtex">
-@article{callahan2016dada2,
-  title={DADA2: high-resolution sample inference from Illumina amplicon data},
-  author={Callahan, Benjamin J and McMurdie, Paul J and Rosen, Michael J and Han, Andrew W and Johnson, Amy Jo A and Holmes, Susan P},
-  journal={Nature Methods},
-  volume={13},
-  number={7},
-  pages={581},
-  year={2016},
-  url = {https://doi.org/10.1038/nmeth.3869},
-}
-
-@article{martin2011cutadapt,
-  title={Cutadapt removes adapter sequences from high-throughput sequencing reads},
-  author={Martin, Marcel},
-  journal={EMBnet. journal},
-  volume={17},
-  number={1},
-  pages={10--12},
-  year={2011},
-  url = {https://doi.org/10.14806/ej.17.1.200}
-}
-
-@article{quast2012silva,
-  title={The SILVA ribosomal RNA gene database project: improved data processing and web-based tools},
-  author={Quast, Christian and Pruesse, Elmar and Yilmaz, Pelin and Gerken, Jan and Schweer, Timmy and Yarza, Pablo and Peplies, J{\"o}rg and Gl{\"o}ckner, Frank Oliver},
-  journal={Nucleic Acids Research},
-  volume={41},
-  number={D1},
-  pages={D590--D596},
-  year={2012},
-  url = {https://doi.org/10.1093/nar/gks1219}
-}
-
-@article{mcmurdie2013phyloseq,
-  title={phyloseq: an R package for reproducible interactive analysis and graphics of microbiome census data},
-  author={McMurdie, Paul J and Holmes, Susan},
-  journal={PLoS One},
-  volume={8},
-  number={4},
-  pages={e61217},
-  year={2013},
-  url = {https://doi.org/10.1371/journal.pone.0061217}
-}
-
-@misc{wong2011points,
-  title={Points of view: Color blindness},
-  author={Wong, Bang},
-  journal={Nature Methods},
-  volume={8},
-  number={6},
-  pages={441},
-  year={2011},
-  url = {https://doi.org/10.1038/nmeth.1618}
-}
-
-@misc{lahti2017microbiome,
-  author = {Lahti, Leo and Shetty Sudarshan and others},
-  title = {Tools for microbiome analysis in R. Version 1.9.97},
-  year = {2017},
-  url = {https://github.com/microbiome/microbiome},
-}
-
-@article{eren2015anvi,
-  title={Anvi’o: an advanced analysis and visualization platform for ‘omics data},
-  author={Eren, A Murat and Esen, {\"O}zcan C and Quince, Christopher and Vineis, Joseph H and Morrison, Hilary G and Sogin, Mitchell L and Delmont, Tom O},
-  journal={PeerJ},
-  volume={3},
-  pages={e1319},
-  year={2015},
-  url = {https://doi.org/10.7717/peerj.1319}
-}
-
-@article{bolger2014trimmomatic,
-  title={Trimmomatic: a flexible trimmer for Illumina sequence data},
-  author={Bolger, Anthony M and Lohse, Marc and Usadel, Bjoern},
-  journal={Bioinformatics},
-  volume={30},
-  number={15},
-  pages={2114--2120},
-  year={2014},
-  url = {https://doi.org/10.1093/bioinformatics/btu170}
-}
-
-@article{koster2012snakemake,
-  title={Snakemake—a scalable bioinformatics workflow engine},
-  author={K{\"o}ster, Johannes and Rahmann, Sven},
-  journal={Bioinformatics},
-  volume={28},
-  number={19},
-  pages={2520--2522},
-  year={2012},
-  url = {https://doi.org/10.1093/bioinformatics/bts480}
-}
-
-@article{menzel2016fast,
-  title={Fast and sensitive taxonomic classification for metagenomics with Kaiju},
-  author={Menzel, Peter and Ng, Kim Lee and Krogh, Anders},
-  journal={Nature Communications},
-  volume={7},
-  pages={11257},
-  year={2016},
-  url = {https://doi.org/10.1038/ncomms11257}
-}
-
-@article{roux2015virsorter,
-  title={VirSorter: mining viral signal from microbial genomic data},
-  author={Roux, Simon and Enault, Francois and Hurwitz, Bonnie L and Sullivan, Matthew B},
-  journal={PeerJ},
-  volume={3},
-  pages={e985},
-  year={2015},
-  url = {https://doi.org/10.1093/bioinformatics/btu170}
-}
-
-@article{kim2016centrifuge,
-  title={Centrifuge: rapid and sensitive classification of metagenomic sequences},
-  author={Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg, Steven L},
-  journal={Genome Research},
-  volume={26},
-  number={12},
-  pages={1721--1729},
-  year={2016},
-  url = {https://doi.org/10.1101/gr.210641.116.}
-}
-
-@article{hyatt2010prodigal,
-  title={Prodigal: prokaryotic gene recognition and translation initiation site identification},
-  author={Hyatt, Doug and Chen, Gwo-Liang and LoCascio, Philip F and Land, Miriam L and Larimer, Frank W and Hauser, Loren J},
-  journal={BMC Bioinformatics},
-  volume={11},
-  number={1},
-  pages={119},
-  year={2010},
-  url = {https://doi.org/10.1186/1471-2105-11-119}
-}
-
-@article{edgar2004muscle,
-  title={MUSCLE: multiple sequence alignment with high accuracy and high throughput},
-  author={Edgar, Robert C},
-  journal={Nucleic Acids Research},
-  volume={32},
-  number={5},
-  pages={1792--1797},
-  year={2004},
-  url = {https://doi.org/10.1093/nar/gkh340}
-}
-
-@article{li2015megahit,
-  title={MEGAHIT: an ultra-fast single-node solution for large and complex metagenomics assembly via succinct de Bruijn graph},
-  author={Li, Dinghua and Liu, Chi-Man and Luo, Ruibang and Sadakane, Kunihiko and Lam, Tak-Wah},
-  journal={Bioinformatics},
-  volume={31},
-  number={10},
-  pages={1674--1676},
-  year={2015},
-  url = {https://doi.org/10.1093/bioinformatics/btv033}
-}
-
-@article{langmead2012fast,
-  title={Fast gapped-read alignment with Bowtie 2},
-  author={Langmead, Ben and Salzberg, Steven L},
-  journal={Nature Methods},
-  volume={9},
-  number={4},
-  pages={357},
-  year={2012},
-  url = {https://doi.org/10.1038/nmeth.1923}
-}
-
-@article{li2009fast,
-  title={Fast and accurate short read alignment with Burrows--Wheeler transform},
-  author={Li, Heng and Durbin, Richard},
-  journal={Bioinformatics},
-  volume={25},
-  number={14},
-  pages={1754--1760},
-  year={2009},
-  url = {https://doi.org/10.1093/bioinformatics/btp324}
-}
-
-@article{li2009sequence,
-  title={The sequence alignment/map format and SAMtools},
-  author={Li, Heng and Handsaker, Bob and Wysoker, Alec and Fennell, Tim and Ruan, Jue and Homer, Nils and Marth, Gabor and Abecasis, Goncalo and Durbin, Richard},
-  journal={Bioinformatics},
-  volume={25},
-  number={16},
-  pages={2078--2079},
-  year={2009},
-  url = {https://doi.org/10.1093/bioinformatics/btp352}
-}
-
-@article{breitwieser2018krakenuniq,
-  title={KrakenUniq: confident and fast metagenomics classification using unique k-mer counts},
-  author={Breitwieser, FP and Baker, DN and Salzberg, Steven L},
-  journal={Genome Biology},
-  volume={19},
-  number={1},
-  pages={1--10},
-  year={2018},
-  url = {https://doi.org/10.5281/zenodo.1412647}
-}
-
-@article{eren2013filtering,
-  title={A filtering method to generate high quality short reads using Illumina paired-end technology},
-  author={Eren, A Murat and Vineis, Joseph H and Morrison, Hilary G and Sogin, Mitchell L},
-  journal={PLoS One},
-  volume={8},
-  number={6},
-  year={2013},
-  url = {https://doi.org/10.1371/journal.pone.0066643}
-}
-
-@article{alneberg2014binning,
-  title={Binning metagenomic contigs by coverage and composition},
-  author={Alneberg, Johannes and Bjarnason, Brynjar Sm{\'a}ri and De Bruijn, Ino and Schirmer, Melanie and Quick, Joshua and Ijaz, Umer Z and Lahti, Leo and Loman, Nicholas J and Andersson, Anders F and Quince, Christopher},
-  journal={Nature Methods},
-  volume={11},
-  number={11},
-  pages={1144--1146},
-  year={2014},
-  url = {https://doi.org/10.1038/nmeth.3103}
-}
-
-@article{sieber2018recovery,
-  title={Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy},
-  author={Sieber, Christian MK and Probst, Alexander J and Sharrar, Allison and Thomas, Brian C and Hess, Matthias and Tringe, Susannah G and Banfield, Jillian F},
-  journal={Nature Microbiology},
-  volume={3},
-  number={7},
-  pages={836--843},
-  year={2018},
-}
-
-@article{kang2019metabat,
-  title={MetaBAT 2: an adaptive binning algorithm for robust and efficient genome reconstruction from metagenome assemblies},
-  author={Kang, Dongwan D and Li, Feng and Kirton, Edward and Thomas, Ashleigh and Egan, Rob and An, Hong and Wang, Zhong},
-  journal={PeerJ},
-  volume={7},
-  pages={e7359},
-  year={2019},
-}
-@article{wu2016maxbin,
-  title={MaxBin 2.0: an automated binning algorithm to recover genomes from multiple metagenomic datasets},
-  author={Wu, Yu-Wei and Simmons, Blake A and Singer, Steven W},
-  journal={Bioinformatics},
-  volume={32},
-  number={4},
-  pages={605--607},
-  year={2016},
-}
-
-@article{ondov2011krona,
-  title={Interactive metagenomic visualization in a Web browser},
-  author={Ondov, Brian D and Bergman, Nicholas H and Phillippy, Adam M},
-  journal={BMC Bioinformatics},
-  volume={12},
-  number={1},
-  pages={385},
-  year={2011},
-  url = {https://doi.org/10.1186/1471-2105-12-385}
-}
-
-@article{buchfink2015fast,
-  title={Fast and sensitive protein alignment using DIAMOND},
-  author={Buchfink, Benjamin and Xie, Chao and Huson, Daniel H},
-  journal={Nature Methods},
-  volume={12},
-  number={1},
-  pages={59--60},
-  year={2015},
-  url = {https://doi.org/10.1038/nmeth.3176}
-}
-
-@article{delmont2018nitrogen,
-  title={Nitrogen-fixing populations of Planctomycetes and Proteobacteria are abundant in surface ocean metagenomes},
-  author={Delmont, Tom O and Quince, Christopher and Shaiber, Alon and Esen, {\"O}zcan C and Lee, Sonny TM and Rapp{\'e}, Michael S and McLellan, Sandra L and L{\"u}cker, Sebastian and Eren, A Murat},
-  journal={Nature Microbiology},
-  volume={3},
-  number={7},
-  pages={804--813},
-  year={2018},
-  url = {https://doi.org/10.1038/s41564-018-0176-9}
-}
-
-@article{dongen2000cluster,
-  title={A cluster algorithm for graphs},
-  author={Dongen, Stijn},
-  year={2000},
-  publisher={CWI (Centre for Mathematics and Computer Science)},
-  url = {https://www.micans.org/mcl/index.html?sec_software}
-}
-
-@article{jain2018high,
-  title={High throughput ANI analysis of 90K prokaryotic genomes reveals clear species boundaries},
-  author={Jain, Chirag and Rodriguez-R, Luis M and Phillippy, Adam M and Konstantinidis, Konstantinos T and Aluru, Srinivas},
-  journal={Nature Communications},
-  volume={9},
-  number={1},
-  pages={1--8},
-  year={2018},
-  url={https://doi.org/10.1038/s41467-018-07641-9}
-}
-
-@article{stamatakis2014raxml,
-  title={RAxML version 8: a tool for phylogenetic analysis and post-analysis of large phylogenies},
-  author={Stamatakis, Alexandros},
-  journal={Bioinformatics},
-  volume={30},
-  number={9},
-  pages={1312--1313},
-  year={2014},
-  url={https://doi.org/10.1093/bioinformatics/btu033}
-}
-
-@article{minh2020iq,
-  title={IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era},
-  author={Minh, Bui Quang and Schmidt, Heiko A and Chernomor, Olga and Schrempf, Dominik and Woodhams, Michael D and Von Haeseler, Arndt and Lanfear, Robert},
-  journal={Molecular Biology and Evolution},
-  volume={37},
-  number={5},
-  pages={1530--1534},
-  year={2020},
-  url={https://doi.org/10.1093/molbev/msaa015}
-}
-
-@article{kalyaanamoorthy2017modelfinder,
-  title={ModelFinder: fast model selection for accurate phylogenetic estimates},
-  author={Kalyaanamoorthy, Subha and Minh, Bui Quang and Wong, Thomas KF and von Haeseler, Arndt and Jermiin, Lars S},
-  journal={Nature Methods},
-  volume={14},
-  number={6},
-  pages={587},
-  year={2017},
-  url={https://doi.org/10.1038/nmeth.4285}
-}
-
-@article{quince2011removing,
-  title={Removing noise from pyrosequenced amplicons},
-  author={Quince, Christopher and Lanzen, Anders and Davenport, Russell J and Turnbaugh, Peter J},
-  journal={BMC bioinformatics},
-  volume={12},
-  number={1},
-  pages={38},
-  year={2011},
-  url={https://doi.org/10.1186/1471-2105-12-38}
-}
-@article{caporaso2011global,
-  title={Global patterns of 16S rRNA diversity at a depth of millions of sequences per sample},
-  author={Caporaso, J Gregory and Lauber, Christian L and Walters, William A and Berg-Lyons, Donna and Lozupone, Catherine A and Turnbaugh, Peter J and Fierer, Noah and Knight, Rob},
-  journal={Proceedings of the National Academy of Sciences},
-  volume={108},
-  number={Supplement 1},
-  pages={4516--4522},
-  year={2011},
-  url={https://doi.org/10.1073/pnas.1000080107}
-}
-@article{kanehisa2000kegg,
-  title={KEGG: kyoto encyclopedia of genes and genomes},
-  author={Kanehisa, Minoru and Goto, Susumu},
-  journal={Nucleic Acids Research},
-  volume={28},
-  number={1},
-  pages={27--30},
-  year={2000},
-  url={https://doi.org/10.1093/nar/28.1.27}
-}
-
-@article{kanehisa2016blastkoala,
-  title={BlastKOALA and GhostKOALA: KEGG tools for functional characterization of genome and metagenome sequences},
-  author={Kanehisa, Minoru and Sato, Yoko and Morishima, Kanae},
-  journal={Journal of Molecular Biology},
-  volume={428},
-  number={4},
-  pages={726--731},
-  year={2016},
-  url={https://doi.org/10.1016/j.jmb.2015.11.006}
-}
-
-@article{minoche2011evaluation,
-  title={Evaluation of genomic high-throughput sequencing data generated on Illumina HiSeq and genome analyzer systems},
-  author={Minoche, Andr{\'e} E and Dohm, Juliane C and Himmelbauer, Heinz},
-  journal={Genome Biology},
-  volume={12},
-  number={11},
-  pages={R112},
-  year={2011},
-  url={https://doi.org/10.1186/gb-2011-12-11-r112}
-}
-
-@article{lee2019gtotree,
-  title={GToTree: a user-friendly workflow for phylogenomics},
-  author={Lee, Michael D},
-  journal={Bioinformatics},
-  volume={35},
-  number={20},
-  pages={4162--4164},
-  year={2019},
-  url={https://doi.org/10.1093/bioinformatics/btz188}
-}
-
-@article{wang2007naive,
-  title={Naive Bayesian classifier for rapid assignment of rRNA sequences into the new bacterial taxonomy},
-  author={Wang, Qiong and Garrity, George M and Tiedje, James M and Cole, James R},
-  journal={Applied & Environmental Microbiology},
-  volume={73},
-  number={16},
-  pages={5261--5267},
-  year={2007},
-  url={https://doi.org/10.1128/AEM.00062-07}
-}
-
-@article{hoang2017ultrafast,
-  author = {Hoang, Diep Thi and Chernomor, Olga and von Haeseler, Arndt and Minh, Bui Quang and Vinh, Le Sy},
-  title = {UFBoot2: Improving the Ultrafast Bootstrap Approximation},
-  journal = {Molecular Biology and Evolution},
-  volume = {35},
-  number = {2},
-  pages = {518-522},
-  year = {2017},
-  url = {https://doi.org/10.1093/molbev/msx281}
-}
-
-@article{parada2016every,
-  title={Every base matters: assessing small subunit rRNA primers for marine microbiomes with mock communities, time series and global field samples},
-  author={Parada, Alma E and Needham, David M and Fuhrman, Jed A},
-  journal={Environmental microbiology},
-  volume={18},
-  number={5},
-  pages={1403--1414},
-  year={2016},
-  url = {https://doi.org/10.1111/1462-2920.13023}
-}
-
-@article{parks2018gtgb,
-  title={A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life},
-  author={Parks, Donovan H and Chuvochina, Maria and Waite, David W and Rinke, Christian and Skarshewski, Adam and Chaumeil, Pierre-Alain and Hugenholtz, Philip},
-  journal={Nature Biotechnology},
-  volume={36},
-  number={10},
-  pages={1546-1696},
-  year={2018},
-  url = {https://doi.org/10.1038/nbt.4229}
-}
-
-@article{foster2017metacoder,
-  title={Metacoder: an R package for visualization and manipulation of community taxonomic diversity data},
-  author={Foster, Zachary SL and Sharpton, Thomas J and Gr{\"u}nwald, Niklaus J},
-  journal={PLoS Computational Biology},
-  volume={13},
-  number={2},
-  pages={e1005404},
-  year={2017},
-  url={https://doi.org/10.1371/journal.pcbi.1005404}
-}
-
-@article{dufrene1997species,
-  title={Species assemblages and indicator species: the need for a flexible asymmetrical approach},
-  author={Dufr{\^e}ne, Marc and Legendre, Pierre},
-  journal={Ecological Monographs},
-  volume={67},
-  number={3},
-  pages={345--366},
-  year={1997},
-  url={https://doi.org/10.1890/0012-9615(1997)067[0345:SAAIST]2.0.CO;2}
-}
-
-@article{roberts2007labdsv,
-  title={labdsv: Ordination and multivariate analysis for ecology},
-  author={Roberts, David W and others},
-  journal={R package version},
-  volume={1},
-  number={1},
-  year={2007}
-}
-</script>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
