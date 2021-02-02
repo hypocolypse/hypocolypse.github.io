@@ -126,6 +126,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -174,7 +175,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -448,8 +449,15 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -473,22 +481,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     return offset ? offset + '/' + url : url;
   }
   
-  function createIndex() {
-    var options = {
-      keys: [
-        "title",
-        "categories",
-        "description",
-        "contents"
-      ]
-    };
-    return new window.Fuse([],options);
-  }
-  
   function createFuseIndex() {
   
     // create fuse index
-    var options = { keys: ["title", "description", "contents"] };
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
     var fuse = new window.Fuse([], options);
   
     // fetch the main search.json
@@ -556,29 +561,25 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               shouldSort: true,
               minMatchCharLength: 2,
               limit: 10,
-              keys: [
-                { name: 'title', weight: 20 },
-                { name: 'categories', weight: 15 },
-                { name: 'description', weight: 10 },
-                { name: 'contents', weight: 5 },
-              ],
             };
             var results = fuse.search(query, searchOptions);
             callback(results
               .map(function(result) { return result.item; })
-              .filter(function(item) { return !!item.description; })
             );
           },
           templates: {
             suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
               var html = `
                 <div class="search-item">
                   <h3>${suggestion.title}</h3>
                   <div class="search-item-description">
-                    ${suggestion.description}
+                    ${suggestion.description || ''}
                   </div>
                   <div class="search-item-preview">
-                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                    ${img}
                   </div>
                 </div>
               `;
@@ -588,15 +589,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }]).on('autocomplete:selected', function(event, suggestion) {
           window.location.href = offsetURL(suggestion.path);
         });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
       })
       .catch(function(error) {
         console.log(error);
       });
+  
   });
   
   </script>
   
   <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
   
   /* Algolioa Autocomplete */
   
@@ -610,16 +619,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 8px;
     padding-bottom: 0;
     border-radius: 6px;
-    border: 1px #455a64 solid;
+    border: 1px #0F2E3D solid;
     width: 180px;
   }
   
   
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
-      visibility: hidden
+      display: none;
+      visibility: hidden;
     }
     .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
       visibility: visible;
     }
     .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
@@ -670,6 +681,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
   
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
@@ -731,6 +743,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
   }
   
   .authors-affiliations .orcid-id {
@@ -841,7 +865,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
-    overflow: hidden;
+    overflow: auto;
   }
   
   d-article div.sourceCode {
@@ -883,6 +907,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
   }
   
   @media(min-width: 768px) {
@@ -927,7 +956,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
   
   @media(min-width: 1000px) {
-    .d-contents {
+    .d-contents.d-contents-float {
       height: 0;
       grid-column-start: 1;
       grid-column-end: 4;
@@ -1041,6 +1070,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-left: 1em; text-indent: -1em;
   }
   
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+  
   
   /* Tweak 1000px media break to show more text */
   
@@ -1115,6 +1155,78 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
   
   /* Anchor.js */
   
@@ -1182,6 +1294,211 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
   .custom p {
     margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -1313,6 +1630,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -1423,7 +1746,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('div.sourceCode, pre, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1445,7 +1768,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
-    $('code.sourceCode a[aria-hidden="true"]').remove();
+    $('code.sourceCode a:empty').remove();
   
     // load distill framework
     load_distill_framework();
@@ -1531,9 +1854,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+  
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1694,10 +2035,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-  <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+  <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.15/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1710,8 +2051,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
   <link href="site_libs/dt-ext-fixedcolumns-1.10.20/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
   <script src="site_libs/dt-ext-fixedcolumns-1.10.20/js/dataTables.fixedColumns.min.js"></script>
-  <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1719,7 +2064,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500|Karla:400,400i,700,700i');
   /********************************/
   /* controls general properties of site*/
   /********************************/
@@ -1755,6 +2100,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   d-byline .authors-affiliations {
     grid-column-end: span 3;
     grid-column-gap: 8px;
+  }
+  
+  img.orcid-id {
+    margin: 0;
   }
   
   a.name:-webkit-any-link {
@@ -1836,6 +2185,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-radius: 3px;
     font-size: 0.8em;
     font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
     margin-bottom: 20px;
     color: #BF2727;
   }
@@ -1847,66 +2197,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #BF2727;
   }
   
-  /** OLD code b4 distill update
-  d-code {
-    background-color: #E8E8E8;
-    border-radius: 3px;
-    font-size: 0.8em;
-    font-family: 'Monaco', 'PT Mono', monospace;
-    overflow-x: scroll !important;
-    margin-bottom: 20px;
-    border-left: 5px solid #006ddb;
-    border-top: 1px solid #B7B7B7;
-    border-right: 1px solid #B7B7B7;
-    border-bottom: 1px solid #B7B7B7;
-  }
-  
-  code {
-    background-color: #E8E8E8;
-    border-radius: 3px;
-    font-size: 0.9em;
-    font-family: 'Monaco', 'PT Mono', monospace;
-    overflow-x: scroll !important;
-    margin-bottom: 20px;
-    color: #BF2727;
-  }
-  
-  pre.text-output {
-    margin-top: 0px;
-     color: #333333;
-     background-color: #FAFAFA;
-     font-size: 0.8em
-   }
-  
-  pre {
-    border: 1px solid #ccc;
-    padding: 0px 10px 10px 18px;
-    margin: 1em 0px;
-    border-radius: 5px;
-  }
-  
-  **/
-  
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
   
   .nav-dropdown-content .nav-dropdown-header {
-    text-transform: none;
+    text-transform: uppercase;
+    color: #686868;
+  }
+  
+  .nav-dropdown-content a {
+    font-family: 'Work Sans'
+  }
+  .nav-dropdown .nav-dropbtn {
+    color: #FEFEFE;
+    font-weight: 400;
   }
   
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
-    margin-bottom: 10px;
+    margin-bottom: auto;
   }
   
   .distill-site-nav {
-      color: rgba(255, 255, 255, 0.8);
+      color: #FEFEFE;
       background-color: #143D59;
-      font-size: 16px;
-      font-weight: 300;
-    }
+      font-size: 0.95em;
+      font-weight: 400;
+      min-width: 165px;
+      position: absolute;
+      font-family: 'Karla';
+      letter-spacing: .1em;
+  
   }
   
   .article-banner {
@@ -2020,6 +2343,67 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	max-width: 100%;
   }
   
+  /*************************************************
+  *  code for DETAILS fold down
+  **************************************************/
+  
+  details {
+    background-color: #ccd7df;
+    cursor: pointer;
+    color: #282828;
+    margin-bottom:1vh;
+    padding: 1em;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-family: 'Karla'
+  }
+  
+  .active, details:hover {
+    transition: max-height 0.2s ease-out;
+    outline: none;
+  
+    /* background-color: #acc2c2; */
+  }
+  
+  details {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    border-radius: 4px;
+    outline: none;
+  
+  }
+  
+  details.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    outline: none;
+  
+  }
+  
+  summary::-webkit-details-marker {
+    display: none;
+    outline: none;
+  
+  }
+  
+  summary:focus {
+    outline: none;
+  }
+  
+  summary::after {
+    float: right;
+    font-family: "Font Awesome 5 Free";
+    content: "\f0fe";
+  }
+  
+  details[open] summary::after {
+    float: right;
+    font-family: "Font Awesome 5 Free";
+    content: "\f146";
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2049,27 +2433,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Site Overview</a>
-<a href="field.html">A. Field Analyses</a>
+<a href="intro.html">OVERVIEW</a>
+<a href="field.html">FIELD</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-B. 16S rRNA
+16S rRNA
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<span class="nav-dropdown-header">16S rRNA Processing</span>
+<span class="nav-dropdown-header">Processing</span>
 <a href="16s-dada2.html">1. DADA2</a>
 <a href="16s-data-prep.html">2. Data Prep</a>
 <hr/>
-<span class="nav-dropdown-header">16S rRNA Analyses</span>
+<span class="nav-dropdown-header">Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
 <a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-C. Metagenomic
+METAGENOMIC
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
@@ -2088,9 +2472,9 @@ C. Metagenomic
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
-<a href="data-availability.html">Data</a>
-<a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg" aria-hidden="true"></i>
+<a href="data-availability.html">DATA</a>
+<a href="https://github.com/hypocolypse/web/" aria-label="Link to source">
+<i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -2109,7 +2493,7 @@ C. Metagenomic
 
 
 <div class="d-article">
-<div class="d-contents">
+<div class="d-contents d-contents-float">
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
@@ -2136,7 +2520,7 @@ C. Metagenomic
 
 </div>
 <h1 id="differentially-abundant-asvs">Differentially Abundant ASVs</h1>
-<p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. ASVs that were enriched and more frequent in hypoxic and normoxic samples were identified using the Indicator Species Analysis (ISA)<span class="citation" data-cites="dufrene1997species">(Dufrêne and Legendre <a href="#ref-dufrene1997species" role="doc-biblioref">1997</a>)</span>, computed with the R package labdsv<span class="citation" data-cites="roberts2007labdsv">(Roberts and others <a href="#ref-roberts2007labdsv" role="doc-biblioref">2007</a>)</span>.</p>
+<p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. ASVs that were enriched and more frequent in hypoxic and normoxic samples were identified using the Indicator Species Analysis (ISA) <span class="citation" data-cites="dufrene1997species">(Dufrêne and Legendre <a href="#ref-dufrene1997species" role="doc-biblioref">1997</a>)</span>, computed with the R package labdsv <span class="citation" data-cites="roberts2007labdsv">(Roberts and others <a href="#ref-roberts2007labdsv" role="doc-biblioref">2007</a>)</span>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">set.seed</span>(<span class="dv">119</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="co">#rm(class, order, phylum, kingdom)</span></span>
@@ -2179,7 +2563,7 @@ C. Metagenomic
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-page">
 <div id="twykw9v4dzmp1lymga92" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="twykw9v4dzmp1lymga92">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Differentially Abundant ASVs assessed by\n    Indicator Species Analysis (ISA).<\/caption>","autoHideNavigation":true,"data":[["ASV1","ASV10","ASV101","ASV102","ASV103","ASV104","ASV105","ASV106","ASV11","ASV111","ASV113","ASV115","ASV117","ASV118","ASV12","ASV126","ASV127","ASV128","ASV13","ASV130","ASV131","ASV133","ASV134","ASV14","ASV140","ASV147","ASV15","ASV151","ASV152","ASV154","ASV155","ASV156","ASV16","ASV160","ASV163","ASV164","ASV17","ASV175","ASV18","ASV180","ASV182","ASV183","ASV184","ASV186","ASV188","ASV189","ASV19","ASV194","ASV200","ASV203","ASV211","ASV214","ASV219","ASV22","ASV220","ASV222","ASV225","ASV23","ASV232","ASV233","ASV234","ASV235","ASV237","ASV238","ASV24","ASV242","ASV243","ASV246","ASV25","ASV250","ASV251","ASV254","ASV26","ASV267","ASV268","ASV27","ASV270","ASV281","ASV282","ASV29","ASV291","ASV296","ASV297","ASV3","ASV30","ASV301","ASV308","ASV319","ASV329","ASV33","ASV334","ASV335","ASV34","ASV347","ASV348","ASV35","ASV355","ASV356","ASV36","ASV360","ASV37","ASV373","ASV38","ASV383","ASV39","ASV392","ASV394","ASV397","ASV4","ASV40","ASV41","ASV429","ASV43","ASV435","ASV439","ASV444","ASV45","ASV46","ASV47","ASV48","ASV49","ASV5","ASV50","ASV53","ASV533","ASV54","ASV57","ASV58","ASV59","ASV6","ASV60","ASV601","ASV62","ASV64","ASV65","ASV66","ASV67","ASV68","ASV69","ASV7","ASV70","ASV71","ASV72","ASV75","ASV76","ASV77","ASV78","ASV79","ASV80","ASV81","ASV87","ASV88","ASV89","ASV90","ASV91","ASV93","ASV95","ASV96","ASV99"],[52810,2148,268,266,263,259,255,253,2069,226,222,218,214,213,1989,196,193,192,1977,190,189,188,188,1689,180,165,1632,162,159,156,155,155,1626,142,136,134,1570,129,1536,125,123,122,121,120,119,119,1431,112,104,102,97,94,92,1387,90,90,87,1320,83,82,82,81,80,80,1298,78,77,76,1290,75,75,74,1279,69,69,1275,67,63,63,1246,60,58,58,4009,1181,57,55,53,51,1090,49,49,1078,47,47,976,45,45,810,44,808,41,806,40,795,37,37,36,3681,781,753,31,725,30,30,29,699,691,690,665,652,3665,647,612,20,600,559,544,542,3609,541,16,536,509,499,493,493,470,464,3448,411,411,404,371,360,357,355,344,339,338,310,309,304,304,300,290,284,277,274],[48245,3,0,0,73,0,230,253,0,226,222,0,214,213,1818,194,0,22,0,0,178,188,50,1450,167,165,1632,0,159,156,35,0,0,127,0,21,1379,34,1453,125,112,0,0,0,119,119,1350,0,0,102,0,78,92,1350,90,0,0,1257,0,82,82,81,8,0,1203,7,5,20,1202,75,0,0,0,0,0,0,0,16,0,1157,0,6,0,0,0,0,0,0,0,999,0,0,943,0,0,768,0,0,810,0,0,0,0,0,689,7,0,0,3164,72,0,0,266,30,0,0,699,691,690,548,580,13,0,68,0,600,559,453,0,3147,404,0,0,0,499,476,463,445,399,0,389,385,0,371,67,357,355,344,330,320,284,241,257,289,262,224,284,250,0],[4565,2145,268,266,190,259,25,0,2069,0,0,218,0,0,171,2,193,170,1977,190,11,0,138,239,13,0,0,162,0,0,120,155,1626,15,136,113,191,95,83,0,11,122,121,120,0,0,81,112,104,0,97,16,0,37,0,90,87,63,83,0,0,0,72,80,95,71,72,56,88,0,75,74,1279,69,69,1275,67,47,63,89,60,52,58,4009,1181,57,55,53,51,91,49,49,135,47,47,208,45,45,0,44,808,41,806,40,106,30,37,36,517,709,753,31,459,0,30,29,0,0,0,117,72,3652,647,544,20,0,0,91,542,462,137,16,536,509,0,17,30,25,65,3448,22,26,404,0,293,0,0,0,9,18,26,68,47,15,38,66,0,27,274],["normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic"],[0.863780138457866,0.999161542761319,1,1,0.812660393498717,1,0.846625766871166,1,1,1,1,1,1,1,0.864479315263909,0.983108108108108,1,0.927947598253275,1,1,0.906621392190153,1,0.821428571428571,0.784490532010821,0.885159010600707,1,1,1,1,1,0.851063829787234,1,1,0.835526315789474,1,0.89968152866242,0.812450903377848,0.823223570190641,0.913070800167574,1,0.859335038363171,1,1,1,1,1,0.909090909090909,1,1,1,1,0.745222929936306,1,0.956316410861865,1,1,1,0.922907488986784,1,1,1,1,0.9375,1,0.883692458374143,0.944148936170213,0.96,0.823529411764706,0.891250617894216,1,1,1,1,1,1,1,1,0.830388692579505,1,0.886363636363636,1,0.935251798561151,1,1,1,1,1,1,1,0.86819235225956,1,1,0.80736301369863,1,1,0.688995215311005,1,1,1,1,1,1,1,1,0.795918367346939,0.87719298245614,1,1,0.785956777345367,0.942568465833555,1,1,0.741998060135791,1,1,1,1,1,1,0.737550471063257,0.828571428571429,0.997868735996503,1,0.930232558139535,1,1,1,0.749173098125689,1,0.803420985448047,0.638903531892462,1,1,1,1,0.943820224719101,0.902534113060429,0.914383561643836,0.78646517739816,1,0.913860610806578,0.898832684824903,1,1,0.879351740696278,1,1,1,0.956521739130435,0.914285714285714,0.867617107942973,0.680150517403575,0.766401590457257,0.920382165605096,0.805327868852459,0.67065868263473,1,0.847457627118644,1],[0.014,0.024,0.017,0.02,0.016,0.026,0.038,0.023,0.018,0.015,0.024,0.026,0.02,0.029,0.023,0.021,0.03,0.023,0.02,0.016,0.018,0.021,0.042,0.026,0.017,0.018,0.021,0.023,0.024,0.017,0.045,0.023,0.014,0.023,0.02,0.048,0.011,0.048,0.011,0.015,0.018,0.018,0.027,0.018,0.018,0.01,0.02,0.025,0.017,0.015,0.018,0.028,0.016,0.023,0.017,0.026,0.022,0.021,0.013,0.018,0.017,0.018,0.015,0.013,0.016,0.024,0.015,0.045,0.019,0.015,0.017,0.011,0.012,0.015,0.015,0.018,0.024,0.047,0.024,0.014,0.025,0.019,0.022,0.021,0.023,0.016,0.024,0.02,0.015,0.022,0.021,0.021,0.05,0.021,0.022,0.039,0.014,0.017,0.019,0.014,0.015,0.014,0.018,0.018,0.031,0.037,0.02,0.022,0.014,0.042,0.016,0.022,0.049,0.017,0.017,0.017,0.018,0.021,0.019,0.028,0.019,0.033,0.019,0.011,0.018,0.02,0.025,0.018,0.015,0.022,0.033,0.019,0.016,0.024,0.022,0.015,0.014,0.016,0.021,0.013,0.02,0.02,0.014,0.017,0.037,0.014,0.018,0.025,0.02,0.022,0.013,0.02,0.016,0.019,0.019,0.023,0.021,0.019,0.021],[8,4,3,3,7,3,7,5,3,5,5,3,5,5,8,6,3,4,3,3,7,5,7,8,7,5,5,3,5,5,4,3,3,7,3,5,8,4,7,5,8,3,3,3,5,5,6,3,3,5,3,7,5,6,5,3,3,7,3,5,5,5,4,3,8,4,4,4,7,5,3,3,3,3,3,3,3,4,3,7,3,4,3,3,3,3,3,3,3,7,3,3,8,3,3,8,3,3,5,3,3,3,3,3,8,4,3,3,8,5,3,3,8,5,3,3,5,5,5,8,7,5,3,7,3,5,5,7,3,8,8,3,3,3,5,6,7,6,7,3,6,8,3,5,5,5,5,5,6,6,7,8,7,6,7,8,5,6,3],["Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Archaea","Bacteria","Archaea","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria"],["Cyanobacteria","Campilobacterota","Cyanobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Proteobacteria","Thermoplasmatota","Marinimicrobia_(SAR406_clade)","Bacteroidota","Proteobacteria","Proteobacteria","Actinobacteriota","Marinimicrobia_(SAR406_clade)","Planctomycetota","Bacteroidota","Proteobacteria","Cloacimonadota","Proteobacteria","Thermoplasmatota","Planctomycetota","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Planctomycetota","Proteobacteria","Actinobacteriota","Proteobacteria","Proteobacteria","Proteobacteria","Dadabacteria","Bacteroidota","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Bacteroidota","Desulfobacterota","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Proteobacteria","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Bacteroidota","Bacteroidota","Marinimicrobia_(SAR406_clade)","Bdellovibrionota","Marinimicrobia_(SAR406_clade)","Planctomycetota","Proteobacteria","Marinimicrobia_(SAR406_clade)","Verrucomicrobiota","Verrucomicrobiota","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Bacteroidota","Planctomycetota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Planctomycetota","Proteobacteria","Planctomycetota","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Proteobacteria","Verrucomicrobiota","Proteobacteria","Proteobacteria","Planctomycetota","Thermoplasmatota","Planctomycetota","Actinobacteriota","Actinobacteriota","Bacteroidota","Bacteroidota","Actinobacteriota","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Verrucomicrobiota","Planctomycetota","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Bacteroidota","Proteobacteria","Bacteroidota","Firmicutes","Bacteroidota","Cyanobacteria","Proteobacteria","Proteobacteria","Thermoplasmatota","Bacteroidota","Bacteroidota","Bacteroidota","Nanoarchaeota","Bacteroidota","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Firmicutes","Bacteroidota","Proteobacteria","Thermoplasmatota","Thermoplasmatota","Proteobacteria","Thermoplasmatota","Thermoplasmatota","Proteobacteria","Proteobacteria","Proteobacteria","Cyanobacteria","Proteobacteria","Bacteroidota","Thermoplasmatota","Actinobacteriota","Cyanobacteria","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Thermoplasmatota","Proteobacteria","Proteobacteria","Marinimicrobia_(SAR406_clade)","Actinobacteriota","Proteobacteria","Proteobacteria"],["Cyanobacteriia","Campylobacteria","Cyanobacteriia","Gammaproteobacteria","Bacteroidia","Bacteroidia","Phycisphaerae","Gammaproteobacteria","Alphaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Planctomycetes","Bacteroidia","Alphaproteobacteria","Cloacimonadia","Gammaproteobacteria","Thermoplasmata","OM190","Bacteroidia","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Phycisphaerae","Gammaproteobacteria","Acidimicrobiia","Gammaproteobacteria","Gammaproteobacteria","Gammaproteobacteria","Dadabacteriia","Bacteroidia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Bacteroidia","Bacteroidia","Desulfovibrionia","Alphaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Bacteroidia","Gammaproteobacteria","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Alphaproteobacteria","Bacteroidia","Bacteroidia","Bacteroidia","Bacteroidia","Phylum_Marinimicrobia_(SAR406_clade)","Bdellovibrionia","Phylum_Marinimicrobia_(SAR406_clade)","OM190","Gammaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellae","Verrucomicrobiae","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Bacteroidia","Planctomycetes","Gammaproteobacteria","Bacteroidia","Bacteroidia","OM190","Alphaproteobacteria","OM190","Gammaproteobacteria","Planctomycetes","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Rhodothermia","Gammaproteobacteria","Verrucomicrobiae","Alphaproteobacteria","Gammaproteobacteria","Planctomycetes","Thermoplasmata","OM190","Acidimicrobiia","Acidimicrobiia","Bacteroidia","Bacteroidia","Acidimicrobiia","Bacteroidia","Gammaproteobacteria","Bacteroidia","Rhodothermia","Phycisphaerae","Alphaproteobacteria","Verrucomicrobiae","Planctomycetes","Bacteroidia","Alphaproteobacteria","Bacteroidia","Bacteroidia","Planctomycetes","Rhodothermia","Gammaproteobacteria","Bacteroidia","Clostridia","Bacteroidia","Cyanobacteriia","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Bacteroidia","Bacteroidia","Bacteroidia","Nanoarchaeia","Bacteroidia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Gammaproteobacteria","Clostridia","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Thermoplasmata","Alphaproteobacteria","Thermoplasmata","Thermoplasmata","Gammaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Thermoplasmata","Acidimicrobiia","Cyanobacteriia","Bacteroidia","Alphaproteobacteria","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Alphaproteobacteria","Alphaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Gammaproteobacteria","Gammaproteobacteria"],["Synechococcales","Campylobacterales","Cyanobacteriales","Oceanospirillales","Flavobacteriales","Flavobacteriales","Phycisphaerales","SAR86_clade","Rhodobacterales","Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Bacteroidales","SAR11_clade","Thiotrichales","Actinomarinales","Phylum_Marinimicrobia_(SAR406_clade)","Planctomycetales","Flavobacteriales","Rhodobacterales","Cloacimonadales","SAR86_clade","Thermoplasmata_or","Class_OM190","Flavobacteriales","SAR11_clade","SAR11_clade","Flavobacteriales","Phycisphaerales","SAR86_clade","Microtrichales","Cellvibrionales","Alteromonadales","Oceanospirillales","Dadabacteriales","Flavobacteriales","Flavobacteriales","Puniceispirillales","Chromatiales","SAR11_clade","Defluviicoccales","Flavobacteriales","Flavobacteriales","Bacteroidales","Desulfovibrionales","Rhodobacterales","Puniceispirillales","SAR11_clade","Flavobacteriales","Bacteroidales","SAR86_clade","Flavobacteriales","Parvibaculales","SAR86_clade","Cytophagales","Puniceispirillales","Chitinophagales","Bacteroidales","Flavobacteriales","Bacteroidales","Phylum_Marinimicrobia_(SAR406_clade)","Bacteriovoracales","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Thiotrichales","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellales","Verrucomicrobiales","Flavobacteriales","SAR11_clade","Alteromonadales","Rhodospirillales","Flavobacteriales","Oceanospirillales","Chitinophagales","Planctomycetales","Oceanospirillales","Class_Bacteroidia","Flavobacteriales","Class_OM190","Rhodobacterales","Class_OM190","KI89A_clade","Pirellulales","Rhodobacterales","Oceanospirillales","Flavobacteriales","Balneolales","HOC36","Opitutales","Puniceispirillales","Oceanospirillales","Pirellulales","Marine_Group_II","Class_OM190","Microtrichales","Actinomarinales","Flavobacteriales","Bacteroidales","Actinomarinales","Flavobacteriales","Oceanospirillales","Bacteroidales","Balneolales","Phycisphaerales","Rhodobacterales","Arctic97B-4_marine_group","Planctomycetales","Flavobacteriales","SAR11_clade","Chitinophagales","Flavobacteriales","Planctomycetales","Balneolales","Cellvibrionales","Chitinophagales","Peptostreptococcales-Tissierellales","Flavobacteriales","Synechococcales","Rhodobacterales","SAR86_clade","Marine_Group_II","Chitinophagales","Flavobacteriales","Flavobacteriales","Woesearchaeales","Flavobacteriales","Flavobacteriales","SAR11_clade","Chromatiales","Flavobacteriales","Cellvibrionales","Peptostreptococcales-Tissierellales","Chitinophagales","Chromatiales","Marine_Group_II","Marine_Group_II","Rhodobacterales","Marine_Group_II","Marine_Group_II","Oceanospirillales","Puniceispirillales","Defluviicoccales","Limnotrichales","SAR11_clade","Flavobacteriales","Marine_Group_II","Actinomarinales","Synechococcales","Flavobacteriales","Puniceispirillales","Rhodospirillales","SAR86_clade","Marine_Group_II","Puniceispirillales","SAR11_clade","Phylum_Marinimicrobia_(SAR406_clade)","Actinomarinales","Cellvibrionales","Oceanospirillales"],["Cyanobiaceae","Arcobacteraceae","Phormidiaceae","Nitrincolaceae","Flavobacteriaceae","Flavobacteriaceae","Phycisphaeraceae","Order_SAR86_clade","Rhodobacteraceae","Order_Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Marinilabiliaceae","Clade_II","Thiotrichaceae","Actinomarinaceae","Phylum_Marinimicrobia_(SAR406_clade)","Rubinisphaeraceae","Cryomorphaceae","Rhodobacteraceae","MSBL8","Order_SAR86_clade","Thermoplasmata_fa","Class_OM190","Flavobacteriaceae","Clade_III","Clade_I","Flavobacteriaceae","Phycisphaeraceae","Order_SAR86_clade","Microtrichaceae","Halieaceae","Alteromonadaceae","Nitrincolaceae","Order_Dadabacteriales","Flavobacteriaceae","Flavobacteriaceae","SAR116_clade","Chromatiaceae","Clade_I","Order_Defluviicoccales","Flavobacteriaceae","Cryomorphaceae","Prolixibacteraceae","Desulfovibrionaceae","Rhodobacteraceae","SAR116_clade","Clade_I","Flavobacteriaceae","Prolixibacteraceae","Order_SAR86_clade","Flavobacteriaceae","PS1_clade","Order_SAR86_clade","Cyclobacteriaceae","SAR116_clade","Saprospiraceae","Prolixibacteraceae","Flavobacteriaceae","Prolixibacteraceae","Phylum_Marinimicrobia_(SAR406_clade)","Bacteriovoracaceae","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Thiotrichaceae","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellaceae","Rubritaleaceae","Flavobacteriaceae","Clade_II","Alteromonadaceae","Terasakiellaceae","Cryomorphaceae","Nitrincolaceae","Saprospiraceae","Rubinisphaeraceae","Nitrincolaceae","Class_Bacteroidia","Cryomorphaceae","Class_OM190","Rhodobacteraceae","Class_OM190","Order_KI89A_clade","Pirellulaceae","Rhodobacteraceae","Nitrincolaceae","Order_Flavobacteriales","Balneolaceae","Order_HOC36","Puniceicoccaceae","SAR116_clade","Nitrincolaceae","Pirellulaceae","Order_Marine_Group_II","Class_OM190","Ilumatobacteraceae","Actinomarinaceae","Flavobacteriaceae","Marinifilaceae","Actinomarinaceae","NS9_marine_group","Nitrincolaceae","Prolixibacteraceae","Balneolaceae","Phycisphaeraceae","Rhodobacteraceae","Order_Arctic97B-4_marine_group","Rubinisphaeraceae","Cryomorphaceae","Clade_I","Saprospiraceae","Flavobacteriaceae","Rubinisphaeraceae","Balneolaceae","Halieaceae","Order_Chitinophagales","Peptostreptococcaceae","Flavobacteriaceae","Cyanobiaceae","Rhodobacteraceae","Order_SAR86_clade","Order_Marine_Group_II","Saprospiraceae","Flavobacteriaceae","Flavobacteriaceae","Order_Woesearchaeales","NS9_marine_group","Flavobacteriaceae","Clade_I","Chromatiaceae","Flavobacteriaceae","Halieaceae","Peptostreptococcales-Tissierellales_fa","Saprospiraceae","Chromatiaceae","Order_Marine_Group_II","Order_Marine_Group_II","Rhodobacteraceae","Order_Marine_Group_II","Order_Marine_Group_II","Nitrincolaceae","SAR116_clade","Order_Defluviicoccales","Limnotrichaceae","Clade_II","Flavobacteriaceae","Order_Marine_Group_II","Actinomarinaceae","Cyanobiaceae","Flavobacteriaceae","SAR116_clade","AEGEAN-169_marine_group","Order_SAR86_clade","Order_Marine_Group_II","SAR116_clade","Clade_I","Phylum_Marinimicrobia_(SAR406_clade)","Actinomarinaceae","Halieaceae","Nitrincolaceae"],["Synechococcus_CC9902","Family_Arcobacteraceae","Trichodesmium_IMS101","Amphritea","Family_Flavobacteriaceae","Family_Flavobacteriaceae","Urania-1B-19_marine_sediment_group","Order_SAR86_clade","Family_Rhodobacteraceae","Order_Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Family_Marinilabiliaceae","Family_Clade_II","Family_Thiotrichaceae","Candidatus_Actinomarina","Phylum_Marinimicrobia_(SAR406_clade)","Family_Rubinisphaeraceae","Family_Cryomorphaceae","Family_Rhodobacteraceae","Family_MSBL8","Order_SAR86_clade","Marine_Group_III","Class_OM190","NS5_marine_group","Family_Clade_III","Clade_Ib","NS2b_marine_group","CL500-3","Order_SAR86_clade","Sva0996_marine_group","OM60(NOR5)_clade","Family_Alteromonadaceae","Family_Nitrincolaceae","Order_Dadabacteriales","NS4_marine_group","Family_Flavobacteriaceae","Family_SAR116_clade","Candidatus_Thiobios","Clade_Ia","Order_Defluviicoccales","NS4_marine_group","Family_Cryomorphaceae","Roseimarinus","Desulfovibrio","Family_Rhodobacteraceae","Family_SAR116_clade","Clade_Ia","NS4_marine_group","Draconibacterium","Order_SAR86_clade","NS4_marine_group","Family_PS1_clade","Order_SAR86_clade","Marinoscillum","Family_SAR116_clade","Family_Saprospiraceae","Draconibacterium","NS4_marine_group","Sunxiuqinia","Phylum_Marinimicrobia_(SAR406_clade)","Family_Bacteriovoracaceae","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Family_Thiotrichaceae","Phylum_Marinimicrobia_(SAR406_clade)","R76-B128","Roseibacillus","NS4_marine_group","Family_Clade_II","Aliiglaciecola","Terasakiella","Family_Cryomorphaceae","Pontibacterium","Family_Saprospiraceae","Family_Rubinisphaeraceae","Marinobacterium","Class_Bacteroidia","Family_Cryomorphaceae","Class_OM190","Family_Rhodobacteraceae","Class_OM190","Order_KI89A_clade","Rhodopirellula","Thalassobius","Pontibacterium","Order_Flavobacteriales","Balneola","Order_HOC36","MB11C04_marine_group","Family_SAR116_clade","Neptuniibacter","Blastopirellula","Order_Marine_Group_II","Class_OM190","Family_Ilumatobacteraceae","Candidatus_Actinomarina","NS4_marine_group","Family_Marinifilaceae","Candidatus_Actinomarina","Family_NS9_marine_group","Pontibacterium","Roseimarinus","Balneola","SM1A02","Family_Rhodobacteraceae","Order_Arctic97B-4_marine_group","Family_Rubinisphaeraceae","Family_Cryomorphaceae","Clade_Ia","Family_Saprospiraceae","Tenacibaculum","Family_Rubinisphaeraceae","Balneola","Luminiphilus","Order_Chitinophagales","Peptoclostridium","NS2b_marine_group","Synechococcus_CC9902","Family_Rhodobacteraceae","Order_SAR86_clade","Order_Marine_Group_II","Family_Saprospiraceae","Formosa","Family_Flavobacteriaceae","Order_Woesearchaeales","Family_NS9_marine_group","NS2b_marine_group","Clade_Ib","Candidatus_Thiobios","NS2b_marine_group","OM60(NOR5)_clade","Family_Peptostreptococcales-Tissierellales_fa","Family_Saprospiraceae","Candidatus_Thiobios","Order_Marine_Group_II","Order_Marine_Group_II","Roseovarius","Order_Marine_Group_II","Order_Marine_Group_II","Marinobacterium","Candidatus_Puniceispirillum","Order_Defluviicoccales","Limnothrix","Family_Clade_II","NS4_marine_group","Order_Marine_Group_II","Candidatus_Actinomarina","Synechococcus_CC9902","NS5_marine_group","Family_SAR116_clade","Family_AEGEAN-169_marine_group","Order_SAR86_clade","Order_Marine_Group_II","Family_SAR116_clade","Clade_Ib","Phylum_Marinimicrobia_(SAR406_clade)","Candidatus_Actinomarina","OM60(NOR5)_clade","Family_Nitrincolaceae"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ASV<\/th>\n      <th>reads<\/th>\n      <th>norm<\/th>\n      <th>hypo<\/th>\n      <th>group<\/th>\n      <th>indval<\/th>\n      <th>pval<\/th>\n      <th>freq<\/th>\n      <th>Kingdom<\/th>\n      <th>Phylum<\/th>\n      <th>Class<\/th>\n      <th>Order<\/th>\n      <th>Family<\/th>\n      <th>Genus<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":true,"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"targets":6,"render":"function(data, type, row, meta) { return DTWidget.formatRound(data, 3, 3, \",\", \".\"); }"},{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,5,6,7]}],"dom":"Blfrtip","buttons":[{"extend":"collection","buttons":["csv","excel","copy"],"text":"Download"}],"pageLength":10,"lengthMenu":[5,10,50,160],"scrollX":true,"scrollCollapse":false,"scrollY":false,"paging":true,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'80%'});\nvar value=data[10]; $(this.api().cell(row, 10).node()).css({'font-size':'80%'});\nvar value=data[11]; $(this.api().cell(row, 11).node()).css({'font-size':'80%'});\nvar value=data[12]; $(this.api().cell(row, 12).node()).css({'font-size':'80%'});\nvar value=data[13]; $(this.api().cell(row, 13).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.rowCallback"],"jsHooks":[]}</script>
+<script type="application/json" data-for="twykw9v4dzmp1lymga92">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Differentially Abundant ASVs assessed by\n    Indicator Species Analysis (ISA).<\/caption>","autoHideNavigation":true,"data":[["ASV1","ASV10","ASV101","ASV102","ASV103","ASV104","ASV105","ASV106","ASV11","ASV111","ASV113","ASV115","ASV117","ASV118","ASV12","ASV126","ASV127","ASV128","ASV13","ASV130","ASV131","ASV133","ASV134","ASV14","ASV140","ASV147","ASV15","ASV151","ASV152","ASV154","ASV155","ASV156","ASV16","ASV160","ASV163","ASV164","ASV17","ASV175","ASV18","ASV180","ASV182","ASV183","ASV184","ASV186","ASV188","ASV189","ASV19","ASV194","ASV200","ASV203","ASV211","ASV214","ASV219","ASV22","ASV220","ASV222","ASV225","ASV23","ASV232","ASV233","ASV234","ASV235","ASV237","ASV238","ASV24","ASV242","ASV243","ASV246","ASV25","ASV250","ASV251","ASV254","ASV26","ASV267","ASV268","ASV27","ASV270","ASV281","ASV282","ASV29","ASV291","ASV296","ASV297","ASV3","ASV30","ASV301","ASV308","ASV319","ASV329","ASV33","ASV334","ASV335","ASV34","ASV347","ASV348","ASV35","ASV355","ASV356","ASV36","ASV360","ASV37","ASV373","ASV38","ASV383","ASV39","ASV392","ASV394","ASV397","ASV4","ASV40","ASV41","ASV429","ASV43","ASV435","ASV439","ASV444","ASV45","ASV46","ASV47","ASV48","ASV49","ASV5","ASV50","ASV53","ASV533","ASV54","ASV57","ASV58","ASV59","ASV6","ASV60","ASV601","ASV62","ASV64","ASV65","ASV66","ASV67","ASV68","ASV69","ASV7","ASV70","ASV71","ASV72","ASV75","ASV76","ASV77","ASV78","ASV79","ASV80","ASV81","ASV87","ASV88","ASV89","ASV90","ASV91","ASV93","ASV95","ASV96","ASV99"],[52810,2148,268,266,263,259,255,253,2069,226,222,218,214,213,1989,196,193,192,1977,190,189,188,188,1689,180,165,1632,162,159,156,155,155,1626,142,136,134,1570,129,1536,125,123,122,121,120,119,119,1431,112,104,102,97,94,92,1387,90,90,87,1320,83,82,82,81,80,80,1298,78,77,76,1290,75,75,74,1279,69,69,1275,67,63,63,1246,60,58,58,4009,1181,57,55,53,51,1090,49,49,1078,47,47,976,45,45,810,44,808,41,806,40,795,37,37,36,3681,781,753,31,725,30,30,29,699,691,690,665,652,3665,647,612,20,600,559,544,542,3609,541,16,536,509,499,493,493,470,464,3448,411,411,404,371,360,357,355,344,339,338,310,309,304,304,300,290,284,277,274],[48245,3,0,0,73,0,230,253,0,226,222,0,214,213,1818,194,0,22,0,0,178,188,50,1450,167,165,1632,0,159,156,35,0,0,127,0,21,1379,34,1453,125,112,0,0,0,119,119,1350,0,0,102,0,78,92,1350,90,0,0,1257,0,82,82,81,8,0,1203,7,5,20,1202,75,0,0,0,0,0,0,0,16,0,1157,0,6,0,0,0,0,0,0,0,999,0,0,943,0,0,768,0,0,810,0,0,0,0,0,689,7,0,0,3164,72,0,0,266,30,0,0,699,691,690,548,580,13,0,68,0,600,559,453,0,3147,404,0,0,0,499,476,463,445,399,0,389,385,0,371,67,357,355,344,330,320,284,241,257,289,262,224,284,250,0],[4565,2145,268,266,190,259,25,0,2069,0,0,218,0,0,171,2,193,170,1977,190,11,0,138,239,13,0,0,162,0,0,120,155,1626,15,136,113,191,95,83,0,11,122,121,120,0,0,81,112,104,0,97,16,0,37,0,90,87,63,83,0,0,0,72,80,95,71,72,56,88,0,75,74,1279,69,69,1275,67,47,63,89,60,52,58,4009,1181,57,55,53,51,91,49,49,135,47,47,208,45,45,0,44,808,41,806,40,106,30,37,36,517,709,753,31,459,0,30,29,0,0,0,117,72,3652,647,544,20,0,0,91,542,462,137,16,536,509,0,17,30,25,65,3448,22,26,404,0,293,0,0,0,9,18,26,68,47,15,38,66,0,27,274],["normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","normoxic","normoxic","hypoxic","normoxic","hypoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic"],[0.863780138457866,0.999161542761319,1,1,0.812660393498717,1,0.846625766871166,1,1,1,1,1,1,1,0.864479315263909,0.983108108108108,1,0.927947598253275,1,1,0.906621392190153,1,0.821428571428571,0.784490532010821,0.885159010600707,1,1,1,1,1,0.851063829787234,1,1,0.835526315789474,1,0.89968152866242,0.812450903377848,0.823223570190641,0.913070800167574,1,0.859335038363171,1,1,1,1,1,0.909090909090909,1,1,1,1,0.745222929936306,1,0.956316410861865,1,1,1,0.922907488986784,1,1,1,1,0.9375,1,0.883692458374143,0.944148936170213,0.96,0.823529411764706,0.891250617894216,1,1,1,1,1,1,1,1,0.830388692579505,1,0.886363636363636,1,0.935251798561151,1,1,1,1,1,1,1,0.86819235225956,1,1,0.80736301369863,1,1,0.688995215311005,1,1,1,1,1,1,1,1,0.795918367346939,0.87719298245614,1,1,0.785956777345367,0.942568465833555,1,1,0.741998060135791,1,1,1,1,1,1,0.737550471063257,0.828571428571429,0.997868735996503,1,0.930232558139535,1,1,1,0.749173098125689,1,0.803420985448047,0.638903531892462,1,1,1,1,0.943820224719101,0.902534113060429,0.914383561643836,0.78646517739816,1,0.913860610806578,0.898832684824903,1,1,0.879351740696278,1,1,1,0.956521739130435,0.914285714285714,0.867617107942973,0.680150517403575,0.766401590457257,0.920382165605096,0.805327868852459,0.67065868263473,1,0.847457627118644,1],[0.014,0.024,0.017,0.02,0.016,0.026,0.038,0.023,0.018,0.015,0.024,0.026,0.02,0.029,0.023,0.021,0.03,0.023,0.02,0.016,0.018,0.021,0.042,0.026,0.017,0.018,0.021,0.023,0.024,0.017,0.045,0.023,0.014,0.023,0.02,0.048,0.011,0.048,0.011,0.015,0.018,0.018,0.027,0.018,0.018,0.01,0.02,0.025,0.017,0.015,0.018,0.028,0.016,0.023,0.017,0.026,0.022,0.021,0.013,0.018,0.017,0.018,0.015,0.013,0.016,0.024,0.015,0.045,0.019,0.015,0.017,0.011,0.012,0.015,0.015,0.018,0.024,0.047,0.024,0.014,0.025,0.019,0.022,0.021,0.023,0.016,0.024,0.02,0.015,0.022,0.021,0.021,0.05,0.021,0.022,0.039,0.014,0.017,0.019,0.014,0.015,0.014,0.018,0.018,0.031,0.037,0.02,0.022,0.014,0.042,0.016,0.022,0.049,0.017,0.017,0.017,0.018,0.021,0.019,0.028,0.019,0.033,0.019,0.011,0.018,0.02,0.025,0.018,0.015,0.022,0.033,0.019,0.016,0.024,0.022,0.015,0.014,0.016,0.021,0.013,0.02,0.02,0.014,0.017,0.037,0.014,0.018,0.025,0.02,0.022,0.013,0.02,0.016,0.019,0.019,0.023,0.021,0.019,0.021],[8,4,3,3,7,3,7,5,3,5,5,3,5,5,8,6,3,4,3,3,7,5,7,8,7,5,5,3,5,5,4,3,3,7,3,5,8,4,7,5,8,3,3,3,5,5,6,3,3,5,3,7,5,6,5,3,3,7,3,5,5,5,4,3,8,4,4,4,7,5,3,3,3,3,3,3,3,4,3,7,3,4,3,3,3,3,3,3,3,7,3,3,8,3,3,8,3,3,5,3,3,3,3,3,8,4,3,3,8,5,3,3,8,5,3,3,5,5,5,8,7,5,3,7,3,5,5,7,3,8,8,3,3,3,5,6,7,6,7,3,6,8,3,5,5,5,5,5,6,6,7,8,7,6,7,8,5,6,3],["Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Archaea","Bacteria","Archaea","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Archaea","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria"],["Cyanobacteria","Campilobacterota","Cyanobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Proteobacteria","Thermoplasmatota","Marinimicrobia_(SAR406_clade)","Bacteroidota","Proteobacteria","Proteobacteria","Actinobacteriota","Marinimicrobia_(SAR406_clade)","Planctomycetota","Bacteroidota","Proteobacteria","Cloacimonadota","Proteobacteria","Thermoplasmatota","Planctomycetota","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Planctomycetota","Proteobacteria","Actinobacteriota","Proteobacteria","Proteobacteria","Proteobacteria","Dadabacteria","Bacteroidota","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Bacteroidota","Desulfobacterota","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Proteobacteria","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Bacteroidota","Bacteroidota","Marinimicrobia_(SAR406_clade)","Bdellovibrionota","Marinimicrobia_(SAR406_clade)","Planctomycetota","Proteobacteria","Marinimicrobia_(SAR406_clade)","Verrucomicrobiota","Verrucomicrobiota","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Bacteroidota","Planctomycetota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Planctomycetota","Proteobacteria","Planctomycetota","Proteobacteria","Proteobacteria","Bacteroidota","Bacteroidota","Proteobacteria","Verrucomicrobiota","Proteobacteria","Proteobacteria","Planctomycetota","Thermoplasmatota","Planctomycetota","Actinobacteriota","Actinobacteriota","Bacteroidota","Bacteroidota","Actinobacteriota","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Proteobacteria","Verrucomicrobiota","Planctomycetota","Bacteroidota","Proteobacteria","Bacteroidota","Bacteroidota","Planctomycetota","Bacteroidota","Proteobacteria","Bacteroidota","Firmicutes","Bacteroidota","Cyanobacteria","Proteobacteria","Proteobacteria","Thermoplasmatota","Bacteroidota","Bacteroidota","Bacteroidota","Nanoarchaeota","Bacteroidota","Bacteroidota","Proteobacteria","Proteobacteria","Bacteroidota","Proteobacteria","Firmicutes","Bacteroidota","Proteobacteria","Thermoplasmatota","Thermoplasmatota","Proteobacteria","Thermoplasmatota","Thermoplasmatota","Proteobacteria","Proteobacteria","Proteobacteria","Cyanobacteria","Proteobacteria","Bacteroidota","Thermoplasmatota","Actinobacteriota","Cyanobacteria","Bacteroidota","Proteobacteria","Proteobacteria","Proteobacteria","Thermoplasmatota","Proteobacteria","Proteobacteria","Marinimicrobia_(SAR406_clade)","Actinobacteriota","Proteobacteria","Proteobacteria"],["Cyanobacteriia","Campylobacteria","Cyanobacteriia","Gammaproteobacteria","Bacteroidia","Bacteroidia","Phycisphaerae","Gammaproteobacteria","Alphaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Planctomycetes","Bacteroidia","Alphaproteobacteria","Cloacimonadia","Gammaproteobacteria","Thermoplasmata","OM190","Bacteroidia","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Phycisphaerae","Gammaproteobacteria","Acidimicrobiia","Gammaproteobacteria","Gammaproteobacteria","Gammaproteobacteria","Dadabacteriia","Bacteroidia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Bacteroidia","Bacteroidia","Desulfovibrionia","Alphaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Bacteroidia","Bacteroidia","Gammaproteobacteria","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Alphaproteobacteria","Bacteroidia","Bacteroidia","Bacteroidia","Bacteroidia","Phylum_Marinimicrobia_(SAR406_clade)","Bdellovibrionia","Phylum_Marinimicrobia_(SAR406_clade)","OM190","Gammaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellae","Verrucomicrobiae","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Bacteroidia","Planctomycetes","Gammaproteobacteria","Bacteroidia","Bacteroidia","OM190","Alphaproteobacteria","OM190","Gammaproteobacteria","Planctomycetes","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Rhodothermia","Gammaproteobacteria","Verrucomicrobiae","Alphaproteobacteria","Gammaproteobacteria","Planctomycetes","Thermoplasmata","OM190","Acidimicrobiia","Acidimicrobiia","Bacteroidia","Bacteroidia","Acidimicrobiia","Bacteroidia","Gammaproteobacteria","Bacteroidia","Rhodothermia","Phycisphaerae","Alphaproteobacteria","Verrucomicrobiae","Planctomycetes","Bacteroidia","Alphaproteobacteria","Bacteroidia","Bacteroidia","Planctomycetes","Rhodothermia","Gammaproteobacteria","Bacteroidia","Clostridia","Bacteroidia","Cyanobacteriia","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Bacteroidia","Bacteroidia","Bacteroidia","Nanoarchaeia","Bacteroidia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Bacteroidia","Gammaproteobacteria","Clostridia","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Thermoplasmata","Alphaproteobacteria","Thermoplasmata","Thermoplasmata","Gammaproteobacteria","Alphaproteobacteria","Alphaproteobacteria","Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Thermoplasmata","Acidimicrobiia","Cyanobacteriia","Bacteroidia","Alphaproteobacteria","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Alphaproteobacteria","Alphaproteobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Gammaproteobacteria","Gammaproteobacteria"],["Synechococcales","Campylobacterales","Cyanobacteriales","Oceanospirillales","Flavobacteriales","Flavobacteriales","Phycisphaerales","SAR86_clade","Rhodobacterales","Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Bacteroidales","SAR11_clade","Thiotrichales","Actinomarinales","Phylum_Marinimicrobia_(SAR406_clade)","Planctomycetales","Flavobacteriales","Rhodobacterales","Cloacimonadales","SAR86_clade","Thermoplasmata_or","Class_OM190","Flavobacteriales","SAR11_clade","SAR11_clade","Flavobacteriales","Phycisphaerales","SAR86_clade","Microtrichales","Cellvibrionales","Alteromonadales","Oceanospirillales","Dadabacteriales","Flavobacteriales","Flavobacteriales","Puniceispirillales","Chromatiales","SAR11_clade","Defluviicoccales","Flavobacteriales","Flavobacteriales","Bacteroidales","Desulfovibrionales","Rhodobacterales","Puniceispirillales","SAR11_clade","Flavobacteriales","Bacteroidales","SAR86_clade","Flavobacteriales","Parvibaculales","SAR86_clade","Cytophagales","Puniceispirillales","Chitinophagales","Bacteroidales","Flavobacteriales","Bacteroidales","Phylum_Marinimicrobia_(SAR406_clade)","Bacteriovoracales","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Thiotrichales","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellales","Verrucomicrobiales","Flavobacteriales","SAR11_clade","Alteromonadales","Rhodospirillales","Flavobacteriales","Oceanospirillales","Chitinophagales","Planctomycetales","Oceanospirillales","Class_Bacteroidia","Flavobacteriales","Class_OM190","Rhodobacterales","Class_OM190","KI89A_clade","Pirellulales","Rhodobacterales","Oceanospirillales","Flavobacteriales","Balneolales","HOC36","Opitutales","Puniceispirillales","Oceanospirillales","Pirellulales","Marine_Group_II","Class_OM190","Microtrichales","Actinomarinales","Flavobacteriales","Bacteroidales","Actinomarinales","Flavobacteriales","Oceanospirillales","Bacteroidales","Balneolales","Phycisphaerales","Rhodobacterales","Arctic97B-4_marine_group","Planctomycetales","Flavobacteriales","SAR11_clade","Chitinophagales","Flavobacteriales","Planctomycetales","Balneolales","Cellvibrionales","Chitinophagales","Peptostreptococcales-Tissierellales","Flavobacteriales","Synechococcales","Rhodobacterales","SAR86_clade","Marine_Group_II","Chitinophagales","Flavobacteriales","Flavobacteriales","Woesearchaeales","Flavobacteriales","Flavobacteriales","SAR11_clade","Chromatiales","Flavobacteriales","Cellvibrionales","Peptostreptococcales-Tissierellales","Chitinophagales","Chromatiales","Marine_Group_II","Marine_Group_II","Rhodobacterales","Marine_Group_II","Marine_Group_II","Oceanospirillales","Puniceispirillales","Defluviicoccales","Limnotrichales","SAR11_clade","Flavobacteriales","Marine_Group_II","Actinomarinales","Synechococcales","Flavobacteriales","Puniceispirillales","Rhodospirillales","SAR86_clade","Marine_Group_II","Puniceispirillales","SAR11_clade","Phylum_Marinimicrobia_(SAR406_clade)","Actinomarinales","Cellvibrionales","Oceanospirillales"],["Cyanobiaceae","Arcobacteraceae","Phormidiaceae","Nitrincolaceae","Flavobacteriaceae","Flavobacteriaceae","Phycisphaeraceae","Order_SAR86_clade","Rhodobacteraceae","Order_Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Marinilabiliaceae","Clade_II","Thiotrichaceae","Actinomarinaceae","Phylum_Marinimicrobia_(SAR406_clade)","Rubinisphaeraceae","Cryomorphaceae","Rhodobacteraceae","MSBL8","Order_SAR86_clade","Thermoplasmata_fa","Class_OM190","Flavobacteriaceae","Clade_III","Clade_I","Flavobacteriaceae","Phycisphaeraceae","Order_SAR86_clade","Microtrichaceae","Halieaceae","Alteromonadaceae","Nitrincolaceae","Order_Dadabacteriales","Flavobacteriaceae","Flavobacteriaceae","SAR116_clade","Chromatiaceae","Clade_I","Order_Defluviicoccales","Flavobacteriaceae","Cryomorphaceae","Prolixibacteraceae","Desulfovibrionaceae","Rhodobacteraceae","SAR116_clade","Clade_I","Flavobacteriaceae","Prolixibacteraceae","Order_SAR86_clade","Flavobacteriaceae","PS1_clade","Order_SAR86_clade","Cyclobacteriaceae","SAR116_clade","Saprospiraceae","Prolixibacteraceae","Flavobacteriaceae","Prolixibacteraceae","Phylum_Marinimicrobia_(SAR406_clade)","Bacteriovoracaceae","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Thiotrichaceae","Phylum_Marinimicrobia_(SAR406_clade)","Kiritimatiellaceae","Rubritaleaceae","Flavobacteriaceae","Clade_II","Alteromonadaceae","Terasakiellaceae","Cryomorphaceae","Nitrincolaceae","Saprospiraceae","Rubinisphaeraceae","Nitrincolaceae","Class_Bacteroidia","Cryomorphaceae","Class_OM190","Rhodobacteraceae","Class_OM190","Order_KI89A_clade","Pirellulaceae","Rhodobacteraceae","Nitrincolaceae","Order_Flavobacteriales","Balneolaceae","Order_HOC36","Puniceicoccaceae","SAR116_clade","Nitrincolaceae","Pirellulaceae","Order_Marine_Group_II","Class_OM190","Ilumatobacteraceae","Actinomarinaceae","Flavobacteriaceae","Marinifilaceae","Actinomarinaceae","NS9_marine_group","Nitrincolaceae","Prolixibacteraceae","Balneolaceae","Phycisphaeraceae","Rhodobacteraceae","Order_Arctic97B-4_marine_group","Rubinisphaeraceae","Cryomorphaceae","Clade_I","Saprospiraceae","Flavobacteriaceae","Rubinisphaeraceae","Balneolaceae","Halieaceae","Order_Chitinophagales","Peptostreptococcaceae","Flavobacteriaceae","Cyanobiaceae","Rhodobacteraceae","Order_SAR86_clade","Order_Marine_Group_II","Saprospiraceae","Flavobacteriaceae","Flavobacteriaceae","Order_Woesearchaeales","NS9_marine_group","Flavobacteriaceae","Clade_I","Chromatiaceae","Flavobacteriaceae","Halieaceae","Peptostreptococcales-Tissierellales_fa","Saprospiraceae","Chromatiaceae","Order_Marine_Group_II","Order_Marine_Group_II","Rhodobacteraceae","Order_Marine_Group_II","Order_Marine_Group_II","Nitrincolaceae","SAR116_clade","Order_Defluviicoccales","Limnotrichaceae","Clade_II","Flavobacteriaceae","Order_Marine_Group_II","Actinomarinaceae","Cyanobiaceae","Flavobacteriaceae","SAR116_clade","AEGEAN-169_marine_group","Order_SAR86_clade","Order_Marine_Group_II","SAR116_clade","Clade_I","Phylum_Marinimicrobia_(SAR406_clade)","Actinomarinaceae","Halieaceae","Nitrincolaceae"],["Synechococcus_CC9902","Family_Arcobacteraceae","Trichodesmium_IMS101","Amphritea","Family_Flavobacteriaceae","Family_Flavobacteriaceae","Urania-1B-19_marine_sediment_group","Order_SAR86_clade","Family_Rhodobacteraceae","Order_Marine_Group_II","Phylum_Marinimicrobia_(SAR406_clade)","Family_Marinilabiliaceae","Family_Clade_II","Family_Thiotrichaceae","Candidatus_Actinomarina","Phylum_Marinimicrobia_(SAR406_clade)","Family_Rubinisphaeraceae","Family_Cryomorphaceae","Family_Rhodobacteraceae","Family_MSBL8","Order_SAR86_clade","Marine_Group_III","Class_OM190","NS5_marine_group","Family_Clade_III","Clade_Ib","NS2b_marine_group","CL500-3","Order_SAR86_clade","Sva0996_marine_group","OM60(NOR5)_clade","Family_Alteromonadaceae","Family_Nitrincolaceae","Order_Dadabacteriales","NS4_marine_group","Family_Flavobacteriaceae","Family_SAR116_clade","Candidatus_Thiobios","Clade_Ia","Order_Defluviicoccales","NS4_marine_group","Family_Cryomorphaceae","Roseimarinus","Desulfovibrio","Family_Rhodobacteraceae","Family_SAR116_clade","Clade_Ia","NS4_marine_group","Draconibacterium","Order_SAR86_clade","NS4_marine_group","Family_PS1_clade","Order_SAR86_clade","Marinoscillum","Family_SAR116_clade","Family_Saprospiraceae","Draconibacterium","NS4_marine_group","Sunxiuqinia","Phylum_Marinimicrobia_(SAR406_clade)","Family_Bacteriovoracaceae","Phylum_Marinimicrobia_(SAR406_clade)","Class_OM190","Family_Thiotrichaceae","Phylum_Marinimicrobia_(SAR406_clade)","R76-B128","Roseibacillus","NS4_marine_group","Family_Clade_II","Aliiglaciecola","Terasakiella","Family_Cryomorphaceae","Pontibacterium","Family_Saprospiraceae","Family_Rubinisphaeraceae","Marinobacterium","Class_Bacteroidia","Family_Cryomorphaceae","Class_OM190","Family_Rhodobacteraceae","Class_OM190","Order_KI89A_clade","Rhodopirellula","Thalassobius","Pontibacterium","Order_Flavobacteriales","Balneola","Order_HOC36","MB11C04_marine_group","Family_SAR116_clade","Neptuniibacter","Blastopirellula","Order_Marine_Group_II","Class_OM190","Family_Ilumatobacteraceae","Candidatus_Actinomarina","NS4_marine_group","Family_Marinifilaceae","Candidatus_Actinomarina","Family_NS9_marine_group","Pontibacterium","Roseimarinus","Balneola","SM1A02","Family_Rhodobacteraceae","Order_Arctic97B-4_marine_group","Family_Rubinisphaeraceae","Family_Cryomorphaceae","Clade_Ia","Family_Saprospiraceae","Tenacibaculum","Family_Rubinisphaeraceae","Balneola","Luminiphilus","Order_Chitinophagales","Peptoclostridium","NS2b_marine_group","Synechococcus_CC9902","Family_Rhodobacteraceae","Order_SAR86_clade","Order_Marine_Group_II","Family_Saprospiraceae","Formosa","Family_Flavobacteriaceae","Order_Woesearchaeales","Family_NS9_marine_group","NS2b_marine_group","Clade_Ib","Candidatus_Thiobios","NS2b_marine_group","OM60(NOR5)_clade","Family_Peptostreptococcales-Tissierellales_fa","Family_Saprospiraceae","Candidatus_Thiobios","Order_Marine_Group_II","Order_Marine_Group_II","Roseovarius","Order_Marine_Group_II","Order_Marine_Group_II","Marinobacterium","Candidatus_Puniceispirillum","Order_Defluviicoccales","Limnothrix","Family_Clade_II","NS4_marine_group","Order_Marine_Group_II","Candidatus_Actinomarina","Synechococcus_CC9902","NS5_marine_group","Family_SAR116_clade","Family_AEGEAN-169_marine_group","Order_SAR86_clade","Order_Marine_Group_II","Family_SAR116_clade","Clade_Ib","Phylum_Marinimicrobia_(SAR406_clade)","Candidatus_Actinomarina","OM60(NOR5)_clade","Family_Nitrincolaceae"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>ASV<\/th>\n      <th>reads<\/th>\n      <th>norm<\/th>\n      <th>hypo<\/th>\n      <th>group<\/th>\n      <th>indval<\/th>\n      <th>pval<\/th>\n      <th>freq<\/th>\n      <th>Kingdom<\/th>\n      <th>Phylum<\/th>\n      <th>Class<\/th>\n      <th>Order<\/th>\n      <th>Family<\/th>\n      <th>Genus<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"autoWidth":true,"columnDefs":[{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\");\n  }"},{"targets":6,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 3, 3, \",\", \".\");\n  }"},{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,5,6,7]}],"dom":"Blfrtip","buttons":[{"extend":"collection","buttons":["csv","excel","copy"],"text":"Download"}],"pageLength":10,"lengthMenu":[5,10,50,160],"scrollX":true,"scrollCollapse":false,"scrollY":false,"paging":true,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"orderClasses":false,"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'80%'});\nvar value=data[10]; $(this.api().cell(row, 10).node()).css({'font-size':'80%'});\nvar value=data[11]; $(this.api().cell(row, 11).node()).css({'font-size':'80%'});\nvar value=data[12]; $(this.api().cell(row, 12).node()).css({'font-size':'80%'});\nvar value=data[13]; $(this.api().cell(row, 13).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.rowCallback"],"jsHooks":[]}</script>
 </div>
 <p>We also save fasta files of DA ASVs. For the visualization below we will only consider ASVs that were represented by &gt; 100 reads so we need a fasta of just those ASVs.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2190,7 +2574,7 @@ C. Metagenomic
 </div>
 <p>Now. What do we get from all of this? Well, we started with 1272 and ran Indicator Species Analysis (ISA) to see if we could identify Differentially Abundant (DA) ASVs between the normoxic and hypoxic conditions. ISA found 159 ASVs that were DA between the two, specifically 76 ASVs enriched in the normoxic samples and 83 in the hypoxic. If we consider only ASVs with more than 100 total reads we get 76 normoxic ASVs and 83 hypoxic ASVs.</p>
 <h1 id="visualizing-da-asvs-in-anvio">Visualizing DA ASVs in Anvi’o</h1>
-<p>Next, we will combine the results of the ISA analysis with the distribution of ASVs across each sample. We are going to do the analysis in anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> using the <code>anvi-interactive</code> command. Anvi’o likes database but it also understands that sometimes you don’t have a database. So it offers a <em>manual mode</em> for all of us slackers out there. If you type this command you can have a look at the relevant pieces we need for the visualization, specifically those under the headings <code>MANUAL INPUTS</code> and <code>ADDITIONAL STUFF</code>. I will go through these out of order so try to keep up ;)</p>
+<p>Next, we will combine the results of the ISA analysis with the distribution of ASVs across each sample. We are going to do the analysis in anvi’o <span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> using the <code>anvi-interactive</code> command. Anvi’o likes database but it also understands that sometimes you don’t have a database. So it offers a <em>manual mode</em> for all of us slackers out there. If you type this command you can have a look at the relevant pieces we need for the visualization, specifically those under the headings <code>MANUAL INPUTS</code> and <code>ADDITIONAL STUFF</code>. I will go through these out of order so try to keep up ;)</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">anvi-interactive</span> -h</span></code></pre></div>
 <pre><code>MANUAL INPUTS:
   Mandatory input parameters to start the interactive interface without
@@ -2446,7 +2830,7 @@ The file <code>sample.tre</code> is <strong>added</strong> to the profile.db wit
 <span id="cb17-2"><a href="#cb17-2"></a>                  <span class="ex">--state</span> default</span>
 <span id="cb17-3"><a href="#cb17-3"></a>                  <span class="ex">--output-file</span> states.json</span></code></pre></div>
 <h1 id="heat-tree">Heat Tree</h1>
-<p>Time for something a little different. We have been using some pretty standard graphical constructs to display diversity data from these samples. Especially when looking at taxonomic diversity, we are pigeonholing the data by selecting and isolating specific ranks to look at—Class, Family, ASV, etc. But we are not really considering these pieces <em>together</em>. For example, when we asked what the differences between normoxic and hypoxic samples were, we looked at which ASVs were differentially abundant. Nice. But what about higher taxonomic ranks? Two treatments may differ at the ASV level but not say the Family level. This is important becuase it can tell us where, on a <em>lineage map</em>, sample type start to diverge from one another. And this of course has important ecological consequences. In fact, we can perform this analysis and actually visualize the lineage map and significant results as a <em>heat tree</em> using the R package <a href="https://grunwaldlab.github.io/metacoder_documentation/">metacoder</a><span class="citation" data-cites="foster2017metacoder">(Foster, Sharpton, and Grünwald <a href="#ref-foster2017metacoder" role="doc-biblioref">2017</a>)</span>. Let’s take a look at a simple example using the Phylum Cyanobacteria.</p>
+<p>Time for something a little different. We have been using some pretty standard graphical constructs to display diversity data from these samples. Especially when looking at taxonomic diversity, we are pigeonholing the data by selecting and isolating specific ranks to look at—Class, Family, ASV, etc. But we are not really considering these pieces <em>together</em>. For example, when we asked what the differences between normoxic and hypoxic samples were, we looked at which ASVs were differentially abundant. Nice. But what about higher taxonomic ranks? Two treatments may differ at the ASV level but not say the Family level. This is important becuase it can tell us where, on a <em>lineage map</em>, sample type start to diverge from one another. And this of course has important ecological consequences. In fact, we can perform this analysis and actually visualize the lineage map and significant results as a <em>heat tree</em> using the R package <a href="https://grunwaldlab.github.io/metacoder_documentation/">metacoder</a> <span class="citation" data-cites="foster2017metacoder">(Foster, Sharpton, and Grünwald <a href="#ref-foster2017metacoder" role="doc-biblioref">2017</a>)</span>. Let’s take a look at a simple example using the Phylum Cyanobacteria.</p>
 <h2 id="example">Example</h2>
 <p>The map is like a network, composed of nodes (circles) connected by edges (lines). Each node is a taxonomic level, and along with the edges, forms part of a taxonomic lineage. Start at the big <strong>P</strong>—this is the phylum Cyanobacteria. Then the single Class in this example (big <strong>C</strong>), then 4 orders, 5 familes, 9 genera, and finally 21 terminal nodes, which are the individual ASVs.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2667,7 +3051,7 @@ Next
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>© Copyright 2020 The HYPOCOLYPSE Project.</p>
+<p>© Copyright 2020 metacrobe &amp; The HYPOCOLYPSE Project.</p>
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->

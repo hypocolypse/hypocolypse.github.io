@@ -130,6 +130,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -178,7 +179,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -452,8 +453,15 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -477,22 +485,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     return offset ? offset + '/' + url : url;
   }
   
-  function createIndex() {
-    var options = {
-      keys: [
-        "title",
-        "categories",
-        "description",
-        "contents"
-      ]
-    };
-    return new window.Fuse([],options);
-  }
-  
   function createFuseIndex() {
   
     // create fuse index
-    var options = { keys: ["title", "description", "contents"] };
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
     var fuse = new window.Fuse([], options);
   
     // fetch the main search.json
@@ -560,29 +565,25 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               shouldSort: true,
               minMatchCharLength: 2,
               limit: 10,
-              keys: [
-                { name: 'title', weight: 20 },
-                { name: 'categories', weight: 15 },
-                { name: 'description', weight: 10 },
-                { name: 'contents', weight: 5 },
-              ],
             };
             var results = fuse.search(query, searchOptions);
             callback(results
               .map(function(result) { return result.item; })
-              .filter(function(item) { return !!item.description; })
             );
           },
           templates: {
             suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
               var html = `
                 <div class="search-item">
                   <h3>${suggestion.title}</h3>
                   <div class="search-item-description">
-                    ${suggestion.description}
+                    ${suggestion.description || ''}
                   </div>
                   <div class="search-item-preview">
-                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                    ${img}
                   </div>
                 </div>
               `;
@@ -592,15 +593,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }]).on('autocomplete:selected', function(event, suggestion) {
           window.location.href = offsetURL(suggestion.path);
         });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
       })
       .catch(function(error) {
         console.log(error);
       });
+  
   });
   
   </script>
   
   <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
   
   /* Algolioa Autocomplete */
   
@@ -614,16 +623,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 8px;
     padding-bottom: 0;
     border-radius: 6px;
-    border: 1px #455a64 solid;
+    border: 1px #0F2E3D solid;
     width: 180px;
   }
   
   
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
-      visibility: hidden
+      display: none;
+      visibility: hidden;
     }
     .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
       visibility: visible;
     }
     .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
@@ -674,6 +685,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
   
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
@@ -735,6 +747,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
   }
   
   .authors-affiliations .orcid-id {
@@ -845,7 +869,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
-    overflow: hidden;
+    overflow: auto;
   }
   
   d-article div.sourceCode {
@@ -887,6 +911,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
   }
   
   @media(min-width: 768px) {
@@ -931,7 +960,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
   
   @media(min-width: 1000px) {
-    .d-contents {
+    .d-contents.d-contents-float {
       height: 0;
       grid-column-start: 1;
       grid-column-end: 4;
@@ -1045,6 +1074,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-left: 1em; text-indent: -1em;
   }
   
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+  
   
   /* Tweak 1000px media break to show more text */
   
@@ -1119,6 +1159,78 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
   
   /* Anchor.js */
   
@@ -1186,6 +1298,211 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
   .custom p {
     margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -1317,6 +1634,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -1427,7 +1750,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('div.sourceCode, pre, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1449,7 +1772,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
-    $('code.sourceCode a[aria-hidden="true"]').remove();
+    $('code.sourceCode a:empty').remove();
   
     // load distill framework
     load_distill_framework();
@@ -1535,9 +1858,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+  
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1698,10 +2039,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
-  <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+  <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.15/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -1717,8 +2058,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
   <link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
   <script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
-  <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+  <link href="site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+  <script src="site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1726,7 +2071,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500|Karla:400,400i,700,700i');
   /********************************/
   /* controls general properties of site*/
   /********************************/
@@ -1762,6 +2107,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   d-byline .authors-affiliations {
     grid-column-end: span 3;
     grid-column-gap: 8px;
+  }
+  
+  img.orcid-id {
+    margin: 0;
   }
   
   a.name:-webkit-any-link {
@@ -1843,6 +2192,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-radius: 3px;
     font-size: 0.8em;
     font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
     margin-bottom: 20px;
     color: #BF2727;
   }
@@ -1854,66 +2204,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #BF2727;
   }
   
-  /** OLD code b4 distill update
-  d-code {
-    background-color: #E8E8E8;
-    border-radius: 3px;
-    font-size: 0.8em;
-    font-family: 'Monaco', 'PT Mono', monospace;
-    overflow-x: scroll !important;
-    margin-bottom: 20px;
-    border-left: 5px solid #006ddb;
-    border-top: 1px solid #B7B7B7;
-    border-right: 1px solid #B7B7B7;
-    border-bottom: 1px solid #B7B7B7;
-  }
-  
-  code {
-    background-color: #E8E8E8;
-    border-radius: 3px;
-    font-size: 0.9em;
-    font-family: 'Monaco', 'PT Mono', monospace;
-    overflow-x: scroll !important;
-    margin-bottom: 20px;
-    color: #BF2727;
-  }
-  
-  pre.text-output {
-    margin-top: 0px;
-     color: #333333;
-     background-color: #FAFAFA;
-     font-size: 0.8em
-   }
-  
-  pre {
-    border: 1px solid #ccc;
-    padding: 0px 10px 10px 18px;
-    margin: 1em 0px;
-    border-radius: 5px;
-  }
-  
-  **/
-  
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
   
   .nav-dropdown-content .nav-dropdown-header {
-    text-transform: none;
+    text-transform: uppercase;
+    color: #686868;
+  }
+  
+  .nav-dropdown-content a {
+    font-family: 'Work Sans'
+  }
+  .nav-dropdown .nav-dropbtn {
+    color: #FEFEFE;
+    font-weight: 400;
   }
   
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
-    margin-bottom: 10px;
+    margin-bottom: auto;
   }
   
   .distill-site-nav {
-      color: rgba(255, 255, 255, 0.8);
+      color: #FEFEFE;
       background-color: #143D59;
-      font-size: 16px;
-      font-weight: 300;
-    }
+      font-size: 0.95em;
+      font-weight: 400;
+      min-width: 165px;
+      position: absolute;
+      font-family: 'Karla';
+      letter-spacing: .1em;
+  
   }
   
   .article-banner {
@@ -2027,6 +2350,67 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	max-width: 100%;
   }
   
+  /*************************************************
+  *  code for DETAILS fold down
+  **************************************************/
+  
+  details {
+    background-color: #ccd7df;
+    cursor: pointer;
+    color: #282828;
+    margin-bottom:1vh;
+    padding: 1em;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-family: 'Karla'
+  }
+  
+  .active, details:hover {
+    transition: max-height 0.2s ease-out;
+    outline: none;
+  
+    /* background-color: #acc2c2; */
+  }
+  
+  details {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    border-radius: 4px;
+    outline: none;
+  
+  }
+  
+  details.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    outline: none;
+  
+  }
+  
+  summary::-webkit-details-marker {
+    display: none;
+    outline: none;
+  
+  }
+  
+  summary:focus {
+    outline: none;
+  }
+  
+  summary::after {
+    float: right;
+    font-family: "Font Awesome 5 Free";
+    content: "\f0fe";
+  }
+  
+  details[open] summary::after {
+    float: right;
+    font-family: "Font Awesome 5 Free";
+    content: "\f146";
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2056,27 +2440,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Site Overview</a>
-<a href="field.html">A. Field Analyses</a>
+<a href="intro.html">OVERVIEW</a>
+<a href="field.html">FIELD</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-B. 16S rRNA
+16S rRNA
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<span class="nav-dropdown-header">16S rRNA Processing</span>
+<span class="nav-dropdown-header">Processing</span>
 <a href="16s-dada2.html">1. DADA2</a>
 <a href="16s-data-prep.html">2. Data Prep</a>
 <hr/>
-<span class="nav-dropdown-header">16S rRNA Analyses</span>
+<span class="nav-dropdown-header">Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
 <a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-C. Metagenomic
+METAGENOMIC
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
@@ -2095,9 +2479,9 @@ C. Metagenomic
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
-<a href="data-availability.html">Data</a>
-<a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg" aria-hidden="true"></i>
+<a href="data-availability.html">DATA</a>
+<a href="https://github.com/hypocolypse/web/" aria-label="Link to source">
+<i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -2116,7 +2500,7 @@ C. Metagenomic
 
 
 <div class="d-article">
-<div class="d-contents">
+<div class="d-contents d-contents-float">
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
@@ -2244,7 +2628,7 @@ Arcobacter_anaerophilus_GCA_000935065_1 /pool/genomics/stri_istmobiome/data/HYPO
 <p>If you change the names they MUST be unique and contain no spaces, periods, dashes, or other weird characters. Letters, numbers, and underscores only.</p>
 </blockquote>
 <h1 id="running-snakemake-contigs-workflow">Running Snakemake Contigs Workflow</h1>
-<p>Now it is time for some comparisons. First we will run the <em>contigs</em> workflow since this will produce annotated contig databases and properly formatted fasta files for all genomes. We will need these for phylogenomics. Ok, renamed file in hand, we use Snakemake workflow<span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span> to run the built-in anvi’o <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#contigs-workflow">contigs workflow</a>. If you do not know what workflows are available you can run this command:</p>
+<p>Now it is time for some comparisons. First we will run the <em>contigs</em> workflow since this will produce annotated contig databases and properly formatted fasta files for all genomes. We will need these for phylogenomics. Ok, renamed file in hand, we use Snakemake workflow <span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span> to run the built-in anvi’o <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#contigs-workflow">contigs workflow</a>. If you do not know what workflows are available you can run this command:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="ex">anvi-run-workflow</span> --list-workflows</span></code></pre></div>
 <pre><code>WARNING
 ===============================================
@@ -2549,8 +2933,7 @@ echo = `date` job $JOB_NAME don
 <p><br/></p>
 <p>Finished? Sweet. What we have now are contig databases for 124 <em>Arcobacter</em>-group genomes—databases that contain gene calls, functional annotations, HMM profiles, etc. Remember, our goal is to better understand MAG02 by asking what it is related to and where related genomes are found in nature. Before continuing, we need to ask two questions about our genome collection and then address each of them in turn.</p>
 <ol type="1">
-<li>How complete are these genomes? We will rely on single copy genes for phylogenomic analysis so there is no reason to keep genomes that are missing too many genes.<br />
-</li>
+<li>How complete are these genomes? We will rely on single copy genes for phylogenomic analysis so there is no reason to keep genomes that are missing too many genes.</li>
 <li>Do we <em>need</em> all of these genomes? It is likely that some of these genomes are highly similar to each other. What we are after is a representative sampling of <em>Arcobacter</em> genomic diversity.</li>
 </ol>
 <h1 id="curate-genome-collection">Curate Genome Collection</h1>
@@ -2561,12 +2944,12 @@ echo = `date` job $JOB_NAME don
 <p>We have two goals here. First, we need to get rid of low completion genomes since they will compromise our ability to use single copy core genes for phylogenomics. Second, we want to keep only genomes that have a 16S rRNA sequence. Why? Good question. Because we found an ASV in our 16S rRNA analysis that is 100% identical across it’s length to a 16S rRNA sequence retrieved from MAG02. In addition to the phylogenomic analysis we will also conduct a 16S rRNA analysis of MAG02 with publicly available genomes to see how the topologies compare.</p>
 <h2 id="estimate-taxonomy">Estimate Taxonomy</h2>
 <p>Microbial taxonomy is a fluid system, meaning that classifications change often. One thing we can do is look at the predicted taxonomy for each genome even though they each came prepackaged with a taxonomic designation. We already know <a href="mg-binning.html#esimate-mag-taxonomy">MAG02’s predicted taxonomy is <em>Poseidonibacter</em></a> but what about the rest</p>
-<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">for</span> <span class="ex">genome</span> in <span class="kw">`</span><span class="fu">cat</span> list_genomes.txt<span class="kw">`;</span> </span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">do</span> </span>
+<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes <span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">for</span> <span class="ex">genome</span> in <span class="kw">`</span><span class="fu">cat</span> list_genomes.txt<span class="kw">`;</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">do</span></span>
 <span id="cb20-3"><a href="#cb20-3"></a>       <span class="ex">anvi-estimate-scg-taxonomy</span> \</span>
 <span id="cb20-4"><a href="#cb20-4"></a>       -c 03_CONTIGS/<span class="va">$genome</span>-contigs.db \</span>
-<span id="cb20-5"><a href="#cb20-5"></a>       -o 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span> </span>
+<span id="cb20-5"><a href="#cb20-5"></a>       -o 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span></span>
 <span id="cb20-6"><a href="#cb20-6"></a><span class="kw">done</span></span></code></pre></div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-page">
@@ -2579,7 +2962,7 @@ echo = `date` job $JOB_NAME don
 You can access the original <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes.txt">external-genomes file here</a>.
 </aside>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a><span class="ex">anvi-estimate-genome-completeness</span> \</span>
-<span id="cb21-2"><a href="#cb21-2"></a>                     -e external-genomes.txt </span>
+<span id="cb21-2"><a href="#cb21-2"></a>                     -e external-genomes.txt</span>
 <span id="cb21-3"><a href="#cb21-3"></a>                     <span class="ex">-o</span> completness.txt</span></code></pre></div>
 <p>Just like that, a table of basic stats for every genome in the collection. First notice the completion estimate of MAG02 is around 93%, which is good, but its total length is among the smallest, meaning we have a pretty incomplete genome. Not so good but it is what it is.</p>
 <p><br/></p>
@@ -2594,7 +2977,7 @@ You can access the original <a href="files/mag02-phylogenomics/3-curate-genomes/
 <aside>
 Genomes with lower completion than MAG02: Arcobacter_sp_CPC16, Arcobacter_sp_CPC309, Arcobacter_sp_CSH_ALOHA_XIX_Bin_5, Arcobacter_sp_DOLZORAL124_29_21, Arcobacter_sp_HD9_500m_PIT_SAG02, Arcobacter_sp_HD9_500m_PIT_SAG03, Arcobacter_sp_HyVt_597, Arcobacter_sp_SZUA_456, Arcobacter_sp_UBA4038, Arcobacter_sp_UBA6788, Arcobacter_sp_UBA6789.
 </aside>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span> </span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
 <span id="cb22-2"><a href="#cb22-2"></a>                  <span class="ex">-e</span> external-genomes.txt \</span>
 <span id="cb22-3"><a href="#cb22-3"></a>                  -o dummy_out.txt \</span>
 <span id="cb22-4"><a href="#cb22-4"></a>                  --list-hmm-sources</span></code></pre></div>
@@ -2605,8 +2988,8 @@ Genomes with lower completion than MAG02: Arcobacter_sp_CPC16, Arcobacter_sp_CPC
 * Bacteria_71 [type: singlecopy] [num genes: 885]
 * Transfer_RNAs [type: Transfer_RNAs] [num genes: 547]
 * Protista_83 [type: singlecopy] [num genes: 1741]</code></pre>
-<p>The HMM source we are interested in is <code>Bacteria_71</code><span class="citation" data-cites="lee2019gtotree">(Lee <a href="#ref-lee2019gtotree" role="doc-biblioref">2019</a>)</span>. Now, rerun the command and we get a table that lists the number of times each of the 71 HMM genes were found in each of the 125 genomes.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span> </span>
+<p>The HMM source we are interested in is <code>Bacteria_71</code> <span class="citation" data-cites="lee2019gtotree">(Lee <a href="#ref-lee2019gtotree" role="doc-biblioref">2019</a>)</span>. Now, rerun the command and we get a table that lists the number of times each of the 71 HMM genes were found in each of the 125 genomes.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
 <span id="cb24-2"><a href="#cb24-2"></a>                  <span class="ex">-e</span> external-genomes.txt \</span>
 <span id="cb24-3"><a href="#cb24-3"></a>                  -o Bacteria_71-HMM_HITS.txt \</span>
 <span id="cb24-4"><a href="#cb24-4"></a>                  --hmm-source Bacteria_71</span></code></pre></div>
@@ -2648,7 +3031,7 @@ The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-rrna-sc
 <aside>
 The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-rrna.txt">external-genomes file</a> to get 16S rRNA genes.
 </aside>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span> </span>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span></span>
 <span id="cb26-2"><a href="#cb26-2"></a>                     <span class="ex">-e</span> external-genomes-rrna.txt \</span>
 <span id="cb26-3"><a href="#cb26-3"></a>                     --hmm-sources Ribosomal_RNAs \</span>
 <span id="cb26-4"><a href="#cb26-4"></a>                     --gene-names Bacterial_16S_rRNA \</span>
@@ -2669,15 +3052,15 @@ Note. Arcobacter_sp_NORP14 failed subsequent the composition Chi-squared test in
 </aside>
 <h1 id="dereplicate-genome-collection">Dereplicate Genome Collection</h1>
 <p>Finally, we can dereplicate the genome collection using the command <code>anvi-dereplicate-genomes</code> to assess the number of genome clusters. This command has a lot of options for fine-tuning but since we are interested in a quick and dirty assessment, we’ll keep it simple. We can either give anvi’o an <code>external-genomes</code> file like we just did or a <code>fasta-text-file</code> similar to the one from the <a href="#running-snakemake-contigs-workflow">Snakemake workflow</a> above. Remember, the <code>external-genomes</code> file provides names and paths to <em>contig.dbs</em> and the <code>fasta-text-file</code> provides names and paths to <em>fasta</em> files. Either way, we first need to remove the 11 genomes that we are cutting from the analysis. Let’s stick with the <code>external-genomes</code> file since we will use this downstream anyway.</p>
-<p>Since accuracy is not paramount we use <code>--program fastANI</code><span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
+<p>Since accuracy is not paramount we use <code>--program fastANI</code> <span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
 <aside>
 The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-dereplicate.txt">external-genomes file</a> for dereplication.
 </aside>
 <div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">mkdir</span> 06_DEREPLICATE</span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="ex">anvi-dereplicate-genomes</span> -e external-genomes-rrna.txt </span>
-<span id="cb27-3"><a href="#cb27-3"></a>                         <span class="ex">--program</span> fastANI </span>
-<span id="cb27-4"><a href="#cb27-4"></a>                         <span class="ex">--similarity-threshold</span> 0.99 </span>
-<span id="cb27-5"><a href="#cb27-5"></a>                         <span class="ex">-o</span> 06_DEREPLICATE/DR_99 -T <span class="va">$NSLOTS</span> </span></code></pre></div>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="ex">anvi-dereplicate-genomes</span> -e external-genomes-rrna.txt</span>
+<span id="cb27-3"><a href="#cb27-3"></a>                         <span class="ex">--program</span> fastANI</span>
+<span id="cb27-4"><a href="#cb27-4"></a>                         <span class="ex">--similarity-threshold</span> 0.99</span>
+<span id="cb27-5"><a href="#cb27-5"></a>                         <span class="ex">-o</span> 06_DEREPLICATE/DR_99 -T <span class="va">$NSLOTS</span></span></code></pre></div>
 <p>The command produces numerous output files, but let’s focus on the <code>CLUSTER_REPORT.txt</code> file, which tells us the <strong>a</strong>) number of clusters, <strong>b</strong>) number of genomes in each cluster, <strong>c</strong>) representative genome for the cluster, and <strong>d</strong>) all genomes in the cluster.</p>
 <p>How many clusters did we get for each <code>--similarity-threshold</code>?</p>
 <ul>
@@ -2711,7 +3094,7 @@ The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-derepli
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="ex">anvi-script-process-genbank-metadata</span> -m Sulfurimonas-NCBI-METADATA.txt \</span>
 <span id="cb30-2"><a href="#cb30-2"></a>                                     -o 01_Sulfurimonas-NCBI-GENOMES \</span>
 <span id="cb30-3"><a href="#cb30-3"></a>                                     --output-fasta-txt Sulfurimonas-fasta.txt -\</span>
-<span id="cb30-4"><a href="#cb30-4"></a>                                     -exclude-gene-calls-from-fasta-txt                                     </span></code></pre></div>
+<span id="cb30-4"><a href="#cb30-4"></a>                                     -exclude-gene-calls-from-fasta-txt</span></code></pre></div>
 <h4 id="run-snakemake-workflow">4. Run Snakemake workflow</h4>
 <p>You know the routine. Same steps performed for the <em>Arcobacter</em>.</p>
 <h4 id="completeness-1">5. Completeness</h4>
@@ -2721,7 +3104,7 @@ The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-derepli
 Nice genomes. The lowest <a href="files/mag02-phylogenomics/4-outgroup/completness-outgroup.txt">completion estimate</a> was 97.18%.
 </aside>
 <h4 id="screen-for-16s-rrna-1">6. Screen for 16S rRNA</h4>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span> </span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>                      <span class="ex">-e</span> external-genomes-outgroup.txt \</span>
 <span id="cb32-3"><a href="#cb32-3"></a>                      -o Ribosomal_RNAs-HMM_HITS-outgroup.txt \</span>
 <span id="cb32-4"><a href="#cb32-4"></a>                      --hmm-source Ribosomal_RNAs</span></code></pre></div>
@@ -2741,14 +3124,14 @@ And they all have <a href="files/mag02-phylogenomics/4-outgroup/Ribosomal_RNAs-H
 <span id="cb34-2"><a href="#cb34-2"></a><span class="ex">anvi-dereplicate-genomes</span> -e external-genomes-outgroup.txt \</span>
 <span id="cb34-3"><a href="#cb34-3"></a>                         --program fastANI \</span>
 <span id="cb34-4"><a href="#cb34-4"></a>                         --similarity-threshold 0.95 \</span>
-<span id="cb34-5"><a href="#cb34-5"></a>                         -o 06_DEREPLICATE/DR_95 -T </span></code></pre></div>
+<span id="cb34-5"><a href="#cb34-5"></a>                         -o 06_DEREPLICATE/DR_95 -T</span></code></pre></div>
 <p>Good to go, no duplicates. The outgroup consists of <em>Sulfurimonas gotlandica</em> (GD1), <em>Sulfurimonas denitrificans</em> (DSM 251), and <em>Sulfurimonas autotrophica</em> (DSM 16294).</p>
 <h1 id="phylogenomic-analysis-of-mag02">Phylogenomic Analysis of MAG02</h1>
 <p>Finally, we are ready for phylogenomic analysis. One way to do this is to select SCG, make a concatenated alignment, and construct a multi locus tree. This is <em>not</em> the way we did it for the paper but it is worth seeing how it is done so you can appreciated the different approaches.</p>
 <p>We first need to make a new <em>external-genomes</em> file that contains the <em>Arcobacter</em> representatives we want to use and the <em>Sulfurimonas</em> outgroup. Then we need to setup a phylogenomic Snakemake workflow.</p>
 <p>Remember when ran the contigs workflow above? Most of those steps can actually be run in the phylogenomic workflow itself. The thing is that it does not really give us the opportunity to curate our collection <em>before</em> phylogenomic analysis. Because we ran the cotigs workflow first, there are many steps in the phylogenomic workflow that we simply do not need. So, we chop out the chunks of the <code>phylogenomics-default-config.json</code> that are unnecessary.</p>
 <p>It seems like a good idea to select SCG that are in all of the genomes. First we generate a sample by SCG matrix.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span> </span>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
 <span id="cb35-2"><a href="#cb35-2"></a>                   <span class="ex">-e</span> arco-phylo-external-genomes.txt \</span>
 <span id="cb35-3"><a href="#cb35-3"></a>                   -o arco-phylo-Bacteria_71-HMM_HITS.txt \</span>
 <span id="cb35-4"><a href="#cb35-4"></a>                   --hmm-source Bacteria_71</span></code></pre></div>
@@ -2760,19 +3143,19 @@ And they all have <a href="files/mag02-phylogenomics/4-outgroup/Ribosomal_RNAs-H
 Here is the <a href="files/mag02-phylogenomics/5-phylogenomics/phylogenomics-config.json">modified config</a> file, the <a href="files/mag02-phylogenomics/5-phylogenomics/arco-phylo-external-genomes.txt">final external genomes</a> file, &amp; the <a href="files/mag02-phylogenomics/5-phylogenomics/gene_names.txt">gene list</a>.
 </aside>
 <p>Like before, we start by getting a <em>default config</em> file for the workflow. Modify the file how you like but make sure to add the <em>genes file name</em> (or a list of genes) to the config file.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics </span>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics</span>
 <span id="cb36-2"><a href="#cb36-2"></a>                  <span class="ex">--get-default-config</span> phylogenomics-default-config.json</span></code></pre></div>
 <p>And now here are the Snakemake commands.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics </span>
-<span id="cb37-2"><a href="#cb37-2"></a>                  <span class="ex">-c</span> phylogenomics-config.json </span>
-<span id="cb37-3"><a href="#cb37-3"></a>                  <span class="ex">--additional-params</span> </span>
-<span id="cb37-4"><a href="#cb37-4"></a>                  <span class="ex">--jobs</span> 5 </span>
-<span id="cb37-5"><a href="#cb37-5"></a>                  <span class="ex">--resources</span> nodes=5 </span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics</span>
+<span id="cb37-2"><a href="#cb37-2"></a>                  <span class="ex">-c</span> phylogenomics-config.json</span>
+<span id="cb37-3"><a href="#cb37-3"></a>                  <span class="ex">--additional-params</span></span>
+<span id="cb37-4"><a href="#cb37-4"></a>                  <span class="ex">--jobs</span> 5</span>
+<span id="cb37-5"><a href="#cb37-5"></a>                  <span class="ex">--resources</span> nodes=5</span>
 <span id="cb37-6"><a href="#cb37-6"></a>                  <span class="ex">--keep-going</span> --rerun-incomplete --unlock</span>
-<span id="cb37-7"><a href="#cb37-7"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics </span>
-<span id="cb37-8"><a href="#cb37-8"></a>                  <span class="ex">-c</span> phylogenomics-config.json </span>
-<span id="cb37-9"><a href="#cb37-9"></a>                  <span class="ex">--additional-params</span> </span>
-<span id="cb37-10"><a href="#cb37-10"></a>                  <span class="ex">--jobs</span> 5 --resources nodes=5 </span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics</span>
+<span id="cb37-8"><a href="#cb37-8"></a>                  <span class="ex">-c</span> phylogenomics-config.json</span>
+<span id="cb37-9"><a href="#cb37-9"></a>                  <span class="ex">--additional-params</span></span>
+<span id="cb37-10"><a href="#cb37-10"></a>                  <span class="ex">--jobs</span> 5 --resources nodes=5</span>
 <span id="cb37-11"><a href="#cb37-11"></a>                  <span class="ex">--keep-going</span> --rerun-incomplete</span></code></pre></div>
 <blockquote>
 <p>Phylogenomic analysis of 73 <em>Arcobacter</em> and 3 <em>Sulfurimonas</em> genomes.</p>
@@ -2786,7 +3169,7 @@ Here is the <a href="files/mag02-phylogenomics/5-phylogenomics/phylogenomics-con
 <div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="ex">anvi-pan-genome</span> -g ARCOBACTER-GENOMES.db \</span>
 <span id="cb39-2"><a href="#cb39-2"></a>                --min-occurrence 3 \</span>
 <span id="cb39-3"><a href="#cb39-3"></a>                --project-name ARCOBACTER -T <span class="va">$NSLOTS</span></span></code></pre></div>
-<p>Anvi’o will create gene cluster using the MCL (Markov Cluster) algorithm<span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> and calculate homogeneity indices. Then we can visualize the results using the anvi’o interactive interface.</p>
+<p>Anvi’o will create gene cluster using the MCL (Markov Cluster) algorithm <span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> and calculate homogeneity indices. Then we can visualize the results using the anvi’o interactive interface.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1"></a><span class="ex">anvi-display-pan</span> -g ARCOBACTER-GENOMES.db -p ARCOBACTER-PAN.db</span></code></pre></div>
 <p>Once inside the interactive, we performed the following steps:</p>
 <ol type="1">
@@ -2831,7 +3214,7 @@ Here is the <a href="files/mag02-phylogenomics/5-phylogenomics/phylogenomics-con
 <span id="cb41-4"><a href="#cb41-4"></a>                                     --concatenate-gene-clusters \</span>
 <span id="cb41-5"><a href="#cb41-5"></a>                                     --align-with muscle \</span>
 <span id="cb41-6"><a href="#cb41-6"></a>                                     -o ARCOBACTER-proteins-better-core.fa</span></code></pre></div>
-<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE<span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle" role="doc-biblioref">2004</a>)</span>), and then concatenates the sequences.</p>
+<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE <span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle" role="doc-biblioref">2004</a>)</span>), and then concatenates the sequences.</p>
 <p>It is important to note that everything we just in the interface can instead be done in the command line. If you look at the help menu for <code>anvi-get-sequences-for-gene-clusters</code> you will see that you can apply the filtering steps described above directly in the command line without the pangenomic interactive. Personally, I like to use the interactive because I can <em>visually</em> inspect each gene cluster to make sure nothing fishy is going on. The parameters you choose will depend on your question and the peculiarities of your data set, so play around.</p>
 <p>Just for the fun of it, let’s have a look at what this entails without running interactive.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="ex">anvi-get-sequences-for-gene-clusters</span> \</span>
@@ -2853,21 +3236,21 @@ for downstream analyses. Just so you know.
 Sequence type ...............................................: Amino acid
 Output file for phylogenomics ...............................: ARCOBACTER-proteins-better-core_no_interactive.fa</code></pre>
 <p>As expected, 36 gene clusters encompassing a total of 2736 genes. <em>Note, the order of genes in the concatenate file may differ but the content should be the same.</em></p>
-<p>Anyway, regardless of the approach you choose, now we can use your curated SCG fasta file to construct a new phylogenomic tree. You can either do this is anvi’o, which will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span>, or you can run a program outside anvi’o.</p>
+<p>Anyway, regardless of the approach you choose, now we can use your curated SCG fasta file to construct a new phylogenomic tree. You can either do this is anvi’o, which will use <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span>, or you can run a program outside anvi’o.</p>
 <p>The anvi’o way…</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1"></a><span class="ex">anvi-gen-phylogenomic-tree</span> -f ARCOBACTER-proteins-better-core.fa </span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1"></a><span class="ex">anvi-gen-phylogenomic-tree</span> -f ARCOBACTER-proteins-better-core.fa</span>
 <span id="cb44-2"><a href="#cb44-2"></a>                           <span class="ex">-o</span> ARCOBACTER-proteins-better-core.tre</span></code></pre></div>
 <h2 id="generating-visualizing-tree">Generating &amp; Visualizing Tree</h2>
-<p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
+<p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em> <span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
 <aside>
 It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in the IQ-TREE. This genome was removed retroactively.
 </aside>
-<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1"></a><span class="ex">iqtree</span> -s ARCOBACTER-proteins-better-core.fa </span>
-<span id="cb45-2"><a href="#cb45-2"></a>                  <span class="ex">--prefix</span> arcobacterMFP </span>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1"></a><span class="ex">iqtree</span> -s ARCOBACTER-proteins-better-core.fa</span>
+<span id="cb45-2"><a href="#cb45-2"></a>                  <span class="ex">--prefix</span> arcobacterMFP</span>
 <span id="cb45-3"><a href="#cb45-3"></a>                  <span class="ex">-m</span> MFP</span></code></pre></div>
-<p><em>ModelFinder</em> tested 51 models (it will test up to 546 protein models) and selected LG+F+R6 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1"></a><span class="ex">iqtree</span> -s ARCOBACTER-proteins-better-core.fa </span>
-<span id="cb46-2"><a href="#cb46-2"></a>       <span class="ex">--prefix</span> arcobacterLG+F+R6-5000  </span>
+<p><em>ModelFinder</em> tested 51 models (it will test up to 546 protein models) and selected LG+F+R6 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations <span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1"></a><span class="ex">iqtree</span> -s ARCOBACTER-proteins-better-core.fa</span>
+<span id="cb46-2"><a href="#cb46-2"></a>       <span class="ex">--prefix</span> arcobacterLG+F+R6-5000</span>
 <span id="cb46-3"><a href="#cb46-3"></a>       <span class="ex">-m</span> LG+F+R6 -bb 5000 -T <span class="va">$NSLOTS</span></span></code></pre></div>
 <p>Great, we have a tree but really no other information to decorate it with. So far, we have generated a lot of metric data for each genome. Luckily, all of that is in the pangenome database. We use the command <code>anvi-export-misc-data</code> to get most what we need.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1"></a><span class="ex">anvi-export-misc-data</span> --pan-or-profile-db ARCOBACTER-PAN.db \</span>
@@ -2875,29 +3258,29 @@ It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in
 <span id="cb47-3"><a href="#cb47-3"></a>                      --output-file genome_stats.txt</span></code></pre></div>
 <p>This table contains things like total length, GC content, percent completion, percent redundancy, and so on. One piece we do not have by may want is the SCG taxonomy, speciffically the genus prediction. Clearly from what we have seen, these are not all <em>Arcobacter</em>, despite most genomes carrying that name.</p>
 <p>We did this way back in the beginning, but let’s do it again for our final collection.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1"></a><span class="kw">for</span> <span class="ex">genome</span> in <span class="kw">`</span><span class="fu">cat</span> final_genomes.txt<span class="kw">`;</span> </span>
-<span id="cb48-2"><a href="#cb48-2"></a><span class="kw">do</span> </span>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1"></a><span class="kw">for</span> <span class="ex">genome</span> in <span class="kw">`</span><span class="fu">cat</span> final_genomes.txt<span class="kw">`;</span></span>
+<span id="cb48-2"><a href="#cb48-2"></a><span class="kw">do</span></span>
 <span id="cb48-3"><a href="#cb48-3"></a>       <span class="ex">anvi-estimate-scg-taxonomy</span> \</span>
 <span id="cb48-4"><a href="#cb48-4"></a>       -c 03_CONTIGS/<span class="va">$genome</span>-contigs.db \</span>
-<span id="cb48-5"><a href="#cb48-5"></a>       -o 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span> </span>
+<span id="cb48-5"><a href="#cb48-5"></a>       -o 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span></span>
 <span id="cb48-6"><a href="#cb48-6"></a><span class="kw">done</span></span></code></pre></div>
 <p>And add these data to our file with genome stats. Most of the lineage data is uninformative and can be eliminated. We also constructed a <em>metadata file</em> after sifting through all of the metadata we retrieved from NCBI about natural host and isolation source. We could combine these files but I like to keep the metadata file separate so I can add info as needed. Time to visualize.</p>
 <p>Since we do not have a database, anvi’o will create a dummy database the first time we run the command <code>anvi-interactive</code>. But we still must give a name for the as yet nonexistent dadabase.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1"></a><span class="ex">anvi-interactive</span> --profile-db profile.db </span>
-<span id="cb49-2"><a href="#cb49-2"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile  </span>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1"></a><span class="ex">anvi-interactive</span> --profile-db profile.db</span>
+<span id="cb49-2"><a href="#cb49-2"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile</span>
 <span id="cb49-3"><a href="#cb49-3"></a>                 <span class="ex">--manual</span></span></code></pre></div>
 <p>Stop the interactive. Now we have a database to populate. Let’s add the genome metric data.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1"></a><span class="ex">anvi-import-misc-data</span> genome_stats.txt </span>
-<span id="cb50-2"><a href="#cb50-2"></a>                 <span class="ex">--pan-or-profile-db</span> profile.db </span>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1"></a><span class="ex">anvi-import-misc-data</span> genome_stats.txt</span>
+<span id="cb50-2"><a href="#cb50-2"></a>                 <span class="ex">--pan-or-profile-db</span> profile.db</span>
 <span id="cb50-3"><a href="#cb50-3"></a>                 <span class="ex">--target-data-table</span> items</span></code></pre></div>
 <p>Now we can restart the interactive with our metadata file of NCBI collection info.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1"></a><span class="ex">anvi-interactive</span> --profile-db profile.db </span>
-<span id="cb51-2"><a href="#cb51-2"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile  </span>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1"></a><span class="ex">anvi-interactive</span> --profile-db profile.db</span>
+<span id="cb51-2"><a href="#cb51-2"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile</span>
 <span id="cb51-3"><a href="#cb51-3"></a>                 <span class="ex">--additional-layers</span> metadata.txt</span>
 <span id="cb51-4"><a href="#cb51-4"></a>                 <span class="ex">--manual</span></span></code></pre></div>
 <h1 id="phylogenetic-analysis-of-mag02">Phylogenetic Analysis of MAG02</h1>
 <p>Next, we performed the same process for <strong>16S rRNA genes</strong> from all the genomes in the phylogenomic analysis.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span> </span>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span></span>
 <span id="cb52-2"><a href="#cb52-2"></a>                     <span class="ex">-e</span> arco-phylo-external-genomes.txt \</span>
 <span id="cb52-3"><a href="#cb52-3"></a>                     --hmm-sources Ribosomal_RNAs \</span>
 <span id="cb52-4"><a href="#cb52-4"></a>                     --gene-names Bacterial_16S_rRNA \</span>
@@ -2910,36 +3293,22 @@ It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in
 <p>|&gt;<em>Bacterial_16S_rRNA_Ribosomal_RNAs_2c53c82ce374e7c1bd22dd51720f5f90b9f43fdfb6b3b3d6cb0623b9 bin_id:Aliiarcobacter_faecis_AF1078|source:Ribosomal_RNAs|e_value:0|</em></p>
 </div>
 <p>We used <a href="http://www.barebones.com/products/bbedit/index.html">BBEdit</a> and some grep search and replace to extract the sample names.</p>
-<p>Next, we again ran <a href="http://www.iqtree.org/">IQ-TREE</a><span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) with <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1"></a><span class="ex">iqtree</span> -s sequences-for-16s-rrna-hits-rename.fa </span>
-<span id="cb53-2"><a href="#cb53-2"></a>                  <span class="ex">--prefix</span> arcobacter-16s-MFP </span>
+<p>Next, we again ran <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) with <em>ModelFinder Plus</em> <span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1"></a><span class="ex">iqtree</span> -s sequences-for-16s-rrna-hits-rename.fa</span>
+<span id="cb53-2"><a href="#cb53-2"></a>                  <span class="ex">--prefix</span> arcobacter-16s-MFP</span>
 <span id="cb53-3"><a href="#cb53-3"></a>                  <span class="ex">-m</span> MFP</span></code></pre></div>
-<p><em>ModelFinder</em> tested 29 models (it will test up to 286 DNA models) and selected TVM+F+I+G4 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1"></a><span class="ex">iqtree</span> -s sequences-for-16s-rrna-hits-rename.fa </span>
-<span id="cb54-2"><a href="#cb54-2"></a>                  <span class="ex">--prefix</span> arcobacter-16s-TVM+F+I+G4 </span>
+<p><em>ModelFinder</em> tested 29 models (it will test up to 286 DNA models) and selected TVM+F+I+G4 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations <span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1"></a><span class="ex">iqtree</span> -s sequences-for-16s-rrna-hits-rename.fa</span>
+<span id="cb54-2"><a href="#cb54-2"></a>                  <span class="ex">--prefix</span> arcobacter-16s-TVM+F+I+G4</span>
 <span id="cb54-3"><a href="#cb54-3"></a>                  <span class="ex">-m</span> TVM+F+I+G4 -bb 5000</span></code></pre></div>
 <p>If you are unfamiliar with IQ-TREE, check out the <a href="http://www.iqtree.org/doc/Tutorial">tutorial</a>. It’s a really nice program.</p>
 <h2 id="genome-metadata">Genome Metadata</h2>
 <p>Here is the metadata for record of all genomes used in phylogenomic analysis of MAG02. Table contains information for each of the 72 Arcobacter-like genomes (plus 3 outgroup genomes). Description of table headers are as follows.</p>
-<p><strong>genome_id</strong>: Name of genome in phylogenomic tree.<br />
-<strong>isolation_category</strong>: Broad category based on <em>host/isolation source</em> information retrieved from the BioSample record.<br />
-<strong>organism</strong>: Organism name retrieved from the BioSample record.<br />
-<strong>strain_or_isolate</strong>: Genome stain or isolate designation.<br />
-<strong>sample_information</strong>: Host/isolation source information retrieved from the BioSample record.<br />
-<strong>bioproject</strong>: <a href="https://www.ncbi.nlm.nih.gov/bioproject">NCBI BioProject ID</a>.<br />
-<strong>biosample</strong>: <a href="https://www.ncbi.nlm.nih.gov/biosample">NCBI BioSample ID</a>.<br />
-<strong>assembly_accession</strong>: <a href="https://www.ncbi.nlm.nih.gov/assembly">NCBI Assembly ID</a>.<br />
-<strong>taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Taxonomy ID</a>.<br />
-<strong>species_taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Species Taxonomy ID</a>.<br />
-<strong>doi_publication</strong>: DOI link for related publication.<br />
-<strong>assembly_level</strong>: Assembly level.<br />
-<strong>seq_rel_date</strong>: Genome release data.<br />
-<strong>ftp_path</strong>: FTP link to download genome.<br />
-<strong>submitter</strong>: Submitting Institution.</p>
+<p><strong>genome_id</strong>: Name of genome in phylogenomic tree. <strong>isolation_category</strong>: Broad category based on <em>host/isolation source</em> information retrieved from the BioSample record. <strong>organism</strong>: Organism name retrieved from the BioSample record. <strong>strain_or_isolate</strong>: Genome stain or isolate designation. <strong>sample_information</strong>: Host/isolation source information retrieved from the BioSample record. <strong>bioproject</strong>: <a href="https://www.ncbi.nlm.nih.gov/bioproject">NCBI BioProject ID</a>. <strong>biosample</strong>: <a href="https://www.ncbi.nlm.nih.gov/biosample">NCBI BioSample ID</a>. <strong>assembly_accession</strong>: <a href="https://www.ncbi.nlm.nih.gov/assembly">NCBI Assembly ID</a>. <strong>taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Taxonomy ID</a>. <strong>species_taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Species Taxonomy ID</a>. <strong>doi_publication</strong>: DOI link for related publication. <strong>assembly_level</strong>: Assembly level. <strong>seq_rel_date</strong>: Genome release data. <strong>ftp_path</strong>: FTP link to download genome. <strong>submitter</strong>: Submitting Institution.</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-page">
-<div id="htmlwidget-334826f878fe319883a8" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-334826f878fe319883a8">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Supplementary Table 1: \n  <em>NCBI metadata for genomes in phylogenomic analysis.<\/em>\n<\/caption>","data":[["_Arcobacter_porcinus_117434","_Arcobacter_porcinus_213","_Arcobacter_porcinus_216","_Arcobacter_porcinus_CCUG_56899","_Arcobacter_porcinus_DU19","Aliiarcobacter_faecis_AF1078","Arcobacter_anaerophilus_DSM_24636_A","Arcobacter_anaerophilus_IR_1","Arcobacter_aquimarinus_CECT_8442","Arcobacter_butzleri_ED_1","Arcobacter_butzleri_JV22_A","Arcobacter_butzleri_L348","Arcobacter_butzleri_L349","Arcobacter_butzleri_L351","Arcobacter_butzleri_L352","Arcobacter_butzleri_RM4018","Arcobacter_canalis_F138_33","Arcobacter_cibarius_LMG_21996","Arcobacter_cloacae_CECT_7834","Arcobacter_cloacae_F26","Arcobacter_cryaerophilus_ATCC_43158","Arcobacter_cryaerophilus_D2610","Arcobacter_defluvii_CECT_7697","Arcobacter_ellisii_CECT_7837","Arcobacter_halophilus_DSM_18005","Arcobacter_halophilus_F166_45","Arcobacter_lanthieri_AF1440","Arcobacter_lanthieri_AF1581","Arcobacter_lekithochrous_LFT_1_7","Arcobacter_lekithochrous_LMG_28652","Arcobacter_marinus_CECT_7727","Arcobacter_marinus_F140_37","Arcobacter_marinus_MARC_MIP3H16","Arcobacter_marinus_SH_4D_Col1","Arcobacter_molluscorum_LMG_25693_F98_3","Arcobacter_mytili_LMG_24559","Arcobacter_nitrofigilis_DSM_7299","Arcobacter_pacificus_LMG_26638","Arcobacter_peruensis_PSE_93","Arcobacter_skirrowii_CCUG_10374_B","Arcobacter_sp_AF1028","Arcobacter_sp_BM102","Arcobacter_sp_CECT_8983","Arcobacter_sp_CECT_8985","Arcobacter_sp_CECT_8986","Arcobacter_sp_CECT_8989","Arcobacter_sp_CECT_9188","Arcobacter_sp_CECT_9230","Arcobacter_sp_CECT_9299","Arcobacter_sp_F155","Arcobacter_sp_F2176","Arcobacter_sp_FW59","Arcobacter_sp_L","Arcobacter_sp_LA11","Arcobacter_sp_LMG_29976","Arcobacter_sp_LPB0137","Arcobacter_sp_RW43_9","Arcobacter_sp_SM1702","Arcobacter_suis_CECT_7833","Arcobacter_thereius_LMG_24486_B","Arcobacter_trophiarum_LMG_25534_B","Arcobacter_venerupis_CECT7836","Halarcobacter_bivalviorum_CECT_7835","Halarcobacter_bivalviorum_F118_4","Halarcobacter_ebronensis_CECT_8441","Halarcobacter_ebronensis_CECT_8993","Halarcobacter_mediterraneus_F156_34","Poseidonibacter_sp_JOD_M_6","Poseidonibacter_sp_SJOD_M_33","Poseidonibacter_sp_SJOD_M_5","Pseudoarcobacter_acticola_KCTC_52212","Pseudoarcobacter_caeni_RW17_10","Sulfurimonas_autotrophica_DSM_16294","Sulfurimonas_denitrificans_DSM_1251","Sulfurimonas_gotlandica_GD1"],["vertebrate_host","vertebrate_host","vertebrate_host","vertebrate_host","vertebrate_host","sewage","marine_subsurface","marine_subsurface","marine_surface","fuel_cell","vertebrate_host","sewage","vertebrate_host","vertebrate_host","vertebrate_host","vertebrate_host","invertebrate_host","vertebrate_host","sewage","invertebrate_host","vertebrate_host","vertebrate_host","sewage","invertebrate_host","marine_surface","invertebrate_host","vertebrate_host","vertebrate_host","invertebrate_host","invertebrate_host","marine_surface","invertebrate_host","marine_subsurface","marine_subsurface","invertebrate_host","invertebrate_host","marine_subsurface","marine_surface","marine_surface","vertebrate_host","sewage","marine_subsurface","invertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","sewage","plant","vertebrate_host/marine","invertebrate_host","invertebrate_host","sewage","fuel_cell","invertebrate_host","vertebrate_host","unknown","sewage","marine_subsurface","vertebrate_host","vertebrate_host","vertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","marine_surface","invertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","marine_surface","sewage","outgroup","outgroup","outgroup"],["[Arcobacter] porcinus","[Arcobacter] porcinus","[Arcobacter] porcinus","[Arcobacter] porcinus","[Arcobacter] porcinus","Aliiarcobacter faecis","Arcobacter anaerophilus","Arcobacter anaerophilus","Arcobacter aquimarinus","Arcobacter butzleri ED-1","Arcobacter butzleri JV22","Arcobacter butzleri L348","Arcobacter butzleri L349","Arcobacter butzleri L351","Arcobacter butzleri L352","Arcobacter butzleri RM4018","Arcobacter canalis","Arcobacter cibarius LMG 21996","Arcobacter cloacae","Arcobacter cloacae","Arcobacter cryaerophilus ATCC 43158","Arcobacter cryaerophilus D2610","Arcobacter defluvii","Arcobacter ellisii","Arcobacter halophilus","Arcobacter halophilus","Arcobacter lanthieri","Arcobacter lanthieri","Arcobacter lekithochrous","Arcobacter lekithochrous","Arcobacter marinus","Arcobacter marinus","Arcobacter marinus","Arcobacter marinus","Arcobacter molluscorum LMG 25693","Arcobacter mytili LMG 24559","Arcobacter nitrofigilis DSM 7299","Arcobacter pacificus","Arcobacter peruensis","Arcobacter skirrowii CCUG 10374","Arcobacter sp. AF1028","Arcobacter sp.","Arcobacter sp. CECT 8983","Arcobacter sp. CECT 8985","Arcobacter sp. CECT 8986","Arcobacter sp. CECT 8989","Arcobacter sp. CECT 9188","Arcobacter sp. CECT 9230","Arcobacter sp. CECT 9299","Arcobacter sp. F155","Arcobacter sp. F2176","Arcobacter sp. FW59","Arcobacter sp. L","Arcobacter sp. LA11","Arcobacter sp. LMG 29976","Arcobacter sp. LPB0137","Arcobacter sp. RW43-9","Arcobacter sp. SM1702","Arcobacter suis CECT 7833","Arcobacter thereius LMG 24486","Arcobacter trophiarum LMG 25534","Arcobacter venerupis","Halarcobacter bivalviorum","Halarcobacter bivalviorum","Halarcobacter ebronensis","Halarcobacter ebronensis","Halarcobacter mediterraneus","Poseidonibacter sp. JOD-M-6","Poseidonibacter sp. SJOD-M-33","Poseidonibacter sp. SJOD-M-5","Pseudoarcobacter acticola","Pseudoarcobacter caeni","Sulfurimonas autotrophica DSM 16294","Sulfurimonas denitrificans DSM 1251","Sulfurimonas gotlandica GD1"],["117434","213","216","CCUG 56899","DU19","AF1078","DSM 24636","IR-1","CECT 8442","ED-1","JV22","L348","L349","L351","L352","RM4018","F138-33","LMG 21996","CECT 7834","F26","ATCC 43158","D2610","CECT 7697","CECT 7837","DSM 18005","F166-45","AF1440","AF1581","LFT 1.7","LMG 28652","CECT 7727","F140-37","MARC-MIP3H16","UTICA-S4D1","F98-3","LMG 24559","DSM 7299","LMG 26638","PSE-93","CCUG 10374","AF1028","BM102","CECT 8983","CECT 8985","CECT 8986","CECT 8989","CECT 9188","CECT 9230","CECT 9299","F155","F2176","FW59","L","LA11","LMG 29976","LPB0137","RW43-9","SM1702","CECT 7833","LMG 24486","LMG 25534","CECT7836","CECT 7835","F118-4","CECT 8441","CECT 8993","F156-34","JOD-M-6","SJOD-M-33","SJOD-M-5","KCTC 52212","RW17-10","DSM 16294","DSM 1251","GD1"],["pig|aborted fetus tissue","Pig|slaughter house|Pig feces","pig|feces","Aborted piglet fetus","Duck|cloaca content","Homo sapiens|human sewage tank no 10","Estuarine sediment","Aquifer","Mediterranean sea","fuel_cell","Homo sapiens|gastrointestinal tract","Sewage Outfall","Diarrheic Human Stool","Healthy Human Stool","Diarrheic Human Stool","human","oysters","chicken|broiler skin","Sewage","mussel","bovine|Aborted bovine fetus, brain","Homo sapiens|blood","Sewage","Mussel","Hipersaline lagoon","oyster","pig|female pig fecal storage tank","cattle|dairy cow manure storage tank","scallop larvae","Haliotis gigantea","Sea water","clams","no data","no data","Mussel","Mussels","roots of the marshplant Spartina alterniflora in Nova Scotia, Canada","Seawater surface","Peruvian upwelling","lamb|feces, 5-month-old, persistent scour (diarrhoea)","Homo sapiens|human sewage tank no 5","enrichment from estuary sediment|bioreactor metagenome","cockle","mussel","mussel","oyster","wastewater","carrot","elephant seal|cloacal swab","oyster","mussel","wastewater","no data","Haliotis discus","Porcine|Eye, aborted fetus","environment","reclaimed water","Antarctic intertidal sediment","Pork meat","pig|aborted fetus","piglet|feces","clam","mussel","mussel","mussel","wastewater","Mussels","Ostrea denselamellosa|gut","Ostrea denselamellosa|gut","Ostrea denselamellosa|gut","seawater","reclaimed water","no data","no data","no data"],["<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA283165 target=_blank>PRJNA283165<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA282911 target=_blank>PRJNA282911<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA282917 target=_blank>PRJNA282917<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA521386 target=_blank>PRJNA521386<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA283166 target=_blank>PRJNA283166<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235201 target=_blank>PRJNA235201<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA273926 target=_blank>PRJNA273926<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJDA61719 target=_blank>PRJDA61719<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA53195 target=_blank>PRJNA53195<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA16319 target=_blank>PRJNA16319<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA232856 target=_blank>PRJNA232856<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66817 target=_blank>PRJNA66817<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66819 target=_blank>PRJNA66819<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235329 target=_blank>PRJNA235329<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235330 target=_blank>PRJNA235330<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA315279 target=_blank>PRJNA315279<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA448508 target=_blank>PRJNA448508<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA411818 target=_blank>PRJNA411818<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369869 target=_blank>PRJNA369869<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJEB19698 target=_blank>PRJEB19698<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412151 target=_blank>PRJNA412151<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66823 target=_blank>PRJNA66823<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA32593 target=_blank>PRJNA32593<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA521385 target=_blank>PRJNA521385<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA490269 target=_blank>PRJNA490269<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA563568 target=_blank>PRJNA563568<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235195 target=_blank>PRJNA235195<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA387015 target=_blank>PRJNA387015<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJDA61721 target=_blank>PRJDA61721<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJDB5254 target=_blank>PRJDB5254<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA355602 target=_blank>PRJNA355602<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA495891 target=_blank>PRJNA495891<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA177174 target=_blank>PRJNA177174<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66829 target=_blank>PRJNA66829<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA576937 target=_blank>PRJNA576937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA576937 target=_blank>PRJNA576937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA576937 target=_blank>PRJNA576937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA558024 target=_blank>PRJNA558024<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA31347 target=_blank>PRJNA31347<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA13019 target=_blank>PRJNA13019<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA60283 target=_blank>PRJNA60283<\/a>"],["<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03609681 target=_blank>SAMN03609681<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03580792 target=_blank>SAMN03580792<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03580808 target=_blank>SAMN03580808<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10884417 target=_blank>SAMN10884417<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03609682 target=_blank>SAMN03609682<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951872 target=_blank>SAMN02951872<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767207 target=_blank>SAMN07767207<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03316823 target=_blank>SAMN03316823<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709792 target=_blank>SAMN07709792<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMD00060980 target=_blank>SAMD00060980<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN00210774 target=_blank>SAMN00210774<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581416 target=_blank>SAMN02581416<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581417 target=_blank>SAMN02581417<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581419 target=_blank>SAMN02581419<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581420 target=_blank>SAMN02581420<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02604276 target=_blank>SAMN02604276<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07360936 target=_blank>SAMN07360936<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02641481 target=_blank>SAMN02641481<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709793 target=_blank>SAMN07709793<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767222 target=_blank>SAMN07767222<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737948 target=_blank>SAMN03737948<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737949 target=_blank>SAMN03737949<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709794 target=_blank>SAMN07709794<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709795 target=_blank>SAMN07709795<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709796 target=_blank>SAMN07709796<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767223 target=_blank>SAMN07767223<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951874 target=_blank>SAMN02951874<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951875 target=_blank>SAMN02951875<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN04555171 target=_blank>SAMN04555171<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN08848610 target=_blank>SAMN08848610<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07688432 target=_blank>SAMN07688432<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07360937 target=_blank>SAMN07360937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06295946 target=_blank>SAMN06295946<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06295997 target=_blank>SAMN06295997<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07701800 target=_blank>SAMN07701800<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737955 target=_blank>SAMN03737955<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02598489 target=_blank>SAMN02598489<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10884416 target=_blank>SAMN10884416<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10031634 target=_blank>SAMN10031634<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN12697556 target=_blank>SAMN12697556<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951873 target=_blank>SAMN02951873<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07982695 target=_blank>SAMN07982695<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767216 target=_blank>SAMN07767216<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767219 target=_blank>SAMN07767219<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767215 target=_blank>SAMN07767215<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767217 target=_blank>SAMN07767217<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767213 target=_blank>SAMN07767213<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767220 target=_blank>SAMN07767220<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767214 target=_blank>SAMN07767214<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767227 target=_blank>SAMN07767227<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767226 target=_blank>SAMN07767226<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767221 target=_blank>SAMN07767221<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMD00060981 target=_blank>SAMD00060981<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMD00065689 target=_blank>SAMD00065689<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07515816 target=_blank>SAMN07515816<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06075356 target=_blank>SAMN06075356<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06286567 target=_blank>SAMN06286567<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10233606 target=_blank>SAMN10233606<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737957 target=_blank>SAMN03737957<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737958 target=_blank>SAMN03737958<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767218 target=_blank>SAMN07767218<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07514161 target=_blank>SAMN07514161<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767209 target=_blank>SAMN07767209<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767210 target=_blank>SAMN07767210<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767211 target=_blank>SAMN07767211<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767212 target=_blank>SAMN07767212<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709797 target=_blank>SAMN07709797<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN13015299 target=_blank>SAMN13015299<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN13015364 target=_blank>SAMN13015364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN13015372 target=_blank>SAMN13015372<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN12421736 target=_blank>SAMN12421736<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06286566 target=_blank>SAMN06286566<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN00713560 target=_blank>SAMN00713560<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02598289 target=_blank>SAMN02598289<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02470075 target=_blank>SAMN02470075<\/a>"],["GCA_001695265.1","GCA_001695195.1","GCA_001695235.1","GCA_004299785.2","GCA_001695315.1","GCA_000585155.1","GCA_004116345.1","GCA_000935065.1","GCA_004115795.1","GCA_000284355.1","GCA_000185325.1","GCA_001010585.1","GCA_001010605.1","GCA_001010615.1","GCA_001010675.1","GCA_000014025.1","GCA_002723485.1","GCA_000522465.1","GCA_004115805.1","GCA_004116535.1","GCA_003660105.1","GCA_003660085.1","GCA_004115775.1","GCA_004115815.1","GCA_002837275.1","GCA_004135665.1","GCA_000585115.1","GCA_000585195.1","GCA_001878855.1","GCA_003049765.1","GCA_002723495.1","GCA_002723475.1","GCA_002934525.1","GCA_900168035.1","GCA_002701265.1","GCA_003346775.1","GCA_000092245.1","GCA_004214795.1","GCA_003711085.1","GCA_008802155.1","GCA_000585175.1","GCA_002869565.1","GCA_004118855.1","GCA_004116495.1","GCA_004116725.1","GCA_004116715.1","GCA_003316735.1","GCA_003316695.1","GCA_004116575.1","GCA_004116455.1","GCA_004116465.1","GCA_003316685.1","GCA_000284235.1","GCA_001895145.1","GCA_002992985.1","GCA_001956695.1","GCA_003063295.1","GCA_003667345.1","GCA_003544815.1","GCA_004214815.1","GCA_004116585.1","GCA_004023405.1","GCA_004116675.1","GCA_004116705.1","GCA_004116565.1","GCA_004116325.1","GCA_004116625.1","GCA_009208055.1","GCA_009208075.1","GCA_009208095.1","GCA_013177675.1","GCA_003063245.1","GCA_000147355.1","GCA_000012965.1","GCA_000242915.2"],["<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1564138 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>1564138<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1315211 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/944546 target=_blank>1315211<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/888827 target=_blank>944546<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447256 target=_blank>888827<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447257 target=_blank>1447256<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447259 target=_blank>1447257<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447260 target=_blank>1447259<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/367737 target=_blank>1447260<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912871 target=_blank>367737<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1442598 target=_blank>1912871<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1442598<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032070 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032071 target=_blank>1032070<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/873191 target=_blank>1032071<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/913109 target=_blank>873191<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>913109<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/870501 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032238 target=_blank>870501<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/572480 target=_blank>1032238<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1080223 target=_blank>572480<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2320140 target=_blank>1080223<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032239 target=_blank>2320140<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355368 target=_blank>1032239<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1872629 target=_blank>1355368<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044508 target=_blank>1872629<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935424 target=_blank>2044508<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044507 target=_blank>1935424<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044509 target=_blank>2044507<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044505 target=_blank>2044509<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044510 target=_blank>2044505<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044506 target=_blank>2044510<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044512 target=_blank>2044506<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044511 target=_blank>2044512<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912879 target=_blank>2044511<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/944547 target=_blank>1912879<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1898176 target=_blank>944547<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2027466 target=_blank>1898176<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1850254 target=_blank>2027466<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912876 target=_blank>1850254<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2478538 target=_blank>1912876<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663365 target=_blank>2478538<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032240 target=_blank>663365<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032241 target=_blank>1032240<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054033 target=_blank>1032241<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>1054033<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2023153 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654171 target=_blank>2023153<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654172 target=_blank>2654171<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654173 target=_blank>2654172<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1849015 target=_blank>2654173<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912877 target=_blank>1849015<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/563040 target=_blank>1912877<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/326298 target=_blank>563040<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/929558 target=_blank>326298<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/929558 target=_blank>929558<\/a>"],["<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1564138 target=_blank>1564138<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1315211 target=_blank>1315211<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912871 target=_blank>1912871<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/255507 target=_blank>255507<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28198 target=_blank>28198<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28198 target=_blank>28198<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/873191 target=_blank>873191<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/913109 target=_blank>913109<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032072 target=_blank>1032072<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/603050 target=_blank>603050<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28199 target=_blank>28199<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1080223 target=_blank>1080223<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2320140 target=_blank>2320140<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28200 target=_blank>28200<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355368 target=_blank>1355368<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1872629 target=_blank>1872629<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044508 target=_blank>2044508<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935424 target=_blank>1935424<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044507 target=_blank>2044507<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044509 target=_blank>2044509<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044505 target=_blank>2044505<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044510 target=_blank>2044510<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044506 target=_blank>2044506<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044512 target=_blank>2044512<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044511 target=_blank>2044511<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912879 target=_blank>1912879<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/944547 target=_blank>944547<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1898176 target=_blank>1898176<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2027466 target=_blank>2027466<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1850254 target=_blank>1850254<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912876 target=_blank>1912876<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2478538 target=_blank>2478538<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1278212 target=_blank>1278212<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/544718 target=_blank>544718<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/708186 target=_blank>708186<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054033 target=_blank>1054033<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2023153 target=_blank>2023153<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654171 target=_blank>2654171<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654172 target=_blank>2654172<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654173 target=_blank>2654173<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1849015 target=_blank>1849015<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912877 target=_blank>1912877<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/202747 target=_blank>202747<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/39766 target=_blank>39766<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1176482 target=_blank>1176482<\/a>"],["no pub","no pub","no pub","<a href=https://doi.org/10.1016/j.nmni.2016.11.014 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2015.00987 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/JB.06084-11 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1371/journal.pone.0001358 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00034-14 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/MRA.01463-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/MRA.01463-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00377-14 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00377-14 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.001809 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.002909 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00159-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00159-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/MRA.01078-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.4056/sigs.912121 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.000751 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/AEM.01344-19 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/00207713-42-3-344 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00113-14 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1016/j.syapm.2020.126091 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/JB.06084-11 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00032-17 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.003539 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1016/j.syapm.2012.11.003 target=_blank>DOI link<\/a>","<a href=https://dx.doi.org/10.1016%2Fj.nmni.2016.11.014 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","no pub","no pub","no pub","<a href=https://doi.org/10.1007/s12275-016-6268-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.4056/sigs.1173118 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/AEM.01844-07 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1073/pnas.1111262109 target=_blank>DOI link<\/a>"],["Contig","Contig","Contig","Complete Genome","Contig","Scaffold","Contig","Contig","Contig","Complete Genome","Scaffold","Scaffold","Scaffold","Scaffold","Contig","Complete Genome","Contig","Contig","Contig","Contig","Complete Genome","Complete Genome","Contig","Contig","Scaffold","Contig","Contig","Scaffold","Contig","Contig","Contig","Contig","Scaffold","Scaffold","Contig","Complete Genome","Complete Genome","Complete Genome","Chromosome","Contig","Scaffold","Scaffold","Scaffold","Contig","Contig","Contig","Contig","Contig","Contig","Contig","Contig","Contig","Complete Genome","Contig","Contig","Complete Genome","Scaffold","Scaffold","Complete Genome","Complete Genome","Contig","Contig","Contig","Contig","Scaffold","Contig","Contig","Contig","Contig","Contig","Complete Genome","Contig","Complete Genome","Complete Genome","Chromosome"],["7/26/16","7/26/16","7/26/16","9/13/19","7/26/16","3/4/14","1/28/19","2/27/15","1/28/19","9/2/11","1/14/11","5/19/15","5/19/15","5/19/15","5/19/15","9/27/07","10/24/17","1/23/14","1/28/19","1/29/19","10/16/18","10/16/18","1/28/19","1/28/19","12/12/17","2/4/19","3/3/14","3/4/14","11/14/16","4/12/18","10/24/17","10/24/17","2/21/18","3/8/17","10/24/17","7/31/18","5/17/10","2/20/19","11/5/18","10/1/19","3/4/14","1/9/18","1/29/19","1/29/19","1/29/19","1/29/19","7/13/18","7/13/18","1/29/19","1/29/19","1/29/19","7/13/18","9/2/11","11/7/16","3/9/18","1/18/17","4/23/18","10/19/18","9/11/18","2/20/19","1/29/19","1/15/19","1/29/19","1/29/19","1/29/19","1/28/19","1/29/19","10/21/19","10/21/19","10/21/19","5/27/20","4/23/18","9/15/10","11/1/05","1/18/12"],["<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/265/GCA_001695265.1_ASM169526v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/195/GCA_001695195.1_ASM169519v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/235/GCA_001695235.1_ASM169523v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/299/785/GCA_004299785.2_ASM429978v2 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/315/GCA_001695315.1_ASM169531v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/155/GCA_000585155.1_Arcobacter_septicus_AF1078 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/345/GCA_004116345.1_ASM411634v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/935/065/GCA_000935065.1_ASM93506v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/795/GCA_004115795.1_ASM411579v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/284/355/GCA_000284355.1_ASM28435v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/185/325/GCA_000185325.1_ASM18532v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/585/GCA_001010585.1_A.butzleri_L348_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/605/GCA_001010605.1_A.butzleri_L349_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/615/GCA_001010615.1_A.butzleri_L351_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/675/GCA_001010675.1_A.butzleri_L352_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/014/025/GCA_000014025.1_ASM1402v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/723/485/GCA_002723485.1_ASM272348v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/522/465/GCA_000522465.1_Arcobacter_cibarius_LMG21996 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/805/GCA_004115805.1_ASM411580v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/535/GCA_004116535.1_ASM411653v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/660/105/GCA_003660105.1_ASM366010v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/660/085/GCA_003660085.1_ASM366008v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/775/GCA_004115775.1_ASM411577v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/815/GCA_004115815.1_ASM411581v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/837/275/GCA_002837275.1_ASM283727v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/135/665/GCA_004135665.1_ASM413566v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/115/GCA_000585115.1_Arcobacter_lanthierii_AF1440 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/195/GCA_000585195.1_Arcobacter_lanthierii_AF1581 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/878/855/GCA_001878855.1_ASM187885v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/049/765/GCA_003049765.1_ASM304976v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/723/495/GCA_002723495.1_ASM272349v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/723/475/GCA_002723475.1_ASM272347v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/934/525/GCA_002934525.1_ASM293452v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/900/168/035/GCA_900168035.1_IMG-taxon_2703719342_annotated_assembly target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/701/265/GCA_002701265.1_ASM270126v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/346/775/GCA_003346775.1_ASM334677v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/092/245/GCA_000092245.1_ASM9224v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/214/795/GCA_004214795.1_ASM421479v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/711/085/GCA_003711085.1_ASM371108v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/008/802/155/GCA_008802155.1_ASM880215v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/175/GCA_000585175.1_Arcobacter_septicus_AF1028 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/869/565/GCA_002869565.1_ASM286956v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/118/855/GCA_004118855.1_ASM411885v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/495/GCA_004116495.1_ASM411649v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/725/GCA_004116725.1_ASM411672v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/715/GCA_004116715.1_ASM411671v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/316/735/GCA_003316735.1_ASM331673v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/316/695/GCA_003316695.1_ASM331669v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/575/GCA_004116575.1_ASM411657v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/455/GCA_004116455.1_ASM411645v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/465/GCA_004116465.1_ASM411646v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/316/685/GCA_003316685.1_ASM331668v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/284/235/GCA_000284235.1_ASM28423v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/895/145/GCA_001895145.1_ASM189514v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/992/985/GCA_002992985.1_ASM299298v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/956/695/GCA_001956695.1_ASM195669v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/063/295/GCA_003063295.1_ASM306329v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/667/345/GCA_003667345.1_ASM366734v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/544/815/GCA_003544815.1_ASM354481v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/214/815/GCA_004214815.1_ASM421481v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/585/GCA_004116585.1_ASM411658v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/023/405/GCA_004023405.1_ASM402340v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/675/GCA_004116675.1_ASM411667v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/705/GCA_004116705.1_ASM411670v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/565/GCA_004116565.1_ASM411656v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/325/GCA_004116325.1_ASM411632v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/625/GCA_004116625.1_ASM411662v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/208/055/GCA_009208055.1_ASM920805v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/208/075/GCA_009208075.1_ASM920807v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/208/095/GCA_009208095.1_ASM920809v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/177/675/GCA_013177675.1_ASM1317767v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/063/245/GCA_003063245.1_ASM306324v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/147/355/GCA_000147355.1_ASM14735v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/012/965/GCA_000012965.1_ASM1296v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/242/915/GCA_000242915.2_ASM24291v2 target=_blank>FTP link<\/a>"],["Ghent University","Ghent University","Ghent University","USDA, ARS, WRRC","Ghent University","Agriculture and Agri-Food Canada","Universitat Rovira i Virgili","Centre for Geobiology","Universitat Rovira i Virgili","Center for Computational and Quantitative Life Science, RIKEN","Baylor College of Medicine","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","USDA - Agricultural Research Service, USA","Universitat Rovira i Virgili","Agriculture and Agri-Food Canada","Universitat Rovira i Virgili","Universitat Rovira i Virgili","USDA, ARS, WRRC","USDA, ARS, WRRC","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","Universidad de Santiago de Compostela","University of Santiago de Compostela","Universitat Rovira i Virgili","Universitat Rovira i Virgili","DOE Joint Genome Institute","DOE - JOINT GENOME INSTITUTE","Universitat Rovira i Virgili","USDA, ARS, WRRC","US DOE Joint Genome Institute (JGI-PGF)","USDA, ARS, WRRC","Max Planck Institute for Marine Microbiology","University of Gothenburg - CCUG","Agriculture and Agri-Food Canada","University of California, Berkeley","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Center for Computational and Quantitative Life Science, RIKEN","Graduate School of Bioresources, Mie University","Universitat Rovira i Virgili","Korea University","Universitat Rovira i Virgili","Shandong University","USDA, ARS, WRRC","USDA, ARS, WRRC","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Nakdonggang National Institute of Biological Resources","Nakdonggang National Institute of Biological Resources","Nakdonggang National Institute of Biological Resources","USDA, ARS, WRRC","Universitat Rovira i Virgili","US DOE Joint Genome Institute (JGI-PGF)","US DOE Joint Genome Institute (JGI-PGF)","IOW-Leibniz Institute for Baltic Sea Research"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>genome_id<\/th>\n      <th>isolation_category<\/th>\n      <th>organism<\/th>\n      <th>strain_or_isolate<\/th>\n      <th>sample_information<\/th>\n      <th>bioproject<\/th>\n      <th>biosample<\/th>\n      <th>assembly_accession<\/th>\n      <th>taxid<\/th>\n      <th>species_taxid<\/th>\n      <th>doi_publication<\/th>\n      <th>assembly_level<\/th>\n      <th>seq_rel_date<\/th>\n      <th>ftp_path<\/th>\n      <th>submitter<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"}],"dom":"Blfrtip","pageLength":10,"lengthMenu":[[10,25,-1],["10","25","All"]],"scrollX":true,"scrollCollapse":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a3760ded907df2533572" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a3760ded907df2533572">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Supplementary Table 1: \n  <em>NCBI metadata for genomes in phylogenomic analysis.<\/em>\n<\/caption>","data":[["_Arcobacter_porcinus_117434","_Arcobacter_porcinus_213","_Arcobacter_porcinus_216","_Arcobacter_porcinus_CCUG_56899","_Arcobacter_porcinus_DU19","Aliiarcobacter_faecis_AF1078","Arcobacter_anaerophilus_DSM_24636_A","Arcobacter_anaerophilus_IR_1","Arcobacter_aquimarinus_CECT_8442","Arcobacter_butzleri_ED_1","Arcobacter_butzleri_JV22_A","Arcobacter_butzleri_L348","Arcobacter_butzleri_L349","Arcobacter_butzleri_L351","Arcobacter_butzleri_L352","Arcobacter_butzleri_RM4018","Arcobacter_canalis_F138_33","Arcobacter_cibarius_LMG_21996","Arcobacter_cloacae_CECT_7834","Arcobacter_cloacae_F26","Arcobacter_cryaerophilus_ATCC_43158","Arcobacter_cryaerophilus_D2610","Arcobacter_defluvii_CECT_7697","Arcobacter_ellisii_CECT_7837","Arcobacter_halophilus_DSM_18005","Arcobacter_halophilus_F166_45","Arcobacter_lanthieri_AF1440","Arcobacter_lanthieri_AF1581","Arcobacter_lekithochrous_LFT_1_7","Arcobacter_lekithochrous_LMG_28652","Arcobacter_marinus_CECT_7727","Arcobacter_marinus_F140_37","Arcobacter_marinus_MARC_MIP3H16","Arcobacter_marinus_SH_4D_Col1","Arcobacter_molluscorum_LMG_25693_F98_3","Arcobacter_mytili_LMG_24559","Arcobacter_nitrofigilis_DSM_7299","Arcobacter_pacificus_LMG_26638","Arcobacter_peruensis_PSE_93","Arcobacter_skirrowii_CCUG_10374_B","Arcobacter_sp_AF1028","Arcobacter_sp_BM102","Arcobacter_sp_CECT_8983","Arcobacter_sp_CECT_8985","Arcobacter_sp_CECT_8986","Arcobacter_sp_CECT_8989","Arcobacter_sp_CECT_9188","Arcobacter_sp_CECT_9230","Arcobacter_sp_CECT_9299","Arcobacter_sp_F155","Arcobacter_sp_F2176","Arcobacter_sp_FW59","Arcobacter_sp_L","Arcobacter_sp_LA11","Arcobacter_sp_LMG_29976","Arcobacter_sp_LPB0137","Arcobacter_sp_RW43_9","Arcobacter_sp_SM1702","Arcobacter_suis_CECT_7833","Arcobacter_thereius_LMG_24486_B","Arcobacter_trophiarum_LMG_25534_B","Arcobacter_venerupis_CECT7836","Halarcobacter_bivalviorum_CECT_7835","Halarcobacter_bivalviorum_F118_4","Halarcobacter_ebronensis_CECT_8441","Halarcobacter_ebronensis_CECT_8993","Halarcobacter_mediterraneus_F156_34","Poseidonibacter_sp_JOD_M_6","Poseidonibacter_sp_SJOD_M_33","Poseidonibacter_sp_SJOD_M_5","Pseudoarcobacter_acticola_KCTC_52212","Pseudoarcobacter_caeni_RW17_10","Sulfurimonas_autotrophica_DSM_16294","Sulfurimonas_denitrificans_DSM_1251","Sulfurimonas_gotlandica_GD1"],["vertebrate_host","vertebrate_host","vertebrate_host","vertebrate_host","vertebrate_host","sewage","marine_subsurface","marine_subsurface","marine_surface","fuel_cell","vertebrate_host","sewage","vertebrate_host","vertebrate_host","vertebrate_host","vertebrate_host","invertebrate_host","vertebrate_host","sewage","invertebrate_host","vertebrate_host","vertebrate_host","sewage","invertebrate_host","marine_surface","invertebrate_host","vertebrate_host","vertebrate_host","invertebrate_host","invertebrate_host","marine_surface","invertebrate_host","marine_subsurface","marine_subsurface","invertebrate_host","invertebrate_host","marine_subsurface","marine_surface","marine_surface","vertebrate_host","sewage","marine_subsurface","invertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","sewage","plant","vertebrate_host/marine","invertebrate_host","invertebrate_host","sewage","fuel_cell","invertebrate_host","vertebrate_host","unknown","sewage","marine_subsurface","vertebrate_host","vertebrate_host","vertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","marine_surface","invertebrate_host","invertebrate_host","invertebrate_host","invertebrate_host","marine_surface","sewage","outgroup","outgroup","outgroup"],["[Arcobacter] porcinus","[Arcobacter] porcinus","[Arcobacter] porcinus","[Arcobacter] porcinus","[Arcobacter] porcinus","Aliiarcobacter faecis","Arcobacter anaerophilus","Arcobacter anaerophilus","Arcobacter aquimarinus","Arcobacter butzleri ED-1","Arcobacter butzleri JV22","Arcobacter butzleri L348","Arcobacter butzleri L349","Arcobacter butzleri L351","Arcobacter butzleri L352","Arcobacter butzleri RM4018","Arcobacter canalis","Arcobacter cibarius LMG 21996","Arcobacter cloacae","Arcobacter cloacae","Arcobacter cryaerophilus ATCC 43158","Arcobacter cryaerophilus D2610","Arcobacter defluvii","Arcobacter ellisii","Arcobacter halophilus","Arcobacter halophilus","Arcobacter lanthieri","Arcobacter lanthieri","Arcobacter lekithochrous","Arcobacter lekithochrous","Arcobacter marinus","Arcobacter marinus","Arcobacter marinus","Arcobacter marinus","Arcobacter molluscorum LMG 25693","Arcobacter mytili LMG 24559","Arcobacter nitrofigilis DSM 7299","Arcobacter pacificus","Arcobacter peruensis","Arcobacter skirrowii CCUG 10374","Arcobacter sp. AF1028","Arcobacter sp.","Arcobacter sp. CECT 8983","Arcobacter sp. CECT 8985","Arcobacter sp. CECT 8986","Arcobacter sp. CECT 8989","Arcobacter sp. CECT 9188","Arcobacter sp. CECT 9230","Arcobacter sp. CECT 9299","Arcobacter sp. F155","Arcobacter sp. F2176","Arcobacter sp. FW59","Arcobacter sp. L","Arcobacter sp. LA11","Arcobacter sp. LMG 29976","Arcobacter sp. LPB0137","Arcobacter sp. RW43-9","Arcobacter sp. SM1702","Arcobacter suis CECT 7833","Arcobacter thereius LMG 24486","Arcobacter trophiarum LMG 25534","Arcobacter venerupis","Halarcobacter bivalviorum","Halarcobacter bivalviorum","Halarcobacter ebronensis","Halarcobacter ebronensis","Halarcobacter mediterraneus","Poseidonibacter sp. JOD-M-6","Poseidonibacter sp. SJOD-M-33","Poseidonibacter sp. SJOD-M-5","Pseudoarcobacter acticola","Pseudoarcobacter caeni","Sulfurimonas autotrophica DSM 16294","Sulfurimonas denitrificans DSM 1251","Sulfurimonas gotlandica GD1"],["117434","213","216","CCUG 56899","DU19","AF1078","DSM 24636","IR-1","CECT 8442","ED-1","JV22","L348","L349","L351","L352","RM4018","F138-33","LMG 21996","CECT 7834","F26","ATCC 43158","D2610","CECT 7697","CECT 7837","DSM 18005","F166-45","AF1440","AF1581","LFT 1.7","LMG 28652","CECT 7727","F140-37","MARC-MIP3H16","UTICA-S4D1","F98-3","LMG 24559","DSM 7299","LMG 26638","PSE-93","CCUG 10374","AF1028","BM102","CECT 8983","CECT 8985","CECT 8986","CECT 8989","CECT 9188","CECT 9230","CECT 9299","F155","F2176","FW59","L","LA11","LMG 29976","LPB0137","RW43-9","SM1702","CECT 7833","LMG 24486","LMG 25534","CECT7836","CECT 7835","F118-4","CECT 8441","CECT 8993","F156-34","JOD-M-6","SJOD-M-33","SJOD-M-5","KCTC 52212","RW17-10","DSM 16294","DSM 1251","GD1"],["pig|aborted fetus tissue","Pig|slaughter house|Pig feces","pig|feces","Aborted piglet fetus","Duck|cloaca content","Homo sapiens|human sewage tank no 10","Estuarine sediment","Aquifer","Mediterranean sea","fuel_cell","Homo sapiens|gastrointestinal tract","Sewage Outfall","Diarrheic Human Stool","Healthy Human Stool","Diarrheic Human Stool","human","oysters","chicken|broiler skin","Sewage","mussel","bovine|Aborted bovine fetus, brain","Homo sapiens|blood","Sewage","Mussel","Hipersaline lagoon","oyster","pig|female pig fecal storage tank","cattle|dairy cow manure storage tank","scallop larvae","Haliotis gigantea","Sea water","clams","no data","no data","Mussel","Mussels","roots of the marshplant Spartina alterniflora in Nova Scotia, Canada","Seawater surface","Peruvian upwelling","lamb|feces, 5-month-old, persistent scour (diarrhoea)","Homo sapiens|human sewage tank no 5","enrichment from estuary sediment|bioreactor metagenome","cockle","mussel","mussel","oyster","wastewater","carrot","elephant seal|cloacal swab","oyster","mussel","wastewater","no data","Haliotis discus","Porcine|Eye, aborted fetus","environment","reclaimed water","Antarctic intertidal sediment","Pork meat","pig|aborted fetus","piglet|feces","clam","mussel","mussel","mussel","wastewater","Mussels","Ostrea denselamellosa|gut","Ostrea denselamellosa|gut","Ostrea denselamellosa|gut","seawater","reclaimed water","no data","no data","no data"],["<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA283165 target=_blank>PRJNA283165<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA282911 target=_blank>PRJNA282911<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA282917 target=_blank>PRJNA282917<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA521386 target=_blank>PRJNA521386<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA283166 target=_blank>PRJNA283166<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235201 target=_blank>PRJNA235201<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA273926 target=_blank>PRJNA273926<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJDA61719 target=_blank>PRJDA61719<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA53195 target=_blank>PRJNA53195<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA233527 target=_blank>PRJNA233527<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA16319 target=_blank>PRJNA16319<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA232856 target=_blank>PRJNA232856<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66817 target=_blank>PRJNA66817<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66819 target=_blank>PRJNA66819<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235329 target=_blank>PRJNA235329<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235330 target=_blank>PRJNA235330<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA315279 target=_blank>PRJNA315279<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA448508 target=_blank>PRJNA448508<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA411818 target=_blank>PRJNA411818<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369869 target=_blank>PRJNA369869<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJEB19698 target=_blank>PRJEB19698<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412151 target=_blank>PRJNA412151<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66823 target=_blank>PRJNA66823<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA32593 target=_blank>PRJNA32593<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA521385 target=_blank>PRJNA521385<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA490269 target=_blank>PRJNA490269<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA563568 target=_blank>PRJNA563568<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA235195 target=_blank>PRJNA235195<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA387015 target=_blank>PRJNA387015<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJDA61721 target=_blank>PRJDA61721<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJDB5254 target=_blank>PRJDB5254<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA355602 target=_blank>PRJNA355602<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA495891 target=_blank>PRJNA495891<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA177174 target=_blank>PRJNA177174<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA66829 target=_blank>PRJNA66829<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA412344 target=_blank>PRJNA412344<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA576937 target=_blank>PRJNA576937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA576937 target=_blank>PRJNA576937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA576937 target=_blank>PRJNA576937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA558024 target=_blank>PRJNA558024<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA369468 target=_blank>PRJNA369468<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA31347 target=_blank>PRJNA31347<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA13019 target=_blank>PRJNA13019<\/a>","<a href=https://www.ncbi.nlm.nih.gov/bioproject/PRJNA60283 target=_blank>PRJNA60283<\/a>"],["<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03609681 target=_blank>SAMN03609681<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03580792 target=_blank>SAMN03580792<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03580808 target=_blank>SAMN03580808<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10884417 target=_blank>SAMN10884417<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03609682 target=_blank>SAMN03609682<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951872 target=_blank>SAMN02951872<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767207 target=_blank>SAMN07767207<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03316823 target=_blank>SAMN03316823<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709792 target=_blank>SAMN07709792<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMD00060980 target=_blank>SAMD00060980<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN00210774 target=_blank>SAMN00210774<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581416 target=_blank>SAMN02581416<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581417 target=_blank>SAMN02581417<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581419 target=_blank>SAMN02581419<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02581420 target=_blank>SAMN02581420<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02604276 target=_blank>SAMN02604276<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07360936 target=_blank>SAMN07360936<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02641481 target=_blank>SAMN02641481<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709793 target=_blank>SAMN07709793<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767222 target=_blank>SAMN07767222<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737948 target=_blank>SAMN03737948<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737949 target=_blank>SAMN03737949<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709794 target=_blank>SAMN07709794<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709795 target=_blank>SAMN07709795<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709796 target=_blank>SAMN07709796<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767223 target=_blank>SAMN07767223<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951874 target=_blank>SAMN02951874<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951875 target=_blank>SAMN02951875<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN04555171 target=_blank>SAMN04555171<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN08848610 target=_blank>SAMN08848610<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07688432 target=_blank>SAMN07688432<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07360937 target=_blank>SAMN07360937<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06295946 target=_blank>SAMN06295946<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06295997 target=_blank>SAMN06295997<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07701800 target=_blank>SAMN07701800<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737955 target=_blank>SAMN03737955<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02598489 target=_blank>SAMN02598489<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10884416 target=_blank>SAMN10884416<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10031634 target=_blank>SAMN10031634<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN12697556 target=_blank>SAMN12697556<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02951873 target=_blank>SAMN02951873<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07982695 target=_blank>SAMN07982695<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767216 target=_blank>SAMN07767216<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767219 target=_blank>SAMN07767219<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767215 target=_blank>SAMN07767215<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767217 target=_blank>SAMN07767217<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767213 target=_blank>SAMN07767213<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767220 target=_blank>SAMN07767220<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767214 target=_blank>SAMN07767214<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767227 target=_blank>SAMN07767227<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767226 target=_blank>SAMN07767226<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767221 target=_blank>SAMN07767221<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMD00060981 target=_blank>SAMD00060981<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMD00065689 target=_blank>SAMD00065689<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07515816 target=_blank>SAMN07515816<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06075356 target=_blank>SAMN06075356<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06286567 target=_blank>SAMN06286567<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN10233606 target=_blank>SAMN10233606<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737957 target=_blank>SAMN03737957<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN03737958 target=_blank>SAMN03737958<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767218 target=_blank>SAMN07767218<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07514161 target=_blank>SAMN07514161<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767209 target=_blank>SAMN07767209<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767210 target=_blank>SAMN07767210<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767211 target=_blank>SAMN07767211<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07767212 target=_blank>SAMN07767212<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN07709797 target=_blank>SAMN07709797<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN13015299 target=_blank>SAMN13015299<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN13015364 target=_blank>SAMN13015364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN13015372 target=_blank>SAMN13015372<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN12421736 target=_blank>SAMN12421736<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN06286566 target=_blank>SAMN06286566<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN00713560 target=_blank>SAMN00713560<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02598289 target=_blank>SAMN02598289<\/a>","<a href=https://www.ncbi.nlm.nih.gov/biosample/SAMN02470075 target=_blank>SAMN02470075<\/a>"],["GCA_001695265.1","GCA_001695195.1","GCA_001695235.1","GCA_004299785.2","GCA_001695315.1","GCA_000585155.1","GCA_004116345.1","GCA_000935065.1","GCA_004115795.1","GCA_000284355.1","GCA_000185325.1","GCA_001010585.1","GCA_001010605.1","GCA_001010615.1","GCA_001010675.1","GCA_000014025.1","GCA_002723485.1","GCA_000522465.1","GCA_004115805.1","GCA_004116535.1","GCA_003660105.1","GCA_003660085.1","GCA_004115775.1","GCA_004115815.1","GCA_002837275.1","GCA_004135665.1","GCA_000585115.1","GCA_000585195.1","GCA_001878855.1","GCA_003049765.1","GCA_002723495.1","GCA_002723475.1","GCA_002934525.1","GCA_900168035.1","GCA_002701265.1","GCA_003346775.1","GCA_000092245.1","GCA_004214795.1","GCA_003711085.1","GCA_008802155.1","GCA_000585175.1","GCA_002869565.1","GCA_004118855.1","GCA_004116495.1","GCA_004116725.1","GCA_004116715.1","GCA_003316735.1","GCA_003316695.1","GCA_004116575.1","GCA_004116455.1","GCA_004116465.1","GCA_003316685.1","GCA_000284235.1","GCA_001895145.1","GCA_002992985.1","GCA_001956695.1","GCA_003063295.1","GCA_003667345.1","GCA_003544815.1","GCA_004214815.1","GCA_004116585.1","GCA_004023405.1","GCA_004116675.1","GCA_004116705.1","GCA_004116565.1","GCA_004116325.1","GCA_004116625.1","GCA_009208055.1","GCA_009208075.1","GCA_009208095.1","GCA_013177675.1","GCA_003063245.1","GCA_000147355.1","GCA_000012965.1","GCA_000242915.2"],["<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1564138 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>1564138<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1315211 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/944546 target=_blank>1315211<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/888827 target=_blank>944546<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447256 target=_blank>888827<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447257 target=_blank>1447256<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447259 target=_blank>1447257<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1447260 target=_blank>1447259<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/367737 target=_blank>1447260<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912871 target=_blank>367737<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1442598 target=_blank>1912871<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1442598<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032070 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032071 target=_blank>1032070<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/873191 target=_blank>1032071<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/913109 target=_blank>873191<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>913109<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/870501 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032238 target=_blank>870501<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/572480 target=_blank>1032238<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1080223 target=_blank>572480<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2320140 target=_blank>1080223<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032239 target=_blank>2320140<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355368 target=_blank>1032239<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1872629 target=_blank>1355368<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044508 target=_blank>1872629<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935424 target=_blank>2044508<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044507 target=_blank>1935424<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044509 target=_blank>2044507<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044505 target=_blank>2044509<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044510 target=_blank>2044505<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044506 target=_blank>2044510<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044512 target=_blank>2044506<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044511 target=_blank>2044512<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912879 target=_blank>2044511<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/944547 target=_blank>1912879<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1898176 target=_blank>944547<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2027466 target=_blank>1898176<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1850254 target=_blank>2027466<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912876 target=_blank>1850254<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2478538 target=_blank>1912876<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663365 target=_blank>2478538<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032240 target=_blank>663365<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032241 target=_blank>1032240<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054033 target=_blank>1032241<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>1054033<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2023153 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654171 target=_blank>2023153<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654172 target=_blank>2654171<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654173 target=_blank>2654172<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1849015 target=_blank>2654173<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912877 target=_blank>1849015<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/563040 target=_blank>1912877<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/326298 target=_blank>563040<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/929558 target=_blank>326298<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/929558 target=_blank>929558<\/a>"],["<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935204 target=_blank>1935204<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1564138 target=_blank>1564138<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/877500 target=_blank>877500<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1315211 target=_blank>1315211<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28197 target=_blank>28197<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912871 target=_blank>1912871<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/255507 target=_blank>255507<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054034 target=_blank>1054034<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28198 target=_blank>28198<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28198 target=_blank>28198<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/873191 target=_blank>873191<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/913109 target=_blank>913109<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/197482 target=_blank>197482<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355374 target=_blank>1355374<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1904463 target=_blank>1904463<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/505249 target=_blank>505249<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1032072 target=_blank>1032072<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/603050 target=_blank>603050<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28199 target=_blank>28199<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1080223 target=_blank>1080223<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2320140 target=_blank>2320140<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/28200 target=_blank>28200<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1355368 target=_blank>1355368<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1872629 target=_blank>1872629<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044508 target=_blank>2044508<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1935424 target=_blank>1935424<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044507 target=_blank>2044507<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044509 target=_blank>2044509<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044505 target=_blank>2044505<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044510 target=_blank>2044510<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044506 target=_blank>2044506<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044512 target=_blank>2044512<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2044511 target=_blank>2044511<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912879 target=_blank>1912879<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/944547 target=_blank>944547<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1898176 target=_blank>1898176<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2027466 target=_blank>2027466<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1850254 target=_blank>1850254<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912876 target=_blank>1912876<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2478538 target=_blank>2478538<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1278212 target=_blank>1278212<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/544718 target=_blank>544718<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/708186 target=_blank>708186<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1054033 target=_blank>1054033<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/663364 target=_blank>663364<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1462615 target=_blank>1462615<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2023153 target=_blank>2023153<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654171 target=_blank>2654171<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654172 target=_blank>2654172<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/2654173 target=_blank>2654173<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1849015 target=_blank>1849015<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1912877 target=_blank>1912877<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/202747 target=_blank>202747<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/39766 target=_blank>39766<\/a>","<a href=https://www.ncbi.nlm.nih.gov/taxonomy/1176482 target=_blank>1176482<\/a>"],["no pub","no pub","no pub","<a href=https://doi.org/10.1016/j.nmni.2016.11.014 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2015.00987 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/JB.06084-11 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1186/s12866-015-0426-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1371/journal.pone.0001358 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00034-14 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/MRA.01463-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/MRA.01463-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00377-14 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00377-14 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.001809 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.002909 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00159-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00159-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/MRA.01078-18 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.4056/sigs.912121 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.000751 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/AEM.01344-19 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/00207713-42-3-344 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00113-14 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1016/j.syapm.2020.126091 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/JB.06084-11 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/genomeA.00032-17 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","no pub","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1099/ijsem.0.003539 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1016/j.syapm.2012.11.003 target=_blank>DOI link<\/a>","<a href=https://dx.doi.org/10.1016%2Fj.nmni.2016.11.014 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","no pub","no pub","no pub","<a href=https://doi.org/10.1007/s12275-016-6268-4 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.3389/fmicb.2018.02077 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.4056/sigs.1173118 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1128/AEM.01844-07 target=_blank>DOI link<\/a>","<a href=https://doi.org/10.1073/pnas.1111262109 target=_blank>DOI link<\/a>"],["Contig","Contig","Contig","Complete Genome","Contig","Scaffold","Contig","Contig","Contig","Complete Genome","Scaffold","Scaffold","Scaffold","Scaffold","Contig","Complete Genome","Contig","Contig","Contig","Contig","Complete Genome","Complete Genome","Contig","Contig","Scaffold","Contig","Contig","Scaffold","Contig","Contig","Contig","Contig","Scaffold","Scaffold","Contig","Complete Genome","Complete Genome","Complete Genome","Chromosome","Contig","Scaffold","Scaffold","Scaffold","Contig","Contig","Contig","Contig","Contig","Contig","Contig","Contig","Contig","Complete Genome","Contig","Contig","Complete Genome","Scaffold","Scaffold","Complete Genome","Complete Genome","Contig","Contig","Contig","Contig","Scaffold","Contig","Contig","Contig","Contig","Contig","Complete Genome","Contig","Complete Genome","Complete Genome","Chromosome"],["7/26/16","7/26/16","7/26/16","9/13/19","7/26/16","3/4/14","1/28/19","2/27/15","1/28/19","9/2/11","1/14/11","5/19/15","5/19/15","5/19/15","5/19/15","9/27/07","10/24/17","1/23/14","1/28/19","1/29/19","10/16/18","10/16/18","1/28/19","1/28/19","12/12/17","2/4/19","3/3/14","3/4/14","11/14/16","4/12/18","10/24/17","10/24/17","2/21/18","3/8/17","10/24/17","7/31/18","5/17/10","2/20/19","11/5/18","10/1/19","3/4/14","1/9/18","1/29/19","1/29/19","1/29/19","1/29/19","7/13/18","7/13/18","1/29/19","1/29/19","1/29/19","7/13/18","9/2/11","11/7/16","3/9/18","1/18/17","4/23/18","10/19/18","9/11/18","2/20/19","1/29/19","1/15/19","1/29/19","1/29/19","1/29/19","1/28/19","1/29/19","10/21/19","10/21/19","10/21/19","5/27/20","4/23/18","9/15/10","11/1/05","1/18/12"],["<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/265/GCA_001695265.1_ASM169526v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/195/GCA_001695195.1_ASM169519v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/235/GCA_001695235.1_ASM169523v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/299/785/GCA_004299785.2_ASM429978v2 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/695/315/GCA_001695315.1_ASM169531v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/155/GCA_000585155.1_Arcobacter_septicus_AF1078 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/345/GCA_004116345.1_ASM411634v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/935/065/GCA_000935065.1_ASM93506v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/795/GCA_004115795.1_ASM411579v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/284/355/GCA_000284355.1_ASM28435v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/185/325/GCA_000185325.1_ASM18532v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/585/GCA_001010585.1_A.butzleri_L348_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/605/GCA_001010605.1_A.butzleri_L349_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/615/GCA_001010615.1_A.butzleri_L351_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/010/675/GCA_001010675.1_A.butzleri_L352_1.0 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/014/025/GCA_000014025.1_ASM1402v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/723/485/GCA_002723485.1_ASM272348v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/522/465/GCA_000522465.1_Arcobacter_cibarius_LMG21996 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/805/GCA_004115805.1_ASM411580v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/535/GCA_004116535.1_ASM411653v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/660/105/GCA_003660105.1_ASM366010v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/660/085/GCA_003660085.1_ASM366008v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/775/GCA_004115775.1_ASM411577v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/115/815/GCA_004115815.1_ASM411581v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/837/275/GCA_002837275.1_ASM283727v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/135/665/GCA_004135665.1_ASM413566v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/115/GCA_000585115.1_Arcobacter_lanthierii_AF1440 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/195/GCA_000585195.1_Arcobacter_lanthierii_AF1581 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/878/855/GCA_001878855.1_ASM187885v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/049/765/GCA_003049765.1_ASM304976v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/723/495/GCA_002723495.1_ASM272349v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/723/475/GCA_002723475.1_ASM272347v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/934/525/GCA_002934525.1_ASM293452v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/900/168/035/GCA_900168035.1_IMG-taxon_2703719342_annotated_assembly target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/701/265/GCA_002701265.1_ASM270126v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/346/775/GCA_003346775.1_ASM334677v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/092/245/GCA_000092245.1_ASM9224v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/214/795/GCA_004214795.1_ASM421479v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/711/085/GCA_003711085.1_ASM371108v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/008/802/155/GCA_008802155.1_ASM880215v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/585/175/GCA_000585175.1_Arcobacter_septicus_AF1028 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/869/565/GCA_002869565.1_ASM286956v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/118/855/GCA_004118855.1_ASM411885v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/495/GCA_004116495.1_ASM411649v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/725/GCA_004116725.1_ASM411672v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/715/GCA_004116715.1_ASM411671v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/316/735/GCA_003316735.1_ASM331673v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/316/695/GCA_003316695.1_ASM331669v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/575/GCA_004116575.1_ASM411657v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/455/GCA_004116455.1_ASM411645v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/465/GCA_004116465.1_ASM411646v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/316/685/GCA_003316685.1_ASM331668v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/284/235/GCA_000284235.1_ASM28423v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/895/145/GCA_001895145.1_ASM189514v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/992/985/GCA_002992985.1_ASM299298v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/001/956/695/GCA_001956695.1_ASM195669v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/063/295/GCA_003063295.1_ASM306329v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/667/345/GCA_003667345.1_ASM366734v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/544/815/GCA_003544815.1_ASM354481v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/214/815/GCA_004214815.1_ASM421481v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/585/GCA_004116585.1_ASM411658v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/023/405/GCA_004023405.1_ASM402340v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/675/GCA_004116675.1_ASM411667v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/705/GCA_004116705.1_ASM411670v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/565/GCA_004116565.1_ASM411656v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/325/GCA_004116325.1_ASM411632v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/004/116/625/GCA_004116625.1_ASM411662v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/208/055/GCA_009208055.1_ASM920805v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/208/075/GCA_009208075.1_ASM920807v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/208/095/GCA_009208095.1_ASM920809v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/177/675/GCA_013177675.1_ASM1317767v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/003/063/245/GCA_003063245.1_ASM306324v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/147/355/GCA_000147355.1_ASM14735v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/012/965/GCA_000012965.1_ASM1296v1 target=_blank>FTP link<\/a>","<a href=ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/242/915/GCA_000242915.2_ASM24291v2 target=_blank>FTP link<\/a>"],["Ghent University","Ghent University","Ghent University","USDA, ARS, WRRC","Ghent University","Agriculture and Agri-Food Canada","Universitat Rovira i Virgili","Centre for Geobiology","Universitat Rovira i Virgili","Center for Computational and Quantitative Life Science, RIKEN","Baylor College of Medicine","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","USDA - Agricultural Research Service, USA","Universitat Rovira i Virgili","Agriculture and Agri-Food Canada","Universitat Rovira i Virgili","Universitat Rovira i Virgili","USDA, ARS, WRRC","USDA, ARS, WRRC","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Agriculture and Agri-Food Canada","Agriculture and Agri-Food Canada","Universidad de Santiago de Compostela","University of Santiago de Compostela","Universitat Rovira i Virgili","Universitat Rovira i Virgili","DOE Joint Genome Institute","DOE - JOINT GENOME INSTITUTE","Universitat Rovira i Virgili","USDA, ARS, WRRC","US DOE Joint Genome Institute (JGI-PGF)","USDA, ARS, WRRC","Max Planck Institute for Marine Microbiology","University of Gothenburg - CCUG","Agriculture and Agri-Food Canada","University of California, Berkeley","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Center for Computational and Quantitative Life Science, RIKEN","Graduate School of Bioresources, Mie University","Universitat Rovira i Virgili","Korea University","Universitat Rovira i Virgili","Shandong University","USDA, ARS, WRRC","USDA, ARS, WRRC","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Universitat Rovira i Virgili","Nakdonggang National Institute of Biological Resources","Nakdonggang National Institute of Biological Resources","Nakdonggang National Institute of Biological Resources","USDA, ARS, WRRC","Universitat Rovira i Virgili","US DOE Joint Genome Institute (JGI-PGF)","US DOE Joint Genome Institute (JGI-PGF)","IOW-Leibniz Institute for Baltic Sea Research"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>genome_id<\/th>\n      <th>isolation_category<\/th>\n      <th>organism<\/th>\n      <th>strain_or_isolate<\/th>\n      <th>sample_information<\/th>\n      <th>bioproject<\/th>\n      <th>biosample<\/th>\n      <th>assembly_accession<\/th>\n      <th>taxid<\/th>\n      <th>species_taxid<\/th>\n      <th>doi_publication<\/th>\n      <th>assembly_level<\/th>\n      <th>seq_rel_date<\/th>\n      <th>ftp_path<\/th>\n      <th>submitter<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"}],"dom":"Blfrtip","pageLength":10,"lengthMenu":[[10,25,-1],["10","25","All"]],"scrollX":true,"scrollCollapse":true,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br/></p>
 <blockquote>
@@ -3021,7 +3390,7 @@ Next
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>© Copyright 2020 The HYPOCOLYPSE Project.</p>
+<p>© Copyright 2020 metacrobe &amp; The HYPOCOLYPSE Project.</p>
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
