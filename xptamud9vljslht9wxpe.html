@@ -41,16 +41,10 @@
   <meta property="twitter:description" content="A place to test"/>
   
   <!--/radix_placeholder_meta_tags-->
-  
-  <meta name="citation_reference" content="citation_title=Anvi’o: An advanced analysis and visualization platform for ‘omics data;citation_publication_date=2015;citation_volume=3;citation_author=A Murat Eren;citation_author=Özcan C Esen;citation_author=Christopher Quince;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin;citation_author=Tom O Delmont"/>
-  <meta name="citation_reference" content="citation_title=IQ-tree 2: New models and efficient methods for phylogenetic inference in the genomic era;citation_publication_date=2020;citation_volume=37;citation_author=Bui Quang Minh;citation_author=Heiko A Schmidt;citation_author=Olga Chernomor;citation_author=Dominik Schrempf;citation_author=Michael D Woodhams;citation_author=Arndt Von Haeseler;citation_author=Robert Lanfear"/>
-  <meta name="citation_reference" content="citation_title=ModelFinder: Fast model selection for accurate phylogenetic estimates;citation_publication_date=2017;citation_volume=14;citation_author=Subha Kalyaanamoorthy;citation_author=Bui Quang Minh;citation_author=Thomas KF Wong;citation_author=Arndt Haeseler;citation_author=Lars S Jermiin"/>
-  <meta name="citation_reference" content="citation_title=UFBoot2: Improving the ultrafast bootstrap approximation;citation_publication_date=2017;citation_volume=35;citation_author=Diep Thi Hoang;citation_author=Olga Chernomor;citation_author=Arndt Haeseler;citation_author=Bui Quang Minh;citation_author=Le Sy Vinh"/>
-  <meta name="citation_reference" content="citation_title=A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life;citation_publication_date=2018;citation_volume=36;citation_author=Donovan H Parks;citation_author=Maria Chuvochina;citation_author=David W Waite;citation_author=Christian Rinke;citation_author=Adam Skarshewski;citation_author=Pierre-Alain Chaumeil;citation_author=Philip Hugenholtz"/>
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Sandbox"]},{"type":"character","attributes":{},"value":["A place to test\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description"]}},"value":[{"type":"character","attributes":{},"value":["Sandbox"]},{"type":"character","attributes":{},"value":["A place to test"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -66,6 +60,7 @@
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
       var headroom = new Headroom(header, {
+        tolerance: 5,
         onPin : function() {
           if (window.headroom_prevent_pin) {
             window.headroom_prevent_pin = false;
@@ -114,7 +109,7 @@
   
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
-    background-color: #455a64;
+    background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
@@ -388,8 +383,15 @@
     top: 0;
   }
   
+  /* adjust viewport for navbar height */
+  /* helps vertically center bootstrap (non-distill) content */
+  .min-vh-100 {
+    min-height: calc(100vh - 100px) !important;
+  }
+  
   </style>
   
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -413,22 +415,19 @@
     return offset ? offset + '/' + url : url;
   }
   
-  function createIndex() {
-    var options = {
-      keys: [
-        "title",
-        "categories",
-        "description",
-        "contents"
-      ]
-    };
-    return new window.Fuse([],options);
-  }
-  
   function createFuseIndex() {
   
     // create fuse index
-    var options = { keys: ["title", "description", "contents"] };
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
     var fuse = new window.Fuse([], options);
   
     // fetch the main search.json
@@ -496,29 +495,25 @@
               shouldSort: true,
               minMatchCharLength: 2,
               limit: 10,
-              keys: [
-                { name: 'title', weight: 20 },
-                { name: 'categories', weight: 15 },
-                { name: 'description', weight: 10 },
-                { name: 'contents', weight: 5 },
-              ],
             };
             var results = fuse.search(query, searchOptions);
             callback(results
               .map(function(result) { return result.item; })
-              .filter(function(item) { return !!item.description; })
             );
           },
           templates: {
             suggestion: function(suggestion) {
+              var img = suggestion.preview && Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
               var html = `
                 <div class="search-item">
                   <h3>${suggestion.title}</h3>
                   <div class="search-item-description">
-                    ${suggestion.description}
+                    ${suggestion.description || ''}
                   </div>
                   <div class="search-item-preview">
-                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                    ${img}
                   </div>
                 </div>
               `;
@@ -528,15 +523,23 @@
         }]).on('autocomplete:selected', function(event, suggestion) {
           window.location.href = offsetURL(suggestion.path);
         });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
       })
       .catch(function(error) {
         console.log(error);
       });
+  
   });
   
   </script>
   
   <style type="text/css">
+  
+  .nav-search {
+    font-size: x-small;
+  }
   
   /* Algolioa Autocomplete */
   
@@ -550,16 +553,18 @@
     padding-top: 8px;
     padding-bottom: 0;
     border-radius: 6px;
-    border: 1px #455a64 solid;
+    border: 1px #0F2E3D solid;
     width: 180px;
   }
   
   
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
-      visibility: hidden
+      display: none;
+      visibility: hidden;
     }
     .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
       visibility: visible;
     }
     .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
@@ -610,6 +615,7 @@
   }
   
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
@@ -671,6 +677,18 @@
   
   .pagedtable-footer {
     font-size: 15px;
+  }
+  
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+  
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+  
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
   }
   
   .authors-affiliations .orcid-id {
@@ -781,7 +799,7 @@
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
-    overflow: hidden;
+    overflow: auto;
   }
   
   d-article div.sourceCode {
@@ -823,6 +841,11 @@
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
+  }
+  
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
   }
   
   @media(min-width: 768px) {
@@ -867,7 +890,7 @@
   }
   
   @media(min-width: 1000px) {
-    .d-contents {
+    .d-contents.d-contents-float {
       height: 0;
       grid-column-start: 1;
       grid-column-end: 4;
@@ -981,6 +1004,17 @@
     margin-left: 1em; text-indent: -1em;
   }
   
+  /* Citation hover box */
+  
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+  
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+  
   
   /* Tweak 1000px media break to show more text */
   
@@ -1055,6 +1089,78 @@
     word-wrap: break-word;
   }
   
+  /* Include appendix styles here so they can be overridden */
+  
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+  
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+  
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+  
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+  
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+  
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+  
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  d-appendix > * {
+    grid-column: text;
+  }
+  
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+  
+  /* Include footnote styles here so they can be overridden */
+  
+  d-footnote-list {
+    contain: layout style;
+  }
+  
+  d-footnote-list > * {
+    grid-column: text;
+  }
+  
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+  
+  
   
   /* Anchor.js */
   
@@ -1122,6 +1228,211 @@
   
   .custom p {
     margin-bottom: 0.5em;
+  }
+  
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+  
+  /* Styles for posts lists (not auto-injected) */
+  
+  
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+  
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+  
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+  
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+  
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+  
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+  
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+  
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+  
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+  
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+  
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+  
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+  
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+  
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .posts-list img {
+    opacity: 1;
+  }
+  
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+  
+  .posts-more {
+    clear: both;
+  }
+  
+  
+  .posts-sidebar {
+    font-size: 16px;
+  }
+  
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+  
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+  
+  .categories li>a {
+    border-bottom: none;
+  }
+  
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+  
+  .categories .active {
+    font-weight: 600;
+  }
+  
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
   }
   
   
@@ -1253,6 +1564,12 @@
     hyphens: none;
   }
   
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+  
+  
+  
   </style>
   
   <script type="application/javascript">
@@ -1363,7 +1680,7 @@
       var layout = $(this).attr('data-layout');
   
       // apply layout to markdown level block elements
-      var elements = $(this).children().not('div.sourceCode, pre, script');
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
         var layout_div = $('<div class="' + layout + '"></div>');
         if (layout_div.hasClass('shaded')) {
@@ -1385,7 +1702,7 @@
   
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
-    $('code.sourceCode a[aria-hidden="true"]').remove();
+    $('code.sourceCode a:empty').remove();
   
     // load distill framework
     load_distill_framework();
@@ -1471,9 +1788,27 @@
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
   
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+  
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
+  
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
   
       // clear polling timer
       clearInterval(tid);
@@ -1634,7 +1969,10 @@
   </script>
   
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/popper-2.6.0/popper.min.js"></script>
+  <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="site_libs/tippy-6.2.7/tippy.umd.min.js"></script>
   <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -1642,7 +1980,7 @@
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
   /* Whole document: */
-  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Roboto:300|Nunito+Sans:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500');
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500|Karla:400,400i,700,700i');
   /********************************/
   /* controls general properties of site*/
   /********************************/
@@ -1678,6 +2016,10 @@
   d-byline .authors-affiliations {
     grid-column-end: span 3;
     grid-column-gap: 8px;
+  }
+  
+  img.orcid-id {
+    margin: 0;
   }
   
   a.name:-webkit-any-link {
@@ -1759,6 +2101,7 @@
     border-radius: 3px;
     font-size: 0.8em;
     font-family: 'Monaco', 'PT Mono', monospace;
+    overflow-x: scroll !important;
     margin-bottom: 20px;
     color: #BF2727;
   }
@@ -1770,66 +2113,39 @@
     color: #BF2727;
   }
   
-  /** OLD code b4 distill update
-  d-code {
-    background-color: #E8E8E8;
-    border-radius: 3px;
-    font-size: 0.8em;
-    font-family: 'Monaco', 'PT Mono', monospace;
-    overflow-x: scroll !important;
-    margin-bottom: 20px;
-    border-left: 5px solid #006ddb;
-    border-top: 1px solid #B7B7B7;
-    border-right: 1px solid #B7B7B7;
-    border-bottom: 1px solid #B7B7B7;
-  }
-  
-  code {
-    background-color: #E8E8E8;
-    border-radius: 3px;
-    font-size: 0.9em;
-    font-family: 'Monaco', 'PT Mono', monospace;
-    overflow-x: scroll !important;
-    margin-bottom: 20px;
-    color: #BF2727;
-  }
-  
-  pre.text-output {
-    margin-top: 0px;
-     color: #333333;
-     background-color: #FAFAFA;
-     font-size: 0.8em
-   }
-  
-  pre {
-    border: 1px solid #ccc;
-    padding: 0px 10px 10px 18px;
-    margin: 1em 0px;
-    border-radius: 5px;
-  }
-  
-  **/
-  
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
   
   .nav-dropdown-content .nav-dropdown-header {
-    text-transform: none;
+    text-transform: uppercase;
+    color: #686868;
+  }
+  
+  .nav-dropdown-content a {
+    font-family: 'Work Sans'
+  }
+  .nav-dropdown .nav-dropbtn {
+    color: #FEFEFE;
+    font-weight: 400;
   }
   
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
-    margin-bottom: 10px;
+    margin-bottom: auto;
   }
   
   .distill-site-nav {
-      color: rgba(255, 255, 255, 0.8);
+      color: #FEFEFE;
       background-color: #143D59;
-      font-size: 16px;
-      font-weight: 300;
-    }
+      font-size: 0.95em;
+      font-weight: 400;
+      min-width: 165px;
+      position: absolute;
+      font-family: 'Karla';
+      letter-spacing: .1em;
+  
   }
   
   .article-banner {
@@ -1943,6 +2259,67 @@
   	max-width: 100%;
   }
   
+  /*************************************************
+  *  code for DETAILS fold down
+  **************************************************/
+  
+  details {
+    background-color: #ccd7df;
+    cursor: pointer;
+    color: #282828;
+    margin-bottom:1vh;
+    padding: 1em;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-family: 'Karla'
+  }
+  
+  .active, details:hover {
+    transition: max-height 0.2s ease-out;
+    outline: none;
+  
+    /* background-color: #acc2c2; */
+  }
+  
+  details {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    border-radius: 4px;
+    outline: none;
+  
+  }
+  
+  details.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    outline: none;
+  
+  }
+  
+  summary::-webkit-details-marker {
+    display: none;
+    outline: none;
+  
+  }
+  
+  summary:focus {
+    outline: none;
+  }
+  
+  summary::after {
+    float: right;
+    font-family: "Font Awesome 5 Free";
+    content: "\f0fe";
+  }
+  
+  details[open] summary::after {
+    float: right;
+    font-family: "Font Awesome 5 Free";
+    content: "\f146";
+  }
+  
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -1972,27 +2349,27 @@
 <a href="index.html">
 <i class="fa fa-home" aria-hidden="true"></i>
 </a>
-<a href="intro.html">Site Overview</a>
-<a href="field.html">A. Field Analyses</a>
+<a href="intro.html">OVERVIEW</a>
+<a href="field.html">FIELD</a>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-B. 16S rRNA
+16S rRNA
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<span class="nav-dropdown-header">16S rRNA Processing</span>
+<span class="nav-dropdown-header">Processing</span>
 <a href="16s-dada2.html">1. DADA2</a>
 <a href="16s-data-prep.html">2. Data Prep</a>
 <hr/>
-<span class="nav-dropdown-header">16S rRNA Analyses</span>
+<span class="nav-dropdown-header">Analyses</span>
 <a href="16s-water.html">3. Diversity</a>
 <a href="16s-da-asvs.html">4. Differentially Abundant ASVs</a>
 </div>
 </div>
 <div class="nav-dropdown">
 <button class="nav-dropbtn">
-C. Metagenomic
+METAGENOMIC
  
 <span class="down-arrow">&#x25BE;</span>
 </button>
@@ -2011,9 +2388,9 @@ C. Metagenomic
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
-<a href="data-availability.html">Data</a>
-<a href="https://github.com/hypocolypse/web/">
-<i class="fa fa-github fa-lg" aria-hidden="true"></i>
+<a href="data-availability.html">DATA</a>
+<a href="https://github.com/hypocolypse/web/" aria-label="Link to source">
+<i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
@@ -2032,7 +2409,7 @@ C. Metagenomic
 
 
 <div class="d-article">
-<div class="d-contents">
+<div class="d-contents d-contents-float">
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
@@ -2057,7 +2434,7 @@ C. Metagenomic
 <p><a href="figures/sandbox/16s-anvio.png" download="16s-anvio.png"> Download a <strong>PNG</strong> file for Commenting.</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <p><a href="figures/sandbox/16s-anvio.eps" download="16s-anvio.eps"> Download a <strong>EPS</strong> file for Editing</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <h2 id="figure-legend">Figure Legend</h2>
-<p><strong>Figure X. Microbial assemblages of hypoxic and normoxic conditions.</strong> Community composition determined through 16S rRNA sequencing of water samples from the hypoxic (vermillion) and normoxic (blue) samples during the hypoxic event (N = 3 per site) and one month after the event (N = 1 per site). Hierarchical clustering of samples (right dendrogram) and ASVs (top dendrogram) based on Euclidean distance and Ward linkage against the ASV abundance matrix. Only ASVs represented by more than 100 reads were included in the analysis (189 ASVs). Each vertical line in the plot area represents a unique ASV, and color intensity indicates log normalized ASV abundance for a given sample. No color indicates an ASV was not detected. The colored bar below the plot area indicates which ASVs were enriched in the hypoxic (vermillion) vs. normoxic (blue) states as determined by Indicator Species Analysis (ISA). No color indicates ASVs that were not differentially abundant. For each sample, total reads and total ASVs, as well as estimates of inverse Simpson and Shannon diversity are presented. Taxonomic profiles for each sample are also provided, showing the proportion of major bacterial classes. Arrow points to ASV10, an Arcobacteraceae (Campylobacteria) abundant in hypoxic samples and absent from normoxic samples. ASV10 has a 100% match across its length to the 16S rRNA gene sequence retrieved from the metagenome assembled genome, MAG02. Clustering and visualization were conducted in the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment and finishing touches performed in Inkscape (<a href="https://inkscape.org/" class="uri">https://inkscape.org/</a>).</p>
+<p><strong>Figure X. Microbial assemblages of hypoxic and normoxic conditions.</strong> Community composition determined through 16S rRNA sequencing of water samples from the hypoxic (vermillion) and normoxic (blue) samples during the hypoxic event (N = 3 per site) and one month after the event (N = 1 per site). Hierarchical clustering of samples (right dendrogram) and ASVs (top dendrogram) based on Euclidean distance and Ward linkage against the ASV abundance matrix. Only ASVs represented by more than 100 reads were included in the analysis (189 ASVs). Each vertical line in the plot area represents a unique ASV, and color intensity indicates log normalized ASV abundance for a given sample. No color indicates an ASV was not detected. The colored bar below the plot area indicates which ASVs were enriched in the hypoxic (vermillion) vs. normoxic (blue) states as determined by Indicator Species Analysis (ISA). No color indicates ASVs that were not differentially abundant. For each sample, total reads and total ASVs, as well as estimates of inverse Simpson and Shannon diversity are presented. Taxonomic profiles for each sample are also provided, showing the proportion of major bacterial classes. Arrow points to ASV10, an Arcobacteraceae (Campylobacteria) abundant in hypoxic samples and absent from normoxic samples. ASV10 has a 100% match across its length to the 16S rRNA gene sequence retrieved from the metagenome assembled genome, MAG02. Clustering and visualization were conducted in the anvi’o<span class="citation" data-cites="eren2015anvi">[@eren2015anvi]</span> environment and finishing touches performed in Inkscape (<a href="https://inkscape.org/" class="uri">https://inkscape.org/</a>).</p>
 <h1 id="mag02-phylogenomic-analysis">MAG02 Phylogenomic Analysis</h1>
 <p>The taxonomy estimate is new and important. Not sure I like the colors, but they need to be different from the isolation sources I think. Comments welcome.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -2066,7 +2443,7 @@ C. Metagenomic
 <p><a href="figures/sandbox/mag02-phylogenomic-tree.png" download="mag02-phylogenomic-tree.png"> Download a <strong>PNG</strong> file for Commenting.</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <p><a href="figures/sandbox/mag02-phylogenomic-tree.eps" download="mag02-phylogenomic-tree.eps"> Download a <strong>EPS</strong> file for Editing</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <h2 id="figure-legend-1">Figure Legend</h2>
-<p><strong>Figure X. Phylogenomic analysis of MAG02.</strong> Phylogenomic placement of MAG02 against a manually curated collection of 72 <em>Arcobacter</em> group genomes. The tree was rooted with three <em>Sulfurimonas</em> genomes. Tree based on concatenated protein alignment of 36 single copy genes (SCG) present in all 76 genomes. SCG were selected using a maximum functional homogeneity index of 0.95 and a minimum geometric homogeneity index of 0.99. Tree constructed using IQ-Tree<span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> and 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>. <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> was used to determine the best fit substitution model (LG+F+R6). Colored bar on the left indicates broad habitat category (<em>vertebrate host</em>, <em>invertebrate host</em>, <em>marine surface</em>, <em>marine subsurface</em>, <em>fuel cell</em>, and <em>sewage</em>) assigned based on the host and isolation source retrieved from NCBI’s BioSample database for each genome (one genome had no information). Vertebrate hosts almost entirely encompassed terrestrial animals such as cow, duck, human, and pig, and isolation sources like aborted fetus (not human), blood, eye, skin, and slaughterhouse. One genome came from a cloacal swab of an elephant seal. Invertebrate hosts were exclusively marine and included mussel, oyster, abalone, scallop, and clam. Marine surface sources included seawater and surface seawater, while marine subsurface sources included sediment and marine subsurface aquifer. Fuel cells were isolates obtained from fuel cell enrichment. Genomes in the sewage category came from terrestrial origin and also included wastewater and reclaimed water. Values in parentheses indicate the number of genomes per category. See Supplementary TABLE ZZZ for a metadata record of all genomes used. To the right of the isolation source are different genome metrics followed by the NCBI genome name. On the right are the results of taxonomy estimates for each genome based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. MAG02 was classified as a <em>Poseidonibacter</em> based on the presence of 20 genes and fell within the <em>Poseidonibacter</em> clade. Unless otherwise note, all analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment.</p>
+<p><strong>Figure X. Phylogenomic analysis of MAG02.</strong> Phylogenomic placement of MAG02 against a manually curated collection of 72 <em>Arcobacter</em> group genomes. The tree was rooted with three <em>Sulfurimonas</em> genomes. Tree based on concatenated protein alignment of 36 single copy genes (SCG) present in all 76 genomes. SCG were selected using a maximum functional homogeneity index of 0.95 and a minimum geometric homogeneity index of 0.99. Tree constructed using IQ-Tree<span class="citation" data-cites="minh2020iq">[@minh2020iq]</span> and 5000 ultrafast bootstrap approximations<span class="citation" data-cites="hoang2017ultrafast">[@hoang2017ultrafast]</span>. <em>ModelFinder Plus</em><span class="citation" data-cites="kalyaanamoorthy2017modelfinder">[@kalyaanamoorthy2017modelfinder]</span> was used to determine the best fit substitution model (LG+F+R6). Colored bar on the left indicates broad habitat category (<em>vertebrate host</em>, <em>invertebrate host</em>, <em>marine surface</em>, <em>marine subsurface</em>, <em>fuel cell</em>, and <em>sewage</em>) assigned based on the host and isolation source retrieved from NCBI’s BioSample database for each genome (one genome had no information). Vertebrate hosts almost entirely encompassed terrestrial animals such as cow, duck, human, and pig, and isolation sources like aborted fetus (not human), blood, eye, skin, and slaughterhouse. One genome came from a cloacal swab of an elephant seal. Invertebrate hosts were exclusively marine and included mussel, oyster, abalone, scallop, and clam. Marine surface sources included seawater and surface seawater, while marine subsurface sources included sediment and marine subsurface aquifer. Fuel cells were isolates obtained from fuel cell enrichment. Genomes in the sewage category came from terrestrial origin and also included wastewater and reclaimed water. Values in parentheses indicate the number of genomes per category. See Supplementary TABLE ZZZ for a metadata record of all genomes used. To the right of the isolation source are different genome metrics followed by the NCBI genome name. On the right are the results of taxonomy estimates for each genome based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">[@parks2018gtgb]</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. MAG02 was classified as a <em>Poseidonibacter</em> based on the presence of 20 genes and fell within the <em>Poseidonibacter</em> clade. Unless otherwise note, all analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">[@eren2015anvi]</span> environment.</p>
 <h1 id="distribution-of-metagenomic-bins">Distribution of Metagenomic Bins</h1>
 <p>This is to replace the “death star” supplemental figure. Basically, I separated viral and microbial bins and overlaid the bins that were identified as MAGs. These are the tiny death stars on the outside.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -2076,24 +2453,7 @@ C. Metagenomic
 <p><a href="figures/sandbox/binning.eps" download="binning.eps"> Download a <strong>EPS</strong> file for Editing</a> Click on the link then right click and hit <em>Save image as…</em> or it may just download when you click the link.</p>
 <h2 id="figure-legend-2">Figure Legend</h2>
 <p><strong>Figure X. Distribution of microbial and viral bins across samples.</strong> Results of binning four co-assembled metagenomic samples from Cayo Roldan and Cayo Coral during and after the hypoxic event. Each layer represents a sample colored by oxygen state (vermillion, hypoxic; blue, normoxic) and each spoke a distinct bin. Color intensity is the relative abundance of a bin across all samples and no color indicates a bin was not detected. Inner and outer layers provide information on the length and GC content, as well as the completion and redundancy estimates, for each bin. Metrics for each sample—total reads, number of reds mapped to the co-assembly, percent of reads mapped, and the number of single nucleotide variants (SNVs)—as well as taxonomic content (based on short-read assignment), are provided in the bar charts on the left.</p>
-<p>The bottom semicircle is all 92 viral bins and the top semicircle are all 44 microbial bins. Overlaid on the microbial portion of the graph are the 5 MAGs recovered from the assembly. For each MAG we include the completion (C) and redundancy (R) estimates based on an HMM profile of 71 bacterial single copy genes (SCG). For each MAG, we added are the genus-level taxonomy estimates based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. Numbers in parentheses indicate the number of these ribosomal genes found in each MAG. We also include BIN-13—an unresolved bin with a high completion estimate but also high redundancy. This abundant bin was only found in the hypoxic sample. All analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment.</p>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-eren2015anvi">
-<p>Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morrison, Mitchell L Sogin, and Tom O Delmont. 2015. “Anvi’o: An Advanced Analysis and Visualization Platform for ‘Omics Data.” <em>PeerJ</em> 3: e1319. <a href="https://doi.org/10.7717/peerj.1319">https://doi.org/10.7717/peerj.1319</a>.</p>
-</div>
-<div id="ref-hoang2017ultrafast">
-<p>Hoang, Diep Thi, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh, and Le Sy Vinh. 2017. “UFBoot2: Improving the Ultrafast Bootstrap Approximation.” <em>Molecular Biology and Evolution</em> 35 (2): 518–22. <a href="https://doi.org/10.1093/molbev/msx281">https://doi.org/10.1093/molbev/msx281</a>.</p>
-</div>
-<div id="ref-kalyaanamoorthy2017modelfinder">
-<p>Kalyaanamoorthy, Subha, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler, and Lars S Jermiin. 2017. “ModelFinder: Fast Model Selection for Accurate Phylogenetic Estimates.” <em>Nature Methods</em> 14 (6): 587. <a href="https://doi.org/10.1038/nmeth.4285">https://doi.org/10.1038/nmeth.4285</a>.</p>
-</div>
-<div id="ref-minh2020iq">
-<p>Minh, Bui Quang, Heiko A Schmidt, Olga Chernomor, Dominik Schrempf, Michael D Woodhams, Arndt Von Haeseler, and Robert Lanfear. 2020. “IQ-Tree 2: New Models and Efficient Methods for Phylogenetic Inference in the Genomic Era.” <em>Molecular Biology and Evolution</em> 37 (5): 1530–4. <a href="https://doi.org/10.1093/molbev/msaa015">https://doi.org/10.1093/molbev/msaa015</a>.</p>
-</div>
-<div id="ref-parks2018gtgb">
-<p>Parks, Donovan H, Maria Chuvochina, David W Waite, Christian Rinke, Adam Skarshewski, Pierre-Alain Chaumeil, and Philip Hugenholtz. 2018. “A Standardized Bacterial Taxonomy Based on Genome Phylogeny Substantially Revises the Tree of Life.” <em>Nature Biotechnology</em> 36 (10): 1546–1696. <a href="https://doi.org/10.1038/nbt.4229">https://doi.org/10.1038/nbt.4229</a>.</p>
-</div>
-</div>
+<p>The bottom semicircle is all 92 viral bins and the top semicircle are all 44 microbial bins. Overlaid on the microbial portion of the graph are the 5 MAGs recovered from the assembly. For each MAG we include the completion (C) and redundancy (R) estimates based on an HMM profile of 71 bacterial single copy genes (SCG). For each MAG, we added are the genus-level taxonomy estimates based on a collection of 22 ribosomal genes<span class="citation" data-cites="parks2018gtgb">[@parks2018gtgb]</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a>. Numbers in parentheses indicate the number of these ribosomal genes found in each MAG. We also include BIN-13—an unresolved bin with a high completion estimate but also high redundancy. This abundant bin was only found in the hypoxic sample. All analyses and visualizations were conducted within the anvi’o<span class="citation" data-cites="eren2015anvi">[@eren2015anvi]</span> environment.</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2106,8 +2466,6 @@ C. Metagenomic
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom">
-<h3 id="references">References</h3>
-<div id="references-listing"></div>
 <h3 id="updates-and-corrections">Corrections</h3>
 <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/hypocolypse/web/issues/new">create an issue</a> on the source repository.</p>
 <h3 id="reuse">Reuse</h3>
@@ -2116,7 +2474,7 @@ C. Metagenomic
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>© Copyright 2020 The HYPOCOLYPSE Project.</p>
+<p>© Copyright 2021 metacrobe &amp; The HYPOCOLYPSE Project.</p>
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
