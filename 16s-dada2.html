@@ -20,19 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +52,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; } /* Alert */
 code span.an { color: #008000; } /* Annotation */
@@ -82,47 +82,46 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
   <!--radix_placeholder_meta_tags-->
   <title>: No 1. DADA2 Workflow</title>
-  
+
   <meta property="description" itemprop="description" content="Complete, reproducible DADA2 workflow for processing the raw **16S rRNA** Illumina data from hypoxic and normoxic water samples collected during a 2017 hypoxic event in Bocas del Toro, Panama."/>
-  
+
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
-  
-  
+
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content=": No 1. DADA2 Workflow"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Complete, reproducible DADA2 workflow for processing the raw **16S rRNA** Illumina data from hypoxic and normoxic water samples collected during a 2017 hypoxic event in Bocas del Toro, Panama."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content=": No 1. DADA2 Workflow"/>
   <meta property="twitter:description" content="Complete, reproducible DADA2 workflow for processing the raw **16S rRNA** Illumina data from hypoxic and normoxic water samples collected during a 2017 hypoxic event in Bocas del Toro, Panama."/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   
-  <meta name="citation_reference" content="citation_title=DADA2: High-resolution sample inference from illumina amplicon data;citation_publication_date=2016;citation_volume=13;citation_author=Benjamin J Callahan;citation_author=Paul J McMurdie;citation_author=Michael J Rosen;citation_author=Andrew W Han;citation_author=Amy Jo A Johnson;citation_author=Susan P Holmes"/>
   <meta name="citation_reference" content="citation_title=Cutadapt removes adapter sequences from high-throughput sequencing reads;citation_publication_date=2011;citation_volume=17;citation_author=Marcel Martin"/>
-  <meta name="citation_reference" content="citation_title=The silva ribosomal rna gene database project: Improved data processing and web-based tools;citation_publication_date=2012;citation_volume=41;citation_author=Christian Quast;citation_author=Elmar Pruesse;citation_author=Pelin Yilmaz;citation_author=Jan Gerken;citation_author=Timmy Schweer;citation_author=Pablo Yarza;citation_author=Jörg Peplies;citation_author=Frank Oliver Glöckner"/>
+  <meta name="citation_reference" content="citation_title=The SILVA ribosomal RNA gene database project: Improved data processing and web-based tools;citation_publication_date=2012;citation_volume=41;citation_author=Christian Quast;citation_author=Elmar Pruesse;citation_author=Pelin Yilmaz;citation_author=Jan Gerken;citation_author=Timmy Schweer;citation_author=Pablo Yarza;citation_author=Jörg Peplies;citation_author=Frank Oliver Glöckner"/>
   <meta name="citation_reference" content="citation_title=Naive bayesian classifier for rapid assignment of rRNA sequences into the new bacterial taxonomy;citation_publication_date=2007;citation_volume=73;citation_author=Qiong Wang;citation_author=George M Garrity;citation_author=James M Tiedje;citation_author=James R Cole"/>
   <meta name="citation_reference" content="citation_title=Every base matters: Assessing small subunit rRNA primers for marine microbiomes with mock communities, time series and global field samples;citation_publication_date=2016;citation_volume=18;citation_author=Alma E Parada;citation_author=David M Needham;citation_author=Jed A Fuhrman"/>
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 1. DADA2 Workflow"]},{"type":"character","attributes":{},"value":["Complete, reproducible DADA2 workflow for processing the raw **16S rRNA** Illumina data from hypoxic and normoxic water samples collected during a 2017 hypoxic event in Bocas del Toro, Panama.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
   <meta name="distill:offset" content=""/>
-  
+
   <script type="application/javascript">
-  
+
     window.headroom_prevent_pin = false;
-  
+
     window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
       // initialize headroom for banner
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
@@ -139,13 +138,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       if(window.location.hash)
         headroom.unpin();
       $(header).addClass('headroom--transition');
-  
+
       // offset scroll location for banner on hash change
       // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
       window.addEventListener("hashchange", function(event) {
         window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
       });
-  
+
       // responsive menu
       $('.distill-site-header').each(function(i, val) {
         var topnav = $(this);
@@ -154,7 +153,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           topnav.toggleClass('responsive');
         });
       });
-  
+
       // nav dropdowns
       $('.nav-dropbtn').click(function(e) {
         $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
@@ -169,99 +168,99 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       });
     });
   </script>
-  
+
   <style type="text/css">
-  
+
   /* Theme (user-documented overrideables for nav appearance) */
-  
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
-  
+
   .distill-site-nav a {
     color: inherit;
     text-decoration: none;
   }
-  
+
   .distill-site-nav a:hover {
     color: white;
   }
-  
+
   @media print {
     .distill-site-nav {
       display: none;
     }
   }
-  
+
   .distill-site-header {
-  
+
   }
-  
+
   .distill-site-footer {
-  
+
   }
-  
-  
+
+
   /* Site Header */
-  
+
   .distill-site-header {
     width: 100%;
     box-sizing: border-box;
     z-index: 3;
   }
-  
+
   .distill-site-header .nav-left {
     display: inline-block;
     margin-left: 8px;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header .nav-left {
       margin-left: 0;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-right {
     float: right;
     margin-right: 8px;
   }
-  
+
   .distill-site-header a,
   .distill-site-header .title {
     display: inline-block;
     text-align: center;
     padding: 14px 10px 14px 10px;
   }
-  
+
   .distill-site-header .title {
     font-size: 18px;
     min-width: 150px;
   }
-  
+
   .distill-site-header .logo {
     padding: 0;
   }
-  
+
   .distill-site-header .logo img {
     display: none;
     max-height: 20px;
     width: auto;
     margin-bottom: -4px;
   }
-  
+
   .distill-site-header .nav-image img {
     max-height: 18px;
     width: auto;
     display: inline-block;
     margin-bottom: -3px;
   }
-  
-  
-  
+
+
+
   @media screen and (min-width: 1000px) {
     .distill-site-header .logo img {
       display: inline-block;
@@ -276,17 +275,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 12px;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-toggle {
     display: none;
   }
-  
+
   .nav-dropdown {
     display: inline-block;
     position: relative;
   }
-  
+
   .nav-dropdown .nav-dropbtn {
     border: none;
     outline: none;
@@ -300,7 +299,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 1px;
     z-index: 2;
   }
-  
+
   .nav-dropdown-content {
     display: none;
     position: absolute;
@@ -315,18 +314,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 4px;
     padding-bottom: 4px;
   }
-  
+
   .nav-dropdown-content hr {
     margin-top: 4px;
     margin-bottom: 4px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-dropdown-active {
     display: block;
   }
-  
+
   .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
     color: black;
     padding: 6px 24px;
@@ -334,7 +333,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     display: block;
     text-align: left;
   }
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     display: block;
     padding: 5px 24px;
@@ -344,21 +343,21 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #999999;
     white-space: nowrap;
   }
-  
+
   .nav-dropdown:hover .nav-dropbtn {
     color: white;
   }
-  
+
   .nav-dropdown-content a:hover {
     background-color: #ddd;
     color: black;
   }
-  
+
   .nav-right .nav-dropdown-content {
     margin-left: -45%;
     right: 0;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
     .distill-site-header a.nav-toggle {
@@ -378,8 +377,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       margin-left: 0;
     }
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
@@ -404,9 +403,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       text-align: left;
     }
   }
-  
+
   /* Site Footer */
-  
+
   .distill-site-footer {
     width: 100%;
     overflow: hidden;
@@ -417,19 +416,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-bottom: 30px;
     text-align: center;
   }
-  
+
   /* Headroom */
-  
+
   d-title {
     padding-top: 6rem;
   }
-  
+
   @media print {
     d-title {
       padding-top: 4rem;
     }
   }
-  
+
   .headroom {
     z-index: 1000;
     position: fixed;
@@ -437,36 +436,36 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     left: 0;
     right: 0;
   }
-  
+
   .headroom--transition {
     transition: all .4s ease-in-out;
   }
-  
+
   .headroom--unpinned {
     top: -100px;
   }
-  
+
   .headroom--pinned {
     top: 0;
   }
-  
+
   /* adjust viewport for navbar height */
   /* helps vertically center bootstrap (non-distill) content */
   .min-vh-100 {
     min-height: calc(100vh - 100px) !important;
   }
-  
+
   </style>
-  
+
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-  
+
   <script type="application/javascript">
-  
+
   function getMeta(metaName) {
     var metas = document.getElementsByTagName('meta');
     for (let i = 0; i < metas.length; i++) {
@@ -476,14 +475,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     }
     return '';
   }
-  
+
   function offsetURL(url) {
     var offset = getMeta('distill:offset');
     return offset ? offset + '/' + url : url;
   }
-  
+
   function createFuseIndex() {
-  
+
     // create fuse index
     var options = {
       keys: [
@@ -496,7 +495,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       threshold: 0
     };
     var fuse = new window.Fuse([], options);
-  
+
     // fetch the main search.json
     return fetch(offsetURL('search.json'))
       .then(function(response) {
@@ -526,7 +525,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               return fuse;
             });
           });
-  
+
         } else {
           return Promise.reject(
             new Error('Unexpected status from search index request: ' +
@@ -535,20 +534,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }
       });
   }
-  
+
   window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
     // get search element (bail if we don't have one)
     var searchEl = window.document.getElementById('distill-search');
     if (!searchEl)
       return;
-  
+
     createFuseIndex()
       .then(function(fuse) {
-  
+
         // make search box visible
         searchEl.classList.remove('hidden');
-  
+
         // initialize autocomplete
         var options = {
           autoselect: true,
@@ -597,19 +596,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       .catch(function(error) {
         console.log(error);
       });
-  
+
   });
-  
+
   </script>
-  
+
   <style type="text/css">
-  
+
   .nav-search {
     font-size: x-small;
   }
-  
+
   /* Algolioa Autocomplete */
-  
+
   .algolia-autocomplete {
     display: inline-block;
     margin-left: 10px;
@@ -623,8 +622,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px #0F2E3D solid;
     width: 180px;
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
       display: none;
@@ -640,13 +639,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       max-height: 400px;
     }
   }
-  
+
   .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
     width: 90%;
     outline: none;
     border: none;
   }
-  
+
   .algolia-autocomplete .aa-hint {
     color: #999;
   }
@@ -663,30 +662,30 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px solid #999;
     border-top: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
     cursor: pointer;
     padding: 5px 4px;
     border-bottom: 1px solid #eee;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
     border-bottom: none;
     margin-bottom: 2px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
     overflow: hidden;
     font-size: 0.8em;
     line-height: 1.4em;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
     font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
     display: inline-block;
     overflow: hidden;
@@ -694,22 +693,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 80%;
     margin-right: 4%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
     display: inline-block;
     width: 15%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
     height: 3em;
     width: auto;
     display: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
     display: initial;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
     background-color: #eee;
   }
@@ -717,47 +716,47 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: bold;
     font-style: normal;
   }
-  
+
   </style>
-  
-  
+
+
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   d-byline .byline {
     grid-template-columns: 2fr 2fr;
   }
-  
+
   d-byline .byline h3 {
     margin-block-start: 1.5em;
   }
-  
+
   d-byline .byline .authors-affiliations h3 {
     margin-block-start: 0.5em;
   }
-  
+
   .authors-affiliations .orcid-id {
     width: 16px;
     height:16px;
@@ -766,12 +765,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     vertical-align: middle;
     padding-bottom: 2px;
   }
-  
+
   d-title .dt-tags {
     margin-top: 1em;
     grid-column: text;
   }
-  
+
   .dt-tags .dt-tag {
     text-decoration: none;
     display: inline-block;
@@ -785,24 +784,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -810,75 +809,75 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article h2 {
     margin: 1rem 0 1.5rem 0;
   }
-  
+
   d-article h3 {
     margin-top: 1.5rem;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   /* Tweak code blocks */
-  
+
   d-article div.sourceCode code,
   d-article pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: auto;
   }
-  
+
   d-article div.sourceCode {
     background-color: white;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   d-article pre {
     font-size: 12px;
     color: black;
@@ -890,50 +889,50 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   d-article pre a {
     border-bottom: none;
   }
-  
+
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
   }
-  
+
   d-article details {
     grid-column: text;
     margin-bottom: 0.8em;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: visible !important;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
   }
-  
+
   d-article pre {
     font-size: 14px;
   }
-  
+
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -941,9 +940,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for d-contents */
-  
+
   .d-contents {
     grid-column: text;
     color: rgba(0,0,0,0.8);
@@ -955,7 +954,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 0.25em;
     justify-self: start;
   }
-  
+
   @media(min-width: 1000px) {
     .d-contents.d-contents-float {
       height: 0;
@@ -966,82 +965,82 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 2em;
     }
   }
-  
+
   .d-contents nav h3 {
     font-size: 18px;
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   .d-contents li {
     list-style-type: none
   }
-  
+
   .d-contents nav > ul {
     padding-left: 0;
   }
-  
+
   .d-contents ul {
     padding-left: 1em
   }
-  
+
   .d-contents nav ul li {
     margin-top: 0.6em;
     margin-bottom: 0.2em;
   }
-  
+
   .d-contents nav a {
     font-size: 13px;
     border-bottom: none;
     text-decoration: none
     color: rgba(0, 0, 0, 0.8);
   }
-  
+
   .d-contents nav a:hover {
     text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
+
   .d-contents nav > ul > li > a {
     font-weight: 600;
   }
-  
+
   .d-contents nav > ul > li > ul {
     font-weight: inherit;
   }
-  
+
   .d-contents nav > ul > li > ul > li {
     margin-top: 0.2em;
   }
-  
-  
+
+
   .d-contents nav ul {
     margin-top: 0;
     margin-bottom: 0.25em;
   }
-  
+
   .d-article-with-toc h2:nth-child(2) {
     margin-top: 0;
   }
-  
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1049,42 +1048,42 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
+
   /* Citations */
-  
+
   d-article .citation {
     color: inherit;
     cursor: inherit;
   }
-  
+
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
   }
-  
+
   /* Citation hover box */
-  
+
   .tippy-box[data-theme~=light-border] {
     background-color: rgba(250, 250, 250, 0.95);
   }
-  
+
   .tippy-content > p {
     margin-bottom: 0;
     padding: 2px;
   }
-  
-  
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -1100,11 +1099,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -1113,7 +1112,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -1129,16 +1128,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -1155,9 +1154,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
+
   /* Include appendix styles here so they can be overridden */
-  
+
   d-appendix {
     contain: layout style;
     font-size: 0.8em;
@@ -1169,7 +1168,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 60px;
     padding-bottom: 48px;
   }
-  
+
   d-appendix h3 {
     grid-column: page-start / text-start;
     font-size: 15px;
@@ -1178,59 +1177,59 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 0;
     color: rgba(0,0,0,0.65);
   }
-  
+
   d-appendix h3 + * {
     margin-top: 1em;
   }
-  
+
   d-appendix ol {
     padding: 0 0 0 15px;
   }
-  
+
   @media (min-width: 768px) {
     d-appendix ol {
       padding: 0 0 0 30px;
       margin-left: -30px;
     }
   }
-  
+
   d-appendix li {
     margin-bottom: 1em;
   }
-  
+
   d-appendix a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   d-appendix > * {
     grid-column: text;
   }
-  
+
   d-appendix > d-footnote-list,
   d-appendix > d-citation-list,
   d-appendix > distill-appendix {
     grid-column: screen;
   }
-  
+
   /* Include footnote styles here so they can be overridden */
-  
+
   d-footnote-list {
     contain: layout style;
   }
-  
+
   d-footnote-list > * {
     grid-column: text;
   }
-  
+
   d-footnote-list a.footnote-backlink {
     color: rgba(0,0,0,0.3);
     padding-left: 0.5em;
   }
-  
-  
-  
+
+
+
   /* Anchor.js */
-  
+
   .anchorjs-link {
     /*transition: all .25s linear; */
     text-decoration: none;
@@ -1241,86 +1240,86 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-decoration: none;
     border-bottom: none;
   }
-  
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
+
   /* Styles for listing layout (hide title) */
   .layout-listing d-title, .layout-listing .d-title {
     display: none;
   }
-  
+
   /* Styles for posts lists (not auto-injected) */
-  
-  
+
+
   .posts-with-sidebar {
     padding-left: 45px;
     padding-right: 45px;
   }
-  
+
   .posts-list .description h2,
   .posts-list .description p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   }
-  
+
   .posts-list .description h2 {
     font-weight: 700;
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .posts-list h2.post-tag {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 12px;
@@ -1329,7 +1328,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 60px;
     margin-bottom: 24px;
   }
-  
+
   .posts-list .post-preview {
     text-decoration: none;
     overflow: hidden;
@@ -1337,29 +1336,29 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px 0;
   }
-  
+
   .post-preview-last {
     border-bottom: none !important;
   }
-  
+
   .posts-list .posts-list-caption {
     grid-column: screen;
     font-weight: 400;
   }
-  
+
   .posts-list .post-preview h2 {
     margin: 0 0 6px 0;
     line-height: 1.2em;
     font-style: normal;
     font-size: 24px;
   }
-  
+
   .posts-list .post-preview p {
     margin: 0 0 12px 0;
     line-height: 1.4em;
     font-size: 16px;
   }
-  
+
   .posts-list .post-preview .thumbnail {
     box-sizing: border-box;
     margin-bottom: 24px;
@@ -1370,32 +1369,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 100%;
     display: block;
   }
-  
+
   .posts-list .metadata {
     font-size: 12px;
     line-height: 1.4em;
     margin-bottom: 18px;
   }
-  
+
   .posts-list .metadata > * {
     display: inline-block;
   }
-  
+
   .posts-list .metadata .publishedDate {
     margin-right: 2em;
   }
-  
+
   .posts-list .metadata .dt-authors {
     display: block;
     margin-top: 0.3em;
     margin-right: 2em;
   }
-  
+
   .posts-list .dt-tags {
     display: block;
     line-height: 1em;
   }
-  
+
   .posts-list .dt-tags .dt-tag {
     display: inline-block;
     color: rgba(0,0,0,0.6);
@@ -1408,24 +1407,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   .posts-list img {
     opacity: 1;
   }
-  
+
   .posts-list img[data-src] {
     opacity: 0;
   }
-  
+
   .posts-more {
     clear: both;
   }
-  
-  
+
+
   .posts-sidebar {
     font-size: 16px;
   }
-  
+
   .posts-sidebar h3 {
     font-size: 16px;
     margin-top: 0;
@@ -1433,39 +1432,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: 400;
     text-transform: uppercase;
   }
-  
+
   .sidebar-section {
     margin-bottom: 30px;
   }
-  
+
   .categories ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .categories li {
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
   }
-  
+
   .categories li>a {
     border-bottom: none;
   }
-  
+
   .categories li>a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
-  
+
   .categories .active {
     font-weight: 600;
   }
-  
+
   .categories .category-count {
     color: rgba(0, 0, 0, 0.4);
   }
-  
-  
+
+
   @media(min-width: 768px) {
     .posts-list .post-preview h2 {
       font-size: 26px;
@@ -1501,55 +1500,55 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-bottom: 24px;
     }
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -1561,11 +1560,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -1582,7 +1581,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -1602,14 +1601,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -1620,27 +1619,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   .downlevel .posts-list .post-preview {
     color: inherit;
   }
-  
-  
-  
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -1649,20 +1648,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // add anchors
     if (window.anchors) {
       window.anchors.options.placement = 'left';
       window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
     }
-  
-  
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -1675,39 +1674,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -1723,10 +1722,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     // move refs into #references-listing
     $('#references-listing').replaceWith($('#refs'));
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -1736,16 +1735,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
@@ -1758,40 +1757,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // remove code block used to force  highlighting css
     $('.distill-force-highlighting-css').parent().remove();
-  
+
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
     $('code.sourceCode a:empty').remove();
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // article with toc class
       $('.d-contents').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
@@ -1806,12 +1805,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).append(a);
         }
       });
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1823,11 +1822,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1847,22 +1846,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // remove d-appendix and d-footnote-list local styles
       $('d-appendix > style:first-child').remove();
       $('d-footnote-list > style:first-child').remove();
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // hoverable references
       $('span.citation[data-cites]').each(function() {
         var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
@@ -1876,39 +1875,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           placement: 'bottom-start'
         });
       });
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-contents').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1916,62 +1915,62 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1983,35 +1982,35 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -2025,21 +2024,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.18/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -2067,32 +2067,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   /********************************/
   /* controls general properties of site*/
   /********************************/
-  
+
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
     background-color: #FEFEFE;
   }
-  
+
   d-title h1{
   font-size: 2.1em;
   font-family: 'Work Sans';
   font-weight: 300;
   }
-  
+
   d-article h1 {
     font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
-  
+
   d-article h2 {
     font-size: 1.65em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 500;
   }
-  
+
   d-article h3 {
     margin-top: 1em;
   }
@@ -2100,40 +2100,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     grid-column-end: span 3;
     grid-column-gap: 8px;
   }
-  
+
   img.orcid-id {
     margin: 0;
   }
-  
+
   a.name:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   a.affiliation:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   blockquote p {
   	font-size: 1.3em;
   	font-family: 'Lato';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
-  
+
   d-article li {
     margin: 0px 0px 4px;
   }
-  
+
   /********************************/
   /* controls CODE*/
   /********************************/
-  
+
   /** pre.sourceCode controls code block without lang **/
-  
+
   /** Controls r code  **/
-  
+
   pre.sourceCode.r {
     margin-top: 0px;
      color: #333333;
@@ -2148,7 +2148,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
      border-bottom: 1px solid #B7B7B7;
      padding: 18px 0px 18px 20px;
    }
-  
+
    pre.sourceCode.bash {
      margin-top: 0px;
       color: #333333;
@@ -2164,7 +2164,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding: 18px 0px 18px 20px;
     }
   /** Controls code output **/
-  
+
   d-article pre {
      margin-top: 0px;
       color: #333333;
@@ -2174,11 +2174,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       overflow-x: scroll !important;
       padding:  10px 10px 10px 18px;
       border-radius: 5px;
-  
+
     }
-  
+
   /** Controls inline code  **/
-  
+
   p code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -2188,23 +2188,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 20px;
     color: #BF2727;
   }
-  
+
   d-article aside code {
     background-color: #E8E8E8;
     border-radius: 3px;
     font-family: 'Monaco', 'PT Mono', monospace;
     color: #BF2727;
   }
-  
+
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     text-transform: uppercase;
     color: #686868;
   }
-  
+
   .nav-dropdown-content a {
     font-family: 'Work Sans'
   }
@@ -2212,13 +2212,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #FEFEFE;
     font-weight: 400;
   }
-  
+
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
     margin-bottom: auto;
   }
-  
+
   .distill-site-nav {
       color: #FEFEFE;
       background-color: #143D59;
@@ -2228,39 +2228,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       position: absolute;
       font-family: 'Karla';
       letter-spacing: .1em;
-  
+
   }
-  
+
   .article-banner {
     width: auto;
     height: auto;
     border: 0;
   }
-  
+
   img[src="assets/banner.png"] {
     border: 0;
     padding: 0;
     width: 100%;
     margin: 100px 10px 0px 25px;
   }
-  
+
   /*************************************************
   *  code for side by side krona plot
   **************************************************/
-  
+
   .column {
     float: left;
     width: 48%;
     padding: 5px;
   }
-  
+
   /* Clear floats after image containers */
   .row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   div.krona {
     width: 100%;
   	height: 90%;
@@ -2269,7 +2269,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 25px;
   	margin-top: 5px;
   }
-  
+
   div.container-krona {
     text-align: center;
     padding: 1px 10px;
@@ -2278,33 +2278,33 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	line-height: 0.8em;
   	font-family: 'Inconsolata';
   }
-  
+
   div.container-krona p {
     margin: 20px;
   }
-  
+
   div.krona img {
     border:1px solid white;
     margin: 25px;
   }
-  
+
   img {
     margin: 25px;
   }
-  
+
   /*************************************************
   *  code for LIGHTBOX MARKUP
   **************************************************/
-  
+
   .thumbnail {
     max-width: 100%;
     position: relative;
   }
-  
+
   .lightbox {
   	/** Default lightbox to hidden */
   	display: none;
-  
+
   	/** Position and style */
   	position: fixed;
   	z-index: 999;
@@ -2315,7 +2315,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	left: 0;
   	background: rgba(0,0,0,0.8);
   }
-  
+
   .lightbox img {
   	/** Pad the lightbox image */
   	position: fixed;
@@ -2328,24 +2328,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	margin: auto;
   	box-sizing: border-box;
   }
-  
+
   .lightbox:target {
   	/** Remove default browser outline */
   	outline: none;
-  
+
   	/** Unhide lightbox **/
   	display: block;
   }
-  
+
   .lightbox:target img {
   	max-height: 100%;
   	max-width: 100%;
   }
-  
+
   /*************************************************
   *  code for DETAILS fold down
   **************************************************/
-  
+
   details {
     background-color: #ccd7df;
     cursor: pointer;
@@ -2357,52 +2357,52 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     outline: none;
     font-family: 'Karla'
   }
-  
+
   .active, details:hover {
     transition: max-height 0.2s ease-out;
     outline: none;
-  
+
     /* background-color: #acc2c2; */
   }
-  
+
   details {
     display: flex;
     justify-content: space-between;
     align-content: center;
     border-radius: 4px;
     outline: none;
-  
+
   }
-  
+
   details.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none;
-  
+
   }
-  
+
   summary::-webkit-details-marker {
     display: none;
     outline: none;
-  
+
   }
-  
+
   summary:focus {
     outline: none;
   }
-  
+
   summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f0fe";
   }
-  
+
   details[open] summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f146";
   }
-  
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2467,7 +2467,8 @@ METAGENOMIC
 <hr/>
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6a. MAG02 Phylogenomics</a>
+<a href="mag04-phylogenomics.html">6b. MAG04 Phylogenomics</a>
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
@@ -2500,24 +2501,28 @@ METAGENOMIC
 <li><a href="#sequence-files-samples">Sequence Files &amp; Samples</a></li>
 <li><a href="#remove-primers">1. Remove Primers</a></li>
 <li><a href="#set-working-environment">2. Set Working Environment</a></li>
-<li><a href="#quality-assessment-filtering">3. Quality Assessment &amp; Filtering</a><ul>
+<li><a href="#quality-assessment-filtering">3. Quality Assessment &amp; Filtering</a>
+<ul>
 <li><a href="#quality-plots">Quality plots</a></li>
 <li><a href="#filtering">Filtering</a></li>
 </ul></li>
-<li><a href="#learn-error-rates">4. Learn Error Rates</a><ul>
+<li><a href="#learn-error-rates">4. Learn Error Rates</a>
+<ul>
 <li><a href="#plot-errors">Plot errors</a></li>
 </ul></li>
 <li><a href="#dereplicate-reads">5. Dereplicate Reads</a></li>
 <li><a href="#run-dada2-infer-sequence-variants">6. Run DADA2 &amp; Infer Sequence Variants</a></li>
 <li><a href="#merge-paired-reads">7. Merge Paired Reads</a></li>
-<li><a href="#construct-sequence-table">8. Construct Sequence Table</a><ul>
+<li><a href="#construct-sequence-table">8. Construct Sequence Table</a>
+<ul>
 <li><a href="#trim-sequence-tables">Trim Sequence Tables</a></li>
 </ul></li>
 <li><a href="#remove-chimeras">9. Remove Chimeras</a></li>
 <li><a href="#track-read-changes">10. Track Read Changes</a></li>
 <li><a href="#assign-taxonomy">11. Assign Taxonomy</a></li>
 <li><a href="#save-image">12. Save Image</a></li>
-<li><a href="#r-session-information-code">R Session Information &amp; Code</a><ul>
+<li><a href="#r-session-information-code">R Session Information &amp; Code</a>
+<ul>
 <li><a href="#source-code">Source Code</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 <li><a href="#addendum">Addendum</a></li>
@@ -2525,12 +2530,34 @@ METAGENOMIC
 </ul>
 </nav>
 </div>
+<details>
+<summary>
+Show setup information.
+</summary>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">911</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dada2); <span class="fu">packageVersion</span>(<span class="st">&quot;dada2&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ShortRead); <span class="fu">packageVersion</span>(<span class="st">&quot;ShortRead&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2); <span class="fu">packageVersion</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(rmarkdown, DT, gridExtra, grid,   </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_current<span class="sc">$</span><span class="fu">get</span>(<span class="fu">c</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache.path&quot;</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache.rebuild&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;dependson&quot;</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;autodep&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+</div>
+</details>
 <h1 id="workflow-overview">Workflow Overview</h1>
 <p>This script will process the raw data from the water samples. Please note that to decrease rendering time of this website, we set code chunks to <code>eval=FALSE</code> after the initial processing. Remove this flag to rerun these code chunks.</p>
 <blockquote>
 <p>In order to run this workflow, you either need the <em>raw</em> data—available on the figshare project site—or the <em>trimmed</em> data, available from the ENA under project accession number … See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
-<p>This pipeline below is exactly how we processed our 16S rRNA data using <a href="https://benjjneb.github.io/dada2/">DADA2</a> <span class="citation" data-cites="callahan2016dada2">(Callahan et al. <a href="#ref-callahan2016dada2" role="doc-biblioref">2016</a>)</span>. This is not meant to be a tutorial and we only provide minimal annotation. There are many great tutorials and explanations out there on amplicon processing that you can dive into.</p>
+<p>This pipeline below is exactly how we processed our 16S rRNA data using <a href="https://benjjneb.github.io/dada2/">DADA2</a> <span class="citation" data-cites="callahan2016dada2">(<a href="#ref-callahan2016dada2" role="doc-biblioref">Callahan et al. 2016</a>)</span>. This is not meant to be a tutorial and we only provide minimal annotation. There are many great tutorials and explanations out there on amplicon processing that you can dive into.</p>
 <p>Depending on the DADA2 version you have installed, you may get <a href="https://github.com/benjjneb/dada2/issues/532">slightly different results</a> due to fundamental changes in the code base. This is unavoidable at times and the developers do the best they can to maintain fidelity across versions. To see the package versions of tools used in this workflow, please see the <a href="#r-session-information">Session Info</a> at the end of this page. We set random number seeds to ensure full reproducibility.</p>
 <p>This is a workflow for processing the raw 16S rRNA Illumina data for the study. The workflow consists of the following steps:</p>
 <table>
@@ -2609,21 +2636,21 @@ METAGENOMIC
 
 </div>
 <h1 id="remove-primers">1. Remove Primers</h1>
-<p>Before we start the DADA2 pipeline we need to run <a href="https://github.com/marcelm/cutadapt">catadapt</a> <span class="citation" data-cites="martin2011cutadapt">(Martin <a href="#ref-martin2011cutadapt" role="doc-biblioref">2011</a>)</span> on all <code>fastq.gz</code> files to trim the primers. We will set the error rate (<code>-e</code>) to 0.12 (= 12%).</p>
+<p>Before we start the DADA2 pipeline we need to run <a href="https://github.com/marcelm/cutadapt">catadapt</a> <span class="citation" data-cites="martin2011cutadapt">(<a href="#ref-martin2011cutadapt" role="doc-biblioref">Martin 2011</a>)</span> on all <code>fastq.gz</code> files to trim the primers. We will set the error rate (<code>-e</code>) to 0.12 (= 12%).</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">cutadapt</span> -g <span class="dt">{F-ADAPTER}</span> -G <span class="dt">{R-ADAPTER}</span> /</span>
-<span id="cb1-2"><a href="#cb1-2"></a>                        <span class="ex">-o</span> <span class="va">${R1}</span>.trimmed.fastq /</span>
-<span id="cb1-3"><a href="#cb1-3"></a>                        <span class="ex">-p</span> <span class="dt">{R2}</span>.trimmed.fastq /</span>
-<span id="cb1-4"><a href="#cb1-4"></a>                        <span class="va">${R1}</span> <span class="va">${R2}</span> <span class="ex">/</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>                        <span class="ex">--discard-untrimmed</span> -e 0.12</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cutadapt</span> <span class="at">-g</span> {F-ADAPTER} <span class="at">-G</span> {R-ADAPTER} /</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="ex">-o</span> <span class="va">${R1}</span>.trimmed.fastq /</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                        <span class="ex">-p</span> {R2}.trimmed.fastq /</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                        <span class="va">${R1}</span> <span class="va">${R2}</span> /</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                        <span class="ex">--discard-untrimmed</span> <span class="at">-e</span> 0.12</span></code></pre></div>
 </div>
-<p>Where <code>-g</code> is GTGYCAGCMGCCGCGGTAA (the 515F primer) <code>-G</code> is CCGYCAATTYMTTTRAGTTT (the 926R primer) <span class="citation" data-cites="parada2016every">(Parada, Needham, and Fuhrman <a href="#ref-parada2016every" role="doc-biblioref">2016</a>)</span> and <code>R1</code> and <code>R2</code> are the forward and reverse reads, respectively. More information can be found on the <a href="https://earthmicrobiome.org/protocols-and-standards/16s/">16S Illumina Amplicon Protocol</a> page of the Earth Microbiome Project.</p>
+<p>Where <code>-g</code> is GTGYCAGCMGCCGCGGTAA (the 515F primer) <code>-G</code> is CCGYCAATTYMTTTRAGTTT (the 926R primer) <span class="citation" data-cites="parada2016every">(<a href="#ref-parada2016every" role="doc-biblioref">Parada, Needham, and Fuhrman 2016</a>)</span> and <code>R1</code> and <code>R2</code> are the forward and reverse reads, respectively. More information can be found on the <a href="https://earthmicrobiome.org/protocols-and-standards/16s/">16S Illumina Amplicon Protocol</a> page of the Earth Microbiome Project.</p>
 <p>This will yield a ~370 bp amplicon. The input files for cutadapt are in the <code>RAW/</code> directory and the output files from cutadapt are in the <code>INPUT_FILES</code> directory. The output files are input for the DADA2 portion of the workflow.</p>
 <h1 id="set-working-environment">2. Set Working Environment</h1>
 <p>Next, we need to set the working directory for the input files. When we ran <code>cutadapt</code> we saved the trimmed files to a directory called <code>01_TRIMMED/</code>. We also create a variable to hold the file path.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>path &lt;-<span class="st"> &quot;INPUT_FILES/&quot;</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">head</span>(<span class="kw">list.files</span>(path))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;INPUT_FILES/&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">list.files</span>(path))</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>[1] &quot;WCC0_R1.trimmed.fastq&quot; &quot;WCC0_R2.trimmed.fastq&quot;
@@ -2632,14 +2659,14 @@ METAGENOMIC
 </div>
 <p>Here we see a partial list of files in the directory. All looks good. Now, we create variables to hold the names of the forward (R1) and reverse (R2) fastq files.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>fnFs &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">list.files</span>(path, <span class="dt">pattern =</span> <span class="st">&quot;_R1.trimmed.fastq&quot;</span>))</span>
-<span id="cb4-2"><a href="#cb4-2"></a>fnRs &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">list.files</span>(path, <span class="dt">pattern =</span> <span class="st">&quot;_R2.trimmed.fastq&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fnFs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path, <span class="at">pattern =</span> <span class="st">&quot;_R1.trimmed.fastq&quot;</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fnRs <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">list.files</span>(path, <span class="at">pattern =</span> <span class="st">&quot;_R2.trimmed.fastq&quot;</span>))</span></code></pre></div>
 </div>
 <p>And finally, we can extract the sample names from the from the fastq files and have a look at the sample names.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>sample.names &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(fnFs, <span class="st">&quot;_&quot;</span>), <span class="st">`</span><span class="dt">[</span><span class="st">`</span>, <span class="dv">1</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>fnFs &lt;-<span class="kw">file.path</span>(path, fnFs)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>fnRs &lt;-<span class="kw">file.path</span>(path, fnRs)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sample.names <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">strsplit</span>(fnFs, <span class="st">&quot;_&quot;</span>), <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fnFs <span class="ot">&lt;-</span><span class="fu">file.path</span>(path, fnFs)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fnRs <span class="ot">&lt;-</span><span class="fu">file.path</span>(path, fnRs)</span></code></pre></div>
 </div>
 <pre><code>[1] &quot;WCC0-1871&quot; &quot;WCC1-1893&quot; &quot;WCC2-1895&quot; &quot;WCC3-1898&quot; &quot;WCR0-1861&quot; &quot;WCR1-1894&quot;
 [7] &quot;WCR2-1897&quot; &quot;WCR3-1896&quot;</code></pre>
@@ -2647,11 +2674,11 @@ METAGENOMIC
 <p>First let’s look at the quality of our reads. The numbers in brackets specify which samples to view. Here we are looking at an aggregate plot of all data (except the negative control)</p>
 <h2 id="quality-plots">Quality plots</h2>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>p1 &lt;-<span class="st"> </span><span class="kw">plotQualityProfile</span>(fnFs[<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], <span class="dt">aggregate =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>p2 &lt;-<span class="st"> </span><span class="kw">plotQualityProfile</span>(fnRs[<span class="dv">1</span><span class="op">:</span><span class="dv">8</span>], <span class="dt">aggregate =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>p3 &lt;-<span class="st"> </span><span class="kw">grid.arrange</span>(p1, p2, <span class="dt">nrow =</span> <span class="dv">1</span>)</span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">ggsave</span>(<span class="st">&quot;plot_qscores_compare.png&quot;</span>, p3, <span class="dt">width =</span> <span class="dv">7</span>, <span class="dt">height =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">plotQualityProfile</span>(fnFs[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">aggregate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">plotQualityProfile</span>(fnRs[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>], <span class="at">aggregate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">grid.arrange</span>(p1, p2, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;plot_qscores_compare.png&quot;</span>, p3, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">3</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body-outset">
 <p><img src="figures/16s-dada2/plot_qscores_compare.png" width="1050" /></p>
@@ -2661,20 +2688,20 @@ METAGENOMIC
 <h2 id="filtering">Filtering</h2>
 <p>First, we again make some path variables and setup a new sub-directory of filtered reads.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>filt_path &lt;-<span class="st"> </span><span class="kw">file.path</span>(path, <span class="st">&quot;filtered&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>filtFs &lt;-<span class="st"> </span><span class="kw">file.path</span>(filt_path, <span class="kw">paste0</span>(sample.names, <span class="st">&quot;_F_filt.fastq.gz&quot;</span>))</span>
-<span id="cb8-3"><a href="#cb8-3"></a>filtRs &lt;-<span class="st"> </span><span class="kw">file.path</span>(filt_path, <span class="kw">paste0</span>(sample.names, <span class="st">&quot;_R_filt.fastq.gz&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>filt_path <span class="ot">&lt;-</span> <span class="fu">file.path</span>(path, <span class="st">&quot;filtered&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>filtFs <span class="ot">&lt;-</span> <span class="fu">file.path</span>(filt_path, <span class="fu">paste0</span>(sample.names, <span class="st">&quot;_F_filt.fastq.gz&quot;</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>filtRs <span class="ot">&lt;-</span> <span class="fu">file.path</span>(filt_path, <span class="fu">paste0</span>(sample.names, <span class="st">&quot;_R_filt.fastq.gz&quot;</span>))</span></code></pre></div>
 </div>
 <p>And then we trim the reads. The <code>truncLen</code> values we use should give a roughly 35bp overlap.</p>
 <aside>
 These parameters should be set based on the anticipated length of the amplicon and the read quality.
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>out &lt;-<span class="st"> </span><span class="kw">filterAndTrim</span>(fnFs, filtFs, fnRs, filtRs,</span>
-<span id="cb9-2"><a href="#cb9-2"></a>                     <span class="dt">truncLen=</span><span class="kw">c</span>(<span class="dv">260</span>,<span class="dv">150</span>), <span class="dt">maxN=</span><span class="dv">0</span>,</span>
-<span id="cb9-3"><a href="#cb9-3"></a>                     <span class="dt">maxEE=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="dt">truncQ=</span><span class="dv">2</span>,</span>
-<span id="cb9-4"><a href="#cb9-4"></a>                     <span class="dt">rm.phix=</span><span class="ot">TRUE</span>, <span class="dt">compress=</span><span class="ot">TRUE</span>,</span>
-<span id="cb9-5"><a href="#cb9-5"></a>                     <span class="dt">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">filterAndTrim</span>(fnFs, filtFs, fnRs, filtRs,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">truncLen=</span><span class="fu">c</span>(<span class="dv">260</span>,<span class="dv">150</span>), <span class="at">maxN=</span><span class="dv">0</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">maxEE=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="at">truncQ=</span><span class="dv">2</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">rm.phix=</span><span class="cn">TRUE</span>, <span class="at">compress=</span><span class="cn">TRUE</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
 </div>
 <p>And here are the tables showing how the filtering step affected the number of reads in each sample. As you can see, some of the samples in Run01 started with a low read count to begin with. These were the samples re-sequenced in Run02.</p>
 <p><br/></p>
@@ -2689,19 +2716,19 @@ These parameters should be set based on the anticipated length of the amplicon a
 <p>Now it is time to assess the error rate of the data. The DADA2 algorithm uses a parametric error model. Every amplicon data set has a different set of error rates and the <code>learnErrors</code> method learns this error model <em>from the data</em>. It does this by alternating estimation of the error rates and inference of sample composition until they converge on a jointly consistent solution. The algorithm begins with an initial guess, for which the maximum possible error rates in the data are used.</p>
 <h3 id="forward-reads">Forward Reads</h3>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>errF &lt;-<span class="st"> </span><span class="kw">learnErrors</span>(filtFs, <span class="dt">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>errF <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(filtFs, <span class="at">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
 </div>
 <pre><code>66757340 total bases in 256759 reads from 8 samples will be used for learning the error rates.</code></pre>
 <h4 id="reverse-reads">Reverse Reads</h4>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>errR &lt;-<span class="st"> </span><span class="kw">learnErrors</span>(filtRs, <span class="dt">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>errR <span class="ot">&lt;-</span> <span class="fu">learnErrors</span>(filtRs, <span class="at">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
 </div>
 <pre><code>38513850 total bases in 256759 reads from 8 samples will be used for learning the error rates.</code></pre>
 <h2 id="plot-errors">Plot errors</h2>
 <p>Finally, we can plot the errors. The error rates for each possible transition (A to C, A to G, etc.) are shown. Points are the observed error rates for each consensus quality score. The black line shows the estimated error rates after convergence of the machine-learning algorithm. The red line shows the error rates expected under the nominal definition of the Q-score. Here the estimated error rates (black line) are a good fit to the observed rates (points), and the error rates drop with increased quality as expected.</p>
 <h4 id="forward">Forward</h4>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">plotErrors</span>(errF, <span class="dt">nominalQ =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotErrors</span>(errF, <span class="at">nominalQ =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2711,7 +2738,7 @@ These parameters should be set based on the anticipated length of the amplicon a
 </div>
 <h4 id="reverse">Reverse</h4>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">plotErrors</span>(errR, <span class="dt">nominalQ=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotErrors</span>(errR, <span class="at">nominalQ=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2726,19 +2753,19 @@ These parameters should be set based on the anticipated length of the amplicon a
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>derepFs &lt;-<span class="st"> </span><span class="kw">derepFastq</span>(filtFs)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">names</span>(derepFs) &lt;-<span class="st"> </span>sample.names</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>derepFs <span class="ot">&lt;-</span> <span class="fu">derepFastq</span>(filtFs)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(derepFs) <span class="ot">&lt;-</span> sample.names</span></code></pre></div>
 </div>
 <h4 id="reverse-reads-1">Reverse Reads</h4>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>derepRs &lt;-<span class="st"> </span><span class="kw">derepFastq</span>(filtRs)</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">names</span>(derepRs) &lt;-<span class="st"> </span>sample.names</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>derepRs <span class="ot">&lt;-</span> <span class="fu">derepFastq</span>(filtRs)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(derepRs) <span class="ot">&lt;-</span> sample.names</span></code></pre></div>
 </div>
 <h1 id="run-dada2-infer-sequence-variants">6. Run DADA2 &amp; Infer Sequence Variants</h1>
 <p>At this point we are ready to apply the core sample inference algorithm (dada) to the filtered and trimmed sequence data. We run the <code>dada</code> command first on the forward reads from Run01 and Run02, then the reverse reads.</p>
 <h4 id="forward-reads-2">Forward Reads</h4>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>dadaFs &lt;-<span class="st"> </span><span class="kw">dada</span>(derepFs, <span class="dt">err =</span> errF, <span class="dt">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dadaFs <span class="ot">&lt;-</span> <span class="fu">dada</span>(derepFs, <span class="at">err =</span> errF, <span class="at">multithread =</span> <span class="dv">20</span>)</span></code></pre></div>
 </div>
 <pre><code>Sample 1 - 38961 reads in 15286 unique sequences.
 Sample 2 - 32223 reads in 11307 unique sequences.
@@ -2750,7 +2777,7 @@ Sample 7 - 21209 reads in 9735 unique sequences.
 Sample 8 - 51481 reads in 20673 unique sequences.</code></pre>
 <h4 id="reverse-reads-2">Reverse Reads</h4>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>dadaRs &lt;-<span class="st"> </span><span class="kw">dada</span>(derepRs, <span class="dt">err =</span> errR, <span class="dt">multithread =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dadaRs <span class="ot">&lt;-</span> <span class="fu">dada</span>(derepRs, <span class="at">err =</span> errR, <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <pre><code>Sample 1 - 38961 reads in 12707 unique sequences.
 Sample 2 - 32223 reads in 9822 unique sequences.
@@ -2762,13 +2789,13 @@ Sample 7 - 21209 reads in 8326 unique sequences.
 Sample 8 - 51481 reads in 16971 unique sequences.</code></pre>
 <p>We can also inspect the returned <code>dada-class</code> objects for the forward and reverse reads. Let’s have a peek at sample #1 as an example.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>dadaFs[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dadaFs[[<span class="dv">1</span>]]</span></code></pre></div>
 </div>
 <pre><code>dada-class: object describing DADA2 denoising results
 466 sequence variants were inferred from 15286 input unique sequences.
 Key parameters: OMEGA_A = 1e-40, OMEGA_C = 1e-40, BAND_SIZE = 16</code></pre>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>dadaRs[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dadaRs[[<span class="dv">1</span>]]</span></code></pre></div>
 </div>
 <pre><code>dada-class: object describing DADA2 denoising results
 302 sequence variants were inferred from 12707 input unique sequences.
@@ -2777,7 +2804,7 @@ Key parameters: OMEGA_A = 1e-40, OMEGA_C = 1e-40, BAND_SIZE = 16</code></pre>
 <h1 id="merge-paired-reads">7. Merge Paired Reads</h1>
 <p>We now merge the forward and reverse reads together to obtain the full denoised sequences. Merging is performed by aligning the denoised forward reads with the reverse-complement of the corresponding denoised reverse reads, and then constructing the merged “contig” sequences. By default, merged sequences are only output if the forward and reverse reads overlap by at least 12 bases, and are identical to each other in the overlap region (but these conditions can be changed via function arguments).</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>mergers &lt;-<span class="st"> </span><span class="kw">mergePairs</span>(dadaFs, derepFs, dadaRs, derepRs)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mergers <span class="ot">&lt;-</span> <span class="fu">mergePairs</span>(dadaFs, derepFs, dadaRs, derepRs)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2786,15 +2813,15 @@ Key parameters: OMEGA_A = 1e-40, OMEGA_C = 1e-40, BAND_SIZE = 16</code></pre>
 <h1 id="construct-sequence-table">8. Construct Sequence Table</h1>
 <p>Now we construct amplicon sequence variant (ASV) table. The sequence table is a matrix with rows corresponding to (and named by) the samples, and columns corresponding to (and named by) the sequence variants.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>seqtab &lt;-<span class="st"> </span><span class="kw">makeSequenceTable</span>(mergers)</span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="kw">dim</span>(seqtab)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>seqtab <span class="ot">&lt;-</span> <span class="fu">makeSequenceTable</span>(mergers)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(seqtab)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>[1]    8 4132</code></pre>
 </div>
 <p>We have 4132 sequence variants.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">table</span>(<span class="kw">nchar</span>(<span class="kw">getSequences</span>(seqtab)))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">nchar</span>(<span class="fu">getSequences</span>(seqtab)))</span></code></pre></div>
 </div>
 <pre><code>362 363 364 365 366 367 368 369 370 371 372 373 374 375 376 377 378 379 380 381
   2   1   4   7 134   8  84 161 499 198 589 960 953 109 169 230   8   1   2   2
@@ -2804,8 +2831,8 @@ Key parameters: OMEGA_A = 1e-40, OMEGA_C = 1e-40, BAND_SIZE = 16</code></pre>
 <h2 id="trim-sequence-tables">Trim Sequence Tables</h2>
 <p>We need to select a range that corresponds to the expected amplicon length and eliminate the spurious reads.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>seqtab<span class="fl">.2</span> &lt;-<span class="st"> </span>seqtab[,<span class="kw">nchar</span>(<span class="kw">colnames</span>(seqtab)) <span class="op">%in%</span><span class="st"> </span><span class="kw">seq</span>(<span class="dv">360</span>,<span class="dv">380</span>)]</span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="kw">dim</span>(seqtab<span class="fl">.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>seqtab<span class="fl">.2</span> <span class="ot">&lt;-</span> seqtab[,<span class="fu">nchar</span>(<span class="fu">colnames</span>(seqtab)) <span class="sc">%in%</span> <span class="fu">seq</span>(<span class="dv">360</span>,<span class="dv">380</span>)]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(seqtab<span class="fl">.2</span>)</span></code></pre></div>
 </div>
 <aside>
 The values selected should be based on the sequence table generated above.
@@ -2815,24 +2842,24 @@ The values selected should be based on the sequence table generated above.
 </div>
 <p>Trimming the table eliminated 13 ASVs.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">table</span>(<span class="kw">nchar</span>(<span class="kw">getSequences</span>(seqtab<span class="fl">.2</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">nchar</span>(<span class="fu">getSequences</span>(seqtab<span class="fl">.2</span>)))</span></code></pre></div>
 </div>
 <pre><code>362 363 364 365 366 367 368 369 370 371 372 373 374 375 376 377 378 379 380
   2   1   4   7 134   8  84 161 499 198 589 960 953 109 169 230   8   1   2</code></pre>
 <h1 id="remove-chimeras">9. Remove Chimeras</h1>
 <p>Even though the <code>dada</code> method corrects substitution and indel errors, chimeric sequences remain. According to the DADA2 documentation, the accuracy of sequence variants after denoising makes identifying chimeric ASVs simpler than when dealing with fuzzy OTUs. Chimeric sequences are identified if they can be <em>exactly reconstructed</em> by combining a left-segment and a right-segment from two more abundant <em>parent</em> sequences.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>seqtab.<span class="fl">2.</span>nochim &lt;-<span class="st"> </span><span class="kw">removeBimeraDenovo</span>(seqtab<span class="fl">.2</span>,</span>
-<span id="cb35-2"><a href="#cb35-2"></a>                                      <span class="dt">method=</span><span class="st">&quot;consensus&quot;</span>,</span>
-<span id="cb35-3"><a href="#cb35-3"></a>                                      <span class="dt">multithread =</span> <span class="dv">20</span>)</span>
-<span id="cb35-4"><a href="#cb35-4"></a><span class="kw">dim</span>(seqtab.<span class="fl">2.</span>nochim)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>seqtab.<span class="fl">2.</span>nochim <span class="ot">&lt;-</span> <span class="fu">removeBimeraDenovo</span>(seqtab<span class="fl">.2</span>,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">method=</span><span class="st">&quot;consensus&quot;</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">multithread =</span> <span class="dv">20</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(seqtab.<span class="fl">2.</span>nochim)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>[1]    8 1424</code></pre>
 </div>
 <p>Chimera checking removed about 65% of the ASVs. Seems like a lot?</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">sum</span>(seqtab.<span class="fl">2.</span>nochim)<span class="op">/</span><span class="kw">sum</span>(seqtab<span class="fl">.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(seqtab.<span class="fl">2.</span>nochim)<span class="sc">/</span><span class="fu">sum</span>(seqtab<span class="fl">.2</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>[1] 0.874367</code></pre>
@@ -2841,15 +2868,15 @@ The values selected should be based on the sequence table generated above.
 <h1 id="track-read-changes">10. Track Read Changes</h1>
 <p>One more task we can do is look at the number of reads that made it through each step of the pipeline for every sample to gauge the overall performance of the run and how read totals changed through the pipeline,</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>getN &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>(<span class="kw">getUniques</span>(x))</span>
-<span id="cb39-2"><a href="#cb39-2"></a>track &lt;-<span class="st"> </span><span class="kw">cbind</span>(out,</span>
-<span id="cb39-3"><a href="#cb39-3"></a>               <span class="kw">sapply</span>(dadaFs, getN),</span>
-<span id="cb39-4"><a href="#cb39-4"></a>               <span class="kw">sapply</span>(dadaRs, getN),</span>
-<span id="cb39-5"><a href="#cb39-5"></a>               <span class="kw">sapply</span>(mergers, getN),</span>
-<span id="cb39-6"><a href="#cb39-6"></a>               <span class="kw">rowSums</span>(seqtab.<span class="fl">2.</span>nochim))</span>
-<span id="cb39-7"><a href="#cb39-7"></a><span class="kw">colnames</span>(track) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;input&quot;</span>, <span class="st">&quot;filtered&quot;</span>, <span class="st">&quot;denoisedF&quot;</span>,</span>
-<span id="cb39-8"><a href="#cb39-8"></a>                     <span class="st">&quot;denoisedR&quot;</span>, <span class="st">&quot;merged&quot;</span>, <span class="st">&quot;nonchim&quot;</span>)</span>
-<span id="cb39-9"><a href="#cb39-9"></a><span class="kw">rownames</span>(track) &lt;-<span class="st"> </span>sample.names</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>getN <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">getUniques</span>(x))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>track <span class="ot">&lt;-</span> <span class="fu">cbind</span>(out,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sapply</span>(dadaFs, getN),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sapply</span>(dadaRs, getN),</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">sapply</span>(mergers, getN),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rowSums</span>(seqtab.<span class="fl">2.</span>nochim))</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(track) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;input&quot;</span>, <span class="st">&quot;filtered&quot;</span>, <span class="st">&quot;denoisedF&quot;</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;denoisedR&quot;</span>, <span class="st">&quot;merged&quot;</span>, <span class="st">&quot;nonchim&quot;</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(track) <span class="ot">&lt;-</span> sample.names</span></code></pre></div>
 </div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -2861,31 +2888,33 @@ The values selected should be based on the sequence table generated above.
 </div>
 <p>We will save and then read in an <code>RDS</code> file containing the new sequence table. We also need to run <code>remove(list = ls())</code> command, otherwise the final image we save will be bigger than it needs to be. This way, the image only contains the sample data, seqtab, and taxtab <em>before &amp; after</em> running <code>removeBimeraDenovo</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">saveRDS</span>(seqtab.<span class="fl">2.</span>nochim, <span class="st">&quot;seqtab.2.nochim.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(seqtab.<span class="fl">2.</span>nochim, <span class="st">&quot;seqtab.2.nochim.rds&quot;</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="kw">remove</span>(<span class="dt">list =</span> <span class="kw">ls</span>())</span>
-<span id="cb41-2"><a href="#cb41-2"></a>seqtab &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;seqtab.2.nochim.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">remove</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>seqtab <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;seqtab.2.nochim.rds&quot;</span>)</span></code></pre></div>
 </div>
 <p>This may seem redundant (and it probably is) but it lets us work with only the data in the <code>rds</code> file instead of everything generated in the pipeline thus far. This becomes important when we save the final <code>rdata</code> file from the workflow. If we were to save the whole workflow the final file would be large and clunky. This way it contains only the data we need going forward. The variable <code>st.all</code> is the combined sequence tables of Run01 and Run02.</p>
 <h1 id="assign-taxonomy">11. Assign Taxonomy</h1>
-<p>The <code>assignTaxonomy</code> command implements the naive Bayesian classifier <span class="citation" data-cites="wang2007naive">(Wang et al. <a href="#ref-wang2007naive" role="doc-biblioref">2007</a>)</span>, so for reproducible results you need to set a random number seed (see issue <a href="https://github.com/benjjneb/dada2/issues/538">#538</a>). We did this at the beginning of the workflow. For taxonomic assignment, we are using the Silva version 132 <span class="citation" data-cites="quast2012silva">(Quast et al. <a href="#ref-quast2012silva" role="doc-biblioref">2012</a>)</span>. The developers of DADA2 maintain a <a href="https://zenodo.org/record/3731176">formatted version of the database</a>. As of the time of this writing, version 138 was just released.</p>
+<p>The <code>assignTaxonomy</code> command implements the naive Bayesian classifier <span class="citation" data-cites="wang2007naive">(<a href="#ref-wang2007naive" role="doc-biblioref">Wang et al. 2007</a>)</span>, so for reproducible results you need to set a random number seed (see issue <a href="https://github.com/benjjneb/dada2/issues/538">#538</a>). We did this at the beginning of the workflow. For taxonomic assignment, we are using the Silva version 132 <span class="citation" data-cites="quast2012silva">(<a href="#ref-quast2012silva" role="doc-biblioref">Quast et al. 2012</a>)</span>. The developers of DADA2 maintain a <a href="https://zenodo.org/record/3731176">formatted version of the database</a>. As of the time of this writing, version 138 was just released.</p>
 <p>And then native Baysian classifier against the Silva database.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>tax_silva &lt;-<span class="st"> </span><span class="kw">assignTaxonomy</span>(</span>
-<span id="cb42-2"><a href="#cb42-2"></a>  seqtab, <span class="st">&quot;../taxonomy_databases/silva_nr_v138_train_set.fa.gz&quot;</span>,</span>
-<span id="cb42-3"><a href="#cb42-3"></a>  <span class="dt">multithread =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tax_silva <span class="ot">&lt;-</span> <span class="fu">assignTaxonomy</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  seqtab, <span class="st">&quot;../taxonomy_databases/silva_nr_v138_train_set.fa.gz&quot;</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">multithread =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <h1 id="save-image">12. Save Image</h1>
 <p>And finally, we save an image for use in the analytic part of the workflow. This R data file will be needed as the input for the phyloseq portion of the workflow. See the <a href="data-availability.html">Data Availability</a> page for complete details on where to get this file.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw">save.image</span>(<span class="st">&quot;rdata/16s-dada2/water_pipeline.rdata&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save.image</span>(<span class="st">&quot;rdata/16s-dada2/water_pipeline.rdata&quot;</span>)</span></code></pre></div>
 </div>
 <p>The DADA2 analysis is now complete. Next we use phyloseq and the <code>combo_pipeline.rdata</code> file for the subsequent analysis.</p>
 <h1 id="r-session-information-code">R Session Information &amp; Code</h1>
 <p>This workflow was run on the <a href="https://doi.org/10.25572/SIHPC">Smithsonian High-Performance Cluster (SI/HPC)</a>, Smithsonian Institution. Below are the specific packages and versions used in this workflow using both <code>sessionInfo()</code> and <code>devtools::session_info()</code>. Click the arrow to see the details.</p>
 <details>
-<p><summary>Show/hide R Session Info</summary></p>
+<summary>
+Show/hide R Session Info
+</summary>
 <pre><code>sessionInfo()
 R version 4.0.0 (2020-04-24)
 Platform: x86_64-conda_cos6-linux-gnu (64-bit)
@@ -3040,27 +3069,27 @@ Next
 <p><a href="16s-data-prep.html" rel="prev">N<sup><u>o</u></sup> 2. Data Preparation</a></p>
 </div>
 </div>
-<h2 id="source-code" class="appendix">Source Code</h2>
+<h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-dada2.Rmd">clicking this link</a>. Please note, that in order to process the data <em>and</em> build the website, we needed to run the pipeline and get the results. Then hard code the results and turn off the individual commands. So the raw file for this page is a bit messy—you have been warned.</p>
-<h2 id="data-availability" class="appendix">Data Availability</h2>
+<h2 class="appendix" id="data-availability">Data Availability</h2>
 <p>Raw fastq files available on figshare at <a href="https://doi.org/10.25573/data.11819745">doi:10.25573/data.11819745</a>. Trimmed fastq files (primers removed) available through the ENA under project accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632</a>. Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403865">doi:0.25573/data.12403865</a>.</p>
-<h2 id="addendum" class="appendix">Addendum</h2>
+<h2 class="appendix" id="addendum">Addendum</h2>
 <p>In the paper itself, we only focuses on the water samples, however we did sequence additional sample types not included in this analysis. For your information, several of these other samples were re-sequenced and processed independently before being merged in the last section of the workflow, prior to analysis. We sequenced 30 samples in the first run (Run01) and then re-sequenced several samples because of low initial yield (Run02). See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-callahan2016dada2">
-<p>Callahan, Benjamin J, Paul J McMurdie, Michael J Rosen, Andrew W Han, Amy Jo A Johnson, and Susan P Holmes. 2016. “DADA2: High-Resolution Sample Inference from Illumina Amplicon Data.” <em>Nature Methods</em> 13 (7): 581. <a href="https://doi.org/10.1038/nmeth.3869">https://doi.org/10.1038/nmeth.3869</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-callahan2016dada2" class="csl-entry" role="doc-biblioentry">
+Callahan, Benjamin J, Paul J McMurdie, Michael J Rosen, Andrew W Han, Amy Jo A Johnson, and Susan P Holmes. 2016. <span>“Dada2: High-Resolution Sample Inference from Illumina Amplicon Data.”</span> <em>Nature Methods</em> 13 (7): 581. <a href="https://doi.org/10.1038/nmeth.3869">https://doi.org/10.1038/nmeth.3869</a>.
 </div>
-<div id="ref-martin2011cutadapt">
-<p>Martin, Marcel. 2011. “Cutadapt Removes Adapter Sequences from High-Throughput Sequencing Reads.” <em>EMBnet. Journal</em> 17 (1): 10–12. <a href="https://doi.org/10.14806/ej.17.1.200">https://doi.org/10.14806/ej.17.1.200</a>.</p>
+<div id="ref-martin2011cutadapt" class="csl-entry" role="doc-biblioentry">
+Martin, Marcel. 2011. <span>“Cutadapt Removes Adapter Sequences from High-Throughput Sequencing Reads.”</span> <em>EMBnet. Journal</em> 17 (1): 10–12. <a href="https://doi.org/10.14806/ej.17.1.200">https://doi.org/10.14806/ej.17.1.200</a>.
 </div>
-<div id="ref-parada2016every">
-<p>Parada, Alma E, David M Needham, and Jed A Fuhrman. 2016. “Every Base Matters: Assessing Small Subunit rRNA Primers for Marine Microbiomes with Mock Communities, Time Series and Global Field Samples.” <em>Environmental Microbiology</em> 18 (5): 1403–14. <a href="https://doi.org/10.1111/1462-2920.13023">https://doi.org/10.1111/1462-2920.13023</a>.</p>
+<div id="ref-parada2016every" class="csl-entry" role="doc-biblioentry">
+Parada, Alma E, David M Needham, and Jed A Fuhrman. 2016. <span>“Every Base Matters: Assessing Small Subunit rRNA Primers for Marine Microbiomes with Mock Communities, Time Series and Global Field Samples.”</span> <em>Environmental Microbiology</em> 18 (5): 1403–14. <a href="https://doi.org/10.1111/1462-2920.13023">https://doi.org/10.1111/1462-2920.13023</a>.
 </div>
-<div id="ref-quast2012silva">
-<p>Quast, Christian, Elmar Pruesse, Pelin Yilmaz, Jan Gerken, Timmy Schweer, Pablo Yarza, Jörg Peplies, and Frank Oliver Glöckner. 2012. “The Silva Ribosomal Rna Gene Database Project: Improved Data Processing and Web-Based Tools.” <em>Nucleic Acids Research</em> 41 (D1): D590–D596. <a href="https://doi.org/10.1093/nar/gks1219">https://doi.org/10.1093/nar/gks1219</a>.</p>
+<div id="ref-quast2012silva" class="csl-entry" role="doc-biblioentry">
+Quast, Christian, Elmar Pruesse, Pelin Yilmaz, Jan Gerken, Timmy Schweer, Pablo Yarza, Jörg Peplies, and Frank Oliver Glöckner. 2012. <span>“The SILVA Ribosomal RNA Gene Database Project: Improved Data Processing and Web-Based Tools.”</span> <em>Nucleic Acids Research</em> 41 (D1): D590–96. <a href="https://doi.org/10.1093/nar/gks1219">https://doi.org/10.1093/nar/gks1219</a>.
 </div>
-<div id="ref-wang2007naive">
-<p>Wang, Qiong, George M Garrity, James M Tiedje, and James R Cole. 2007. “Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy.” <em>Applied &amp; Environmental Microbiology</em> 73 (16): 5261–7. <a href="https://doi.org/10.1128/AEM.00062-07">https://doi.org/10.1128/AEM.00062-07</a>.</p>
+<div id="ref-wang2007naive" class="csl-entry" role="doc-biblioentry">
+Wang, Qiong, George M Garrity, James M Tiedje, and James R Cole. 2007. <span>“Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy.”</span> <em>Applied &amp; Environmental Microbiology</em> 73 (16): 5261–67. <a href="https://doi.org/10.1128/AEM.00062-07">https://doi.org/10.1128/AEM.00062-07</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->
@@ -3089,6 +3118,7 @@ Next
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 

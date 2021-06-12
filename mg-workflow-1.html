@@ -20,19 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +52,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; } /* Alert */
 code span.an { color: #008000; } /* Annotation */
@@ -82,27 +82,28 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
   <!--radix_placeholder_meta_tags-->
   <title>: No 3. Assembly &amp; Annotations</title>
-  
+
   <meta property="description" itemprop="description" content="This section describes the steps we took to co-assemble the metagenomic samples, classify taxonomy, and assign functions."/>
-  
+
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
-  
-  
+
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content=": No 3. Assembly &amp; Annotations"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="This section describes the steps we took to co-assemble the metagenomic samples, classify taxonomy, and assign functions."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content=": No 3. Assembly &amp; Annotations"/>
   <meta property="twitter:description" content="This section describes the steps we took to co-assemble the metagenomic samples, classify taxonomy, and assign functions."/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   
+  <meta name="citation_reference" content="citation_title=Anvi’o: An advanced analysis and visualization platform for ‘omics data;citation_publication_date=2015;citation_volume=3;citation_author=A Murat Eren;citation_author=Özcan C Esen;citation_author=Christopher Quince;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin;citation_author=Tom O Delmont"/>
   <meta name="citation_reference" content="citation_title=Trimmomatic: A flexible trimmer for illumina sequence data;citation_publication_date=2014;citation_volume=30;citation_author=Anthony M Bolger;citation_author=Marc Lohse;citation_author=Bjoern Usadel"/>
   <meta name="citation_reference" content="citation_title=Snakemake—a scalable bioinformatics workflow engine;citation_publication_date=2012;citation_volume=28;citation_author=Johannes Köster;citation_author=Sven Rahmann"/>
   <meta name="citation_reference" content="citation_title=Fast and sensitive taxonomic classification for metagenomics with kaiju;citation_publication_date=2016;citation_volume=7;citation_author=Peter Menzel;citation_author=Kim Lee Ng;citation_author=Anders Krogh"/>
@@ -111,29 +112,30 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <meta name="citation_reference" content="citation_title=Prodigal: Prokaryotic gene recognition and translation initiation site identification;citation_publication_date=2010;citation_volume=11;citation_author=Doug Hyatt;citation_author=Gwo-Liang Chen;citation_author=Philip F LoCascio;citation_author=Miriam L Land;citation_author=Frank W Larimer;citation_author=Loren J Hauser"/>
   <meta name="citation_reference" content="citation_title=MEGAHIT: An ultra-fast single-node solution for large and complex metagenomics assembly via succinct de bruijn graph;citation_publication_date=2015;citation_volume=31;citation_author=Dinghua Li;citation_author=Chi-Man Liu;citation_author=Ruibang Luo;citation_author=Kunihiko Sadakane;citation_author=Tak-Wah Lam"/>
   <meta name="citation_reference" content="citation_title=Fast gapped-read alignment with bowtie 2;citation_publication_date=2012;citation_volume=9;citation_author=Ben Langmead;citation_author=Steven L Salzberg"/>
-  <meta name="citation_reference" content="citation_title=The sequence alignment/map format and samtools;citation_publication_date=2009;citation_volume=25;citation_author=Heng Li;citation_author=Bob Handsaker;citation_author=Alec Wysoker;citation_author=Tim Fennell;citation_author=Jue Ruan;citation_author=Nils Homer;citation_author=Gabor Marth;citation_author=Goncalo Abecasis;citation_author=Richard Durbin"/>
+  <meta name="citation_reference" content="citation_title=The sequence alignment/map format and SAMtools;citation_publication_date=2009;citation_volume=25;citation_author=Heng Li;citation_author=Bob Handsaker;citation_author=Alec Wysoker;citation_author=Tim Fennell;citation_author=Jue Ruan;citation_author=Nils Homer;citation_author=Gabor Marth;citation_author=Goncalo Abecasis;citation_author=Richard Durbin"/>
   <meta name="citation_reference" content="citation_title=KrakenUniq: Confident and fast metagenomics classification using unique k-mer counts;citation_publication_date=2018;citation_volume=19;citation_author=FP Breitwieser;citation_author=DN Baker;citation_author=Steven L Salzberg"/>
   <meta name="citation_reference" content="citation_title=A filtering method to generate high quality short reads using illumina paired-end technology;citation_publication_date=2013;citation_volume=8;citation_author=A Murat Eren;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin"/>
   <meta name="citation_reference" content="citation_title=Interactive metagenomic visualization in a web browser;citation_publication_date=2011;citation_volume=12;citation_author=Brian D Ondov;citation_author=Nicholas H Bergman;citation_author=Adam M Phillippy"/>
-  <meta name="citation_reference" content="citation_title=Fast and sensitive protein alignment using diamond;citation_publication_date=2015;citation_volume=12;citation_author=Benjamin Buchfink;citation_author=Chao Xie;citation_author=Daniel H Huson"/>
+  <meta name="citation_reference" content="citation_title=Fast and sensitive protein alignment using DIAMOND;citation_publication_date=2015;citation_volume=12;citation_author=Benjamin Buchfink;citation_author=Chao Xie;citation_author=Daniel H Huson"/>
+  <meta name="citation_reference" content="citation_title=Nitrogen-fixing populations of planctomycetes and proteobacteria are abundant in surface ocean metagenomes;citation_publication_date=2018;citation_volume=3;citation_author=Tom O Delmont;citation_author=Christopher Quince;citation_author=Alon Shaiber;citation_author=Özcan C Esen;citation_author=Sonny TM Lee;citation_author=Michael S Rappé;citation_author=Sandra L McLellan;citation_author=Sebastian Lücker;citation_author=A Murat Eren"/>
   <meta name="citation_reference" content="citation_title=KEGG: Kyoto encyclopedia of genes and genomes;citation_publication_date=2000;citation_volume=28;citation_author=Minoru Kanehisa;citation_author=Susumu Goto"/>
-  <meta name="citation_reference" content="citation_title=BlastKOALA and ghostkoala: KEGG tools for functional characterization of genome and metagenome sequences;citation_publication_date=2016;citation_volume=428;citation_author=Minoru Kanehisa;citation_author=Yoko Sato;citation_author=Kanae Morishima"/>
-  <meta name="citation_reference" content="citation_title=Evaluation of genomic high-throughput sequencing data generated on illumina hiseq and genome analyzer systems;citation_publication_date=2011;citation_volume=12;citation_author=André E Minoche;citation_author=Juliane C Dohm;citation_author=Heinz Himmelbauer"/>
+  <meta name="citation_reference" content="citation_title=BlastKOALA and GhostKOALA: KEGG tools for functional characterization of genome and metagenome sequences;citation_publication_date=2016;citation_volume=428;citation_author=Minoru Kanehisa;citation_author=Yoko Sato;citation_author=Kanae Morishima"/>
+  <meta name="citation_reference" content="citation_title=Evaluation of genomic high-throughput sequencing data generated on illumina HiSeq and genome analyzer systems;citation_publication_date=2011;citation_volume=12;citation_author=André E Minoche;citation_author=Juliane C Dohm;citation_author=Heinz Himmelbauer"/>
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 3. Assembly & Annotations"]},{"type":"character","attributes":{},"value":["This section describes the steps we took to co-assemble the metagenomic samples, classify taxonomy, and assign functions.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
   <meta name="distill:offset" content=""/>
-  
+
   <script type="application/javascript">
-  
+
     window.headroom_prevent_pin = false;
-  
+
     window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
       // initialize headroom for banner
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
@@ -150,13 +152,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       if(window.location.hash)
         headroom.unpin();
       $(header).addClass('headroom--transition');
-  
+
       // offset scroll location for banner on hash change
       // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
       window.addEventListener("hashchange", function(event) {
         window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
       });
-  
+
       // responsive menu
       $('.distill-site-header').each(function(i, val) {
         var topnav = $(this);
@@ -165,7 +167,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           topnav.toggleClass('responsive');
         });
       });
-  
+
       // nav dropdowns
       $('.nav-dropbtn').click(function(e) {
         $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
@@ -180,99 +182,99 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       });
     });
   </script>
-  
+
   <style type="text/css">
-  
+
   /* Theme (user-documented overrideables for nav appearance) */
-  
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
-  
+
   .distill-site-nav a {
     color: inherit;
     text-decoration: none;
   }
-  
+
   .distill-site-nav a:hover {
     color: white;
   }
-  
+
   @media print {
     .distill-site-nav {
       display: none;
     }
   }
-  
+
   .distill-site-header {
-  
+
   }
-  
+
   .distill-site-footer {
-  
+
   }
-  
-  
+
+
   /* Site Header */
-  
+
   .distill-site-header {
     width: 100%;
     box-sizing: border-box;
     z-index: 3;
   }
-  
+
   .distill-site-header .nav-left {
     display: inline-block;
     margin-left: 8px;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header .nav-left {
       margin-left: 0;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-right {
     float: right;
     margin-right: 8px;
   }
-  
+
   .distill-site-header a,
   .distill-site-header .title {
     display: inline-block;
     text-align: center;
     padding: 14px 10px 14px 10px;
   }
-  
+
   .distill-site-header .title {
     font-size: 18px;
     min-width: 150px;
   }
-  
+
   .distill-site-header .logo {
     padding: 0;
   }
-  
+
   .distill-site-header .logo img {
     display: none;
     max-height: 20px;
     width: auto;
     margin-bottom: -4px;
   }
-  
+
   .distill-site-header .nav-image img {
     max-height: 18px;
     width: auto;
     display: inline-block;
     margin-bottom: -3px;
   }
-  
-  
-  
+
+
+
   @media screen and (min-width: 1000px) {
     .distill-site-header .logo img {
       display: inline-block;
@@ -287,17 +289,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 12px;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-toggle {
     display: none;
   }
-  
+
   .nav-dropdown {
     display: inline-block;
     position: relative;
   }
-  
+
   .nav-dropdown .nav-dropbtn {
     border: none;
     outline: none;
@@ -311,7 +313,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 1px;
     z-index: 2;
   }
-  
+
   .nav-dropdown-content {
     display: none;
     position: absolute;
@@ -326,18 +328,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 4px;
     padding-bottom: 4px;
   }
-  
+
   .nav-dropdown-content hr {
     margin-top: 4px;
     margin-bottom: 4px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-dropdown-active {
     display: block;
   }
-  
+
   .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
     color: black;
     padding: 6px 24px;
@@ -345,7 +347,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     display: block;
     text-align: left;
   }
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     display: block;
     padding: 5px 24px;
@@ -355,21 +357,21 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #999999;
     white-space: nowrap;
   }
-  
+
   .nav-dropdown:hover .nav-dropbtn {
     color: white;
   }
-  
+
   .nav-dropdown-content a:hover {
     background-color: #ddd;
     color: black;
   }
-  
+
   .nav-right .nav-dropdown-content {
     margin-left: -45%;
     right: 0;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
     .distill-site-header a.nav-toggle {
@@ -389,8 +391,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       margin-left: 0;
     }
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
@@ -415,9 +417,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       text-align: left;
     }
   }
-  
+
   /* Site Footer */
-  
+
   .distill-site-footer {
     width: 100%;
     overflow: hidden;
@@ -428,19 +430,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-bottom: 30px;
     text-align: center;
   }
-  
+
   /* Headroom */
-  
+
   d-title {
     padding-top: 6rem;
   }
-  
+
   @media print {
     d-title {
       padding-top: 4rem;
     }
   }
-  
+
   .headroom {
     z-index: 1000;
     position: fixed;
@@ -448,36 +450,36 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     left: 0;
     right: 0;
   }
-  
+
   .headroom--transition {
     transition: all .4s ease-in-out;
   }
-  
+
   .headroom--unpinned {
     top: -100px;
   }
-  
+
   .headroom--pinned {
     top: 0;
   }
-  
+
   /* adjust viewport for navbar height */
   /* helps vertically center bootstrap (non-distill) content */
   .min-vh-100 {
     min-height: calc(100vh - 100px) !important;
   }
-  
+
   </style>
-  
+
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-  
+
   <script type="application/javascript">
-  
+
   function getMeta(metaName) {
     var metas = document.getElementsByTagName('meta');
     for (let i = 0; i < metas.length; i++) {
@@ -487,14 +489,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     }
     return '';
   }
-  
+
   function offsetURL(url) {
     var offset = getMeta('distill:offset');
     return offset ? offset + '/' + url : url;
   }
-  
+
   function createFuseIndex() {
-  
+
     // create fuse index
     var options = {
       keys: [
@@ -507,7 +509,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       threshold: 0
     };
     var fuse = new window.Fuse([], options);
-  
+
     // fetch the main search.json
     return fetch(offsetURL('search.json'))
       .then(function(response) {
@@ -537,7 +539,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               return fuse;
             });
           });
-  
+
         } else {
           return Promise.reject(
             new Error('Unexpected status from search index request: ' +
@@ -546,20 +548,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }
       });
   }
-  
+
   window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
     // get search element (bail if we don't have one)
     var searchEl = window.document.getElementById('distill-search');
     if (!searchEl)
       return;
-  
+
     createFuseIndex()
       .then(function(fuse) {
-  
+
         // make search box visible
         searchEl.classList.remove('hidden');
-  
+
         // initialize autocomplete
         var options = {
           autoselect: true,
@@ -608,19 +610,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       .catch(function(error) {
         console.log(error);
       });
-  
+
   });
-  
+
   </script>
-  
+
   <style type="text/css">
-  
+
   .nav-search {
     font-size: x-small;
   }
-  
+
   /* Algolioa Autocomplete */
-  
+
   .algolia-autocomplete {
     display: inline-block;
     margin-left: 10px;
@@ -634,8 +636,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px #0F2E3D solid;
     width: 180px;
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
       display: none;
@@ -651,13 +653,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       max-height: 400px;
     }
   }
-  
+
   .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
     width: 90%;
     outline: none;
     border: none;
   }
-  
+
   .algolia-autocomplete .aa-hint {
     color: #999;
   }
@@ -674,30 +676,30 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px solid #999;
     border-top: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
     cursor: pointer;
     padding: 5px 4px;
     border-bottom: 1px solid #eee;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
     border-bottom: none;
     margin-bottom: 2px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
     overflow: hidden;
     font-size: 0.8em;
     line-height: 1.4em;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
     font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
     display: inline-block;
     overflow: hidden;
@@ -705,22 +707,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 80%;
     margin-right: 4%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
     display: inline-block;
     width: 15%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
     height: 3em;
     width: auto;
     display: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
     display: initial;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
     background-color: #eee;
   }
@@ -728,47 +730,47 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: bold;
     font-style: normal;
   }
-  
+
   </style>
-  
-  
+
+
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   d-byline .byline {
     grid-template-columns: 2fr 2fr;
   }
-  
+
   d-byline .byline h3 {
     margin-block-start: 1.5em;
   }
-  
+
   d-byline .byline .authors-affiliations h3 {
     margin-block-start: 0.5em;
   }
-  
+
   .authors-affiliations .orcid-id {
     width: 16px;
     height:16px;
@@ -777,12 +779,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     vertical-align: middle;
     padding-bottom: 2px;
   }
-  
+
   d-title .dt-tags {
     margin-top: 1em;
     grid-column: text;
   }
-  
+
   .dt-tags .dt-tag {
     text-decoration: none;
     display: inline-block;
@@ -796,24 +798,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -821,75 +823,75 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article h2 {
     margin: 1rem 0 1.5rem 0;
   }
-  
+
   d-article h3 {
     margin-top: 1.5rem;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   /* Tweak code blocks */
-  
+
   d-article div.sourceCode code,
   d-article pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: auto;
   }
-  
+
   d-article div.sourceCode {
     background-color: white;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   d-article pre {
     font-size: 12px;
     color: black;
@@ -901,50 +903,50 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   d-article pre a {
     border-bottom: none;
   }
-  
+
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
   }
-  
+
   d-article details {
     grid-column: text;
     margin-bottom: 0.8em;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: visible !important;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
   }
-  
+
   d-article pre {
     font-size: 14px;
   }
-  
+
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -952,9 +954,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for d-contents */
-  
+
   .d-contents {
     grid-column: text;
     color: rgba(0,0,0,0.8);
@@ -966,7 +968,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 0.25em;
     justify-self: start;
   }
-  
+
   @media(min-width: 1000px) {
     .d-contents.d-contents-float {
       height: 0;
@@ -977,82 +979,82 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 2em;
     }
   }
-  
+
   .d-contents nav h3 {
     font-size: 18px;
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   .d-contents li {
     list-style-type: none
   }
-  
+
   .d-contents nav > ul {
     padding-left: 0;
   }
-  
+
   .d-contents ul {
     padding-left: 1em
   }
-  
+
   .d-contents nav ul li {
     margin-top: 0.6em;
     margin-bottom: 0.2em;
   }
-  
+
   .d-contents nav a {
     font-size: 13px;
     border-bottom: none;
     text-decoration: none
     color: rgba(0, 0, 0, 0.8);
   }
-  
+
   .d-contents nav a:hover {
     text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
+
   .d-contents nav > ul > li > a {
     font-weight: 600;
   }
-  
+
   .d-contents nav > ul > li > ul {
     font-weight: inherit;
   }
-  
+
   .d-contents nav > ul > li > ul > li {
     margin-top: 0.2em;
   }
-  
-  
+
+
   .d-contents nav ul {
     margin-top: 0;
     margin-bottom: 0.25em;
   }
-  
+
   .d-article-with-toc h2:nth-child(2) {
     margin-top: 0;
   }
-  
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1060,42 +1062,42 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
+
   /* Citations */
-  
+
   d-article .citation {
     color: inherit;
     cursor: inherit;
   }
-  
+
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
   }
-  
+
   /* Citation hover box */
-  
+
   .tippy-box[data-theme~=light-border] {
     background-color: rgba(250, 250, 250, 0.95);
   }
-  
+
   .tippy-content > p {
     margin-bottom: 0;
     padding: 2px;
   }
-  
-  
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -1111,11 +1113,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -1124,7 +1126,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -1140,16 +1142,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -1166,9 +1168,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
+
   /* Include appendix styles here so they can be overridden */
-  
+
   d-appendix {
     contain: layout style;
     font-size: 0.8em;
@@ -1180,7 +1182,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 60px;
     padding-bottom: 48px;
   }
-  
+
   d-appendix h3 {
     grid-column: page-start / text-start;
     font-size: 15px;
@@ -1189,59 +1191,59 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 0;
     color: rgba(0,0,0,0.65);
   }
-  
+
   d-appendix h3 + * {
     margin-top: 1em;
   }
-  
+
   d-appendix ol {
     padding: 0 0 0 15px;
   }
-  
+
   @media (min-width: 768px) {
     d-appendix ol {
       padding: 0 0 0 30px;
       margin-left: -30px;
     }
   }
-  
+
   d-appendix li {
     margin-bottom: 1em;
   }
-  
+
   d-appendix a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   d-appendix > * {
     grid-column: text;
   }
-  
+
   d-appendix > d-footnote-list,
   d-appendix > d-citation-list,
   d-appendix > distill-appendix {
     grid-column: screen;
   }
-  
+
   /* Include footnote styles here so they can be overridden */
-  
+
   d-footnote-list {
     contain: layout style;
   }
-  
+
   d-footnote-list > * {
     grid-column: text;
   }
-  
+
   d-footnote-list a.footnote-backlink {
     color: rgba(0,0,0,0.3);
     padding-left: 0.5em;
   }
-  
-  
-  
+
+
+
   /* Anchor.js */
-  
+
   .anchorjs-link {
     /*transition: all .25s linear; */
     text-decoration: none;
@@ -1252,86 +1254,86 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-decoration: none;
     border-bottom: none;
   }
-  
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
+
   /* Styles for listing layout (hide title) */
   .layout-listing d-title, .layout-listing .d-title {
     display: none;
   }
-  
+
   /* Styles for posts lists (not auto-injected) */
-  
-  
+
+
   .posts-with-sidebar {
     padding-left: 45px;
     padding-right: 45px;
   }
-  
+
   .posts-list .description h2,
   .posts-list .description p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   }
-  
+
   .posts-list .description h2 {
     font-weight: 700;
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .posts-list h2.post-tag {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 12px;
@@ -1340,7 +1342,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 60px;
     margin-bottom: 24px;
   }
-  
+
   .posts-list .post-preview {
     text-decoration: none;
     overflow: hidden;
@@ -1348,29 +1350,29 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px 0;
   }
-  
+
   .post-preview-last {
     border-bottom: none !important;
   }
-  
+
   .posts-list .posts-list-caption {
     grid-column: screen;
     font-weight: 400;
   }
-  
+
   .posts-list .post-preview h2 {
     margin: 0 0 6px 0;
     line-height: 1.2em;
     font-style: normal;
     font-size: 24px;
   }
-  
+
   .posts-list .post-preview p {
     margin: 0 0 12px 0;
     line-height: 1.4em;
     font-size: 16px;
   }
-  
+
   .posts-list .post-preview .thumbnail {
     box-sizing: border-box;
     margin-bottom: 24px;
@@ -1381,32 +1383,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 100%;
     display: block;
   }
-  
+
   .posts-list .metadata {
     font-size: 12px;
     line-height: 1.4em;
     margin-bottom: 18px;
   }
-  
+
   .posts-list .metadata > * {
     display: inline-block;
   }
-  
+
   .posts-list .metadata .publishedDate {
     margin-right: 2em;
   }
-  
+
   .posts-list .metadata .dt-authors {
     display: block;
     margin-top: 0.3em;
     margin-right: 2em;
   }
-  
+
   .posts-list .dt-tags {
     display: block;
     line-height: 1em;
   }
-  
+
   .posts-list .dt-tags .dt-tag {
     display: inline-block;
     color: rgba(0,0,0,0.6);
@@ -1419,24 +1421,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   .posts-list img {
     opacity: 1;
   }
-  
+
   .posts-list img[data-src] {
     opacity: 0;
   }
-  
+
   .posts-more {
     clear: both;
   }
-  
-  
+
+
   .posts-sidebar {
     font-size: 16px;
   }
-  
+
   .posts-sidebar h3 {
     font-size: 16px;
     margin-top: 0;
@@ -1444,39 +1446,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: 400;
     text-transform: uppercase;
   }
-  
+
   .sidebar-section {
     margin-bottom: 30px;
   }
-  
+
   .categories ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .categories li {
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
   }
-  
+
   .categories li>a {
     border-bottom: none;
   }
-  
+
   .categories li>a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
-  
+
   .categories .active {
     font-weight: 600;
   }
-  
+
   .categories .category-count {
     color: rgba(0, 0, 0, 0.4);
   }
-  
-  
+
+
   @media(min-width: 768px) {
     .posts-list .post-preview h2 {
       font-size: 26px;
@@ -1512,55 +1514,55 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-bottom: 24px;
     }
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -1572,11 +1574,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -1593,7 +1595,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -1613,14 +1615,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -1631,27 +1633,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   .downlevel .posts-list .post-preview {
     color: inherit;
   }
-  
-  
-  
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -1660,20 +1662,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // add anchors
     if (window.anchors) {
       window.anchors.options.placement = 'left';
       window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
     }
-  
-  
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -1686,39 +1688,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -1734,10 +1736,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     // move refs into #references-listing
     $('#references-listing').replaceWith($('#refs'));
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -1747,16 +1749,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
@@ -1769,40 +1771,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // remove code block used to force  highlighting css
     $('.distill-force-highlighting-css').parent().remove();
-  
+
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
     $('code.sourceCode a:empty').remove();
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // article with toc class
       $('.d-contents').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
@@ -1817,12 +1819,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).append(a);
         }
       });
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1834,11 +1836,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1858,22 +1860,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // remove d-appendix and d-footnote-list local styles
       $('d-appendix > style:first-child').remove();
       $('d-footnote-list > style:first-child').remove();
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // hoverable references
       $('span.citation[data-cites]').each(function() {
         var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
@@ -1887,39 +1889,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           placement: 'bottom-start'
         });
       });
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-contents').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1927,62 +1929,62 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1994,35 +1996,35 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -2036,17 +2038,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2062,32 +2065,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   /********************************/
   /* controls general properties of site*/
   /********************************/
-  
+
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
     background-color: #FEFEFE;
   }
-  
+
   d-title h1{
   font-size: 2.1em;
   font-family: 'Work Sans';
   font-weight: 300;
   }
-  
+
   d-article h1 {
     font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
-  
+
   d-article h2 {
     font-size: 1.65em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 500;
   }
-  
+
   d-article h3 {
     margin-top: 1em;
   }
@@ -2095,40 +2098,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     grid-column-end: span 3;
     grid-column-gap: 8px;
   }
-  
+
   img.orcid-id {
     margin: 0;
   }
-  
+
   a.name:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   a.affiliation:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   blockquote p {
   	font-size: 1.3em;
   	font-family: 'Lato';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
-  
+
   d-article li {
     margin: 0px 0px 4px;
   }
-  
+
   /********************************/
   /* controls CODE*/
   /********************************/
-  
+
   /** pre.sourceCode controls code block without lang **/
-  
+
   /** Controls r code  **/
-  
+
   pre.sourceCode.r {
     margin-top: 0px;
      color: #333333;
@@ -2143,7 +2146,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
      border-bottom: 1px solid #B7B7B7;
      padding: 18px 0px 18px 20px;
    }
-  
+
    pre.sourceCode.bash {
      margin-top: 0px;
       color: #333333;
@@ -2159,7 +2162,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding: 18px 0px 18px 20px;
     }
   /** Controls code output **/
-  
+
   d-article pre {
      margin-top: 0px;
       color: #333333;
@@ -2169,11 +2172,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       overflow-x: scroll !important;
       padding:  10px 10px 10px 18px;
       border-radius: 5px;
-  
+
     }
-  
+
   /** Controls inline code  **/
-  
+
   p code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -2183,23 +2186,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 20px;
     color: #BF2727;
   }
-  
+
   d-article aside code {
     background-color: #E8E8E8;
     border-radius: 3px;
     font-family: 'Monaco', 'PT Mono', monospace;
     color: #BF2727;
   }
-  
+
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     text-transform: uppercase;
     color: #686868;
   }
-  
+
   .nav-dropdown-content a {
     font-family: 'Work Sans'
   }
@@ -2207,13 +2210,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #FEFEFE;
     font-weight: 400;
   }
-  
+
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
     margin-bottom: auto;
   }
-  
+
   .distill-site-nav {
       color: #FEFEFE;
       background-color: #143D59;
@@ -2223,39 +2226,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       position: absolute;
       font-family: 'Karla';
       letter-spacing: .1em;
-  
+
   }
-  
+
   .article-banner {
     width: auto;
     height: auto;
     border: 0;
   }
-  
+
   img[src="assets/banner.png"] {
     border: 0;
     padding: 0;
     width: 100%;
     margin: 100px 10px 0px 25px;
   }
-  
+
   /*************************************************
   *  code for side by side krona plot
   **************************************************/
-  
+
   .column {
     float: left;
     width: 48%;
     padding: 5px;
   }
-  
+
   /* Clear floats after image containers */
   .row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   div.krona {
     width: 100%;
   	height: 90%;
@@ -2264,7 +2267,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 25px;
   	margin-top: 5px;
   }
-  
+
   div.container-krona {
     text-align: center;
     padding: 1px 10px;
@@ -2273,33 +2276,33 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	line-height: 0.8em;
   	font-family: 'Inconsolata';
   }
-  
+
   div.container-krona p {
     margin: 20px;
   }
-  
+
   div.krona img {
     border:1px solid white;
     margin: 25px;
   }
-  
+
   img {
     margin: 25px;
   }
-  
+
   /*************************************************
   *  code for LIGHTBOX MARKUP
   **************************************************/
-  
+
   .thumbnail {
     max-width: 100%;
     position: relative;
   }
-  
+
   .lightbox {
   	/** Default lightbox to hidden */
   	display: none;
-  
+
   	/** Position and style */
   	position: fixed;
   	z-index: 999;
@@ -2310,7 +2313,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	left: 0;
   	background: rgba(0,0,0,0.8);
   }
-  
+
   .lightbox img {
   	/** Pad the lightbox image */
   	position: fixed;
@@ -2323,24 +2326,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	margin: auto;
   	box-sizing: border-box;
   }
-  
+
   .lightbox:target {
   	/** Remove default browser outline */
   	outline: none;
-  
+
   	/** Unhide lightbox **/
   	display: block;
   }
-  
+
   .lightbox:target img {
   	max-height: 100%;
   	max-width: 100%;
   }
-  
+
   /*************************************************
   *  code for DETAILS fold down
   **************************************************/
-  
+
   details {
     background-color: #ccd7df;
     cursor: pointer;
@@ -2352,52 +2355,52 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     outline: none;
     font-family: 'Karla'
   }
-  
+
   .active, details:hover {
     transition: max-height 0.2s ease-out;
     outline: none;
-  
+
     /* background-color: #acc2c2; */
   }
-  
+
   details {
     display: flex;
     justify-content: space-between;
     align-content: center;
     border-radius: 4px;
     outline: none;
-  
+
   }
-  
+
   details.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none;
-  
+
   }
-  
+
   summary::-webkit-details-marker {
     display: none;
     outline: none;
-  
+
   }
-  
+
   summary:focus {
     outline: none;
   }
-  
+
   summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f0fe";
   }
-  
+
   details[open] summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f146";
   }
-  
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2462,7 +2465,8 @@ METAGENOMIC
 <hr/>
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6a. MAG02 Phylogenomics</a>
+<a href="mag04-phylogenomics.html">6b. MAG04 Phylogenomics</a>
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
@@ -2494,28 +2498,51 @@ METAGENOMIC
 <li><a href="#the-workflow">The Workflow</a></li>
 <li><a href="#samples">Samples</a></li>
 <li><a href="#trimming">Trimming</a></li>
-<li><a href="#snakemake-workflow">Snakemake Workflow</a><ul>
+<li><a href="#snakemake-workflow">Snakemake Workflow</a>
+<ul>
 <li><a href="#snakemake-citations">Snakemake Citations</a></li>
 </ul></li>
-<li><a href="#taxonomic-annotations">Taxonomic Annotations</a><ul>
+<li><a href="#taxonomic-annotations">Taxonomic Annotations</a>
+<ul>
 <li><a href="#kaken-annotation">Kaken Annotation</a></li>
 <li><a href="#virsorter-annotation">VirSorter Annotation</a></li>
 <li><a href="#kaiju-annotation">Kaiju Annotation</a></li>
 </ul></li>
-<li><a href="#functional-annotations">Functional Annotations</a><ul>
+<li><a href="#functional-annotations">Functional Annotations</a>
+<ul>
 <li><a href="#scg-taxonomy-pfam">SCG Taxonomy &amp; Pfam</a></li>
 <li><a href="#ghostkoala-annotations">GhostKOALA Annotations</a></li>
 </ul></li>
 <li><a href="#merge-profiles-import-virsorter">Merge Profiles &amp; Import VirSorter</a></li>
-<li><a href="#conclusion">Conclusion</a><ul>
+<li><a href="#conclusion">Conclusion</a>
+<ul>
 <li><a href="#source-code">Source Code</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
+<details>
+<summary>
+Show setup information.
+</summary>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">019911</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(DiagrammeR, DiagrammeRsvg, rsvg,  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_current<span class="sc">$</span><span class="fu">get</span>(<span class="fu">c</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache.path&quot;</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache.rebuild&quot;</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;dependson&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;autodep&quot;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+</div>
+</details>
 <h1 id="the-workflow">The Workflow</h1>
-<p>In this section of the workflow we begin with raw, paired-end Illumina data. We will use a Snakemake <span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span> workflow in the anvi’o <span class="citation" data-cites="eren2015anvi">(Eren et al. <a href="#ref-eren2015anvi" role="doc-biblioref">2015</a>)</span> environment for most of the steps, though we will at time call on additional tools for specific steps. The overall structure of our workflow was modelled after the one described by Delmont &amp; Eren on <a href="http://merenlab.org/data/tara-oceans-mags/">Recovering Microbial Genomes from TARA Oceans Metagenomes</a> <span class="citation" data-cites="delmont2018nitrogen">(Delmont et al. <a href="#ref-delmont2018nitrogen" role="doc-biblioref">2018</a>)</span>.</p>
+<p>In this section of the workflow we begin with raw, paired-end Illumina data. We will use a Snakemake <span class="citation" data-cites="koster2012snakemake">(<a href="#ref-koster2012snakemake" role="doc-biblioref">Köster and Rahmann 2012</a>)</span> workflow in the anvi’o <span class="citation" data-cites="eren2015anvi">(<a href="#ref-eren2015anvi" role="doc-biblioref">Eren et al. 2015</a>)</span> environment for most of the steps, though we will at time call on additional tools for specific steps. The overall structure of our workflow was modelled after the one described by Delmont &amp; Eren on <a href="http://merenlab.org/data/tara-oceans-mags/">Recovering Microbial Genomes from TARA Oceans Metagenomes</a> <span class="citation" data-cites="delmont2018nitrogen">(<a href="#ref-delmont2018nitrogen" role="doc-biblioref">Delmont et al. 2018</a>)</span>.</p>
 <p>Specifically, we will:</p>
 <ol type="1">
 <li>Perform adapter trimming.</li>
@@ -2609,20 +2636,20 @@ METAGENOMIC
 </ul>
 <h1 id="trimming">Trimming</h1>
 <p>Before we run the workflow we must trim Illumina adaptors. First we need to make some directories to put the output files.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">mkdir</span> 00_TRIMMED</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">mkdir</span> 00_TRIMMED_UNPAIRED</span></code></pre></div>
-<p>Next we run TRIMMOMATIC <span class="citation" data-cites="bolger2014trimmomatic">(Bolger, Lohse, and Usadel <a href="#ref-bolger2014trimmomatic" role="doc-biblioref">2014</a>)</span> assuming the raw data is in a directory called <code>RAW</code>. Here is an example for a single sample (<code>WCCR_1913</code>). Since we ran these samples on a NextSeq, there are 4 files per paired-end. So, we have 8 files total. We need to run the command 4 times, one for each pair. Here is the command for the first pair.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 00_TRIMMED</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 00_TRIMMED_UNPAIRED</span></code></pre></div>
+<p>Next we run TRIMMOMATIC <span class="citation" data-cites="bolger2014trimmomatic">(<a href="#ref-bolger2014trimmomatic" role="doc-biblioref">Bolger, Lohse, and Usadel 2014</a>)</span> assuming the raw data is in a directory called <code>RAW</code>. Here is an example for a single sample (<code>WCCR_1913</code>). Since we ran these samples on a NextSeq, there are 4 files per paired-end. So, we have 8 files total. We need to run the command 4 times, one for each pair. Here is the command for the first pair.</p>
 <aside>
 <a href="https://github.com/timflutre/trimmomatic">GitHub Repo for TRIMMOMATIC</a>. You will need <a href="https://github.com/timflutre/trimmomatic/blob/master/adapters/NexteraPE-PE.fa">this file</a> for trimming.
 </aside>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">trimmomatic</span> PE -threads <span class="va">$NSLOTS</span> RAW/WCCR_1913_S74_L001_R1_001.fastq.gz /</span>
-<span id="cb2-2"><a href="#cb2-2"></a>                                <span class="ex">RAW/WCCR_1913_S74_L001_R2_001.fastq.gz</span> /</span>
-<span id="cb2-3"><a href="#cb2-3"></a>                                <span class="ex">00_TRIMMED/WCCR_1913_S74_L001_R1_001_trim.fastq.gz</span> /</span>
-<span id="cb2-4"><a href="#cb2-4"></a>                                <span class="ex">00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R1_001_trim_unpaired.fastq.gz</span> /</span>
-<span id="cb2-5"><a href="#cb2-5"></a>                                <span class="ex">00_TRIMMED/WCCR_1913_S74_L001_R2_001_trim.fastq.gz</span> /</span>
-<span id="cb2-6"><a href="#cb2-6"></a>                                <span class="ex">00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R2_001_trim_unpaired.fastq.gz</span> /</span>
-<span id="cb2-7"><a href="#cb2-7"></a>                                <span class="ex">ILLUMINACLIP</span>:NexteraPE-PE.fa:2:30:10 /</span>
-<span id="cb2-8"><a href="#cb2-8"></a>                                <span class="ex">MINLEN</span>:40</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">trimmomatic</span> PE <span class="at">-threads</span> <span class="va">$NSLOTS</span> RAW/WCCR_1913_S74_L001_R1_001.fastq.gz /</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">RAW/WCCR_1913_S74_L001_R2_001.fastq.gz</span> /</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">00_TRIMMED/WCCR_1913_S74_L001_R1_001_trim.fastq.gz</span> /</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R1_001_trim_unpaired.fastq.gz</span> /</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">00_TRIMMED/WCCR_1913_S74_L001_R2_001_trim.fastq.gz</span> /</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">00_TRIMMED_UNPAIRED/WCCR_1913_S74_L001_R2_001_trim_unpaired.fastq.gz</span> /</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">ILLUMINACLIP:NexteraPE-PE.fa:2:30:10</span> /</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                <span class="ex">MINLEN:40</span></span></code></pre></div>
 <p>Now we can run the command for the other 3 pairs,</p>
 <ul>
 <li>WCCR_1913_S74_L002_R1_001 &amp; WCCR_1913_S74_L002_R2_001</li>
@@ -2631,7 +2658,9 @@ METAGENOMIC
 </ul>
 <p>And then do the same for the rest of the samples.</p>
 <details>
-<summary>Show/hide HYDRA TRIMMOMATIC job script</summary>
+<summary>
+Show/hide HYDRA TRIMMOMATIC job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -2660,7 +2689,9 @@ echo = `date` job $JOB_NAME don
 <p>Thanks to the anvi’o implementation of Snakemake we can run many commands sequentially and/or simultaneously. There is plenty of good documentation on the anvi’o website about setting up Snakemake workflows <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/">here</a> so we will refrain from any lengthy explanations.</p>
 <p>You can see all the settings we used and download our configs file <a href="files/mg-workflow-1/default-config.txt">here</a> or grab it from the folded code below. Some commands we chose not to run but they remain in the workflow for posterity.</p>
 <details>
-<summary>Show/hide JSON-formatted configuration file.</summary>
+<summary>
+Show/hide JSON-formatted configuration file.
+</summary>
 <pre><code>
 {
     "fasta_txt": "",
@@ -3006,7 +3037,9 @@ echo = `date` job $JOB_NAME don
 <p>Click on the image to zoom in or download a copy.</p>
 </blockquote>
 <details>
-<summary>Show/hide DAG R Code script</summary>
+<summary>
+Show/hide DAG R Code script
+</summary>
 <pre><code>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -3161,11 +3194,13 @@ export_svg(dag) %>%
 </figure>
 </div>
 <p>And here are the commands we used to run the workflow.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">anvi-run-workflow</span> -w metagenomics -c default-config.txt --additional-params --jobs 63 --resources nodes=63 --keep-going --rerun-incomplete --unlock</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="ex">anvi-run-workflow</span> -w metagenomics -c default-config.txt --additional-params --jobs 63 --resources nodes=63 --keep-going --rerun-incomplete</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> metagenomics <span class="at">-c</span> default-config.txt <span class="at">--additional-params</span> <span class="at">--jobs</span> 63 <span class="at">--resources</span> nodes=63 <span class="at">--keep-going</span> <span class="at">--rerun-incomplete</span> <span class="at">--unlock</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> metagenomics <span class="at">-c</span> default-config.txt <span class="at">--additional-params</span> <span class="at">--jobs</span> 63 <span class="at">--resources</span> nodes=63 <span class="at">--keep-going</span> <span class="at">--rerun-incomplete</span></span></code></pre></div>
 <p>If a Snakemake job fails the default behavior is to lock the workflow and because large jobs can fail for a lot of reasons, we decided to always include an identical command first with the <code>--unlock</code> flag. This will unlock the workflow and then the second command will execute. You can find an explanation of this <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#how-can-i-restart-a-failed-job">here</a>.</p>
 <details>
-<summary>Show/hide HYDRA SNAKEMAKE job script</summary>
+<summary>
+Show/hide HYDRA SNAKEMAKE job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3218,7 +3253,7 @@ echo = `date` job $JOB_NAME don
 </details>
 <h2 id="snakemake-citations">Snakemake Citations</h2>
 <p>There are many tools used in the workflow that need to be cited.</p>
-<p>First there is the workflow engine itself—Snakemake <span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span>. QUALITY-FILTERING of raw reads was performed using Illumina Utils <span class="citation" data-cites="eren2013filtering">(Eren et al. <a href="#ref-eren2013filtering" role="doc-biblioref">2013</a>)</span> implementation of the filter developed by Minoche and collegues <span class="citation" data-cites="minoche2011evaluation">(Minoche, Dohm, and Himmelbauer <a href="#ref-minoche2011evaluation" role="doc-biblioref">2011</a>)</span>. CO-ASSEMBLY of metagenomic samples performed using MEGAHIT <span class="citation" data-cites="li2015megahit">(Li et al. <a href="#ref-li2015megahit" role="doc-biblioref">2015</a>)</span>. GENE CALLING was performed using PRODIGAL <span class="citation" data-cites="hyatt2010prodigal">(Hyatt et al. <a href="#ref-hyatt2010prodigal" role="doc-biblioref">2010</a>)</span>. RECRUITMENT (a.k.a. mapping) of reads to assembly performed using BOWTIE2 <span class="citation" data-cites="langmead2012fast">(Langmead and Salzberg <a href="#ref-langmead2012fast" role="doc-biblioref">2012</a>)</span> and SAMtools <span class="citation" data-cites="li2009sequence">(Li et al. <a href="#ref-li2009sequence" role="doc-biblioref">2009</a>)</span>. TAXONOMIC CLASSIFICATION of genes using CENTRIFUGE <span class="citation" data-cites="kim2016centrifuge">(Kim et al. <a href="#ref-kim2016centrifuge" role="doc-biblioref">2016</a>)</span>.</p>
+<p>First there is the workflow engine itself—Snakemake <span class="citation" data-cites="koster2012snakemake">(<a href="#ref-koster2012snakemake" role="doc-biblioref">Köster and Rahmann 2012</a>)</span>. QUALITY-FILTERING of raw reads was performed using Illumina Utils <span class="citation" data-cites="eren2013filtering">(<a href="#ref-eren2013filtering" role="doc-biblioref">Eren et al. 2013</a>)</span> implementation of the filter developed by Minoche and collegues <span class="citation" data-cites="minoche2011evaluation">(<a href="#ref-minoche2011evaluation" role="doc-biblioref">Minoche, Dohm, and Himmelbauer 2011</a>)</span>. CO-ASSEMBLY of metagenomic samples performed using MEGAHIT <span class="citation" data-cites="li2015megahit">(<a href="#ref-li2015megahit" role="doc-biblioref">D. Li et al. 2015</a>)</span>. GENE CALLING was performed using PRODIGAL <span class="citation" data-cites="hyatt2010prodigal">(<a href="#ref-hyatt2010prodigal" role="doc-biblioref">Hyatt et al. 2010</a>)</span>. RECRUITMENT (a.k.a. mapping) of reads to assembly performed using BOWTIE2 <span class="citation" data-cites="langmead2012fast">(<a href="#ref-langmead2012fast" role="doc-biblioref">Langmead and Salzberg 2012</a>)</span> and SAMtools <span class="citation" data-cites="li2009sequence">(<a href="#ref-li2009sequence" role="doc-biblioref">H. Li et al. 2009</a>)</span>. TAXONOMIC CLASSIFICATION of genes using CENTRIFUGE <span class="citation" data-cites="kim2016centrifuge">(<a href="#ref-kim2016centrifuge" role="doc-biblioref">Kim et al. 2016</a>)</span>.</p>
 <aside>
 Documentation for <a href="https://snakemake.readthedocs.io/en/stable/">Snakemake</a>. GitHub repo for <a href="https://github.com/merenlab/illumina-utils">Illumina Utils</a>. GitHub repo for <a href="https://github.com/voutcn/megahit">MEGAHIT</a>. GitHub repo for <a href="https://github.com/hyattpd/Prodigal">PRODIGAL</a>. GitHub repo for <a href="https://github.com/BenLangmead/bowtie2">BOWTIE2</a>. Documentation for <a href="http://samtools.sourceforge.net/">SAMtools</a> GitHub repo for <a href="https://github.com/DaehwanKimLab/centrifuge">CENTRIFUGE</a>.
 </aside>
@@ -3226,38 +3261,40 @@ Documentation for <a href="https://snakemake.readthedocs.io/en/stable/">Snakemak
 <h1 id="taxonomic-annotations">Taxonomic Annotations</h1>
 <p>In this section we conduct taxonomic classification of short reads, contigs, and gene calls.</p>
 <h2 id="kaken-annotation">Kaken Annotation</h2>
-<p>In this section we use KrakenUniq <span class="citation" data-cites="breitwieser2018krakenuniq">(Breitwieser, Baker, and Salzberg <a href="#ref-breitwieser2018krakenuniq" role="doc-biblioref">2018</a>)</span> to classify the <strong>short reads</strong>. Because of the memory demands of KrakenUniq, we could not get this to work in the Snakemake workflow, so we ran the analysis separately. For several of these commands we used lists of sample names and <code>for</code> loops to run through each sample.</p>
+<p>In this section we use KrakenUniq <span class="citation" data-cites="breitwieser2018krakenuniq">(<a href="#ref-breitwieser2018krakenuniq" role="doc-biblioref">Breitwieser, Baker, and Salzberg 2018</a>)</span> to classify the <strong>short reads</strong>. Because of the memory demands of KrakenUniq, we could not get this to work in the Snakemake workflow, so we ran the analysis separately. For several of these commands we used lists of sample names and <code>for</code> loops to run through each sample.</p>
 <aside>
 GitHub repo for <a href="https://github.com/fbreitwieser/krakenuniq">KrakenUniq</a>.
 </aside>
 <p>Ok, here we run KrakenUniq and several reporting and summary steps against the short-read data for each sample using the <a href="files/mg-workflow-1/list.txt">list.txt</a> file.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">do</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a>    <span class="ex">krakenuniq</span> --report-file <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-REPORT.tsv 01_QC/<span class="va">$sample</span>-QUALITY_PASSED_R1.fastq.gz 01_QC/<span class="va">$sample</span>-QUALITY_PASSED_R2.fastq.gz --db <span class="va">$K_FILES</span>/DB/ --threads <span class="va">$NSLOTS</span> --preload  --fastq-input --gzip-compressed --paired --output <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="ex">krakenuniq-report</span> --db <span class="va">$K_FILES</span>/DB/ <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken_report.txt</span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="ex">krakenuniq-mpa-report</span> --header-line --db <span class="va">$K_FILES</span>/DB/ <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken_mpa_report.txt</span>
-<span id="cb4-7"><a href="#cb4-7"></a>    <span class="ex">krakenuniq-translate</span> --db <span class="va">$K_FILES</span>/DB/ <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.trans</span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">krakenuniq</span> <span class="at">--report-file</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-REPORT.tsv 01_QC/<span class="va">$sample</span>-QUALITY_PASSED_R1.fastq.gz 01_QC/<span class="va">$sample</span>-QUALITY_PASSED_R2.fastq.gz <span class="at">--db</span> <span class="va">$K_FILES</span>/DB/ <span class="at">--threads</span> <span class="va">$NSLOTS</span> <span class="at">--preload</span>  <span class="at">--fastq-input</span> <span class="at">--gzip-compressed</span> <span class="at">--paired</span> <span class="at">--output</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">krakenuniq-report</span> <span class="at">--db</span> <span class="va">$K_FILES</span>/DB/ <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken_report.txt</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">krakenuniq-mpa-report</span> <span class="at">--header-line</span> <span class="at">--db</span> <span class="va">$K_FILES</span>/DB/ <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken_mpa_report.txt</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">krakenuniq-translate</span> <span class="at">--db</span> <span class="va">$K_FILES</span>/DB/ <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.out <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.trans</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>Next, we format the output to make Krona plots.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">do</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>    <span class="va">$KRA_to_KRON</span><span class="ex">/kraken_to_krona.py</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.trans <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.krona</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">done</span></span></code></pre></div>
-<p>And finally construct Krona <span class="citation" data-cites="ondov2011krona">(Ondov, Bergman, and Phillippy <a href="#ref-ondov2011krona" role="doc-biblioref">2011</a>)</span> plots. We will come back to Krona plots when we explain what they are and how to use them in the <a href="mg-workflow-2.html#krona-plots-explained">Assembly &amp; Annotation Summary</a> section of the workflow.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">$KRA_to_KRON</span><span class="ex">/kraken_to_krona.py</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.trans <span class="op">&gt;</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.krona</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>And finally construct Krona <span class="citation" data-cites="ondov2011krona">(<a href="#ref-ondov2011krona" role="doc-biblioref">Ondov, Bergman, and Phillippy 2011</a>)</span> plots. We will come back to Krona plots when we explain what they are and how to use them in the <a href="mg-workflow-2.html#krona-plots-explained">Assembly &amp; Annotation Summary</a> section of the workflow.</p>
 <aside>
 <a href="https://github.com/marbl/Krona/wiki">GitHub Repo for Krona</a>.
 </aside>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">do</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>    <span class="ex">ktImportText</span> -o <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.html <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.krona</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">ktImportText</span> <span class="at">-o</span> <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.html <span class="va">$KRAKEN</span>/<span class="va">$sample</span>-kraken.krona</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>We can also make standalone HTML pages from each assembly containing all Krona plots.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">ktImportText</span> -o <span class="va">$KRAKEN</span>/WATER-kraken.html <span class="va">$KRAKEN</span>/WCCR_1913-kraken.krona <span class="va">$KRAKEN</span>/WCCR_1916-kraken.krona <span class="va">$KRAKEN</span>/WROL_1914-kraken.krona <span class="va">$KRAKEN</span>/WROL_1915-kraken.krona</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> <span class="at">-o</span> <span class="va">$KRAKEN</span>/WATER-kraken.html <span class="va">$KRAKEN</span>/WCCR_1913-kraken.krona <span class="va">$KRAKEN</span>/WCCR_1916-kraken.krona <span class="va">$KRAKEN</span>/WROL_1914-kraken.krona <span class="va">$KRAKEN</span>/WROL_1915-kraken.krona</span></code></pre></div>
 <p>Or add the <code>-c</code> flag to make a single plot where samples are combined.</p>
 <p>Now we have a Krona plot page for the water sample.</p>
 <details>
-<summary>Show/hide HYDRA Kraken classification job details</summary>
+<summary>
+Show/hide HYDRA Kraken classification job details
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3331,12 +3368,14 @@ echo = `date` job $JOB_NAME don
 </details>
 <h3 id="kraken-import">Kraken import</h3>
 <p>At this point we now add the kraken summary annotations to each individual <code>PROFILE.db</code> created in the Snakemake workflow. Again we used lists of sample names and <code>for</code> loops to run through each sample.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">for</span> <span class="ex">sample</span> in <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">do</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>    <span class="ex">anvi-import-taxonomy-for-layers</span> -p 05_ANVIO_PROFILE/WATER/<span class="va">$sample</span>/PROFILE.db --parse krakenuniq -i 07_TAXONOMY/KRAKEN_TAXONOMY/MICROBIAL-NT/<span class="va">$sample</span>-kraken_mpa_report.txt</span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample <span class="kw">in</span> <span class="kw">`</span><span class="fu">cat</span> list.txt<span class="kw">`</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">anvi-import-taxonomy-for-layers</span> <span class="at">-p</span> 05_ANVIO_PROFILE/WATER/<span class="va">$sample</span>/PROFILE.db <span class="at">--parse</span> krakenuniq <span class="at">-i</span> 07_TAXONOMY/KRAKEN_TAXONOMY/MICROBIAL-NT/<span class="va">$sample</span>-kraken_mpa_report.txt</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA Import Kraken taxonomy job details</summary>
+<summary>
+Show/hide HYDRA Import Kraken taxonomy job details
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3387,15 +3426,17 @@ echo = `date` job $JOB_NAME don
 <p><br/></p>
 <p>After this you need to rerun <code>anvi-merge</code> so that the short-read annotations make it into the merged <code>PROFILE.db</code>. But we will get to that in a minute.</p>
 <h2 id="virsorter-annotation">VirSorter Annotation</h2>
-<p>To classify any viral sequences, we ran VirSorter <span class="citation" data-cites="roux2015virsorter">(Roux et al. <a href="#ref-roux2015virsorter" role="doc-biblioref">2015</a>)</span> on contigs from the co-assembly using our newly created <code>contig.db</code> generated after the co-assembly step. We ran VirSorter with and without the <code>--virome</code> flag. See <a href="https://github.com/simroux/VirSorter/issues/40">issue 40</a> on the VirSorter GitHub site for a discussion of why we did this. We used DIAMOND <span class="citation" data-cites="buchfink2015fast">(Buchfink, Xie, and Huson <a href="#ref-buchfink2015fast" role="doc-biblioref">2015</a>)</span> as the local sequence aligner.</p>
+<p>To classify any viral sequences, we ran VirSorter <span class="citation" data-cites="roux2015virsorter">(<a href="#ref-roux2015virsorter" role="doc-biblioref">Roux et al. 2015</a>)</span> on contigs from the co-assembly using our newly created <code>contig.db</code> generated after the co-assembly step. We ran VirSorter with and without the <code>--virome</code> flag. See <a href="https://github.com/simroux/VirSorter/issues/40">issue 40</a> on the VirSorter GitHub site for a discussion of why we did this. We used DIAMOND <span class="citation" data-cites="buchfink2015fast">(<a href="#ref-buchfink2015fast" role="doc-biblioref">Buchfink, Xie, and Huson 2015</a>)</span> as the local sequence aligner.</p>
 <aside>
 <a href="https://github.com/simroux/VirSorter">GitHub Repo for VirSorter</a>. Documentation for <a href="http://www.diamondsearch.org/index.php">DIAMOND</a>.
 </aside>
 <p>Here is the VirSorter workflow.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">wrapper_phage_contigs_sorter_iPlant.pl</span> -f 02_FASTA/WATER/WATER-contigs.fa --ncpu <span class="va">$NSLOTS</span> --db 2 --wdir 07_TAXONOMY/VIRSORTER/WATER --data-dir /pool/genomics/stri_istmobiome/dbs/virsorter/virsorter-data --diamond</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="ex">wrapper_phage_contigs_sorter_iPlant.pl</span> -f 02_FASTA/WATER/WATER-contigs.fa --ncpu <span class="va">$NSLOTS</span> --db 2 --wdir 07_TAXONOMY/VIRSORTER_VIROME/WATER --data-dir /pool/genomics/stri_istmobiome/dbs/virsorter/virsorter-data --diamond --virome</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">wrapper_phage_contigs_sorter_iPlant.pl</span> <span class="at">-f</span> 02_FASTA/WATER/WATER-contigs.fa <span class="at">--ncpu</span> <span class="va">$NSLOTS</span> <span class="at">--db</span> 2 <span class="at">--wdir</span> 07_TAXONOMY/VIRSORTER/WATER <span class="at">--data-dir</span> /pool/genomics/stri_istmobiome/dbs/virsorter/virsorter-data <span class="at">--diamond</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">wrapper_phage_contigs_sorter_iPlant.pl</span> <span class="at">-f</span> 02_FASTA/WATER/WATER-contigs.fa <span class="at">--ncpu</span> <span class="va">$NSLOTS</span> <span class="at">--db</span> 2 <span class="at">--wdir</span> 07_TAXONOMY/VIRSORTER_VIROME/WATER <span class="at">--data-dir</span> /pool/genomics/stri_istmobiome/dbs/virsorter/virsorter-data <span class="at">--diamond</span> <span class="at">--virome</span></span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA VIRSORTER job script</summary>
+<summary>
+Show/hide HYDRA VIRSORTER job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3438,25 +3479,27 @@ echo = `date` job $JOB_NAME don
 </code></pre>
 </details>
 <h2 id="kaiju-annotation">Kaiju Annotation</h2>
-<p>In addition to the Centrifuge classification we are going to use Kaiju <span class="citation" data-cites="menzel2016fast">(Menzel, Ng, and Krogh <a href="#ref-menzel2016fast" role="doc-biblioref">2016</a>)</span> to classify gene calls. We do this against the <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">two databases</a> we built on the <a href="mg-databases.html/#kaiju">Annotation Databases</a> page.</p>
+<p>In addition to the Centrifuge classification we are going to use Kaiju <span class="citation" data-cites="menzel2016fast">(<a href="#ref-menzel2016fast" role="doc-biblioref">Menzel, Ng, and Krogh 2016</a>)</span> to classify gene calls. We do this against the <a href="https://github.com/bioinformatics-centre/kaiju#creating-the-reference-database-and-index">two databases</a> we built on the <a href="mg-databases.html/#kaiju">Annotation Databases</a> page.</p>
 <aside>
 GitHub repo for <a href="https://github.com/bioinformatics-centre/kaiju">Kaiju</a>.
 </aside>
 <p>First we need to activate anvi’o, make a directory for the output, and grab the gene calls. Note that <code>$KAIJU</code> is the path to the input/output directory, which in this case is the new directory, <code>07_TAXONOMY/KAIJU/</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">mkdir</span> 07_TAXONOMY/KAIJU/</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="ex">anvi-get-sequences-for-gene-calls</span> -c 03_CONTIGS/WATER-contigs.db -o <span class="va">$KAIJU</span>/WATER_gene_calls.fna</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 07_TAXONOMY/KAIJU/</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-gene-calls</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_gene_calls.fna</span></code></pre></div>
 <p>Next we run the Kaiju commands against the <code>nr_euk</code> database and then the <code>mar</code> database. Note that <code>$K_FILES</code> is the path to the database and <code>$KAIJU</code> is the path to the input/output directory.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># against nr_euk db</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="ex">kaiju</span> -t <span class="va">$K_FILES</span>/nr_db/nodes.dmp -f <span class="va">$K_FILES</span>/nr_db/nr_euk/kaiju_db_nr_euk.fmi -i <span class="va">$KAIJU</span>/WATER_gene_calls.fna -o <span class="va">$KAIJU</span>/WATER_kaiju_nr.out -z 16 -v</span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co"># against mar db</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="ex">kaiju</span> -t <span class="va">$K_FILES</span>/marine_db/nodes.dmp -f <span class="va">$K_FILES</span>/marine_db/marine_db/kaiju_db_mar.fmi -i <span class="va">$KAIJU</span>/WATER_gene_calls.fna -o <span class="va">$KAIJU</span>/WATER_kaiju_mar.out -z 16 -v</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># against nr_euk db</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/nr_db/nodes.dmp <span class="at">-f</span> <span class="va">$K_FILES</span>/nr_db/nr_euk/kaiju_db_nr_euk.fmi <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_gene_calls.fna <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.out <span class="at">-z</span> 16 <span class="at">-v</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># against mar db</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/marine_db/nodes.dmp <span class="at">-f</span> <span class="va">$K_FILES</span>/marine_db/marine_db/kaiju_db_mar.fmi <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_gene_calls.fna <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.out <span class="at">-z</span> 16 <span class="at">-v</span></span></code></pre></div>
 <p>Finally, we need to add taxon names to the output in order to import the taxonomy into the <code>contig.db</code> later on. We will also compare the output of the two classifications.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># against nr_euk db</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="ex">kaiju-addTaxonNames</span> -t <span class="va">$K_FILES</span>/nr_db/nodes.dmp -n <span class="va">$K_FILES</span>/nr_db/names.dmp -i <span class="va">$KAIJU</span>/WATER_kaiju_nr.out -o <span class="va">$KAIJU</span>/WATER_kaiju_nr.names -r superkingdom,phylum,order,class,family,genus,species</span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co"># against mar db</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="ex">kaiju-addTaxonNames</span> -t <span class="va">$K_FILES</span>/marine_db/nodes.dmp -n <span class="va">$K_FILES</span>/marine_db/names.dmp -i <span class="va">$KAIJU</span>/WATER_kaiju_mar.out -o <span class="va">$KAIJU</span>/WATER_kaiju_mar.names -r superkingdom,phylum,order,class,family,genus,species</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># against nr_euk db</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju-addTaxonNames</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/nr_db/nodes.dmp <span class="at">-n</span> <span class="va">$K_FILES</span>/nr_db/names.dmp <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.out <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.names <span class="at">-r</span> superkingdom,phylum,order,class,family,genus,species</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># against mar db</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju-addTaxonNames</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/marine_db/nodes.dmp <span class="at">-n</span> <span class="va">$K_FILES</span>/marine_db/names.dmp <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.out <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.names <span class="at">-r</span> superkingdom,phylum,order,class,family,genus,species</span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA KAIJU job script</summary>
+<summary>
+Show/hide HYDRA KAIJU job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3523,24 +3566,26 @@ echo = `date` job $JOB_NAME don
 <h3 id="kaiju-import">Kaiju Import</h3>
 <p>Now it is time to add the Kaiju annotation to the <code>contig.db</code>. We will also use the opportunity to generate some <a href="https://github.com/marbl/Krona/wiki">Krona plots</a>. We will discuss these in more detail in the next chapter.</p>
 <p>First we need to take the Kaiju-formatted output file and format it from Krona. We can do this for the results from both annotations.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># from nr_euk db</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="ex">kaiju2krona</span> -t <span class="va">$K_FILES</span>/nr_db/nodes.dmp -n <span class="va">$K_FILES</span>/nr_db/names.dmp -i <span class="va">$KAIJU</span>/WATER_kaiju_nr.out -o <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.krona</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># from mar db</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="ex">kaiju2krona</span> -t <span class="va">$K_FILES</span>/marine_db/nodes.dmp -n <span class="va">$K_FILES</span>/marine_db/names.dmp -i <span class="va">$KAIJU</span>/WATER_kaiju_mar.out -o <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.krona</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from nr_euk db</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju2krona</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/nr_db/nodes.dmp <span class="at">-n</span> <span class="va">$K_FILES</span>/nr_db/names.dmp <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.out <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.krona</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from mar db</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju2krona</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/marine_db/nodes.dmp <span class="at">-n</span> <span class="va">$K_FILES</span>/marine_db/names.dmp <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.out <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.krona</span></code></pre></div>
 <p>While we are at it, lets also generate some summary files of taxonomic content, again from both annotations.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># from nr_euk db</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="ex">kaiju2table</span> -t <span class="va">$K_FILES</span>/nr_db/nodes.dmp -n <span class="va">$K_FILES</span>/nr_db/names.dmp -r class <span class="va">$KAIJU</span>/WATER_kaiju_nr.out -l phylum,class,order,family -o <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.summary</span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># from mar db</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="ex">kaiju2table</span> -t <span class="va">$K_FILES</span>/marine_db/nodes.dmp -n <span class="va">$K_FILES</span>/marine_db/names.dmp -r class <span class="va">$KAIJU</span>/WATER_kaiju_mar.out -l phylum,class,order,family -o <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.summary</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from nr_euk db</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju2table</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/nr_db/nodes.dmp <span class="at">-n</span> <span class="va">$K_FILES</span>/nr_db/names.dmp <span class="at">-r</span> class <span class="va">$KAIJU</span>/WATER_kaiju_nr.out <span class="at">-l</span> phylum,class,order,family <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.summary</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># from mar db</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">kaiju2table</span> <span class="at">-t</span> <span class="va">$K_FILES</span>/marine_db/nodes.dmp <span class="at">-n</span> <span class="va">$K_FILES</span>/marine_db/names.dmp <span class="at">-r</span> class <span class="va">$KAIJU</span>/WATER_kaiju_mar.out <span class="at">-l</span> phylum,class,order,family <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.summary</span></code></pre></div>
 <p>Now we will the output files from above to generate Krona plots for each annotation and send the output to HTML files. For this we use the krona conda package.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># from nr_euk db</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="ex">ktImportText</span> -o <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.html <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.krona</span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#from mar db</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="ex">ktImportText</span> -o <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.html <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.krona</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from nr_euk db</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.html <span class="va">$KAIJU</span>/WATER_kaiju_nr.out.krona</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#from mar db</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ex">ktImportText</span> <span class="at">-o</span> <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.html <span class="va">$KAIJU</span>/WATER_kaiju_mar.out.krona</span></code></pre></div>
 <p>Finally, it is time to import the Kaiju taxonomies into the <code>contig.db</code> for each assembly. As we will see later, the <code>mar db</code> annotations called very few viral sequences, even though we know from Virsorter there are a lot of viruses. Therefore, we decided to use the <code>nr db</code> annotations.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="ex">anvi-import-taxonomy-for-genes</span> -c 03_CONTIGS/WATER-contigs.db -p kaiju -i <span class="va">$KAIJU</span>/WATER_kaiju_nr.names --just-do-it</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-taxonomy-for-genes</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-p</span> kaiju <span class="at">-i</span> <span class="va">$KAIJU</span>/WATER_kaiju_nr.names <span class="at">--just-do-it</span></span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA KAIJU import and summarize job script</summary>
+<summary>
+Show/hide HYDRA KAIJU import and summarize job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3620,12 +3665,14 @@ echo = `date` job $JOB_NAME don
 <h1 id="functional-annotations">Functional Annotations</h1>
 <h2 id="scg-taxonomy-pfam">SCG Taxonomy &amp; Pfam</h2>
 <p>Here we run single-copy core genes in the <code>contigs.db</code> with taxonomic names against a local SCG taxonomy database. After this we can run <code>anvi-estimate-scg-taxonomy</code> to estimate taxonomy at genome-, collection-, or metagenome-level. We also needed to rerun the Pfam analysis because the original workflow failed at this step because of an improperly entered db path.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Against SCG</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="ex">anvi-run-scg-taxonomy</span> -c 03_CONTIGS/WAATER-contigs.db -P 1 -T <span class="va">$NSLOTS</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="co"># Against Pfam</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a><span class="ex">anvi-run-pfams</span> -c 03_CONTIGS/WATER-contigs.db --pfam-data-dir <span class="va">$PATH</span>/pfam_db/ -T <span class="va">$NSLOTS</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Against SCG</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-scg-taxonomy</span> <span class="at">-c</span> 03_CONTIGS/WAATER-contigs.db <span class="at">-P</span> 1 <span class="at">-T</span> <span class="va">$NSLOTS</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Against Pfam</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-pfams</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">--pfam-data-dir</span> <span class="va">$PATH</span>/pfam_db/ <span class="at">-T</span> <span class="va">$NSLOTS</span></span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA SCG &amp; Pfam job details</summary>
+<summary>
+Show/hide HYDRA SCG &amp; Pfam job details
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3680,23 +3727,25 @@ echo = `date` job $JOB_NAME done
 </code></pre>
 </details>
 <h2 id="ghostkoala-annotations">GhostKOALA Annotations</h2>
-<p>The last thing we can do is run KEGG <span class="citation" data-cites="kanehisa2000kegg">(Kanehisa and Goto <a href="#ref-kanehisa2000kegg" role="doc-biblioref">2000</a>)</span> annotations using the <a href="http://www.kegg.jp/ghostkoala/">GhostKOALA server</a> <span class="citation" data-cites="kanehisa2016blastkoala">(Kanehisa, Sato, and Morishima <a href="#ref-kanehisa2016blastkoala" role="doc-biblioref">2016</a>)</span>. Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>.</p>
+<p>The last thing we can do is run KEGG <span class="citation" data-cites="kanehisa2000kegg">(<a href="#ref-kanehisa2000kegg" role="doc-biblioref">Kanehisa and Goto 2000</a>)</span> annotations using the <a href="http://www.kegg.jp/ghostkoala/">GhostKOALA server</a> <span class="citation" data-cites="kanehisa2016blastkoala">(<a href="#ref-kanehisa2016blastkoala" role="doc-biblioref">Kanehisa, Sato, and Morishima 2016</a>)</span>. Running GhostKOALA/KEGG was pretty easy thanks to this <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/">handy tutorial</a>.</p>
 <p>The steps we used to annotate genes with GhostKOALA/KEGG are reproduced from the tutorial.</p>
 <p>A little setup first. Make a directory for the analysis and grab the parsing script.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">mkdir</span> -p GhostKOALA/</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">git</span> clone https://github.com/edgraham/GhostKoalaParser.git</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> GhostKOALA/</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/edgraham/GhostKoalaParser.git</span></code></pre></div>
 <p>Now we need to export anvio gene calls as amino acid sequences.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="ex">anvi-get-sequences-for-gene-calls</span> -c 03_CONTIGS/WATER-contigs.db --get-aa-sequences -o GhostKOALA/WATER-protein-sequences.fa</span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="ex">anvi-get-sequences-for-gene-calls</span> -c 03_CONTIGS/MAT-contigs.db --get-aa-sequences -o GhostKOALA/MAT-protein-sequences.fa</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-gene-calls</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">--get-aa-sequences</span> <span class="at">-o</span> GhostKOALA/WATER-protein-sequences.fa</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-gene-calls</span> <span class="at">-c</span> 03_CONTIGS/MAT-contigs.db <span class="at">--get-aa-sequences</span> <span class="at">-o</span> GhostKOALA/MAT-protein-sequences.fa</span></code></pre></div>
 <p>Because of a peculiarity with the way the server handles fasta files we need to modify the fasta headers. Anvio gene calls begin with a digit and the server doesn’t like that. So, we will the prefix <code>genecall</code> to every gene call ID.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">sed</span> -i <span class="st">&#39;s/&gt;/&gt;genecall_/&#39;</span> GhostKOALA/WATER-protein-sequences.fa</span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">sed</span> -i <span class="st">&#39;s/&gt;/&gt;genecall_/&#39;</span> GhostKOALA/MAT-protein-sequences.fa</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/&gt;/&gt;genecall_/&#39;</span> GhostKOALA/WATER-protein-sequences.fa</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">&#39;s/&gt;/&gt;genecall_/&#39;</span> GhostKOALA/MAT-protein-sequences.fa</span></code></pre></div>
 <p>At this point we can upload our modified amino acid gene call files to the <a href="http://www.kegg.jp/ghostkoala/">GhostKOALA</a> server.</p>
 <blockquote>
 <p>You can only run one instance of GhostKOALA at a time per email address and the upload limit is 300Mb. You may need to split large fasta files into smaller chunks.</p>
 </blockquote>
 <details>
-<summary>Show/hide HYDRA GhostKOALA annotation import job script</summary>
+<summary>
+Show/hide HYDRA GhostKOALA annotation import job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3754,34 +3803,36 @@ echo = `date` job $JOB_NAME don
 </details>
 <h3 id="import-ghostkoala">Import GhostKOALA</h3>
 <p>Once the jobs have finished we can import the data into our contig databases. In the repository you cloned earlier there is a file called <code>KO_Orthology_ko00001.txt</code>. <a href="http://merenlab.org/2018/01/17/importing-ghostkoala-annotations/#generate-the-kegg-orthology-table">See this</a> section for an explanation of the next step about converting the KEGG Orthology assignments to functions. We need this htext file to match the orthologies with function.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a><span class="fu">mkdir</span> GhostKOALA/GhostKoalaParser</span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">wget</span> <span class="st">&#39;https://www.genome.jp/kegg-bin/download_htext?htext=ko00001&amp;format=htext&amp;filedir=&#39;</span> -O GhostKOALA/GhostKoalaParser/ko00001.keg</span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># Set the variable path</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="va">kegfile=</span><span class="st">&quot;GhostKOALA/GhostKoalaParser/ko00001.keg&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> GhostKOALA/GhostKoalaParser</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="st">&#39;https://www.genome.jp/kegg-bin/download_htext?htext=ko00001&amp;format=htext&amp;filedir=&#39;</span> <span class="at">-O</span> GhostKOALA/GhostKoalaParser/ko00001.keg</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the variable path</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="va">kegfile=</span><span class="st">&quot;GhostKOALA/GhostKoalaParser/ko00001.keg&quot;</span></span></code></pre></div>
 <p>Now we need to parse the file using this code snippet from the tutorial.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">while</span> <span class="bu">read</span> -r <span class="va">prefix</span> <span class="va">content</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="kw">do</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>    <span class="kw">case</span> <span class="st">&quot;</span><span class="va">$prefix</span><span class="st">&quot;</span><span class="kw"> in</span> A<span class="kw">)</span> <span class="va">col1=</span><span class="st">&quot;</span><span class="va">$content</span><span class="st">&quot;</span><span class="kw">;;</span> <span class="kw">\</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a>                      B<span class="kw">)</span> <span class="va">col2=</span><span class="st">&quot;</span><span class="va">$content</span><span class="st">&quot;</span> <span class="kw">;;</span> <span class="kw">\</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a>                      C<span class="kw">)</span> <span class="va">col3=</span><span class="st">&quot;</span><span class="va">$content</span><span class="st">&quot;</span><span class="kw">;;</span> <span class="kw">\</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a>                      D<span class="kw">)</span> <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">$col1</span><span class="st">\t</span><span class="va">$col2</span><span class="st">\t</span><span class="va">$col3</span><span class="st">\t</span><span class="va">$content</span><span class="st">&quot;</span><span class="kw">;;</span></span>
-<span id="cb22-7"><a href="#cb22-7"></a>    <span class="kw">esac</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a><span class="kw">done</span> <span class="op">&lt;</span> <span class="op">&lt;(</span><span class="fu">sed</span> <span class="st">&#39;/^[#!+]/d;s/&lt;[^&gt;]*&gt;//g;s/^./&amp; /&#39;</span> <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$kegfile</span><span class="st">&quot;</span><span class="op">)</span> <span class="op">&gt;</span> <span class="ex">GhostKOALA/GhostKoalaParser/KO_Orthology_ko00001.txt</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">prefix</span> <span class="va">content</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&quot;</span><span class="va">$prefix</span><span class="st">&quot;</span> <span class="kw">in</span> A<span class="kw">)</span> <span class="va">col1=</span><span class="st">&quot;</span><span class="va">$content</span><span class="st">&quot;</span><span class="cf">;;</span> <span class="dt">\</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                      B<span class="kw">)</span> <span class="va">col2=</span><span class="st">&quot;</span><span class="va">$content</span><span class="st">&quot;</span> <span class="cf">;;</span> <span class="dt">\</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                      C<span class="kw">)</span> <span class="va">col3=</span><span class="st">&quot;</span><span class="va">$content</span><span class="st">&quot;</span><span class="cf">;;</span> <span class="dt">\</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                      D<span class="kw">)</span> <span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;</span><span class="va">$col1</span><span class="st">\t</span><span class="va">$col2</span><span class="st">\t</span><span class="va">$col3</span><span class="st">\t</span><span class="va">$content</span><span class="st">&quot;</span><span class="cf">;;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">esac</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> <span class="op">&lt;</span><span class="kw">(</span><span class="fu">sed</span> <span class="st">&#39;/^[#!+]/d;s/&lt;[^&gt;]*&gt;//g;s/^./&amp; /&#39;</span> <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$kegfile</span><span class="st">&quot;</span><span class="kw">)</span> <span class="op">&gt;</span> GhostKOALA/GhostKoalaParser/KO_Orthology_ko00001.txt</span></code></pre></div>
 <p>Time to parse the annotation file…</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/KEGG-to-anvio --KeggDB GhostKOALA/GhostKoalaParser//KO_Orthology_ko00001.txt -i GhostKOALA/water_ko.txt -o GhostKOALA/water-KeggAnnotations-AnviImportable.txt</span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/KEGG-to-anvio --KeggDB GhostKOALA/GhostKoalaParser//KO_Orthology_ko00001.txt -i GhostKOALA/mat_ko.txt -o GhostKOALA/mat-KeggAnnotations-AnviImportable.txt</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/KEGG-to-anvio <span class="at">--KeggDB</span> GhostKOALA/GhostKoalaParser//KO_Orthology_ko00001.txt <span class="at">-i</span> GhostKOALA/water_ko.txt <span class="at">-o</span> GhostKOALA/water-KeggAnnotations-AnviImportable.txt</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/KEGG-to-anvio <span class="at">--KeggDB</span> GhostKOALA/GhostKoalaParser//KO_Orthology_ko00001.txt <span class="at">-i</span> GhostKOALA/mat_ko.txt <span class="at">-o</span> GhostKOALA/mat-KeggAnnotations-AnviImportable.txt</span></code></pre></div>
 <p>…and parse the KEGG taxonomy</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/GhostKOALA-taxonomy-to-anvio GhostKOALA/water.out.top GhostKOALA/water-KeggTaxonomy.txt</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/GhostKOALA-taxonomy-to-anvio GhostKOALA/mat.out.top GhostKOALA/mat-KeggTaxonomy.txt</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/GhostKOALA-taxonomy-to-anvio GhostKOALA/water.out.top GhostKOALA/water-KeggTaxonomy.txt</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> GhostKOALA/GhostKoalaParser/GhostKOALA-taxonomy-to-anvio GhostKOALA/mat.out.top GhostKOALA/mat-KeggTaxonomy.txt</span></code></pre></div>
 <p>Now we can import it all into the anvio contig databases.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="ex">anvi-import-functions</span> -c 03_CONTIGS/WATER-contigs.db -i GhostKOALA/water-KeggAnnotations-AnviImportable.txt</span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="ex">anvi-import-functions</span> -c 03_CONTIGS/MAT-contigs.db -i GhostKOALA/mat-KeggAnnotations-AnviImportable.txt</span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="ex">anvi-import-taxonomy-for-genes</span> -c 03_CONTIGS/WATER-contigs.db -i GhostKOALA/water-KeggTaxonomy.txt -p default_matrix</span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="ex">anvi-import-taxonomy-for-genes</span> -c 03_CONTIGS/MAT-contigs.db -i GhostKOALA/mat-KeggTaxonomy.txt -p default_matrix</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-functions</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-i</span> GhostKOALA/water-KeggAnnotations-AnviImportable.txt</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-functions</span> <span class="at">-c</span> 03_CONTIGS/MAT-contigs.db <span class="at">-i</span> GhostKOALA/mat-KeggAnnotations-AnviImportable.txt</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-taxonomy-for-genes</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-i</span> GhostKOALA/water-KeggTaxonomy.txt <span class="at">-p</span> default_matrix</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-taxonomy-for-genes</span> <span class="at">-c</span> 03_CONTIGS/MAT-contigs.db <span class="at">-i</span> GhostKOALA/mat-KeggTaxonomy.txt <span class="at">-p</span> default_matrix</span></code></pre></div>
 <p>And that’s it!</p>
 <details>
-<summary>Show/hide HYDRA GhostKOALA parsing job script</summary>
+<summary>
+Show/hide HYDRA GhostKOALA parsing job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3853,9 +3904,11 @@ echo = `date` job $JOB_NAME don
 </details>
 <h1 id="merge-profiles-import-virsorter">Merge Profiles &amp; Import VirSorter</h1>
 <p>Now that everything is added into the <code>contig.db</code> for the EP and WA assemblies and layer taxonomy is added to the individual <code>PROFILE.db</code>, its now time to merge all <code>PROFILE.db</code> into a single database for each assembly.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="ex">anvi-merge</span> 05_ANVIO_PROFILE/WATER/*/PROFILE.db -c 03_CONTIGS/WATER-contigs.db -o 06_MERGED/WATER</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-merge</span> 05_ANVIO_PROFILE/WATER/<span class="pp">*</span>/PROFILE.db <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-o</span> 06_MERGED/WATER</span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA Merge Profile databases job details</summary>
+<summary>
+Show/hide HYDRA Merge Profile databases job details
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -3902,7 +3955,9 @@ echo = `date` job $JOB_NAME done
 <p>Now that we have a merged profile database for each assembly, we can deal with the VirSorter data. We did this last for two reasons. First, we wanted to get a better idea of the total abundance of the viral community by looking at the other taxonomic annotations. Since the viral community is &gt; 10% we decided to use the virome decontamination data from VirSorter. Second, we need to add the VirSorter annotations to the merged <code>PROFILE.dbs</code> as a <code>COLLECTION</code>.</p>
 <p>This is a multi-step process that is explained in great detail <a href="http://merenlab.org/2018/02/08/importing-virsorter-annotations/">here</a>. But please note that depending on the state of affairs with VirSorter and/or anvi’o, you may need to modify the output of <code>anvi-export-gene-calls</code> per VirSorter GitHub <a href="https://github.com/simroux/VirSorter/issues/65">issue 65</a>.</p>
 <details>
-<summary>Show/hide the issue and the fix</summary>
+<summary>
+Show/hide the issue and the fix
+</summary>
 <pre><code>
 The tool virsorter_to_anvio.py uses the output of anvi-export-gene-calls (among other files)
 to import virsorter annotation into anvio dbs. The script relies on the output columns to be
@@ -3923,24 +3978,26 @@ This rearranges and eliminates the aa_sequence column.
 </code></pre>
 </details>
 <p>First we need to grab some parsing scripts.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/brymerr921/VirSorterParser/master/virsorter_to_anvio.py -P <span class="va">$VIRSORTER</span>/helper_scripts</span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="fu">wget</span> https://raw.githubusercontent.com/brymerr921/VirSorterParser/master/hallmark_to_function_files/db1_hallmark_functions.txt -P <span class="va">$VIRSORTER</span>/helper_scripts</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="fu">wget</span> https://raw.githubusercontent.com/brymerr921/VirSorterParser/master/hallmark_to_function_files/db2_hallmark_functions.txt -P <span class="va">$VIRSORTER</span>/helper_scripts</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/brymerr921/VirSorterParser/master/virsorter_to_anvio.py <span class="at">-P</span> <span class="va">$VIRSORTER</span>/helper_scripts</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/brymerr921/VirSorterParser/master/hallmark_to_function_files/db1_hallmark_functions.txt <span class="at">-P</span> <span class="va">$VIRSORTER</span>/helper_scripts</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/brymerr921/VirSorterParser/master/hallmark_to_function_files/db2_hallmark_functions.txt <span class="at">-P</span> <span class="va">$VIRSORTER</span>/helper_scripts</span></code></pre></div>
 <p>Next, export the files we need for the annotations from the contig databases.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a><span class="ex">anvi-export-table</span> 03_CONTIGS/WATER-contigs.db  --table splits_basic_info -o <span class="va">$VIRSORTER</span>/WATER-splits_basic_info.txt</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co">#</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="ex">anvi-export-gene-calls</span> -c 03_CONTIGS/WATER-contigs.db -o <span class="va">$VIRSORTER</span>/WATER-all_gene_calls.txt</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-export-table</span> 03_CONTIGS/WATER-contigs.db  <span class="at">--table</span> splits_basic_info <span class="at">-o</span> <span class="va">$VIRSORTER</span>/WATER-splits_basic_info.txt</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-export-gene-calls</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-o</span> <span class="va">$VIRSORTER</span>/WATER-all_gene_calls.txt</span></code></pre></div>
 <p>Run the VirSorter parsing scripts.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="ex">python</span> <span class="va">$VIRSORTER</span>/helper_scripts/virsorter_to_anvio.py --db 2 -a <span class="va">$VIRSORTER</span>/WATER/Metric_files/VIRSorter_affi-contigs.tab -g <span class="va">$VIRSORTER</span>/WATER/VIRSorter_global-phage-signal.csv -s <span class="va">$VIRSORTER</span>/WATER-splits_basic_info.txt -n <span class="va">$VIRSORTER</span>/WATER-all_gene_calls.txt -f <span class="va">$VIRSORTER</span>/helper_scripts/db2_hallmark_functions.txt -A <span class="va">$VIRSORTER</span>/WATER-virsorter_additional_info.txt -F <span class="va">$VIRSORTER</span>/WATER-virsorter_annotations.txt -C <span class="va">$VIRSORTER</span>/WATER-virsorter_collection.txt</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="co">#</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="va">$VIRSORTER</span>/helper_scripts/virsorter_to_anvio.py <span class="at">--db</span> 2 <span class="at">-a</span> <span class="va">$VIRSORTER</span>/WATER/Metric_files/VIRSorter_affi-contigs.tab <span class="at">-g</span> <span class="va">$VIRSORTER</span>/WATER/VIRSorter_global-phage-signal.csv <span class="at">-s</span> <span class="va">$VIRSORTER</span>/WATER-splits_basic_info.txt <span class="at">-n</span> <span class="va">$VIRSORTER</span>/WATER-all_gene_calls.txt <span class="at">-f</span> <span class="va">$VIRSORTER</span>/helper_scripts/db2_hallmark_functions.txt <span class="at">-A</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_additional_info.txt <span class="at">-F</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_annotations.txt <span class="at">-C</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_collection.txt</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span></code></pre></div>
 <p>If you get an error you may need to reformat the gene calls files like so.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN {FS=&quot;\t&quot;; OFS=&quot;\t&quot;} {print $1, $2, $6, $7, $3, $4, $5, $8}&#39;</span> all_gene_calls_TEMP.txt <span class="op">&gt;</span> all_gene_calls.txt</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN {FS=&quot;\t&quot;; OFS=&quot;\t&quot;} {print $1, $2, $6, $7, $3, $4, $5, $8}&#39;</span> all_gene_calls_TEMP.txt <span class="op">&gt;</span> all_gene_calls.txt</span></code></pre></div>
 <p>Finally, import all of the data in to the contig and profile dbs from each assembly.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="ex">anvi-import-misc-data</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_additional_info.txt -p 06_MERGED/WATER/PROFILE.db  --target-data-table items</span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="ex">anvi-import-collection</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_collection.txt -c 03_CONTIGS/WATER-contigs.db -p 06_MERGED/WATER/PROFILE.db -C VIRSORTER</span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="ex">anvi-import-functions</span> -c 03_CONTIGS/WATER-contigs.db -i <span class="va">$VIRSORTER</span>/WATER-virsorter_annotations.txt</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-misc-data</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_additional_info.txt <span class="at">-p</span> 06_MERGED/WATER/PROFILE.db  <span class="at">--target-data-table</span> items</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-collection</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_collection.txt <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-p</span> 06_MERGED/WATER/PROFILE.db <span class="at">-C</span> VIRSORTER</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-functions</span> <span class="at">-c</span> 03_CONTIGS/WATER-contigs.db <span class="at">-i</span> <span class="va">$VIRSORTER</span>/WATER-virsorter_annotations.txt</span></code></pre></div>
 <details>
-<summary>Show/hide HYDRA Virsorter annotation import job details</summary>
+<summary>
+Show/hide HYDRA Virsorter annotation import job details
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -4078,64 +4135,64 @@ Next
 <p><a href="mg-workflow-2.html" rel="prev">N<sup><u>o</u></sup> 4. Data Summary</a></p>
 </div>
 </div>
-<h2 id="source-code" class="appendix">Source Code</h2>
+<h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-workflow-1.Rmd">clicking this link</a>.</p>
-<h2 id="data-availability" class="appendix">Data Availability</h2>
+<h2 class="appendix" id="data-availability">Data Availability</h2>
 <p>All files generated from this workflow and described in the final table can be downloaded from figshare at <a href="https://doi.org/10.25573/data.12808601">doi:10.25573/data.12808601</a>. The contigs db contains all taxonomic and functional annotations. The profile db contains information on coverage, detection, etc. as well as COLLECTION information for automatic binning and manual refinement (<a href="https://hypocolypse.github.io/mg-binning.html">see step 5</a>).</p>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-bolger2014trimmomatic">
-<p>Bolger, Anthony M, Marc Lohse, and Bjoern Usadel. 2014. “Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.” <em>Bioinformatics</em> 30 (15): 2114–20. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-bolger2014trimmomatic" class="csl-entry" role="doc-biblioentry">
+Bolger, Anthony M, Marc Lohse, and Bjoern Usadel. 2014. <span>“Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.”</span> <em>Bioinformatics</em> 30 (15): 2114–20. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.
 </div>
-<div id="ref-breitwieser2018krakenuniq">
-<p>Breitwieser, FP, DN Baker, and Steven L Salzberg. 2018. “KrakenUniq: Confident and Fast Metagenomics Classification Using Unique K-Mer Counts.” <em>Genome Biology</em> 19 (1): 1–10. <a href="https://doi.org/10.5281/zenodo.1412647">https://doi.org/10.5281/zenodo.1412647</a>.</p>
+<div id="ref-breitwieser2018krakenuniq" class="csl-entry" role="doc-biblioentry">
+Breitwieser, FP, DN Baker, and Steven L Salzberg. 2018. <span>“KrakenUniq: Confident and Fast Metagenomics Classification Using Unique k-Mer Counts.”</span> <em>Genome Biology</em> 19 (1): 1–10. <a href="https://doi.org/10.5281/zenodo.1412647">https://doi.org/10.5281/zenodo.1412647</a>.
 </div>
-<div id="ref-buchfink2015fast">
-<p>Buchfink, Benjamin, Chao Xie, and Daniel H Huson. 2015. “Fast and Sensitive Protein Alignment Using Diamond.” <em>Nature Methods</em> 12 (1): 59–60. <a href="https://doi.org/10.1038/nmeth.3176">https://doi.org/10.1038/nmeth.3176</a>.</p>
+<div id="ref-buchfink2015fast" class="csl-entry" role="doc-biblioentry">
+Buchfink, Benjamin, Chao Xie, and Daniel H Huson. 2015. <span>“Fast and Sensitive Protein Alignment Using DIAMOND.”</span> <em>Nature Methods</em> 12 (1): 59–60. <a href="https://doi.org/10.1038/nmeth.3176">https://doi.org/10.1038/nmeth.3176</a>.
 </div>
-<div id="ref-delmont2018nitrogen">
-<p>Delmont, Tom O, Christopher Quince, Alon Shaiber, Özcan C Esen, Sonny TM Lee, Michael S Rappé, Sandra L McLellan, Sebastian Lücker, and A Murat Eren. 2018. “Nitrogen-Fixing Populations of Planctomycetes and Proteobacteria Are Abundant in Surface Ocean Metagenomes.” <em>Nature Microbiology</em> 3 (7): 804–13. <a href="https://doi.org/10.1038/s41564-018-0176-9">https://doi.org/10.1038/s41564-018-0176-9</a>.</p>
+<div id="ref-delmont2018nitrogen" class="csl-entry" role="doc-biblioentry">
+Delmont, Tom O, Christopher Quince, Alon Shaiber, Özcan C Esen, Sonny TM Lee, Michael S Rappé, Sandra L McLellan, Sebastian Lücker, and A Murat Eren. 2018. <span>“Nitrogen-Fixing Populations of Planctomycetes and Proteobacteria Are Abundant in Surface Ocean Metagenomes.”</span> <em>Nature Microbiology</em> 3 (7): 804–13. <a href="https://doi.org/10.1038/s41564-018-0176-9">https://doi.org/10.1038/s41564-018-0176-9</a>.
 </div>
-<div id="ref-eren2015anvi">
-<p>Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morrison, Mitchell L Sogin, and Tom O Delmont. 2015. “Anvi’o: An Advanced Analysis and Visualization Platform for ‘Omics Data.” <em>PeerJ</em> 3: e1319. <a href="https://doi.org/10.7717/peerj.1319">https://doi.org/10.7717/peerj.1319</a>.</p>
+<div id="ref-eren2015anvi" class="csl-entry" role="doc-biblioentry">
+Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morrison, Mitchell L Sogin, and Tom O Delmont. 2015. <span>“Anvi’o: An Advanced Analysis and Visualization Platform for ‘Omics Data.”</span> <em>PeerJ</em> 3: e1319. <a href="https://doi.org/10.7717/peerj.1319">https://doi.org/10.7717/peerj.1319</a>.
 </div>
-<div id="ref-eren2013filtering">
-<p>Eren, A Murat, Joseph H Vineis, Hilary G Morrison, and Mitchell L Sogin. 2013. “A Filtering Method to Generate High Quality Short Reads Using Illumina Paired-End Technology.” <em>PLoS One</em> 8 (6). <a href="https://doi.org/10.1371/journal.pone.0066643">https://doi.org/10.1371/journal.pone.0066643</a>.</p>
+<div id="ref-eren2013filtering" class="csl-entry" role="doc-biblioentry">
+Eren, A Murat, Joseph H Vineis, Hilary G Morrison, and Mitchell L Sogin. 2013. <span>“A Filtering Method to Generate High Quality Short Reads Using Illumina Paired-End Technology.”</span> <em>PLoS One</em> 8 (6). <a href="https://doi.org/10.1371/journal.pone.0066643">https://doi.org/10.1371/journal.pone.0066643</a>.
 </div>
-<div id="ref-hyatt2010prodigal">
-<p>Hyatt, Doug, Gwo-Liang Chen, Philip F LoCascio, Miriam L Land, Frank W Larimer, and Loren J Hauser. 2010. “Prodigal: Prokaryotic Gene Recognition and Translation Initiation Site Identification.” <em>BMC Bioinformatics</em> 11 (1): 119. <a href="https://doi.org/10.1186/1471-2105-11-119">https://doi.org/10.1186/1471-2105-11-119</a>.</p>
+<div id="ref-hyatt2010prodigal" class="csl-entry" role="doc-biblioentry">
+Hyatt, Doug, Gwo-Liang Chen, Philip F LoCascio, Miriam L Land, Frank W Larimer, and Loren J Hauser. 2010. <span>“Prodigal: Prokaryotic Gene Recognition and Translation Initiation Site Identification.”</span> <em>BMC Bioinformatics</em> 11 (1): 119. <a href="https://doi.org/10.1186/1471-2105-11-119">https://doi.org/10.1186/1471-2105-11-119</a>.
 </div>
-<div id="ref-kanehisa2000kegg">
-<p>Kanehisa, Minoru, and Susumu Goto. 2000. “KEGG: Kyoto Encyclopedia of Genes and Genomes.” <em>Nucleic Acids Research</em> 28 (1): 27–30. <a href="https://doi.org/10.1093/nar/28.1.27">https://doi.org/10.1093/nar/28.1.27</a>.</p>
+<div id="ref-kanehisa2000kegg" class="csl-entry" role="doc-biblioentry">
+Kanehisa, Minoru, and Susumu Goto. 2000. <span>“KEGG: Kyoto Encyclopedia of Genes and Genomes.”</span> <em>Nucleic Acids Research</em> 28 (1): 27–30. <a href="https://doi.org/10.1093/nar/28.1.27">https://doi.org/10.1093/nar/28.1.27</a>.
 </div>
-<div id="ref-kanehisa2016blastkoala">
-<p>Kanehisa, Minoru, Yoko Sato, and Kanae Morishima. 2016. “BlastKOALA and Ghostkoala: KEGG Tools for Functional Characterization of Genome and Metagenome Sequences.” <em>Journal of Molecular Biology</em> 428 (4): 726–31. <a href="https://doi.org/10.1016/j.jmb.2015.11.006">https://doi.org/10.1016/j.jmb.2015.11.006</a>.</p>
+<div id="ref-kanehisa2016blastkoala" class="csl-entry" role="doc-biblioentry">
+Kanehisa, Minoru, Yoko Sato, and Kanae Morishima. 2016. <span>“BlastKOALA and GhostKOALA: KEGG Tools for Functional Characterization of Genome and Metagenome Sequences.”</span> <em>Journal of Molecular Biology</em> 428 (4): 726–31. <a href="https://doi.org/10.1016/j.jmb.2015.11.006">https://doi.org/10.1016/j.jmb.2015.11.006</a>.
 </div>
-<div id="ref-kim2016centrifuge">
-<p>Kim, Daehwan, Li Song, Florian P Breitwieser, and Steven L Salzberg. 2016. “Centrifuge: Rapid and Sensitive Classification of Metagenomic Sequences.” <em>Genome Research</em> 26 (12): 1721–9. <a href="https://doi.org/10.1101/gr.210641.116.">https://doi.org/10.1101/gr.210641.116.</a></p>
+<div id="ref-kim2016centrifuge" class="csl-entry" role="doc-biblioentry">
+Kim, Daehwan, Li Song, Florian P Breitwieser, and Steven L Salzberg. 2016. <span>“Centrifuge: Rapid and Sensitive Classification of Metagenomic Sequences.”</span> <em>Genome Research</em> 26 (12): 1721–29. <a href="https://doi.org/10.1101/gr.210641.116.">https://doi.org/10.1101/gr.210641.116.</a>
 </div>
-<div id="ref-koster2012snakemake">
-<p>Köster, Johannes, and Sven Rahmann. 2012. “Snakemake—a Scalable Bioinformatics Workflow Engine.” <em>Bioinformatics</em> 28 (19): 2520–2. <a href="https://doi.org/10.1093/bioinformatics/bts480">https://doi.org/10.1093/bioinformatics/bts480</a>.</p>
+<div id="ref-koster2012snakemake" class="csl-entry" role="doc-biblioentry">
+Köster, Johannes, and Sven Rahmann. 2012. <span>“Snakemake—a Scalable Bioinformatics Workflow Engine.”</span> <em>Bioinformatics</em> 28 (19): 2520–22. <a href="https://doi.org/10.1093/bioinformatics/bts480">https://doi.org/10.1093/bioinformatics/bts480</a>.
 </div>
-<div id="ref-langmead2012fast">
-<p>Langmead, Ben, and Steven L Salzberg. 2012. “Fast Gapped-Read Alignment with Bowtie 2.” <em>Nature Methods</em> 9 (4): 357. <a href="https://doi.org/10.1038/nmeth.1923">https://doi.org/10.1038/nmeth.1923</a>.</p>
+<div id="ref-langmead2012fast" class="csl-entry" role="doc-biblioentry">
+Langmead, Ben, and Steven L Salzberg. 2012. <span>“Fast Gapped-Read Alignment with Bowtie 2.”</span> <em>Nature Methods</em> 9 (4): 357. <a href="https://doi.org/10.1038/nmeth.1923">https://doi.org/10.1038/nmeth.1923</a>.
 </div>
-<div id="ref-li2015megahit">
-<p>Li, Dinghua, Chi-Man Liu, Ruibang Luo, Kunihiko Sadakane, and Tak-Wah Lam. 2015. “MEGAHIT: An Ultra-Fast Single-Node Solution for Large and Complex Metagenomics Assembly via Succinct de Bruijn Graph.” <em>Bioinformatics</em> 31 (10): 1674–6. <a href="https://doi.org/10.1093/bioinformatics/btv033">https://doi.org/10.1093/bioinformatics/btv033</a>.</p>
+<div id="ref-li2015megahit" class="csl-entry" role="doc-biblioentry">
+Li, Dinghua, Chi-Man Liu, Ruibang Luo, Kunihiko Sadakane, and Tak-Wah Lam. 2015. <span>“MEGAHIT: An Ultra-Fast Single-Node Solution for Large and Complex Metagenomics Assembly via Succinct de Bruijn Graph.”</span> <em>Bioinformatics</em> 31 (10): 1674–76. <a href="https://doi.org/10.1093/bioinformatics/btv033">https://doi.org/10.1093/bioinformatics/btv033</a>.
 </div>
-<div id="ref-li2009sequence">
-<p>Li, Heng, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor Marth, Goncalo Abecasis, and Richard Durbin. 2009. “The Sequence Alignment/Map Format and Samtools.” <em>Bioinformatics</em> 25 (16): 2078–9. <a href="https://doi.org/10.1093/bioinformatics/btp352">https://doi.org/10.1093/bioinformatics/btp352</a>.</p>
+<div id="ref-li2009sequence" class="csl-entry" role="doc-biblioentry">
+Li, Heng, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor Marth, Goncalo Abecasis, and Richard Durbin. 2009. <span>“The Sequence Alignment/Map Format and SAMtools.”</span> <em>Bioinformatics</em> 25 (16): 2078–79. <a href="https://doi.org/10.1093/bioinformatics/btp352">https://doi.org/10.1093/bioinformatics/btp352</a>.
 </div>
-<div id="ref-menzel2016fast">
-<p>Menzel, Peter, Kim Lee Ng, and Anders Krogh. 2016. “Fast and Sensitive Taxonomic Classification for Metagenomics with Kaiju.” <em>Nature Communications</em> 7: 11257. <a href="https://doi.org/10.1038/ncomms11257">https://doi.org/10.1038/ncomms11257</a>.</p>
+<div id="ref-menzel2016fast" class="csl-entry" role="doc-biblioentry">
+Menzel, Peter, Kim Lee Ng, and Anders Krogh. 2016. <span>“Fast and Sensitive Taxonomic Classification for Metagenomics with Kaiju.”</span> <em>Nature Communications</em> 7: 11257. <a href="https://doi.org/10.1038/ncomms11257">https://doi.org/10.1038/ncomms11257</a>.
 </div>
-<div id="ref-minoche2011evaluation">
-<p>Minoche, André E, Juliane C Dohm, and Heinz Himmelbauer. 2011. “Evaluation of Genomic High-Throughput Sequencing Data Generated on Illumina Hiseq and Genome Analyzer Systems.” <em>Genome Biology</em> 12 (11): R112. <a href="https://doi.org/10.1186/gb-2011-12-11-r112">https://doi.org/10.1186/gb-2011-12-11-r112</a>.</p>
+<div id="ref-minoche2011evaluation" class="csl-entry" role="doc-biblioentry">
+Minoche, André E, Juliane C Dohm, and Heinz Himmelbauer. 2011. <span>“Evaluation of Genomic High-Throughput Sequencing Data Generated on Illumina HiSeq and Genome Analyzer Systems.”</span> <em>Genome Biology</em> 12 (11): R112. <a href="https://doi.org/10.1186/gb-2011-12-11-r112">https://doi.org/10.1186/gb-2011-12-11-r112</a>.
 </div>
-<div id="ref-ondov2011krona">
-<p>Ondov, Brian D, Nicholas H Bergman, and Adam M Phillippy. 2011. “Interactive Metagenomic Visualization in a Web Browser.” <em>BMC Bioinformatics</em> 12 (1): 385. <a href="https://doi.org/10.1186/1471-2105-12-385">https://doi.org/10.1186/1471-2105-12-385</a>.</p>
+<div id="ref-ondov2011krona" class="csl-entry" role="doc-biblioentry">
+Ondov, Brian D, Nicholas H Bergman, and Adam M Phillippy. 2011. <span>“Interactive Metagenomic Visualization in a Web Browser.”</span> <em>BMC Bioinformatics</em> 12 (1): 385. <a href="https://doi.org/10.1186/1471-2105-12-385">https://doi.org/10.1186/1471-2105-12-385</a>.
 </div>
-<div id="ref-roux2015virsorter">
-<p>Roux, Simon, Francois Enault, Bonnie L Hurwitz, and Matthew B Sullivan. 2015. “VirSorter: Mining Viral Signal from Microbial Genomic Data.” <em>PeerJ</em> 3: e985. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.</p>
+<div id="ref-roux2015virsorter" class="csl-entry" role="doc-biblioentry">
+Roux, Simon, Francois Enault, Bonnie L Hurwitz, and Matthew B Sullivan. 2015. <span>“VirSorter: Mining Viral Signal from Microbial Genomic Data.”</span> <em>PeerJ</em> 3: e985. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->
@@ -4164,6 +4221,7 @@ Next
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 

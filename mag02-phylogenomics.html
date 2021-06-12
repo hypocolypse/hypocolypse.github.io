@@ -20,19 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +52,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; } /* Alert */
 code span.an { color: #008000; } /* Annotation */
@@ -81,51 +81,51 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>: No 6. MAG02 Phylogenomic Analysis</title>
-  
+  <title>: No 6a. MAG02 Phylogenomic Analysis</title>
+
   <meta property="description" itemprop="description" content="In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample."/>
-  
+
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
-  
-  
+
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content=": No 6. MAG02 Phylogenomic Analysis"/>
+  <meta property="og:title" content=": No 6a. MAG02 Phylogenomic Analysis"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content=": No 6. MAG02 Phylogenomic Analysis"/>
+  <meta property="twitter:title" content=": No 6a. MAG02 Phylogenomic Analysis"/>
   <meta property="twitter:description" content="In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample."/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   
   <meta name="citation_reference" content="citation_title=Snakemake—a scalable bioinformatics workflow engine;citation_publication_date=2012;citation_volume=28;citation_author=Johannes Köster;citation_author=Sven Rahmann"/>
   <meta name="citation_reference" content="citation_title=MUSCLE: Multiple sequence alignment with high accuracy and high throughput;citation_publication_date=2004;citation_volume=32;citation_author=Robert C Edgar"/>
-  <meta name="citation_reference" content="citation_title=High throughput ani analysis of 90K prokaryotic genomes reveals clear species boundaries;citation_publication_date=2018;citation_volume=9;citation_author=Chirag Jain;citation_author=Luis M Rodriguez-R;citation_author=Adam M Phillippy;citation_author=Konstantinos T Konstantinidis;citation_author=Srinivas Aluru"/>
-  <meta name="citation_reference" content="citation_title=IQ-tree 2: New models and efficient methods for phylogenetic inference in the genomic era;citation_publication_date=2020;citation_volume=37;citation_author=Bui Quang Minh;citation_author=Heiko A Schmidt;citation_author=Olga Chernomor;citation_author=Dominik Schrempf;citation_author=Michael D Woodhams;citation_author=Arndt Von Haeseler;citation_author=Robert Lanfear"/>
+  <meta name="citation_reference" content="citation_title=High throughput ANI analysis of 90K prokaryotic genomes reveals clear species boundaries;citation_publication_date=2018;citation_volume=9;citation_author=Chirag Jain;citation_author=Luis M Rodriguez-R;citation_author=Adam M Phillippy;citation_author=Konstantinos T Konstantinidis;citation_author=Srinivas Aluru"/>
+  <meta name="citation_reference" content="citation_title=IQ-TREE 2: New models and efficient methods for phylogenetic inference in the genomic era;citation_publication_date=2020;citation_volume=37;citation_author=Bui Quang Minh;citation_author=Heiko A Schmidt;citation_author=Olga Chernomor;citation_author=Dominik Schrempf;citation_author=Michael D Woodhams;citation_author=Arndt Von Haeseler;citation_author=Robert Lanfear"/>
   <meta name="citation_reference" content="citation_title=ModelFinder: Fast model selection for accurate phylogenetic estimates;citation_publication_date=2017;citation_volume=14;citation_author=Subha Kalyaanamoorthy;citation_author=Bui Quang Minh;citation_author=Thomas KF Wong;citation_author=Arndt Haeseler;citation_author=Lars S Jermiin"/>
   <meta name="citation_reference" content="citation_title=GToTree: A user-friendly workflow for phylogenomics;citation_publication_date=2019;citation_volume=35;citation_author=Michael D Lee"/>
   <meta name="citation_reference" content="citation_title=UFBoot2: Improving the ultrafast bootstrap approximation;citation_publication_date=2017;citation_volume=35;citation_author=Diep Thi Hoang;citation_author=Olga Chernomor;citation_author=Arndt Haeseler;citation_author=Bui Quang Minh;citation_author=Le Sy Vinh"/>
   <meta name="citation_reference" content="citation_title=A standardized bacterial taxonomy based on genome phylogeny substantially revises the tree of life;citation_publication_date=2018;citation_volume=36;citation_author=Donovan H Parks;citation_author=Maria Chuvochina;citation_author=David W Waite;citation_author=Christian Rinke;citation_author=Adam Skarshewski;citation_author=Pierre-Alain Chaumeil;citation_author=Philip Hugenholtz"/>
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 6. MAG02 Phylogenomic Analysis"]},{"type":"character","attributes":{},"value":["In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 6a. MAG02 Phylogenomic Analysis"]},{"type":"character","attributes":{},"value":["In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
   <meta name="distill:offset" content=""/>
-  
+
   <script type="application/javascript">
-  
+
     window.headroom_prevent_pin = false;
-  
+
     window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
       // initialize headroom for banner
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
@@ -142,13 +142,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       if(window.location.hash)
         headroom.unpin();
       $(header).addClass('headroom--transition');
-  
+
       // offset scroll location for banner on hash change
       // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
       window.addEventListener("hashchange", function(event) {
         window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
       });
-  
+
       // responsive menu
       $('.distill-site-header').each(function(i, val) {
         var topnav = $(this);
@@ -157,7 +157,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           topnav.toggleClass('responsive');
         });
       });
-  
+
       // nav dropdowns
       $('.nav-dropbtn').click(function(e) {
         $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
@@ -172,99 +172,99 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       });
     });
   </script>
-  
+
   <style type="text/css">
-  
+
   /* Theme (user-documented overrideables for nav appearance) */
-  
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
-  
+
   .distill-site-nav a {
     color: inherit;
     text-decoration: none;
   }
-  
+
   .distill-site-nav a:hover {
     color: white;
   }
-  
+
   @media print {
     .distill-site-nav {
       display: none;
     }
   }
-  
+
   .distill-site-header {
-  
+
   }
-  
+
   .distill-site-footer {
-  
+
   }
-  
-  
+
+
   /* Site Header */
-  
+
   .distill-site-header {
     width: 100%;
     box-sizing: border-box;
     z-index: 3;
   }
-  
+
   .distill-site-header .nav-left {
     display: inline-block;
     margin-left: 8px;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header .nav-left {
       margin-left: 0;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-right {
     float: right;
     margin-right: 8px;
   }
-  
+
   .distill-site-header a,
   .distill-site-header .title {
     display: inline-block;
     text-align: center;
     padding: 14px 10px 14px 10px;
   }
-  
+
   .distill-site-header .title {
     font-size: 18px;
     min-width: 150px;
   }
-  
+
   .distill-site-header .logo {
     padding: 0;
   }
-  
+
   .distill-site-header .logo img {
     display: none;
     max-height: 20px;
     width: auto;
     margin-bottom: -4px;
   }
-  
+
   .distill-site-header .nav-image img {
     max-height: 18px;
     width: auto;
     display: inline-block;
     margin-bottom: -3px;
   }
-  
-  
-  
+
+
+
   @media screen and (min-width: 1000px) {
     .distill-site-header .logo img {
       display: inline-block;
@@ -279,17 +279,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 12px;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-toggle {
     display: none;
   }
-  
+
   .nav-dropdown {
     display: inline-block;
     position: relative;
   }
-  
+
   .nav-dropdown .nav-dropbtn {
     border: none;
     outline: none;
@@ -303,7 +303,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 1px;
     z-index: 2;
   }
-  
+
   .nav-dropdown-content {
     display: none;
     position: absolute;
@@ -318,18 +318,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 4px;
     padding-bottom: 4px;
   }
-  
+
   .nav-dropdown-content hr {
     margin-top: 4px;
     margin-bottom: 4px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-dropdown-active {
     display: block;
   }
-  
+
   .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
     color: black;
     padding: 6px 24px;
@@ -337,7 +337,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     display: block;
     text-align: left;
   }
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     display: block;
     padding: 5px 24px;
@@ -347,21 +347,21 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #999999;
     white-space: nowrap;
   }
-  
+
   .nav-dropdown:hover .nav-dropbtn {
     color: white;
   }
-  
+
   .nav-dropdown-content a:hover {
     background-color: #ddd;
     color: black;
   }
-  
+
   .nav-right .nav-dropdown-content {
     margin-left: -45%;
     right: 0;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
     .distill-site-header a.nav-toggle {
@@ -381,8 +381,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       margin-left: 0;
     }
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
@@ -407,9 +407,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       text-align: left;
     }
   }
-  
+
   /* Site Footer */
-  
+
   .distill-site-footer {
     width: 100%;
     overflow: hidden;
@@ -420,19 +420,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-bottom: 30px;
     text-align: center;
   }
-  
+
   /* Headroom */
-  
+
   d-title {
     padding-top: 6rem;
   }
-  
+
   @media print {
     d-title {
       padding-top: 4rem;
     }
   }
-  
+
   .headroom {
     z-index: 1000;
     position: fixed;
@@ -440,36 +440,36 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     left: 0;
     right: 0;
   }
-  
+
   .headroom--transition {
     transition: all .4s ease-in-out;
   }
-  
+
   .headroom--unpinned {
     top: -100px;
   }
-  
+
   .headroom--pinned {
     top: 0;
   }
-  
+
   /* adjust viewport for navbar height */
   /* helps vertically center bootstrap (non-distill) content */
   .min-vh-100 {
     min-height: calc(100vh - 100px) !important;
   }
-  
+
   </style>
-  
+
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-  
+
   <script type="application/javascript">
-  
+
   function getMeta(metaName) {
     var metas = document.getElementsByTagName('meta');
     for (let i = 0; i < metas.length; i++) {
@@ -479,14 +479,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     }
     return '';
   }
-  
+
   function offsetURL(url) {
     var offset = getMeta('distill:offset');
     return offset ? offset + '/' + url : url;
   }
-  
+
   function createFuseIndex() {
-  
+
     // create fuse index
     var options = {
       keys: [
@@ -499,7 +499,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       threshold: 0
     };
     var fuse = new window.Fuse([], options);
-  
+
     // fetch the main search.json
     return fetch(offsetURL('search.json'))
       .then(function(response) {
@@ -529,7 +529,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               return fuse;
             });
           });
-  
+
         } else {
           return Promise.reject(
             new Error('Unexpected status from search index request: ' +
@@ -538,20 +538,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }
       });
   }
-  
+
   window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
     // get search element (bail if we don't have one)
     var searchEl = window.document.getElementById('distill-search');
     if (!searchEl)
       return;
-  
+
     createFuseIndex()
       .then(function(fuse) {
-  
+
         // make search box visible
         searchEl.classList.remove('hidden');
-  
+
         // initialize autocomplete
         var options = {
           autoselect: true,
@@ -600,19 +600,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       .catch(function(error) {
         console.log(error);
       });
-  
+
   });
-  
+
   </script>
-  
+
   <style type="text/css">
-  
+
   .nav-search {
     font-size: x-small;
   }
-  
+
   /* Algolioa Autocomplete */
-  
+
   .algolia-autocomplete {
     display: inline-block;
     margin-left: 10px;
@@ -626,8 +626,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px #0F2E3D solid;
     width: 180px;
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
       display: none;
@@ -643,13 +643,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       max-height: 400px;
     }
   }
-  
+
   .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
     width: 90%;
     outline: none;
     border: none;
   }
-  
+
   .algolia-autocomplete .aa-hint {
     color: #999;
   }
@@ -666,30 +666,30 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px solid #999;
     border-top: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
     cursor: pointer;
     padding: 5px 4px;
     border-bottom: 1px solid #eee;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
     border-bottom: none;
     margin-bottom: 2px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
     overflow: hidden;
     font-size: 0.8em;
     line-height: 1.4em;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
     font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
     display: inline-block;
     overflow: hidden;
@@ -697,22 +697,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 80%;
     margin-right: 4%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
     display: inline-block;
     width: 15%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
     height: 3em;
     width: auto;
     display: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
     display: initial;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
     background-color: #eee;
   }
@@ -720,47 +720,47 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: bold;
     font-style: normal;
   }
-  
+
   </style>
-  
-  
+
+
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   d-byline .byline {
     grid-template-columns: 2fr 2fr;
   }
-  
+
   d-byline .byline h3 {
     margin-block-start: 1.5em;
   }
-  
+
   d-byline .byline .authors-affiliations h3 {
     margin-block-start: 0.5em;
   }
-  
+
   .authors-affiliations .orcid-id {
     width: 16px;
     height:16px;
@@ -769,12 +769,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     vertical-align: middle;
     padding-bottom: 2px;
   }
-  
+
   d-title .dt-tags {
     margin-top: 1em;
     grid-column: text;
   }
-  
+
   .dt-tags .dt-tag {
     text-decoration: none;
     display: inline-block;
@@ -788,24 +788,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -813,75 +813,75 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article h2 {
     margin: 1rem 0 1.5rem 0;
   }
-  
+
   d-article h3 {
     margin-top: 1.5rem;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   /* Tweak code blocks */
-  
+
   d-article div.sourceCode code,
   d-article pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: auto;
   }
-  
+
   d-article div.sourceCode {
     background-color: white;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   d-article pre {
     font-size: 12px;
     color: black;
@@ -893,50 +893,50 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   d-article pre a {
     border-bottom: none;
   }
-  
+
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
   }
-  
+
   d-article details {
     grid-column: text;
     margin-bottom: 0.8em;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: visible !important;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
   }
-  
+
   d-article pre {
     font-size: 14px;
   }
-  
+
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -944,9 +944,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for d-contents */
-  
+
   .d-contents {
     grid-column: text;
     color: rgba(0,0,0,0.8);
@@ -958,7 +958,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 0.25em;
     justify-self: start;
   }
-  
+
   @media(min-width: 1000px) {
     .d-contents.d-contents-float {
       height: 0;
@@ -969,82 +969,82 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 2em;
     }
   }
-  
+
   .d-contents nav h3 {
     font-size: 18px;
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   .d-contents li {
     list-style-type: none
   }
-  
+
   .d-contents nav > ul {
     padding-left: 0;
   }
-  
+
   .d-contents ul {
     padding-left: 1em
   }
-  
+
   .d-contents nav ul li {
     margin-top: 0.6em;
     margin-bottom: 0.2em;
   }
-  
+
   .d-contents nav a {
     font-size: 13px;
     border-bottom: none;
     text-decoration: none
     color: rgba(0, 0, 0, 0.8);
   }
-  
+
   .d-contents nav a:hover {
     text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
+
   .d-contents nav > ul > li > a {
     font-weight: 600;
   }
-  
+
   .d-contents nav > ul > li > ul {
     font-weight: inherit;
   }
-  
+
   .d-contents nav > ul > li > ul > li {
     margin-top: 0.2em;
   }
-  
-  
+
+
   .d-contents nav ul {
     margin-top: 0;
     margin-bottom: 0.25em;
   }
-  
+
   .d-article-with-toc h2:nth-child(2) {
     margin-top: 0;
   }
-  
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1052,42 +1052,42 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
+
   /* Citations */
-  
+
   d-article .citation {
     color: inherit;
     cursor: inherit;
   }
-  
+
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
   }
-  
+
   /* Citation hover box */
-  
+
   .tippy-box[data-theme~=light-border] {
     background-color: rgba(250, 250, 250, 0.95);
   }
-  
+
   .tippy-content > p {
     margin-bottom: 0;
     padding: 2px;
   }
-  
-  
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -1103,11 +1103,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -1116,7 +1116,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -1132,16 +1132,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -1158,9 +1158,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
+
   /* Include appendix styles here so they can be overridden */
-  
+
   d-appendix {
     contain: layout style;
     font-size: 0.8em;
@@ -1172,7 +1172,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 60px;
     padding-bottom: 48px;
   }
-  
+
   d-appendix h3 {
     grid-column: page-start / text-start;
     font-size: 15px;
@@ -1181,59 +1181,59 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 0;
     color: rgba(0,0,0,0.65);
   }
-  
+
   d-appendix h3 + * {
     margin-top: 1em;
   }
-  
+
   d-appendix ol {
     padding: 0 0 0 15px;
   }
-  
+
   @media (min-width: 768px) {
     d-appendix ol {
       padding: 0 0 0 30px;
       margin-left: -30px;
     }
   }
-  
+
   d-appendix li {
     margin-bottom: 1em;
   }
-  
+
   d-appendix a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   d-appendix > * {
     grid-column: text;
   }
-  
+
   d-appendix > d-footnote-list,
   d-appendix > d-citation-list,
   d-appendix > distill-appendix {
     grid-column: screen;
   }
-  
+
   /* Include footnote styles here so they can be overridden */
-  
+
   d-footnote-list {
     contain: layout style;
   }
-  
+
   d-footnote-list > * {
     grid-column: text;
   }
-  
+
   d-footnote-list a.footnote-backlink {
     color: rgba(0,0,0,0.3);
     padding-left: 0.5em;
   }
-  
-  
-  
+
+
+
   /* Anchor.js */
-  
+
   .anchorjs-link {
     /*transition: all .25s linear; */
     text-decoration: none;
@@ -1244,86 +1244,86 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-decoration: none;
     border-bottom: none;
   }
-  
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
+
   /* Styles for listing layout (hide title) */
   .layout-listing d-title, .layout-listing .d-title {
     display: none;
   }
-  
+
   /* Styles for posts lists (not auto-injected) */
-  
-  
+
+
   .posts-with-sidebar {
     padding-left: 45px;
     padding-right: 45px;
   }
-  
+
   .posts-list .description h2,
   .posts-list .description p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   }
-  
+
   .posts-list .description h2 {
     font-weight: 700;
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .posts-list h2.post-tag {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 12px;
@@ -1332,7 +1332,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 60px;
     margin-bottom: 24px;
   }
-  
+
   .posts-list .post-preview {
     text-decoration: none;
     overflow: hidden;
@@ -1340,29 +1340,29 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px 0;
   }
-  
+
   .post-preview-last {
     border-bottom: none !important;
   }
-  
+
   .posts-list .posts-list-caption {
     grid-column: screen;
     font-weight: 400;
   }
-  
+
   .posts-list .post-preview h2 {
     margin: 0 0 6px 0;
     line-height: 1.2em;
     font-style: normal;
     font-size: 24px;
   }
-  
+
   .posts-list .post-preview p {
     margin: 0 0 12px 0;
     line-height: 1.4em;
     font-size: 16px;
   }
-  
+
   .posts-list .post-preview .thumbnail {
     box-sizing: border-box;
     margin-bottom: 24px;
@@ -1373,32 +1373,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 100%;
     display: block;
   }
-  
+
   .posts-list .metadata {
     font-size: 12px;
     line-height: 1.4em;
     margin-bottom: 18px;
   }
-  
+
   .posts-list .metadata > * {
     display: inline-block;
   }
-  
+
   .posts-list .metadata .publishedDate {
     margin-right: 2em;
   }
-  
+
   .posts-list .metadata .dt-authors {
     display: block;
     margin-top: 0.3em;
     margin-right: 2em;
   }
-  
+
   .posts-list .dt-tags {
     display: block;
     line-height: 1em;
   }
-  
+
   .posts-list .dt-tags .dt-tag {
     display: inline-block;
     color: rgba(0,0,0,0.6);
@@ -1411,24 +1411,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   .posts-list img {
     opacity: 1;
   }
-  
+
   .posts-list img[data-src] {
     opacity: 0;
   }
-  
+
   .posts-more {
     clear: both;
   }
-  
-  
+
+
   .posts-sidebar {
     font-size: 16px;
   }
-  
+
   .posts-sidebar h3 {
     font-size: 16px;
     margin-top: 0;
@@ -1436,39 +1436,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: 400;
     text-transform: uppercase;
   }
-  
+
   .sidebar-section {
     margin-bottom: 30px;
   }
-  
+
   .categories ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .categories li {
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
   }
-  
+
   .categories li>a {
     border-bottom: none;
   }
-  
+
   .categories li>a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
-  
+
   .categories .active {
     font-weight: 600;
   }
-  
+
   .categories .category-count {
     color: rgba(0, 0, 0, 0.4);
   }
-  
-  
+
+
   @media(min-width: 768px) {
     .posts-list .post-preview h2 {
       font-size: 26px;
@@ -1504,55 +1504,55 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-bottom: 24px;
     }
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -1564,11 +1564,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -1585,7 +1585,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -1605,14 +1605,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -1623,27 +1623,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   .downlevel .posts-list .post-preview {
     color: inherit;
   }
-  
-  
-  
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -1652,20 +1652,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // add anchors
     if (window.anchors) {
       window.anchors.options.placement = 'left';
       window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
     }
-  
-  
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -1678,39 +1678,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -1726,10 +1726,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     // move refs into #references-listing
     $('#references-listing').replaceWith($('#refs'));
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -1739,16 +1739,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
@@ -1761,40 +1761,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // remove code block used to force  highlighting css
     $('.distill-force-highlighting-css').parent().remove();
-  
+
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
     $('code.sourceCode a:empty').remove();
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // article with toc class
       $('.d-contents').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
@@ -1809,12 +1809,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).append(a);
         }
       });
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1826,11 +1826,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1850,22 +1850,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // remove d-appendix and d-footnote-list local styles
       $('d-appendix > style:first-child').remove();
       $('d-footnote-list > style:first-child').remove();
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // hoverable references
       $('span.citation[data-cites]').each(function() {
         var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
@@ -1879,39 +1879,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           placement: 'bottom-start'
         });
       });
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-contents').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1919,62 +1919,62 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1986,35 +1986,35 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -2028,21 +2028,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.18/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -2075,32 +2076,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   /********************************/
   /* controls general properties of site*/
   /********************************/
-  
+
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
     background-color: #FEFEFE;
   }
-  
+
   d-title h1{
   font-size: 2.1em;
   font-family: 'Work Sans';
   font-weight: 300;
   }
-  
+
   d-article h1 {
     font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
-  
+
   d-article h2 {
     font-size: 1.65em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 500;
   }
-  
+
   d-article h3 {
     margin-top: 1em;
   }
@@ -2108,40 +2109,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     grid-column-end: span 3;
     grid-column-gap: 8px;
   }
-  
+
   img.orcid-id {
     margin: 0;
   }
-  
+
   a.name:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   a.affiliation:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   blockquote p {
   	font-size: 1.3em;
   	font-family: 'Lato';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
-  
+
   d-article li {
     margin: 0px 0px 4px;
   }
-  
+
   /********************************/
   /* controls CODE*/
   /********************************/
-  
+
   /** pre.sourceCode controls code block without lang **/
-  
+
   /** Controls r code  **/
-  
+
   pre.sourceCode.r {
     margin-top: 0px;
      color: #333333;
@@ -2156,7 +2157,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
      border-bottom: 1px solid #B7B7B7;
      padding: 18px 0px 18px 20px;
    }
-  
+
    pre.sourceCode.bash {
      margin-top: 0px;
       color: #333333;
@@ -2172,7 +2173,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding: 18px 0px 18px 20px;
     }
   /** Controls code output **/
-  
+
   d-article pre {
      margin-top: 0px;
       color: #333333;
@@ -2182,11 +2183,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       overflow-x: scroll !important;
       padding:  10px 10px 10px 18px;
       border-radius: 5px;
-  
+
     }
-  
+
   /** Controls inline code  **/
-  
+
   p code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -2196,23 +2197,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 20px;
     color: #BF2727;
   }
-  
+
   d-article aside code {
     background-color: #E8E8E8;
     border-radius: 3px;
     font-family: 'Monaco', 'PT Mono', monospace;
     color: #BF2727;
   }
-  
+
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     text-transform: uppercase;
     color: #686868;
   }
-  
+
   .nav-dropdown-content a {
     font-family: 'Work Sans'
   }
@@ -2220,13 +2221,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #FEFEFE;
     font-weight: 400;
   }
-  
+
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
     margin-bottom: auto;
   }
-  
+
   .distill-site-nav {
       color: #FEFEFE;
       background-color: #143D59;
@@ -2236,39 +2237,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       position: absolute;
       font-family: 'Karla';
       letter-spacing: .1em;
-  
+
   }
-  
+
   .article-banner {
     width: auto;
     height: auto;
     border: 0;
   }
-  
+
   img[src="assets/banner.png"] {
     border: 0;
     padding: 0;
     width: 100%;
     margin: 100px 10px 0px 25px;
   }
-  
+
   /*************************************************
   *  code for side by side krona plot
   **************************************************/
-  
+
   .column {
     float: left;
     width: 48%;
     padding: 5px;
   }
-  
+
   /* Clear floats after image containers */
   .row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   div.krona {
     width: 100%;
   	height: 90%;
@@ -2277,7 +2278,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 25px;
   	margin-top: 5px;
   }
-  
+
   div.container-krona {
     text-align: center;
     padding: 1px 10px;
@@ -2286,33 +2287,33 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	line-height: 0.8em;
   	font-family: 'Inconsolata';
   }
-  
+
   div.container-krona p {
     margin: 20px;
   }
-  
+
   div.krona img {
     border:1px solid white;
     margin: 25px;
   }
-  
+
   img {
     margin: 25px;
   }
-  
+
   /*************************************************
   *  code for LIGHTBOX MARKUP
   **************************************************/
-  
+
   .thumbnail {
     max-width: 100%;
     position: relative;
   }
-  
+
   .lightbox {
   	/** Default lightbox to hidden */
   	display: none;
-  
+
   	/** Position and style */
   	position: fixed;
   	z-index: 999;
@@ -2323,7 +2324,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	left: 0;
   	background: rgba(0,0,0,0.8);
   }
-  
+
   .lightbox img {
   	/** Pad the lightbox image */
   	position: fixed;
@@ -2336,24 +2337,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	margin: auto;
   	box-sizing: border-box;
   }
-  
+
   .lightbox:target {
   	/** Remove default browser outline */
   	outline: none;
-  
+
   	/** Unhide lightbox **/
   	display: block;
   }
-  
+
   .lightbox:target img {
   	max-height: 100%;
   	max-width: 100%;
   }
-  
+
   /*************************************************
   *  code for DETAILS fold down
   **************************************************/
-  
+
   details {
     background-color: #ccd7df;
     cursor: pointer;
@@ -2365,52 +2366,52 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     outline: none;
     font-family: 'Karla'
   }
-  
+
   .active, details:hover {
     transition: max-height 0.2s ease-out;
     outline: none;
-  
+
     /* background-color: #acc2c2; */
   }
-  
+
   details {
     display: flex;
     justify-content: space-between;
     align-content: center;
     border-radius: 4px;
     outline: none;
-  
+
   }
-  
+
   details.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none;
-  
+
   }
-  
+
   summary::-webkit-details-marker {
     display: none;
     outline: none;
-  
+
   }
-  
+
   summary:focus {
     outline: none;
   }
-  
+
   summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f0fe";
   }
-  
+
   details[open] summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f146";
   }
-  
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2423,7 +2424,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"No 6. MAG02 Phylogenomic Analysis","description":"In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.","authors":[]}
+{"title":"No 6a. MAG02 Phylogenomic Analysis","description":"In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2475,7 +2476,8 @@ METAGENOMIC
 <hr/>
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6a. MAG02 Phylogenomics</a>
+<a href="mag04-phylogenomics.html">6b. MAG04 Phylogenomics</a>
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
@@ -2492,7 +2494,7 @@ METAGENOMIC
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>No 6. MAG02 Phylogenomic Analysis</h1>
+<h1>No 6a. MAG02 Phylogenomic Analysis</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 <p><p>In this section, we create a workflow to compare MAG02 with publicly available genomes. MAG02 was only found in the hypoxic sample.</p></p>
@@ -2504,35 +2506,52 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#getting-genomes-from-ncbi">Getting Genomes from NCBI</a><ul>
+<li><a href="#getting-genomes-from-ncbi">Getting Genomes from NCBI</a>
+<ul>
 <li><a href="#getting-taxids-to-download">Getting TaxIDs to Download</a></li>
 <li><a href="#downloading-genomes-from-ncbi">Downloading Genomes from NCBI</a></li>
 <li><a href="#processing-ncbi-genomes">Processing NCBI Genomes</a></li>
 </ul></li>
 <li><a href="#running-snakemake-contigs-workflow">Running Snakemake Contigs Workflow</a></li>
-<li><a href="#curate-genome-collection">Curate Genome Collection</a><ul>
+<li><a href="#curate-genome-collection">Curate Genome Collection</a>
+<ul>
 <li><a href="#estimate-taxonomy">Estimate Taxonomy</a></li>
 <li><a href="#completeness">Completeness</a></li>
 <li><a href="#screen-for-16s-rrna">Screen for 16S rRNA</a></li>
 </ul></li>
 <li><a href="#dereplicate-genome-collection">Dereplicate Genome Collection</a></li>
 <li><a href="#outgroup-workflow">Outgroup Workflow</a></li>
-<li><a href="#phylogenomic-analysis-of-mag02">Phylogenomic Analysis of MAG02</a><ul>
+<li><a href="#phylogenomic-analysis-of-mag02">Phylogenomic Analysis of MAG02</a>
+<ul>
 <li><a href="#pangenome-analysis">Pangenome Analysis</a></li>
 <li><a href="#generating-visualizing-tree">Generating &amp; Visualizing Tree</a></li>
 </ul></li>
-<li><a href="#phylogenetic-analysis-of-mag02">Phylogenetic Analysis of MAG02</a><ul>
+<li><a href="#phylogenetic-analysis-of-mag02">Phylogenetic Analysis of MAG02</a>
+<ul>
 <li><a href="#genome-metadata">Genome Metadata</a></li>
 </ul></li>
-<li><a href="#conclusion">Conclusion</a><ul>
+<li><a href="#conclusion">Conclusion</a>
+<ul>
 <li><a href="#source-code">Source Code</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
+<details>
+<summary>
+Show setup information.
+</summary>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">collapse =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(kableExtra, DT, htmlwidgets, htmltools, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               DiagrammeR, DiagrammeRsvg, rsvg, readr, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               tidyverse, plyr, data.table,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+</details>
 <p>What we want to do next is compare MAG02<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> to publicly available genomes. We know from our binning and binning summary that MAG02 has a lot of hits to <em>Arcobacter</em>, an Epsilonproteobacteria. However, when we run <code>anvi-estimate-scg-taxonomy</code> we get something a little different.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">anvi-estimate-scg-taxonomy</span> -c 18_NR-MAGs-SPLIT/WATER_MAG_00002/CONTIGS.db</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-estimate-scg-taxonomy</span> <span class="at">-c</span> 18_NR-MAGs-SPLIT/WATER_MAG_00002/CONTIGS.db</span></code></pre></div>
 <div class="l-body-outset">
 <table>
 <colgroup>
@@ -2563,58 +2582,58 @@ METAGENOMIC
 <h1 id="getting-genomes-from-ncbi">Getting Genomes from NCBI</h1>
 <p>For this workflow we largely follow the tutorial on <a href="http://merenlab.org/2019/03/14/ncbi-genome-download-magic/">Accessing and including NCBI genomes in ’omics analyses in anvi’o</a> by Alon Shaiber and Meren.</p>
 <p>We need genomes to compare to our MAG. As the tutorial explains, we can either use the taxa name itself or the TaxID. But before that we need to get the <a href="https://github.com/kblin/ncbi-genome-download#contributed-scripts-gimme_taxapy"><code>gimme_taxa.py</code></a> <em>helper script</em> by <a href="http://orcid.org/0000-0002-9569-6738">by Joe R. J. Healey</a> that allows us to download genomes from NCBI. Slick.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/kblin/ncbi-genome-download/master/contrib/gimme_taxa.py</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/kblin/ncbi-genome-download/master/contrib/gimme_taxa.py</span></code></pre></div>
 <p>We can start with the taxa names themselves.</p>
 <h2 id="getting-taxids-to-download">Getting TaxIDs to Download</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">python</span> gimme_taxa.py Poseidonibacter \</span>
-<span id="cb3-2"><a href="#cb3-2"></a>                     -o Poseidonibacter-for-ngd.txt</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="ex">python</span> gimme_taxa.py Arcobacter \</span>
-<span id="cb3-5"><a href="#cb3-5"></a>                     -o Arcobacter-for-ngd.txt</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py Poseidonibacter <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> Poseidonibacter-for-ngd.txt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py Arcobacter <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> Arcobacter-for-ngd.txt</span></code></pre></div>
 <p>We only got 1 hit for <a href="files/mag02-phylogenomics/0-get-genomes/Poseidonibacter-TaxIDs-for-ngd.txt"><em>Poseidonibacter</em></a> but the script returned 48 for <a href="files/mag02-phylogenomics/0-get-genomes/Arcobacter-TaxIDs-for-ngd.txt"><em>Arcobacter</em></a>.</p>
 <p>What about the TaxID?</p>
 <p>We need to head to NCBI’s <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi">Taxonomy Browser</a> and get the <em>parent TaxID</em> by searching for the taxon name of interest, in this case <em>Poseidonibacter</em> and <em>Arcobacter</em>.</p>
 <p><em>Poseidonibacter</em> is <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Tree&amp;id=2321187">TaxID 2321187</a> and <em>Arcobacter</em> is <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&amp;id=28196">TaxID 28196</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">python</span> gimme_taxa.py 2321187 \</span>
-<span id="cb4-2"><a href="#cb4-2"></a>                     -o Poseidonibacter-TaxIDs-for-ngd.txt</span>
-<span id="cb4-3"><a href="#cb4-3"></a></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="ex">python</span> gimme_taxa.py 28196 \</span>
-<span id="cb4-5"><a href="#cb4-5"></a>                     -o Arcobacter-TaxIDs-for-ngd.txt</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py 2321187 <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> Poseidonibacter-TaxIDs-for-ngd.txt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py 28196 <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> Arcobacter-TaxIDs-for-ngd.txt</span></code></pre></div>
 <p>In this case the results of using TaxID and taxon name were identical, however that is not always the case, so it is good to check.</p>
 <p>On the taxonomy browser, both genera are part of the <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Undef&amp;id=2321108"><em>Arcobacter</em> group</a>. Since there is some ambiguity as to the identification of MAG02, we will instead use the entire group.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">python</span> gimme_taxa.py 2321108 \</span>
-<span id="cb5-2"><a href="#cb5-2"></a>                     -o Arcobacter_Group-TaxIDs-for-ngd.txt</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py 2321108 <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> Arcobacter_Group-TaxIDs-for-ngd.txt</span></code></pre></div>
 <p>This time we get <a href="files/mag02-phylogenomics/0-get-genomes/Arcobacter_Group-TaxIDs-for-ngd.txt">198 hits</a>. Since we only need the TaxIDs, we can rerun the command like so:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">python</span> gimme_taxa.py 2321108 \</span>
-<span id="cb6-2"><a href="#cb6-2"></a>                     -o Arcobacter_Group-TaxIDs-for-ngd-just-IDs.txt \</span>
-<span id="cb6-3"><a href="#cb6-3"></a>                     --just-taxids</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py 2321108 <span class="dt">\</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> Arcobacter_Group-TaxIDs-for-ngd-just-IDs.txt <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--just-taxids</span></span></code></pre></div>
 <p>As the command implies, we only get a list of TaxIDs. Moving on,</p>
 <h2 id="downloading-genomes-from-ncbi">Downloading Genomes from NCBI</h2>
 <p>To download genomes using the TaxIDs, we need a collection of scripts called <code>ncbi-genome-download</code>. See the <a href="https://github.com/kblin/ncbi-genome-download#contributed-scripts-gimme_taxapy">GitHub repo</a> for installation instructions. We have a choice of where to look for genomes using the <code>-s</code> flag—either Genbank or Refseq</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">ncbi-genome-download</span> -t Arcobacter_Group-TaxIDs-for-ngd-just-IDs.txt \</span>
-<span id="cb7-2"><a href="#cb7-2"></a>                     bacteria \</span>
-<span id="cb7-3"><a href="#cb7-3"></a>                     -o 00_Arcobacter_Genbank \</span>
-<span id="cb7-4"><a href="#cb7-4"></a>                     --metadata Arcobacter-NCBI-METADATA.txt \</span>
-<span id="cb7-5"><a href="#cb7-5"></a>                     -s genbank</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ncbi-genome-download</span> <span class="at">-t</span> Arcobacter_Group-TaxIDs-for-ngd-just-IDs.txt <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                     bacteria <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> 00_Arcobacter_Genbank <span class="dt">\</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--metadata</span> Arcobacter-NCBI-METADATA.txt <span class="dt">\</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-s</span> genbank</span></code></pre></div>
 <p>We tested both options and found that the <code>-s genbank</code> returned 121 genomes and <code>-s refseq</code> returned 95. We compared the two lists and found nothing unique in the Refseq database so we will continue with the GenBank set.</p>
 <p>After all of this hullabaloo, turns out <em>Poseidonibacter</em> was not part of the download. Curious. Anyway, we ran an additional instance of the command to get these genomes. The command did not work with the TaxID so we had to use the genus name instead. At this point, can you believe anything I say? Well, you shouldn’t.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="ex">ncbi-genome-download</span> bacteria  \</span>
-<span id="cb8-2"><a href="#cb8-2"></a>                     -g Poseidonibacter \</span>
-<span id="cb8-3"><a href="#cb8-3"></a>                     -o 00_Arcobacter_Genbank \</span>
-<span id="cb8-4"><a href="#cb8-4"></a>                     --metadata Poseidonibacter-NCBI-METADATA.txt \</span>
-<span id="cb8-5"><a href="#cb8-5"></a>                     -s genbank</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ncbi-genome-download</span> bacteria  <span class="dt">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-g</span> Poseidonibacter <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> 00_Arcobacter_Genbank <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--metadata</span> Poseidonibacter-NCBI-METADATA.txt <span class="dt">\</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-s</span> genbank</span></code></pre></div>
 <h2 id="processing-ncbi-genomes">Processing NCBI Genomes</h2>
 <p>A <a href="files/mag02-phylogenomics/1-process-genomes/Arcobacter-NCBI-METADATA.txt">metadata file</a> is also created by <code>ncbi-genome-download</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="ex">column</span> -t Arcobacter-NCBI-METADATA.txt <span class="kw">|</span> <span class="fu">head</span> -n 4</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">column</span> <span class="at">-t</span> Arcobacter-NCBI-METADATA.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 4</span></code></pre></div>
 <pre><code>assembly_accession  bioproject  biosample   wgs_master  excluded_from_refseq    refseq_category relation_to_type_material   taxid   species_taxid   organism_name   infraspecific_name  isolate version_status  assembly_level  release_type    genome_rep  seq_rel_date    asm_name    submitter   gbrs_paired_asm paired_asm_comp ftp_path    local_filename
 GCA_000014025.1 PRJNA16319  SAMN02604276            representative genome   assembly from type material 367737  28197   Arcobacter butzleri RM4018  strain=RM4018       latest  Complete Genome Major   Full    9/27/07 ASM1402v1   USDA - Agricultural Research Service, USA   GCF_000014025.1 identical   ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/014/025/GCA_000014025.1_ASM1402v1    ./Arcobacter_Genbank/genbank/bacteria/GCA_000014025.1/GCA_000014025.1_ASM1402v1_genomic.gbff.gz
 GCA_000185325.1 PRJNA53195  SAMN00210774    AEPT00000000.1      na      888827  28197   Arcobacter butzleri JV22    strain=JV22     latest  Scaffold    Major   Full    1/14/11 ASM18532v1  Baylor College of Medicine  GCF_000185325.1 identical   ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/185/325/GCA_000185325.1_ASM18532v1   ./Arcobacter_Genbank/genbank/bacteria/GCA_000185325.1/GCA_000185325.1_ASM18532v1_genomic.gbff.gz
 GCA_000215345.3 PRJNA67167  SAMN02604193            na      1036172 28197   Arcobacter butzleri 7h1h    strain=7h1h     latest  Complete Genome Major   Full    7/24/13 ASM21534v3  University of Liverpool GCF_000215345.2 identical   ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/215/345/GCA_000215345.3_ASM21534v3   ./Arcobacter_Genbank/genbank/bacteria/GCA_000215345.3/GCA_000215345.3_ASM21534v3_genomic.gbff.gz</code></pre>
 <p>Anvi’o has a script that takes this metadata file and generates a <code>fasta.txt</code> file in the format compatible with anvi’o workflows. We will use the <code>--exclude-gene-calls-from-fasta-txt</code> because we want to do our own gene calling.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">anvi-script-process-genbank-metadata</span> -m Arcobacter-NCBI-METADATA.txt \</span>
-<span id="cb11-2"><a href="#cb11-2"></a>                                     -o 01_Arcobacter-NCBI-GENOMES \</span>
-<span id="cb11-3"><a href="#cb11-3"></a>                                     --output-fasta-txt Arcobacter-fasta.txt</span>
-<span id="cb11-4"><a href="#cb11-4"></a>                                     <span class="ex">--exclude-gene-calls-from-fasta-txt</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-process-genbank-metadata</span> <span class="at">-m</span> Arcobacter-NCBI-METADATA.txt <span class="dt">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">-o</span> 01_Arcobacter-NCBI-GENOMES <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">--output-fasta-txt</span> Arcobacter-fasta.txt</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="ex">--exclude-gene-calls-from-fasta-txt</span></span></code></pre></div>
 <p>This command returns a directory, <code>01_Arcobacter-NCBI-GENOMES</code> full of fasta files and the file <a href="files/mag02-phylogenomics/1-process-genomes/Arcobacter-fasta.txt">Arcobacter-fasta.txt</a>, which contains the name and fasta file path for each genome.</p>
 <pre><code>name    path
 Aliiarcobacter_faecis_GCA_000585155_1   /pool/genomics/stri_istmobiome/data/HYPOXIA_DATA/HYPOXIA/19_COMPARATIVE_GENOMICS/01_Arcobacter-NCBI-GENOMES/Aliiarcobacter_faecis_GCA_000585155_1-contigs.fa
@@ -2628,8 +2647,8 @@ Arcobacter_anaerophilus_GCA_000935065_1 /pool/genomics/stri_istmobiome/data/HYPO
 <p>If you change the names they MUST be unique and contain no spaces, periods, dashes, or other weird characters. Letters, numbers, and underscores only.</p>
 </blockquote>
 <h1 id="running-snakemake-contigs-workflow">Running Snakemake Contigs Workflow</h1>
-<p>Now it is time for some comparisons. First we will run the <em>contigs</em> workflow since this will produce annotated contig databases and properly formatted fasta files for all genomes. We will need these for phylogenomics. Ok, renamed file in hand, we use Snakemake workflow <span class="citation" data-cites="koster2012snakemake">(Köster and Rahmann <a href="#ref-koster2012snakemake" role="doc-biblioref">2012</a>)</span> to run the built-in anvi’o <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#contigs-workflow">contigs workflow</a>. If you do not know what workflows are available you can run this command:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="ex">anvi-run-workflow</span> --list-workflows</span></code></pre></div>
+<p>Now it is time for some comparisons. First we will run the <em>contigs</em> workflow since this will produce annotated contig databases and properly formatted fasta files for all genomes. We will need these for phylogenomics. Ok, renamed file in hand, we use Snakemake workflow <span class="citation" data-cites="koster2012snakemake">(<a href="#ref-koster2012snakemake" role="doc-biblioref">Köster and Rahmann 2012</a>)</span> to run the built-in anvi’o <a href="http://merenlab.org/2018/07/09/anvio-snakemake-workflows/#contigs-workflow">contigs workflow</a>. If you do not know what workflows are available you can run this command:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">--list-workflows</span></span></code></pre></div>
 <pre><code>WARNING
 ===============================================
 If you publish results from this workflow, please do not forget to cite
@@ -2640,9 +2659,11 @@ Available workflows ..........................: contigs, metagenomics, pangenomi
 <aside>
 <a href="files/mag02-phylogenomics/2-snakemake-contigs/contigs-default-config.json">Click here</a> to see the file or grab it from the folded code below.
 </aside>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="ex">anvi-run-workflow</span> -w contigs --get-default-config contigs-default-config.json</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> contigs <span class="at">--get-default-config</span> contigs-default-config.json</span></code></pre></div>
 <details>
-<summary>Show/hide JSON-formatted configuration file.</summary>
+<summary>
+Show/hide JSON-formatted configuration file.
+</summary>
 <pre><code>
 {
     "fasta_txt": "Arcobacter-fasta-rename.txt",
@@ -2758,7 +2779,7 @@ Available workflows ..........................: contigs, metagenomics, pangenomi
 </details>
 <p><br/></p>
 <p>We can also run a couple of sanity checks to make sure everything is good before starting the job. How about a workflow graph to visually inspect the steps?</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="ex">anvi-run-workflow</span> -w contigs -c contigs-default-config.json --save-workflow-graph</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> contigs <span class="at">-c</span> contigs-default-config.json <span class="at">--save-workflow-graph</span></span></code></pre></div>
 <pre><code>Config Error: Well, the fasta.txt entry name contains characters that anvi&#39;o does not like :/
               Please limit the characters to ASCII letters, digits, and the underscore (&#39;_&#39;)
               character.</code></pre>
@@ -2790,7 +2811,9 @@ Workflow PNG file ............................: workflow.png</code></pre>
 <p>Click on the image to zoom in or download a copy.</p>
 </blockquote>
 <details>
-<summary>Show/hide DAG R Code script</summary>
+<summary>
+Show/hide DAG R Code script
+</summary>
 <pre><code>
 ````
 ```{r workflow2, eval=FALSE}
@@ -2876,11 +2899,13 @@ export_svg(dag) %>%
 </figure>
 </div>
 <p>Yup. Looks good and makes sense. And a dry run just to be certain</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="ex">anvi-run-workflow</span> -w contigs -c contigs-default-config.json --dry-run</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> contigs <span class="at">-c</span> contigs-default-config.json <span class="at">--dry-run</span></span></code></pre></div>
 <p>No complaints. Things are looking good. We are ready to run the workflow.</p>
 <p>For all of you HYDRA users, here is the job script to run the contigs workflow.</p>
 <details>
-<summary>Show/hide HYDRA SNAKEMAKE job script</summary>
+<summary>
+Show/hide HYDRA SNAKEMAKE job script
+</summary>
 <pre><code>
 # /bin/sh
 # ----------------Parameters---------------------- #
@@ -2944,26 +2969,26 @@ echo = `date` job $JOB_NAME don
 <p>We have two goals here. First, we need to get rid of low completion genomes since they will compromise our ability to use single copy core genes for phylogenomics. Second, we want to keep only genomes that have a 16S rRNA sequence. Why? Good question. Because we found an ASV in our 16S rRNA analysis that is 100% identical across it’s length to a 16S rRNA sequence retrieved from MAG02. In addition to the phylogenomic analysis we will also conduct a 16S rRNA analysis of MAG02 with publicly available genomes to see how the topologies compare.</p>
 <h2 id="estimate-taxonomy">Estimate Taxonomy</h2>
 <p>Microbial taxonomy is a fluid system, meaning that classifications change often. One thing we can do is look at the predicted taxonomy for each genome even though they each came prepackaged with a taxonomic designation. We already know <a href="mg-binning.html#esimate-mag-taxonomy">MAG02’s predicted taxonomy is <em>Poseidonibacter</em></a> but what about the rest</p>
-<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes <span class="citation" data-cites="parks2018gtgb">(Parks et al. <a href="#ref-parks2018gtgb" role="doc-biblioref">2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">for</span> <span class="ex">genome</span> in <span class="kw">`</span><span class="fu">cat</span> list_genomes.txt<span class="kw">`;</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">do</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a>       <span class="ex">anvi-estimate-scg-taxonomy</span> \</span>
-<span id="cb20-4"><a href="#cb20-4"></a>       -c 03_CONTIGS/<span class="va">$genome</span>-contigs.db \</span>
-<span id="cb20-5"><a href="#cb20-5"></a>       -o 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a><span class="kw">done</span></span></code></pre></div>
+<p>To do this we will again run the command <code>anvi-estimate-scg-taxonomy</code>, which uses 22 ribosomal genes <span class="citation" data-cites="parks2018gtgb">(<a href="#ref-parks2018gtgb" role="doc-biblioref">Parks et al. 2018</a>)</span> from the <a href="https://gtdb.ecogenomic.org/">Genome Taxonomy Database (GTDB)</a> to estimate taxonomy. We added these classifications earlier when we contigs workflow. The workflow ran its own instance of <code>anvi-run-scg-taxonomy</code> for each genome. We can use a nifty <code>for</code> loop and then concatenate the output files and make a handy table. Pretty sure there is a better way :/</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> genome <span class="kw">in</span> <span class="kw">`</span><span class="fu">cat</span> list_genomes.txt<span class="kw">`;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>       <span class="ex">anvi-estimate-scg-taxonomy</span> <span class="dt">\</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">-c</span> 03_CONTIGS/<span class="va">$genome</span>-contigs.db <span class="dt">\</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">-o</span> 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-page">
 <div id="rlmoheh55qr4vfp52n7o" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="rlmoheh55qr4vfp52n7o">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"23\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"22\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Completion estimates of Arcobacter genomes.<\/caption>","autoHideNavigation":true,"data":[["Aliiarcobacter_faecis_AF1078","Aliiarcobacter_faecis_CCUG_66484","Arcobacter_anaerophilus_DSM_24636_A","Arcobacter_anaerophilus_DSM_24636_B","Arcobacter_anaerophilus_IR_1","Arcobacter_aquimarinus_CECT_8442","Arcobacter_aquimarinus_W63","Arcobacter_butzleri_7h1h","Arcobacter_butzleri_ED_1","Arcobacter_butzleri_JV22_A","Arcobacter_butzleri_JV22_B","Arcobacter_butzleri_L348","Arcobacter_butzleri_L349","Arcobacter_butzleri_L350","Arcobacter_butzleri_L351","Arcobacter_butzleri_L352","Arcobacter_butzleri_L353","Arcobacter_butzleri_L354","Arcobacter_butzleri_L355","Arcobacter_butzleri_RM4018","Arcobacter_canalis_F138_33","Arcobacter_canalis_LMG_29148","Arcobacter_cibarius_LMG_21996","Arcobacter_cloacae_CECT_7834","Arcobacter_cloacae_F26","Arcobacter_cloacae_LMG_26153","Arcobacter_cryaerophilus_ATCC_43158_ATCC_43158","Arcobacter_cryaerophilus_ATCC_43158_LMG_9904","Arcobacter_cryaerophilus_D2610","Arcobacter_defluvii_CECT_7697","Arcobacter_defluvii_LMG_25694","Arcobacter_ellisii_CECT_7837","Arcobacter_ellisii_LMG_26155","Arcobacter_halophilus_CCUG_53805","Arcobacter_halophilus_DSM_18005","Arcobacter_halophilus_F166_45","Arcobacter_lanthieri_AF1430","Arcobacter_lanthieri_AF1440","Arcobacter_lanthieri_AF1581","Arcobacter_lanthieri_LMG_28516","Arcobacter_lekithochrous_DSM_100870","Arcobacter_lekithochrous_LFT_1_7","Arcobacter_lekithochrous_LMG_28652","Arcobacter_marinus_CECT_7727","Arcobacter_marinus_F140_37","Arcobacter_marinus_JCM_15502","Arcobacter_marinus_MARC_MIP3H16","Arcobacter_marinus_SH_4D_Col1","Arcobacter_molluscorum_LMG_25693_CECT_7696","Arcobacter_molluscorum_LMG_25693_F98_3","Arcobacter_mytili_LMG_24559_CECT_7386","Arcobacter_mytili_LMG_24559_LMG_24559","Arcobacter_nitrofigilis_DSM_7299_DSM_7299","Arcobacter_pacificus_LMG_26638","Arcobacter_peruensis_PSE_93","_Arcobacter_porcinus_117434","_Arcobacter_porcinus_213","_Arcobacter_porcinus_216","_Arcobacter_porcinus_CCUG_56899","_Arcobacter_porcinus_DU19","Arcobacter_skirrowii_CCUG_10374_CCUG_10374_A","Arcobacter_skirrowii_CCUG_10374_CCUG_10374_B","Arcobacter_skirrowii_CCUG_10374_LMG_6621","Arcobacter_sp_31_11_sub10_T18","Arcobacter_sp_AF1028","Arcobacter_sp_BM102","Arcobacter_sp_BM504","Arcobacter_sp_CECT_8983","Arcobacter_sp_CECT_8985","Arcobacter_sp_CECT_8986","Arcobacter_sp_CECT_8987","Arcobacter_sp_CECT_8989","Arcobacter_sp_CECT_9188","Arcobacter_sp_CECT_9230","Arcobacter_sp_CECT_9299","Arcobacter_sp_CPC16","Arcobacter_sp_CPC309","Arcobacter_sp_CSH_ALOHA_XIX_Bin_5","Arcobacter_sp_DOLZORAL124_29_21","Arcobacter_sp_EP1","Arcobacter_sp_F155","Arcobacter_sp_F2176","Arcobacter_sp_FW59","Arcobacter_sp_HD9_500m_PIT_SAG02","Arcobacter_sp_HD9_500m_PIT_SAG03","Arcobacter_sp_HyVt_597","Arcobacter_sp_LA11","Arcobacter_sp_LMG_29976","Arcobacter_sp_LPB0137","Arcobacter_sp_L","Arcobacter_sp_NORP14","Arcobacter_sp_NORP36","Arcobacter_sp_RW43_9","Arcobacter_sp_SM1702","Arcobacter_sp_SZUA_449","Arcobacter_sp_SZUA_456","Arcobacter_sp_UBA1348","Arcobacter_sp_UBA2431","Arcobacter_sp_UBA2434","Arcobacter_sp_UBA2438","Arcobacter_sp_UBA2443","Arcobacter_sp_UBA4038","Arcobacter_sp_UBA6788","Arcobacter_sp_UBA6789","Arcobacter_sp_UBA7394","Arcobacter_suis_CECT_7833","Arcobacter_thereius_LMG_24486_A","Arcobacter_thereius_LMG_24486_B","Arcobacter_trophiarum_LMG_25534_A","Arcobacter_trophiarum_LMG_25534_B","Arcobacter_venerupis_CECT7836","Arcobacter_venerupis_LMG_26156","Halarcobacter_bivalviorum_CECT_7835","Halarcobacter_bivalviorum_F118_4","Halarcobacter_bivalviorum_LMG_26154","Halarcobacter_ebronensis_CECT_8441","Halarcobacter_ebronensis_CECT_8993","Halarcobacter_ebronensis_LMG_27922","Halarcobacter_mediterraneus_F156_34","MAG02","Poseidonibacter_sp_JOD_M_6","Poseidonibacter_sp_SJOD_M_33","Poseidonibacter_sp_SJOD_M_5","Pseudoarcobacter_acticola_KCTC_52212","Pseudoarcobacter_caeni_RW17_10"],[22,22,21,21,21,19,19,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,19,19,19,22,22,22,22,22,23,22,22,22,22,22,22,22,22,22,23,22,22,22,22,22,22,22,22,16,16,22,15,22,22,22,22,22,22,22,22,22,22,22,21,22,16,20,20,14,17,21,20,21,7,3,10,4,22,17,22,20,0,5,1,21,22,22,22,21,22,22,21,21,0,22,22,22,22,22,16,19,18,22,21,22,22,21,19,21,21,19,15,15,16,17,16,15,20,22,22,22,20,22],[16,16,21,21,21,19,19,22,22,22,22,22,22,22,22,22,22,22,22,22,21,21,15,19,19,19,21,21,20,16,16,11,11,21,21,21,21,21,20,21,13,13,11,21,21,21,21,21,22,22,5,5,20,3,22,13,13,12,14,12,21,21,21,22,16,21,20,16,11,16,4,17,19,15,19,6,2,9,4,22,3,17,15,0,5,1,20,19,22,16,21,22,22,19,21,0,21,21,21,21,21,15,12,11,14,12,14,14,14,14,12,12,4,15,15,7,7,7,3,9,16,16,16,11,22],["Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","None","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","None","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria","Bacteria"],["Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","None","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","None","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota","Campylobacterota"],["Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","None","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","None","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria","Campylobacteria"],["Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","None","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","None","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales","Campylobacterales"],["Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","None","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Sulfurimonadaceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","None","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae","Arcobacteraceae"],["Aliarcobacter","Aliarcobacter","Halarcobacter","Halarcobacter","Halarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Malaciobacter","Malaciobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Malaciobacter","Malaciobacter","Malaciobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Poseidonibacter","Poseidonibacter","Poseidonibacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Arcobacter","Halarcobacter","Poseidonibacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","NORP36","Aliarcobacter","Halarcobacter","Arcobacter","None","Malaciobacter","Malaciobacter","UBA4036","None","Aliarcobacter","Aliarcobacter","Aliarcobacter","Poseidonibacter","Poseidonibacter","NORP36","None","Arcobacter","Halarcobacter","Arcobacter","Aliarcobacter","None","NORP36","UBA4036","Halarcobacter","Aliarcobacter","Poseidonibacter","Aliarcobacter","GCA-2733885","NORP36","Aliarcobacter","Poseidonibacter","Halarcobacter","None","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Malaciobacter","Aliarcobacter","Aliarcobacter","Poseidonibacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","Aliarcobacter","None","None","Halarcobacter","Halarcobacter","Halarcobacter","Halarcobacter","Poseidonibacter","Poseidonibacter","Poseidonibacter","Poseidonibacter","Aliarcobacter","Aliarcobacter"],["Aliarcobacter_faecis","Aliarcobacter_faecis","Halarcobacter_anaerophilus","Halarcobacter_anaerophilus","Halarcobacter_anaerophilus","None","None","None","None","None","None","None","None","None","None","None","None","None","None","None","Malaciobacter_canalis","Malaciobacter_canalis","Aliarcobacter_cibarius","None","None","None","Aliarcobacter_cryaerophilus","Aliarcobacter_cryaerophilus","Aliarcobacter_cryaerophilus","Aliarcobacter_sp000284235","Aliarcobacter_sp000284235","Aliarcobacter_sp002452915","Aliarcobacter_sp002452915","Malaciobacter_halophilus","Malaciobacter_halophilus","Malaciobacter_canalis","Aliarcobacter_lanthieri","Aliarcobacter_lanthieri","Aliarcobacter_lanthieri","Aliarcobacter_lanthieri","Poseidonibacter_lekithochrous","Poseidonibacter_lekithochrous","Poseidonibacter_lekithochrous","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_molluscorum","Malaciobacter_molluscorum","Malaciobacter_halophilus","Malaciobacter_halophilus","Arcobacter_nitrofigilis","Halarcobacter_sp003252105","Poseidonibacter_sp001956695","Aliarcobacter_porcinus","Aliarcobacter_porcinus","Aliarcobacter_porcinus","Aliarcobacter_porcinus","Aliarcobacter_porcinus","Aliarcobacter_skirrowii","Aliarcobacter_skirrowii","Aliarcobacter_skirrowii","NORP36_sp002163065","Aliarcobacter_faecis","Halarcobacter_sp002869565","Arcobacter_sp002869535","None","Malaciobacter_molluscorum","Malaciobacter_molluscorum","UBA4036_sp002382325","None","Aliarcobacter_lanthieri","Aliarcobacter_lanthieri","Aliarcobacter_skirrowii","Poseidonibacter_sp002685075","Poseidonibacter_sp001956695","NORP36_sp002733685","None","Arcobacter_sp001655195","Halarcobacter_sp001895145","Arcobacter_nitrofigilis","Aliarcobacter_lanthieri","None","NORP36_sp002163065","UBA4036_sp002382325","Halarcobacter_sp001895145","Aliarcobacter_cryaerophilus","Poseidonibacter_sp001956695","Aliarcobacter_sp000284235","GCA-2733885_sp002733885","NORP36_sp002733685","None","Poseidonibacter_sp001956695","Halarcobacter_sp003252105","None","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Malaciobacter_canalis","Aliarcobacter_sp002452915","Aliarcobacter_sp000284235","Poseidonibacter_sp002470185","Aliarcobacter_sp003063245","Aliarcobacter_thereius","Aliarcobacter_thereius","Aliarcobacter_cryaerophilus","Aliarcobacter_cryaerophilus","Aliarcobacter_sp003063245","Aliarcobacter_sp003063245","Aliarcobacter_skirrowii","None","None","Halarcobacter_anaerophilus","Halarcobacter_anaerophilus","Halarcobacter_anaerophilus","Halarcobacter_anaerophilus","None","Poseidonibacter_sp001956695","Poseidonibacter_sp001956695","Poseidonibacter_sp001956695","Aliarcobacter_sp003063245","Aliarcobacter_sp003063245"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>genome<\/th>\n      <th>total_scgs<\/th>\n      <th>support_scgs<\/th>\n      <th>t_domain<\/th>\n      <th>t_phylum<\/th>\n      <th>t_class<\/th>\n      <th>t_order<\/th>\n      <th>t_family<\/th>\n      <th>t_genus<\/th>\n      <th>t_species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2]}],"dom":"Blfrtip","buttons":["csv","copy"],"pageLength":5,"lengthMenu":[[5,10,50,-1],["5","10","50","All"]],"scrollX":true,"scrollCollapse":true,"scrollY":true,"paging":true,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h2 id="completeness">Completeness</h2>
-<p>Let’s start by checking the completeness (and redundancy) of each genome based on the presence of single copy core genes (SCG) using the HMM profiles, which were added to the contig database for each genome during the workflow. We can either run the same command 125 times and concatenate the outputs, or we can create an <em>external-genomes</em> file—a two-column TAB-delimited flat text file that lists anvi’o contigs databases. The first item in the header line reads ‘<em>name</em>’, and the second reads ‘<em>contigs_db_path</em>’. Each line in the file describes a single entry, where the first column is the name of the genome (or MAG), and the second column is the anvi’o contigs database generated for this genome.</p>
+<p>Let’s start by checking the completeness (and redundancy) of each genome based on the presence of single copy core genes (SCG) using the HMM profiles, which were added to the contig database for each genome during the workflow. We can either run the same command 125 times and concatenate the outputs, or we can create an <em>external-genomes</em> file—a two-column TAB-delimited flat text file that lists anvi’o contigs databases. The first item in the header line reads ‘<em>name</em>,’ and the second reads ‘<em>contigs_db_path</em>.’ Each line in the file describes a single entry, where the first column is the name of the genome (or MAG), and the second column is the anvi’o contigs database generated for this genome.</p>
 <aside>
 You can access the original <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes.txt">external-genomes file here</a>.
 </aside>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a><span class="ex">anvi-estimate-genome-completeness</span> \</span>
-<span id="cb21-2"><a href="#cb21-2"></a>                     -e external-genomes.txt</span>
-<span id="cb21-3"><a href="#cb21-3"></a>                     <span class="ex">-o</span> completness.txt</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-estimate-genome-completeness</span> <span class="dt">\</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-e</span> external-genomes.txt</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                     <span class="ex">-o</span> completness.txt</span></code></pre></div>
 <p>Just like that, a table of basic stats for every genome in the collection. First notice the completion estimate of MAG02 is around 93%, which is good, but its total length is among the smallest, meaning we have a pretty incomplete genome. Not so good but it is what it is.</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
@@ -2977,10 +3002,10 @@ You can access the original <a href="files/mag02-phylogenomics/3-curate-genomes/
 <aside>
 Genomes with lower completion than MAG02: Arcobacter_sp_CPC16, Arcobacter_sp_CPC309, Arcobacter_sp_CSH_ALOHA_XIX_Bin_5, Arcobacter_sp_DOLZORAL124_29_21, Arcobacter_sp_HD9_500m_PIT_SAG02, Arcobacter_sp_HD9_500m_PIT_SAG03, Arcobacter_sp_HyVt_597, Arcobacter_sp_SZUA_456, Arcobacter_sp_UBA4038, Arcobacter_sp_UBA6788, Arcobacter_sp_UBA6789.
 </aside>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>                  <span class="ex">-e</span> external-genomes.txt \</span>
-<span id="cb22-3"><a href="#cb22-3"></a>                  -o dummy_out.txt \</span>
-<span id="cb22-4"><a href="#cb22-4"></a>                  --list-hmm-sources</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-e</span> external-genomes.txt <span class="dt">\</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">-o</span> dummy_out.txt <span class="dt">\</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">--list-hmm-sources</span></span></code></pre></div>
 <pre><code>HMM SOURCES COMMON TO ALL 125 GENOMES
 ===============================================
 * Archaea_76 [type: singlecopy] [num genes: 976]
@@ -2988,11 +3013,11 @@ Genomes with lower completion than MAG02: Arcobacter_sp_CPC16, Arcobacter_sp_CPC
 * Bacteria_71 [type: singlecopy] [num genes: 885]
 * Transfer_RNAs [type: Transfer_RNAs] [num genes: 547]
 * Protista_83 [type: singlecopy] [num genes: 1741]</code></pre>
-<p>The HMM source we are interested in is <code>Bacteria_71</code> <span class="citation" data-cites="lee2019gtotree">(Lee <a href="#ref-lee2019gtotree" role="doc-biblioref">2019</a>)</span>. Now, rerun the command and we get a table that lists the number of times each of the 71 HMM genes were found in each of the 125 genomes.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>                  <span class="ex">-e</span> external-genomes.txt \</span>
-<span id="cb24-3"><a href="#cb24-3"></a>                  -o Bacteria_71-HMM_HITS.txt \</span>
-<span id="cb24-4"><a href="#cb24-4"></a>                  --hmm-source Bacteria_71</span></code></pre></div>
+<p>The HMM source we are interested in is <code>Bacteria_71</code> <span class="citation" data-cites="lee2019gtotree">(<a href="#ref-lee2019gtotree" role="doc-biblioref">Lee 2019</a>)</span>. Now, rerun the command and we get a table that lists the number of times each of the 71 HMM genes were found in each of the 125 genomes.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-e</span> external-genomes.txt <span class="dt">\</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">-o</span> Bacteria_71-HMM_HITS.txt <span class="dt">\</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">--hmm-source</span> Bacteria_71</span></code></pre></div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div id="tdy2xm8lh2st5qbsvcr6" style="width:100%;height:auto;" class="datatables html-widget"></div>
@@ -3013,10 +3038,10 @@ Genomes with fewer HMM hits than MAG02: Arcobacter_sp_CPC16, Arcobacter_sp_CPC30
 <aside>
 The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-rrna-screen.txt">external-genomes file</a> to screen for 16S rRNA.
 </aside>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span> \</span>
-<span id="cb25-2"><a href="#cb25-2"></a>                  -e external-genomes-rrna-screen.txt \</span>
-<span id="cb25-3"><a href="#cb25-3"></a>                  -o Ribosomal_RNAs-HMM_HITS.txt \</span>
-<span id="cb25-4"><a href="#cb25-4"></a>                  --hmm-source Ribosomal_RNAs</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span> <span class="dt">\</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">-e</span> external-genomes-rrna-screen.txt <span class="dt">\</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">-o</span> Ribosomal_RNAs-HMM_HITS.txt <span class="dt">\</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">--hmm-source</span> Ribosomal_RNAs</span></code></pre></div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div id="bgzodib9iiz72hfrwvln" style="width:100%;height:auto;" class="datatables html-widget"></div>
@@ -3031,14 +3056,14 @@ The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-rrna-sc
 <aside>
 The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-rrna.txt">external-genomes file</a> to get 16S rRNA genes.
 </aside>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a>                     <span class="ex">-e</span> external-genomes-rrna.txt \</span>
-<span id="cb26-3"><a href="#cb26-3"></a>                     --hmm-sources Ribosomal_RNAs \</span>
-<span id="cb26-4"><a href="#cb26-4"></a>                     --gene-names Bacterial_16S_rRNA \</span>
-<span id="cb26-5"><a href="#cb26-5"></a>                     --no-wrap \</span>
-<span id="cb26-6"><a href="#cb26-6"></a>                     --return-best-hit \</span>
-<span id="cb26-7"><a href="#cb26-7"></a>                     --align-with muscle \</span>
-<span id="cb26-8"><a href="#cb26-8"></a>                     -o sequences-for-16s-rrna-hits.fa</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                     <span class="ex">-e</span> external-genomes-rrna.txt <span class="dt">\</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--hmm-sources</span> Ribosomal_RNAs <span class="dt">\</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--gene-names</span> Bacterial_16S_rRNA <span class="dt">\</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--no-wrap</span> <span class="dt">\</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--return-best-hit</span> <span class="dt">\</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--align-with</span> muscle <span class="dt">\</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> sequences-for-16s-rrna-hits.fa</span></code></pre></div>
 <aside>
 Without 16S rRNA: Arcobacter_mytili_LMG_24559_CECT_7386, Arcobacter_sp_31_11_sub10_T18, Arcobacter_sp_EP1, Arcobacter_sp_NORP36, Arcobacter_sp_SZUA_449, Arcobacter_sp_UBA1348, Arcobacter_sp_UBA2431, Arcobacter_sp_UBA2434, Arcobacter_sp_UBA2438, Arcobacter_sp_UBA2443, Arcobacter_sp_UBA7394, Arcobacter_sp_BM504.
 </aside>
@@ -3052,15 +3077,15 @@ Note. Arcobacter_sp_NORP14 failed subsequent the composition Chi-squared test in
 </aside>
 <h1 id="dereplicate-genome-collection">Dereplicate Genome Collection</h1>
 <p>Finally, we can dereplicate the genome collection using the command <code>anvi-dereplicate-genomes</code> to assess the number of genome clusters. This command has a lot of options for fine-tuning but since we are interested in a quick and dirty assessment, we’ll keep it simple. We can either give anvi’o an <code>external-genomes</code> file like we just did or a <code>fasta-text-file</code> similar to the one from the <a href="#running-snakemake-contigs-workflow">Snakemake workflow</a> above. Remember, the <code>external-genomes</code> file provides names and paths to <em>contig.dbs</em> and the <code>fasta-text-file</code> provides names and paths to <em>fasta</em> files. Either way, we first need to remove the 11 genomes that we are cutting from the analysis. Let’s stick with the <code>external-genomes</code> file since we will use this downstream anyway.</p>
-<p>Since accuracy is not paramount we use <code>--program fastANI</code> <span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
+<p>Since accuracy is not paramount we use <code>--program fastANI</code> <span class="citation" data-cites="jain2018high">(<a href="#ref-jain2018high" role="doc-biblioref">Jain et al. 2018</a>)</span> because, well, it’s fast. We also need to choose a <code>--similarity-threshold</code>. We tested the number of clusters for 0.90, 0.95, 0.97, 0.98, and 0.99. Overkill? Maybe, but this will give us a good sense of replication in our genome collection. Here is the command with 0.97.</p>
 <aside>
 The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-dereplicate.txt">external-genomes file</a> for dereplication.
 </aside>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">mkdir</span> 06_DEREPLICATE</span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="ex">anvi-dereplicate-genomes</span> -e external-genomes-rrna.txt</span>
-<span id="cb27-3"><a href="#cb27-3"></a>                         <span class="ex">--program</span> fastANI</span>
-<span id="cb27-4"><a href="#cb27-4"></a>                         <span class="ex">--similarity-threshold</span> 0.99</span>
-<span id="cb27-5"><a href="#cb27-5"></a>                         <span class="ex">-o</span> 06_DEREPLICATE/DR_99 -T <span class="va">$NSLOTS</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 06_DEREPLICATE</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-dereplicate-genomes</span> <span class="at">-e</span> external-genomes-rrna.txt</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                         <span class="ex">--program</span> fastANI</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                         <span class="ex">--similarity-threshold</span> 0.99</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                         <span class="ex">-o</span> 06_DEREPLICATE/DR_99 <span class="at">-T</span> <span class="va">$NSLOTS</span></span></code></pre></div>
 <p>The command produces numerous output files, but let’s focus on the <code>CLUSTER_REPORT.txt</code> file, which tells us the <strong>a</strong>) number of clusters, <strong>b</strong>) number of genomes in each cluster, <strong>c</strong>) representative genome for the cluster, and <strong>d</strong>) all genomes in the cluster.</p>
 <p>How many clusters did we get for each <code>--similarity-threshold</code>?</p>
 <ul>
@@ -3078,63 +3103,63 @@ The <a href="files/mag02-phylogenomics/3-curate-genomes/external-genomes-derepli
 <h1 id="outgroup-workflow">Outgroup Workflow</h1>
 <p>We decided to use <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&amp;id=202746"><em>Sulfurimonas</em></a>, a member of the Helicobacteraceae (Campylobacterales), as an outgroup for our tree. We basically ran the same pipeline as above, with a few minor changes. The code is included here but the discussion will be kept to a minimum. I am sure by this point you are tired of hearing me drone on and on.</p>
 <h4 id="get-taxids">1. Get TaxIDs</h4>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a><span class="ex">python</span> gimme_taxa.py 202746 -o Sulfurimonas-TaxIDs-for-ngd.txt</span>
-<span id="cb28-2"><a href="#cb28-2"></a></span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="ex">python</span> gimme_taxa.py 202746 -o Sulfurimonas-TaxIDs-for-ngd-just-IDs.txt \</span>
-<span id="cb28-4"><a href="#cb28-4"></a>                           --just-taxids</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py 202746 <span class="at">-o</span> Sulfurimonas-TaxIDs-for-ngd.txt</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> gimme_taxa.py 202746 <span class="at">-o</span> Sulfurimonas-TaxIDs-for-ngd-just-IDs.txt <span class="dt">\</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">--just-taxids</span></span></code></pre></div>
 <h4 id="download-genomes">2. Download genomes</h4>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="ex">ncbi-genome-download</span> -t Sulfurimonas-TaxIDs-for-ngd-just-IDs.txt \</span>
-<span id="cb29-2"><a href="#cb29-2"></a>                     bacteria \</span>
-<span id="cb29-3"><a href="#cb29-3"></a>                     -o 00_Sulfurimonas_Genbank \</span>
-<span id="cb29-4"><a href="#cb29-4"></a>                     --metadata Sulfurimonas-NCBI-METADATA.txt \</span>
-<span id="cb29-5"><a href="#cb29-5"></a>                     -s genbank  \</span>
-<span id="cb29-6"><a href="#cb29-6"></a>                     -l complete,chromosome</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ncbi-genome-download</span> <span class="at">-t</span> Sulfurimonas-TaxIDs-for-ngd-just-IDs.txt <span class="dt">\</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                     bacteria <span class="dt">\</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> 00_Sulfurimonas_Genbank <span class="dt">\</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--metadata</span> Sulfurimonas-NCBI-METADATA.txt <span class="dt">\</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-s</span> genbank  <span class="dt">\</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-l</span> complete,chromosome</span></code></pre></div>
 <p>We received 3 <em>Sulfurimonas</em> genomes. We used the <code>-l complete,chromosome</code> flag so we wouldn’t need to sift through a bunch of data. We only need a few genomes for the outgroup.</p>
 <h4 id="format-genomes">3. Format genomes</h4>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="ex">anvi-script-process-genbank-metadata</span> -m Sulfurimonas-NCBI-METADATA.txt \</span>
-<span id="cb30-2"><a href="#cb30-2"></a>                                     -o 01_Sulfurimonas-NCBI-GENOMES \</span>
-<span id="cb30-3"><a href="#cb30-3"></a>                                     --output-fasta-txt Sulfurimonas-fasta.txt -\</span>
-<span id="cb30-4"><a href="#cb30-4"></a>                                     -exclude-gene-calls-from-fasta-txt</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-process-genbank-metadata</span> <span class="at">-m</span> Sulfurimonas-NCBI-METADATA.txt <span class="dt">\</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">-o</span> 01_Sulfurimonas-NCBI-GENOMES <span class="dt">\</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">--output-fasta-txt</span> Sulfurimonas-fasta.txt <span class="at">-</span><span class="dt">\</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">-exclude-gene-calls-from-fasta-txt</span></span></code></pre></div>
 <h4 id="run-snakemake-workflow">4. Run Snakemake workflow</h4>
 <p>You know the routine. Same steps performed for the <em>Arcobacter</em>.</p>
 <h4 id="completeness-1">5. Completeness</h4>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="ex">anvi-estimate-genome-completeness</span> -e external-genomes-outgroup.txt \</span>
-<span id="cb31-2"><a href="#cb31-2"></a>                                  -o completness-outgroup.txt</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-estimate-genome-completeness</span> <span class="at">-e</span> external-genomes-outgroup.txt <span class="dt">\</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">-o</span> completness-outgroup.txt</span></code></pre></div>
 <aside>
 Nice genomes. The lowest <a href="files/mag02-phylogenomics/4-outgroup/completness-outgroup.txt">completion estimate</a> was 97.18%.
 </aside>
 <h4 id="screen-for-16s-rrna-1">6. Screen for 16S rRNA</h4>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>                      <span class="ex">-e</span> external-genomes-outgroup.txt \</span>
-<span id="cb32-3"><a href="#cb32-3"></a>                      -o Ribosomal_RNAs-HMM_HITS-outgroup.txt \</span>
-<span id="cb32-4"><a href="#cb32-4"></a>                      --hmm-source Ribosomal_RNAs</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                      <span class="ex">-e</span> external-genomes-outgroup.txt <span class="dt">\</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">-o</span> Ribosomal_RNAs-HMM_HITS-outgroup.txt <span class="dt">\</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">--hmm-source</span> Ribosomal_RNAs</span></code></pre></div>
 <aside>
 And they all have <a href="files/mag02-phylogenomics/4-outgroup/Ribosomal_RNAs-HMM_HITS-outgroup.txt">16S rRNA genes</a>.
 </aside>
 <h4 id="retrieve-16s-rrna-sequences">7. Retrieve 16S rRNA sequences</h4>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span> -e external-genomes-outgroup.txt \</span>
-<span id="cb33-2"><a href="#cb33-2"></a>                                --hmm-sources Ribosomal_RNAs  \</span>
-<span id="cb33-3"><a href="#cb33-3"></a>                                --gene-names Bacterial_16S_rRNA \</span>
-<span id="cb33-4"><a href="#cb33-4"></a>                                --no-wrap --return-best-hit \</span>
-<span id="cb33-5"><a href="#cb33-5"></a>                                --align-with muscle \</span>
-<span id="cb33-6"><a href="#cb33-6"></a>                                -o sequences-for-16s-rrna-hits-outgroup.fa</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span> <span class="at">-e</span> external-genomes-outgroup.txt <span class="dt">\</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">--hmm-sources</span> Ribosomal_RNAs  <span class="dt">\</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">--gene-names</span> Bacterial_16S_rRNA <span class="dt">\</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">--no-wrap</span> <span class="at">--return-best-hit</span> <span class="dt">\</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">--align-with</span> muscle <span class="dt">\</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">-o</span> sequences-for-16s-rrna-hits-outgroup.fa</span></code></pre></div>
 <p>Which are full-length.</p>
 <h4 id="dereplicate">8. Dereplicate</h4>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="fu">mkdir</span> 06_DEREPLICATE</span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="ex">anvi-dereplicate-genomes</span> -e external-genomes-outgroup.txt \</span>
-<span id="cb34-3"><a href="#cb34-3"></a>                         --program fastANI \</span>
-<span id="cb34-4"><a href="#cb34-4"></a>                         --similarity-threshold 0.95 \</span>
-<span id="cb34-5"><a href="#cb34-5"></a>                         -o 06_DEREPLICATE/DR_95 -T</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> 06_DEREPLICATE</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-dereplicate-genomes</span> <span class="at">-e</span> external-genomes-outgroup.txt <span class="dt">\</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">--program</span> fastANI <span class="dt">\</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">--similarity-threshold</span> 0.95 <span class="dt">\</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">-o</span> 06_DEREPLICATE/DR_95 <span class="at">-T</span></span></code></pre></div>
 <p>Good to go, no duplicates. The outgroup consists of <em>Sulfurimonas gotlandica</em> (GD1), <em>Sulfurimonas denitrificans</em> (DSM 251), and <em>Sulfurimonas autotrophica</em> (DSM 16294).</p>
 <h1 id="phylogenomic-analysis-of-mag02">Phylogenomic Analysis of MAG02</h1>
 <p>Finally, we are ready for phylogenomic analysis. One way to do this is to select SCG, make a concatenated alignment, and construct a multi locus tree. This is <em>not</em> the way we did it for the paper but it is worth seeing how it is done so you can appreciated the different approaches.</p>
 <p>We first need to make a new <em>external-genomes</em> file that contains the <em>Arcobacter</em> representatives we want to use and the <em>Sulfurimonas</em> outgroup. Then we need to setup a phylogenomic Snakemake workflow.</p>
 <p>Remember when ran the contigs workflow above? Most of those steps can actually be run in the phylogenomic workflow itself. The thing is that it does not really give us the opportunity to curate our collection <em>before</em> phylogenomic analysis. Because we ran the cotigs workflow first, there are many steps in the phylogenomic workflow that we simply do not need. So, we chop out the chunks of the <code>phylogenomics-default-config.json</code> that are unnecessary.</p>
 <p>It seems like a good idea to select SCG that are in all of the genomes. First we generate a sample by SCG matrix.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a>                   <span class="ex">-e</span> arco-phylo-external-genomes.txt \</span>
-<span id="cb35-3"><a href="#cb35-3"></a>                   -o arco-phylo-Bacteria_71-HMM_HITS.txt \</span>
-<span id="cb35-4"><a href="#cb35-4"></a>                   --hmm-source Bacteria_71</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-script-gen-hmm-hits-matrix-across-genomes</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                   <span class="ex">-e</span> arco-phylo-external-genomes.txt <span class="dt">\</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">-o</span> arco-phylo-Bacteria_71-HMM_HITS.txt <span class="dt">\</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">--hmm-source</span> Bacteria_71</span></code></pre></div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -3143,34 +3168,34 @@ And they all have <a href="files/mag02-phylogenomics/4-outgroup/Ribosomal_RNAs-H
 Here is the <a href="files/mag02-phylogenomics/5-phylogenomics/phylogenomics-config.json">modified config</a> file, the <a href="files/mag02-phylogenomics/5-phylogenomics/arco-phylo-external-genomes.txt">final external genomes</a> file, &amp; the <a href="files/mag02-phylogenomics/5-phylogenomics/gene_names.txt">gene list</a>.
 </aside>
 <p>Like before, we start by getting a <em>default config</em> file for the workflow. Modify the file how you like but make sure to add the <em>genes file name</em> (or a list of genes) to the config file.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics</span>
-<span id="cb36-2"><a href="#cb36-2"></a>                  <span class="ex">--get-default-config</span> phylogenomics-default-config.json</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> phylogenomics</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--get-default-config</span> phylogenomics-default-config.json</span></code></pre></div>
 <p>And now here are the Snakemake commands.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics</span>
-<span id="cb37-2"><a href="#cb37-2"></a>                  <span class="ex">-c</span> phylogenomics-config.json</span>
-<span id="cb37-3"><a href="#cb37-3"></a>                  <span class="ex">--additional-params</span></span>
-<span id="cb37-4"><a href="#cb37-4"></a>                  <span class="ex">--jobs</span> 5</span>
-<span id="cb37-5"><a href="#cb37-5"></a>                  <span class="ex">--resources</span> nodes=5</span>
-<span id="cb37-6"><a href="#cb37-6"></a>                  <span class="ex">--keep-going</span> --rerun-incomplete --unlock</span>
-<span id="cb37-7"><a href="#cb37-7"></a><span class="ex">anvi-run-workflow</span> -w phylogenomics</span>
-<span id="cb37-8"><a href="#cb37-8"></a>                  <span class="ex">-c</span> phylogenomics-config.json</span>
-<span id="cb37-9"><a href="#cb37-9"></a>                  <span class="ex">--additional-params</span></span>
-<span id="cb37-10"><a href="#cb37-10"></a>                  <span class="ex">--jobs</span> 5 --resources nodes=5</span>
-<span id="cb37-11"><a href="#cb37-11"></a>                  <span class="ex">--keep-going</span> --rerun-incomplete</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> phylogenomics</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-c</span> phylogenomics-config.json</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--additional-params</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--jobs</span> 5</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--resources</span> nodes=5</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--keep-going</span> <span class="at">--rerun-incomplete</span> <span class="at">--unlock</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-run-workflow</span> <span class="at">-w</span> phylogenomics</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-c</span> phylogenomics-config.json</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--additional-params</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--jobs</span> 5 <span class="at">--resources</span> nodes=5</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--keep-going</span> <span class="at">--rerun-incomplete</span></span></code></pre></div>
 <blockquote>
 <p>Phylogenomic analysis of 73 <em>Arcobacter</em> and 3 <em>Sulfurimonas</em> genomes.</p>
 </blockquote>
 <p>And away she goes. A straight-up phylogenomic approach using SCG (<em>picked somewhat at random</em>) as we just did may not be the best approach for scrutinizing closely related genomes. This is because we are not taking into account the degree of <a href="http://merenlab.org/2016/11/08/pangenomics-v2/#concept-of-homogeneity">homogeneity</a> within gene clusters. A better approach is to calculate homogeneity indices and use the results to guide the choice of genes clusters for the phylogenomic analysis. For this, we will use anvi’o pangenomic analysis.</p>
 <h2 id="pangenome-analysis">Pangenome Analysis</h2>
 <p>For a pangenomic analysis we first need to generate a <a href="http://merenlab.org/2016/11/08/pangenomics-v2/#generating-an-anvio-genomes-storage"><em>genome storage</em></a> database, which is a special anvi’o database. Whatever you choose to name this database, <strong>it must have the extension <code>-GENOMES.db</code></strong>. We generally followed this <a href="http://merenlab.org/2016/11/08/pangenomics-v2/">anvi’o workflow for microbial pangenomics</a> when designing our workflow.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1"></a><span class="ex">anvi-gen-genomes-storage</span> -e arco-phylo-external-genomes.txt \</span>
-<span id="cb38-2"><a href="#cb38-2"></a>                         -o ARCOBACTER-GENOMES.db</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-gen-genomes-storage</span> <span class="at">-e</span> arco-phylo-external-genomes.txt <span class="dt">\</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">-o</span> ARCOBACTER-GENOMES.db</span></code></pre></div>
 <p>And then we can run the pangenome analysis itself. We use the <code>--min-occurrence</code> flag set to <code>3</code> to ignore singleton and doubleton gene clusters.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="ex">anvi-pan-genome</span> -g ARCOBACTER-GENOMES.db \</span>
-<span id="cb39-2"><a href="#cb39-2"></a>                --min-occurrence 3 \</span>
-<span id="cb39-3"><a href="#cb39-3"></a>                --project-name ARCOBACTER -T <span class="va">$NSLOTS</span></span></code></pre></div>
-<p>Anvi’o will create gene cluster using the MCL (Markov Cluster) algorithm <span class="citation" data-cites="jain2018high">(Jain et al. <a href="#ref-jain2018high" role="doc-biblioref">2018</a>)</span> and calculate homogeneity indices. Then we can visualize the results using the anvi’o interactive interface.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1"></a><span class="ex">anvi-display-pan</span> -g ARCOBACTER-GENOMES.db -p ARCOBACTER-PAN.db</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-pan-genome</span> <span class="at">-g</span> ARCOBACTER-GENOMES.db <span class="dt">\</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">--min-occurrence</span> 3 <span class="dt">\</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">--project-name</span> ARCOBACTER <span class="at">-T</span> <span class="va">$NSLOTS</span></span></code></pre></div>
+<p>Anvi’o will create gene cluster using the MCL (Markov Cluster) algorithm <span class="citation" data-cites="jain2018high">(<a href="#ref-jain2018high" role="doc-biblioref">Jain et al. 2018</a>)</span> and calculate homogeneity indices. Then we can visualize the results using the anvi’o interactive interface.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-display-pan</span> <span class="at">-g</span> ARCOBACTER-GENOMES.db <span class="at">-p</span> ARCOBACTER-PAN.db</span></code></pre></div>
 <p>Once inside the interactive, we performed the following steps:</p>
 <ol type="1">
 <li>Hit <strong>Draw</strong> and the pangenome will render in the browser window.</li>
@@ -3208,25 +3233,25 @@ Here is the <a href="files/mag02-phylogenomics/5-phylogenomics/phylogenomics-con
 <li>In the popup window make sure you like the settings and hit <em>Generate</em>.</li>
 </ol>
 <p>Rather than using the tree generated <em>on the fly</em> by anvi’o, let’s get the sequences from the curated bin collection and do the analysis ourselves.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1"></a><span class="ex">anvi-get-sequences-for-gene-clusters</span> -p ARCOBACTER-PAN.db \</span>
-<span id="cb41-2"><a href="#cb41-2"></a>                                     -g ARCOBACTER-GENOMES.db \</span>
-<span id="cb41-3"><a href="#cb41-3"></a>                                     -C default -b better_core \</span>
-<span id="cb41-4"><a href="#cb41-4"></a>                                     --concatenate-gene-clusters \</span>
-<span id="cb41-5"><a href="#cb41-5"></a>                                     --align-with muscle \</span>
-<span id="cb41-6"><a href="#cb41-6"></a>                                     -o ARCOBACTER-proteins-better-core.fa</span></code></pre></div>
-<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE <span class="citation" data-cites="edgar2004muscle">(Edgar <a href="#ref-edgar2004muscle" role="doc-biblioref">2004</a>)</span>), and then concatenates the sequences.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-gene-clusters</span> <span class="at">-p</span> ARCOBACTER-PAN.db <span class="dt">\</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">-g</span> ARCOBACTER-GENOMES.db <span class="dt">\</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">-C</span> default <span class="at">-b</span> better_core <span class="dt">\</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">--concatenate-gene-clusters</span> <span class="dt">\</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">--align-with</span> muscle <span class="dt">\</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">-o</span> ARCOBACTER-proteins-better-core.fa</span></code></pre></div>
+<p>Under this scenario, anvi’o retrieves, aligns (in this case with MUSCLE <span class="citation" data-cites="edgar2004muscle">(<a href="#ref-edgar2004muscle" role="doc-biblioref">Edgar 2004</a>)</span>), and then concatenates the sequences.</p>
 <p>It is important to note that everything we just in the interface can instead be done in the command line. If you look at the help menu for <code>anvi-get-sequences-for-gene-clusters</code> you will see that you can apply the filtering steps described above directly in the command line without the pangenomic interactive. Personally, I like to use the interactive because I can <em>visually</em> inspect each gene cluster to make sure nothing fishy is going on. The parameters you choose will depend on your question and the peculiarities of your data set, so play around.</p>
 <p>Just for the fun of it, let’s have a look at what this entails without running interactive.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="ex">anvi-get-sequences-for-gene-clusters</span> \</span>
-<span id="cb42-2"><a href="#cb42-2"></a>                        -p ARCOBACTER-PAN.db \</span>
-<span id="cb42-3"><a href="#cb42-3"></a>                        -g ARCOBACTER-GENOMES.db \</span>
-<span id="cb42-4"><a href="#cb42-4"></a>                        -o ARCOBACTER-proteins-better-core_no_interactive.fa \</span>
-<span id="cb42-5"><a href="#cb42-5"></a>                        --concatenate-gene-clusters \</span>
-<span id="cb42-6"><a href="#cb42-6"></a>                        --min-num-genomes-gene-cluster-occurs 76  \</span>
-<span id="cb42-7"><a href="#cb42-7"></a>                        --min-num-genes-from-each-genome 1 \</span>
-<span id="cb42-8"><a href="#cb42-8"></a>                        --max-num-genes-from-each-genome 1 \</span>
-<span id="cb42-9"><a href="#cb42-9"></a>                        --max-functional-homogeneity-index 0.95 \</span>
-<span id="cb42-10"><a href="#cb42-10"></a>                        --min-geometric-homogeneity-index 0.99</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-gene-clusters</span> <span class="dt">\</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">-p</span> ARCOBACTER-PAN.db <span class="dt">\</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">-g</span> ARCOBACTER-GENOMES.db <span class="dt">\</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">-o</span> ARCOBACTER-proteins-better-core_no_interactive.fa <span class="dt">\</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--concatenate-gene-clusters</span> <span class="dt">\</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--min-num-genomes-gene-cluster-occurs</span> 76  <span class="dt">\</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--min-num-genes-from-each-genome</span> 1 <span class="dt">\</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--max-num-genes-from-each-genome</span> 1 <span class="dt">\</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--max-functional-homogeneity-index</span> 0.95 <span class="dt">\</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">--min-geometric-homogeneity-index</span> 0.99</span></code></pre></div>
 <p>And the last part of the output looks like this:</p>
 <pre><code>INFO
 ===============================================
@@ -3236,75 +3261,89 @@ for downstream analyses. Just so you know.
 Sequence type ...............................................: Amino acid
 Output file for phylogenomics ...............................: ARCOBACTER-proteins-better-core_no_interactive.fa</code></pre>
 <p>As expected, 36 gene clusters encompassing a total of 2736 genes. <em>Note, the order of genes in the concatenate file may differ but the content should be the same.</em></p>
-<p>Anyway, regardless of the approach you choose, now we can use your curated SCG fasta file to construct a new phylogenomic tree. You can either do this is anvi’o, which will use <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span>, or you can run a program outside anvi’o.</p>
+<p>Anyway, regardless of the approach you choose, now we can use your curated SCG fasta file to construct a new phylogenomic tree. You can either do this is anvi’o, which will use <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(<a href="#ref-minh2020iq" role="doc-biblioref">Minh et al. 2020</a>)</span>, or you can run a program outside anvi’o.</p>
 <p>The anvi’o way…</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1"></a><span class="ex">anvi-gen-phylogenomic-tree</span> -f ARCOBACTER-proteins-better-core.fa</span>
-<span id="cb44-2"><a href="#cb44-2"></a>                           <span class="ex">-o</span> ARCOBACTER-proteins-better-core.tre</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-gen-phylogenomic-tree</span> <span class="at">-f</span> ARCOBACTER-proteins-better-core.fa</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                           <span class="ex">-o</span> ARCOBACTER-proteins-better-core.tre</span></code></pre></div>
 <h2 id="generating-visualizing-tree">Generating &amp; Visualizing Tree</h2>
-<p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em> <span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
+<p>Instead, we will use <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(<a href="#ref-minh2020iq" role="doc-biblioref">Minh et al. 2020</a>)</span> (v. 2.0.3) natively with <em>ModelFinder Plus</em> <span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(<a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">Kalyaanamoorthy et al. 2017</a>)</span> to perform extended model selection followed by tree inference. <em>ModelFinder</em> computes the log-likelihoods of an initial parsimony tree for many different models then computes Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC) to choose the substitution model that minimizes the BIC score.</p>
 <aside>
 It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in the IQ-TREE. This genome was removed retroactively.
 </aside>
-<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1"></a><span class="ex">iqtree</span> -s ARCOBACTER-proteins-better-core.fa</span>
-<span id="cb45-2"><a href="#cb45-2"></a>                  <span class="ex">--prefix</span> arcobacterMFP</span>
-<span id="cb45-3"><a href="#cb45-3"></a>                  <span class="ex">-m</span> MFP</span></code></pre></div>
-<p><em>ModelFinder</em> tested 51 models (it will test up to 546 protein models) and selected LG+F+R6 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations <span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1"></a><span class="ex">iqtree</span> -s ARCOBACTER-proteins-better-core.fa</span>
-<span id="cb46-2"><a href="#cb46-2"></a>       <span class="ex">--prefix</span> arcobacterLG+F+R6-5000</span>
-<span id="cb46-3"><a href="#cb46-3"></a>       <span class="ex">-m</span> LG+F+R6 -bb 5000 -T <span class="va">$NSLOTS</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> ARCOBACTER-proteins-better-core.fa</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--prefix</span> arcobacterMFP</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-m</span> MFP</span></code></pre></div>
+<p><em>ModelFinder</em> tested 51 models (it will test up to 546 protein models) and selected LG+F+R6 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations <span class="citation" data-cites="hoang2017ultrafast">(<a href="#ref-hoang2017ultrafast" role="doc-biblioref">Hoang et al. 2017</a>)</span>.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> ARCOBACTER-proteins-better-core.fa</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>       <span class="ex">--prefix</span> arcobacterLG+F+R6-5000</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>       <span class="ex">-m</span> LG+F+R6 <span class="at">-bb</span> 5000 <span class="at">-T</span> <span class="va">$NSLOTS</span></span></code></pre></div>
 <p>Great, we have a tree but really no other information to decorate it with. So far, we have generated a lot of metric data for each genome. Luckily, all of that is in the pangenome database. We use the command <code>anvi-export-misc-data</code> to get most what we need.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1"></a><span class="ex">anvi-export-misc-data</span> --pan-or-profile-db ARCOBACTER-PAN.db \</span>
-<span id="cb47-2"><a href="#cb47-2"></a>                      --target-data-table layers \</span>
-<span id="cb47-3"><a href="#cb47-3"></a>                      --output-file genome_stats.txt</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-export-misc-data</span> <span class="at">--pan-or-profile-db</span> ARCOBACTER-PAN.db <span class="dt">\</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">--target-data-table</span> layers <span class="dt">\</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">--output-file</span> genome_stats.txt</span></code></pre></div>
 <p>This table contains things like total length, GC content, percent completion, percent redundancy, and so on. One piece we do not have by may want is the SCG taxonomy, speciffically the genus prediction. Clearly from what we have seen, these are not all <em>Arcobacter</em>, despite most genomes carrying that name.</p>
 <p>We did this way back in the beginning, but let’s do it again for our final collection.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1"></a><span class="kw">for</span> <span class="ex">genome</span> in <span class="kw">`</span><span class="fu">cat</span> final_genomes.txt<span class="kw">`;</span></span>
-<span id="cb48-2"><a href="#cb48-2"></a><span class="kw">do</span></span>
-<span id="cb48-3"><a href="#cb48-3"></a>       <span class="ex">anvi-estimate-scg-taxonomy</span> \</span>
-<span id="cb48-4"><a href="#cb48-4"></a>       -c 03_CONTIGS/<span class="va">$genome</span>-contigs.db \</span>
-<span id="cb48-5"><a href="#cb48-5"></a>       -o 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span></span>
-<span id="cb48-6"><a href="#cb48-6"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> genome <span class="kw">in</span> <span class="kw">`</span><span class="fu">cat</span> final_genomes.txt<span class="kw">`;</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>       <span class="ex">anvi-estimate-scg-taxonomy</span> <span class="dt">\</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">-c</span> 03_CONTIGS/<span class="va">$genome</span>-contigs.db <span class="dt">\</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">-o</span> 09_SCG_TAXONOMY/<span class="va">$genome</span>-SCG.txt<span class="kw">;</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>And add these data to our file with genome stats. Most of the lineage data is uninformative and can be eliminated. We also constructed a <em>metadata file</em> after sifting through all of the metadata we retrieved from NCBI about natural host and isolation source. We could combine these files but I like to keep the metadata file separate so I can add info as needed. Time to visualize.</p>
 <p>Since we do not have a database, anvi’o will create a dummy database the first time we run the command <code>anvi-interactive</code>. But we still must give a name for the as yet nonexistent dadabase.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1"></a><span class="ex">anvi-interactive</span> --profile-db profile.db</span>
-<span id="cb49-2"><a href="#cb49-2"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile</span>
-<span id="cb49-3"><a href="#cb49-3"></a>                 <span class="ex">--manual</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-interactive</span> <span class="at">--profile-db</span> profile.db</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--manual</span></span></code></pre></div>
 <p>Stop the interactive. Now we have a database to populate. Let’s add the genome metric data.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1"></a><span class="ex">anvi-import-misc-data</span> genome_stats.txt</span>
-<span id="cb50-2"><a href="#cb50-2"></a>                 <span class="ex">--pan-or-profile-db</span> profile.db</span>
-<span id="cb50-3"><a href="#cb50-3"></a>                 <span class="ex">--target-data-table</span> items</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-import-misc-data</span> genome_stats.txt</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--pan-or-profile-db</span> profile.db</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--target-data-table</span> items</span></code></pre></div>
 <p>Now we can restart the interactive with our metadata file of NCBI collection info.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1"></a><span class="ex">anvi-interactive</span> --profile-db profile.db</span>
-<span id="cb51-2"><a href="#cb51-2"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile</span>
-<span id="cb51-3"><a href="#cb51-3"></a>                 <span class="ex">--additional-layers</span> metadata.txt</span>
-<span id="cb51-4"><a href="#cb51-4"></a>                 <span class="ex">--manual</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-interactive</span> <span class="at">--profile-db</span> profile.db</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--tree</span> arcobacterLG+F+R6-5000.treefile</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--additional-layers</span> metadata.txt</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">--manual</span></span></code></pre></div>
 <h1 id="phylogenetic-analysis-of-mag02">Phylogenetic Analysis of MAG02</h1>
 <p>Next, we performed the same process for <strong>16S rRNA genes</strong> from all the genomes in the phylogenomic analysis.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span></span>
-<span id="cb52-2"><a href="#cb52-2"></a>                     <span class="ex">-e</span> arco-phylo-external-genomes.txt \</span>
-<span id="cb52-3"><a href="#cb52-3"></a>                     --hmm-sources Ribosomal_RNAs \</span>
-<span id="cb52-4"><a href="#cb52-4"></a>                     --gene-names Bacterial_16S_rRNA \</span>
-<span id="cb52-5"><a href="#cb52-5"></a>                     --no-wrap \</span>
-<span id="cb52-6"><a href="#cb52-6"></a>                     --return-best-hit \</span>
-<span id="cb52-7"><a href="#cb52-7"></a>                     --align-with muscle \</span>
-<span id="cb52-8"><a href="#cb52-8"></a>                     -o sequences-for-16s-rrna-hits.fa</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-get-sequences-for-hmm-hits</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                     <span class="ex">-e</span> arco-phylo-external-genomes.txt <span class="dt">\</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--hmm-sources</span> Ribosomal_RNAs <span class="dt">\</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--gene-names</span> Bacterial_16S_rRNA <span class="dt">\</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--no-wrap</span> <span class="dt">\</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--return-best-hit</span> <span class="dt">\</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">--align-with</span> muscle <span class="dt">\</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">-o</span> sequences-for-16s-rrna-hits.fa</span></code></pre></div>
 <p>The fasta output of this command needs a little TLC before continuing because anvi’o adds a bunch of info to the deflines about the gene. Good info to have but if we use this file in an external program like RAxML, all of this info becomes the name and I am sure you would not like to look at a tree with leaves like this:</p>
 <div class="l-body-outset">
 <p>|&gt;<em>Bacterial_16S_rRNA_Ribosomal_RNAs_2c53c82ce374e7c1bd22dd51720f5f90b9f43fdfb6b3b3d6cb0623b9 bin_id:Aliiarcobacter_faecis_AF1078|source:Ribosomal_RNAs|e_value:0|</em></p>
 </div>
 <p>We used <a href="http://www.barebones.com/products/bbedit/index.html">BBEdit</a> and some grep search and replace to extract the sample names.</p>
-<p>Next, we again ran <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(Minh et al. <a href="#ref-minh2020iq" role="doc-biblioref">2020</a>)</span> (v. 2.0.3) with <em>ModelFinder Plus</em> <span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(Kalyaanamoorthy et al. <a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">2017</a>)</span> to perform extended model selection followed by tree inference.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1"></a><span class="ex">iqtree</span> -s sequences-for-16s-rrna-hits-rename.fa</span>
-<span id="cb53-2"><a href="#cb53-2"></a>                  <span class="ex">--prefix</span> arcobacter-16s-MFP</span>
-<span id="cb53-3"><a href="#cb53-3"></a>                  <span class="ex">-m</span> MFP</span></code></pre></div>
-<p><em>ModelFinder</em> tested 29 models (it will test up to 286 DNA models) and selected TVM+F+I+G4 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations <span class="citation" data-cites="hoang2017ultrafast">(Hoang et al. <a href="#ref-hoang2017ultrafast" role="doc-biblioref">2017</a>)</span>.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1"></a><span class="ex">iqtree</span> -s sequences-for-16s-rrna-hits-rename.fa</span>
-<span id="cb54-2"><a href="#cb54-2"></a>                  <span class="ex">--prefix</span> arcobacter-16s-TVM+F+I+G4</span>
-<span id="cb54-3"><a href="#cb54-3"></a>                  <span class="ex">-m</span> TVM+F+I+G4 -bb 5000</span></code></pre></div>
+<p>Next, we again ran <a href="http://www.iqtree.org/">IQ-TREE</a> <span class="citation" data-cites="minh2020iq">(<a href="#ref-minh2020iq" role="doc-biblioref">Minh et al. 2020</a>)</span> (v. 2.0.3) with <em>ModelFinder Plus</em> <span class="citation" data-cites="kalyaanamoorthy2017modelfinder">(<a href="#ref-kalyaanamoorthy2017modelfinder" role="doc-biblioref">Kalyaanamoorthy et al. 2017</a>)</span> to perform extended model selection followed by tree inference.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> sequences-for-16s-rrna-hits-rename.fa</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--prefix</span> arcobacter-16s-MFP</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-m</span> MFP</span></code></pre></div>
+<p><em>ModelFinder</em> tested 29 models (it will test up to 286 DNA models) and selected TVM+F+I+G4 as the best-fit model based on BIC. We subsequently ran this model with 5000 ultrafast bootstrap approximations <span class="citation" data-cites="hoang2017ultrafast">(<a href="#ref-hoang2017ultrafast" role="doc-biblioref">Hoang et al. 2017</a>)</span>.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">iqtree</span> <span class="at">-s</span> sequences-for-16s-rrna-hits-rename.fa</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">--prefix</span> arcobacter-16s-TVM+F+I+G4</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>                  <span class="ex">-m</span> TVM+F+I+G4 <span class="at">-bb</span> 5000</span></code></pre></div>
 <p>If you are unfamiliar with IQ-TREE, check out the <a href="http://www.iqtree.org/doc/Tutorial">tutorial</a>. It’s a really nice program.</p>
 <h2 id="genome-metadata">Genome Metadata</h2>
 <p>Here is the metadata for record of all genomes used in phylogenomic analysis of MAG02. Table contains information for each of the 72 Arcobacter-like genomes (plus 3 outgroup genomes). Description of table headers are as follows.</p>
-<p><strong>genome_id</strong>: Name of genome in phylogenomic tree. <strong>isolation_category</strong>: Broad category based on <em>host/isolation source</em> information retrieved from the BioSample record. <strong>organism</strong>: Organism name retrieved from the BioSample record. <strong>strain_or_isolate</strong>: Genome stain or isolate designation. <strong>sample_information</strong>: Host/isolation source information retrieved from the BioSample record. <strong>bioproject</strong>: <a href="https://www.ncbi.nlm.nih.gov/bioproject">NCBI BioProject ID</a>. <strong>biosample</strong>: <a href="https://www.ncbi.nlm.nih.gov/biosample">NCBI BioSample ID</a>. <strong>assembly_accession</strong>: <a href="https://www.ncbi.nlm.nih.gov/assembly">NCBI Assembly ID</a>. <strong>taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Taxonomy ID</a>. <strong>species_taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Species Taxonomy ID</a>. <strong>doi_publication</strong>: DOI link for related publication. <strong>assembly_level</strong>: Assembly level. <strong>seq_rel_date</strong>: Genome release data. <strong>ftp_path</strong>: FTP link to download genome. <strong>submitter</strong>: Submitting Institution.</p>
+<p><strong>genome_id</strong>: Name of genome in phylogenomic tree.<br />
+<strong>isolation_category</strong>: Broad category based on <em>host/isolation source</em> information retrieved from the BioSample record.<br />
+<strong>organism</strong>: Organism name retrieved from the BioSample record.<br />
+<strong>strain_or_isolate</strong>: Genome stain or isolate designation.<br />
+<strong>sample_information</strong>: Host/isolation source information retrieved from the BioSample record.<br />
+<strong>bioproject</strong>: <a href="https://www.ncbi.nlm.nih.gov/bioproject">NCBI BioProject ID</a>.<br />
+<strong>biosample</strong>: <a href="https://www.ncbi.nlm.nih.gov/biosample">NCBI BioSample ID</a>.<br />
+<strong>assembly_accession</strong>: <a href="https://www.ncbi.nlm.nih.gov/assembly">NCBI Assembly ID</a>.<br />
+<strong>taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Taxonomy ID</a>.<br />
+<strong>species_taxid</strong>: <a href="https://www.ncbi.nlm.nih.gov/taxonomy">NCBI Species Taxonomy ID</a>.<br />
+<strong>doi_publication</strong>: DOI link for related publication.<br />
+<strong>assembly_level</strong>: Assembly level.<br />
+<strong>seq_rel_date</strong>: Genome release data.<br />
+<strong>ftp_path</strong>: FTP link to download genome.<br />
+<strong>submitter</strong>: Submitting Institution.</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-page">
 <div id="htmlwidget-8eaa0ab723af1ed46b0c" style="width:100%;height:auto;" class="datatables html-widget"></div>
@@ -3312,7 +3351,7 @@ It was here that Arcobacter_sp_NORP14 failed the composition Chi-squared test in
 </div>
 <p><br/></p>
 <blockquote>
-<p>A plain text version of this table (without HTML tags) <a href="files/mag02-phylogenomics/Supplementary_Table_1.txt" download="Supplementary_Table_1.txt"> can be downloaded here.</a></p>
+<p>A plain text version of this table (without HTML tags) <a href="files/mag02-phylogenomics/metadata_MAG02.txt" download="metadata_MAG02.txt"> can be downloaded here.</a></p>
 </blockquote>
 <h1 id="conclusion">Conclusion</h1>
 <p>Dandy. Now we have a phylogenomic tree of MAG02 with 72 other <em>Arcobacter</em> genomes and 3 from <em>Sulfurimonas</em> as the outgroup. We also have a phylogenetic tree of near-full length 16S rRNA genes from the same genomes.</p>
@@ -3329,37 +3368,37 @@ Previous
 <div class="meta-nav">
 Next
 </div>
-<p><a href="mg-function.html" rel="prev">N<sup><u>o</u></sup> 7. KEGG/KOFam Analysis</a></p>
+<p><a href="mag04-phylogenomics.html" rel="prev">N<sup><u>o</u></sup> 6b. MAG04 Phylogenomics</a></p>
 </div>
 </div>
-<h2 id="source-code" class="appendix">Source Code</h2>
+<h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mag02-phylogenomics.Rmd">clicking this link</a>.</p>
-<h2 id="data-availability" class="appendix">Data Availability</h2>
+<h2 class="appendix" id="data-availability">Data Availability</h2>
 <p>Files generated from the pangenomic (<code>01_MAG02_PAN/</code>), phylogenomic (<code>02_MAG02_PHYLOGENOMICS</code>), and 16S rRNA phylogenetic (<code>03_MAG02_16S_rRNA_PHYLOGENETICS</code>) analyses of MAG02 can be downloaded from figshare at <a href="https://doi.org/10.25573/data.12809561">doi:10.25573/data.12809561</a>. You can use the anvi’o commands described above to visualize the data.</p>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-edgar2004muscle">
-<p>Edgar, Robert C. 2004. “MUSCLE: Multiple Sequence Alignment with High Accuracy and High Throughput.” <em>Nucleic Acids Research</em> 32 (5): 1792–7. <a href="https://doi.org/10.1093/nar/gkh340">https://doi.org/10.1093/nar/gkh340</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-edgar2004muscle" class="csl-entry" role="doc-biblioentry">
+Edgar, Robert C. 2004. <span>“MUSCLE: Multiple Sequence Alignment with High Accuracy and High Throughput.”</span> <em>Nucleic Acids Research</em> 32 (5): 1792–97. <a href="https://doi.org/10.1093/nar/gkh340">https://doi.org/10.1093/nar/gkh340</a>.
 </div>
-<div id="ref-hoang2017ultrafast">
-<p>Hoang, Diep Thi, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh, and Le Sy Vinh. 2017. “UFBoot2: Improving the Ultrafast Bootstrap Approximation.” <em>Molecular Biology and Evolution</em> 35 (2): 518–22. <a href="https://doi.org/10.1093/molbev/msx281">https://doi.org/10.1093/molbev/msx281</a>.</p>
+<div id="ref-hoang2017ultrafast" class="csl-entry" role="doc-biblioentry">
+Hoang, Diep Thi, Olga Chernomor, Arndt von Haeseler, Bui Quang Minh, and Le Sy Vinh. 2017. <span>“UFBoot2: Improving the Ultrafast Bootstrap Approximation.”</span> <em>Molecular Biology and Evolution</em> 35 (2): 518–22. <a href="https://doi.org/10.1093/molbev/msx281">https://doi.org/10.1093/molbev/msx281</a>.
 </div>
-<div id="ref-jain2018high">
-<p>Jain, Chirag, Luis M Rodriguez-R, Adam M Phillippy, Konstantinos T Konstantinidis, and Srinivas Aluru. 2018. “High Throughput Ani Analysis of 90K Prokaryotic Genomes Reveals Clear Species Boundaries.” <em>Nature Communications</em> 9 (1): 1–8. <a href="https://doi.org/10.1038/s41467-018-07641-9">https://doi.org/10.1038/s41467-018-07641-9</a>.</p>
+<div id="ref-jain2018high" class="csl-entry" role="doc-biblioentry">
+Jain, Chirag, Luis M Rodriguez-R, Adam M Phillippy, Konstantinos T Konstantinidis, and Srinivas Aluru. 2018. <span>“High Throughput ANI Analysis of 90k Prokaryotic Genomes Reveals Clear Species Boundaries.”</span> <em>Nature Communications</em> 9 (1): 1–8. <a href="https://doi.org/10.1038/s41467-018-07641-9">https://doi.org/10.1038/s41467-018-07641-9</a>.
 </div>
-<div id="ref-kalyaanamoorthy2017modelfinder">
-<p>Kalyaanamoorthy, Subha, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler, and Lars S Jermiin. 2017. “ModelFinder: Fast Model Selection for Accurate Phylogenetic Estimates.” <em>Nature Methods</em> 14 (6): 587. <a href="https://doi.org/10.1038/nmeth.4285">https://doi.org/10.1038/nmeth.4285</a>.</p>
+<div id="ref-kalyaanamoorthy2017modelfinder" class="csl-entry" role="doc-biblioentry">
+Kalyaanamoorthy, Subha, Bui Quang Minh, Thomas KF Wong, Arndt von Haeseler, and Lars S Jermiin. 2017. <span>“ModelFinder: Fast Model Selection for Accurate Phylogenetic Estimates.”</span> <em>Nature Methods</em> 14 (6): 587. <a href="https://doi.org/10.1038/nmeth.4285">https://doi.org/10.1038/nmeth.4285</a>.
 </div>
-<div id="ref-koster2012snakemake">
-<p>Köster, Johannes, and Sven Rahmann. 2012. “Snakemake—a Scalable Bioinformatics Workflow Engine.” <em>Bioinformatics</em> 28 (19): 2520–2. <a href="https://doi.org/10.1093/bioinformatics/bts480">https://doi.org/10.1093/bioinformatics/bts480</a>.</p>
+<div id="ref-koster2012snakemake" class="csl-entry" role="doc-biblioentry">
+Köster, Johannes, and Sven Rahmann. 2012. <span>“Snakemake—a Scalable Bioinformatics Workflow Engine.”</span> <em>Bioinformatics</em> 28 (19): 2520–22. <a href="https://doi.org/10.1093/bioinformatics/bts480">https://doi.org/10.1093/bioinformatics/bts480</a>.
 </div>
-<div id="ref-lee2019gtotree">
-<p>Lee, Michael D. 2019. “GToTree: A User-Friendly Workflow for Phylogenomics.” <em>Bioinformatics</em> 35 (20): 4162–4. <a href="https://doi.org/10.1093/bioinformatics/btz188">https://doi.org/10.1093/bioinformatics/btz188</a>.</p>
+<div id="ref-lee2019gtotree" class="csl-entry" role="doc-biblioentry">
+Lee, Michael D. 2019. <span>“GToTree: A User-Friendly Workflow for Phylogenomics.”</span> <em>Bioinformatics</em> 35 (20): 4162–64. <a href="https://doi.org/10.1093/bioinformatics/btz188">https://doi.org/10.1093/bioinformatics/btz188</a>.
 </div>
-<div id="ref-minh2020iq">
-<p>Minh, Bui Quang, Heiko A Schmidt, Olga Chernomor, Dominik Schrempf, Michael D Woodhams, Arndt Von Haeseler, and Robert Lanfear. 2020. “IQ-Tree 2: New Models and Efficient Methods for Phylogenetic Inference in the Genomic Era.” <em>Molecular Biology and Evolution</em> 37 (5): 1530–4. <a href="https://doi.org/10.1093/molbev/msaa015">https://doi.org/10.1093/molbev/msaa015</a>.</p>
+<div id="ref-minh2020iq" class="csl-entry" role="doc-biblioentry">
+Minh, Bui Quang, Heiko A Schmidt, Olga Chernomor, Dominik Schrempf, Michael D Woodhams, Arndt Von Haeseler, and Robert Lanfear. 2020. <span>“IQ-TREE 2: New Models and Efficient Methods for Phylogenetic Inference in the Genomic Era.”</span> <em>Molecular Biology and Evolution</em> 37 (5): 1530–34. <a href="https://doi.org/10.1093/molbev/msaa015">https://doi.org/10.1093/molbev/msaa015</a>.
 </div>
-<div id="ref-parks2018gtgb">
-<p>Parks, Donovan H, Maria Chuvochina, David W Waite, Christian Rinke, Adam Skarshewski, Pierre-Alain Chaumeil, and Philip Hugenholtz. 2018. “A Standardized Bacterial Taxonomy Based on Genome Phylogeny Substantially Revises the Tree of Life.” <em>Nature Biotechnology</em> 36 (10): 1546–1696. <a href="https://doi.org/10.1038/nbt.4229">https://doi.org/10.1038/nbt.4229</a>.</p>
+<div id="ref-parks2018gtgb" class="csl-entry" role="doc-biblioentry">
+Parks, Donovan H, Maria Chuvochina, David W Waite, Christian Rinke, Adam Skarshewski, Pierre-Alain Chaumeil, and Philip Hugenholtz. 2018. <span>“A Standardized Bacterial Taxonomy Based on Genome Phylogeny Substantially Revises the Tree of Life.”</span> <em>Nature Biotechnology</em> 36 (10): 1546–696. <a href="https://doi.org/10.1038/nbt.4229">https://doi.org/10.1038/nbt.4229</a>.
 </div>
 </div>
 <section class="footnotes" role="doc-endnotes">
@@ -3394,6 +3433,7 @@ Next
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 

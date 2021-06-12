@@ -20,19 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +52,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; } /* Alert */
 code span.an { color: #008000; } /* Annotation */
@@ -82,42 +82,42 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
   <!--radix_placeholder_meta_tags-->
   <title>: No 4. Assembly &amp; Annotation Summary</title>
-  
+
   <meta property="description" itemprop="description" content="In this section of the workflow we summarize: **1**) QC &amp; assembly results. **2**) Kraken short read taxonomy. **3**) Mapping results. **4**) Contig classification."/>
-  
+
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
-  
-  
+
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content=": No 4. Assembly &amp; Annotation Summary"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="In this section of the workflow we summarize: **1**) QC &amp; assembly results. **2**) Kraken short read taxonomy. **3**) Mapping results. **4**) Contig classification."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content=": No 4. Assembly &amp; Annotation Summary"/>
   <meta property="twitter:description" content="In this section of the workflow we summarize: **1**) QC &amp; assembly results. **2**) Kraken short read taxonomy. **3**) Mapping results. **4**) Contig classification."/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 4. Assembly & Annotation Summary"]},{"type":"character","attributes":{},"value":["In this section of the workflow we summarize: **1**) QC & assembly results. **2**) Kraken short read taxonomy. **3**) Mapping results. **4**) Contig classification.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
   <meta name="distill:offset" content=""/>
-  
+
   <script type="application/javascript">
-  
+
     window.headroom_prevent_pin = false;
-  
+
     window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
       // initialize headroom for banner
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
@@ -134,13 +134,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       if(window.location.hash)
         headroom.unpin();
       $(header).addClass('headroom--transition');
-  
+
       // offset scroll location for banner on hash change
       // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
       window.addEventListener("hashchange", function(event) {
         window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
       });
-  
+
       // responsive menu
       $('.distill-site-header').each(function(i, val) {
         var topnav = $(this);
@@ -149,7 +149,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           topnav.toggleClass('responsive');
         });
       });
-  
+
       // nav dropdowns
       $('.nav-dropbtn').click(function(e) {
         $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
@@ -164,99 +164,99 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       });
     });
   </script>
-  
+
   <style type="text/css">
-  
+
   /* Theme (user-documented overrideables for nav appearance) */
-  
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
-  
+
   .distill-site-nav a {
     color: inherit;
     text-decoration: none;
   }
-  
+
   .distill-site-nav a:hover {
     color: white;
   }
-  
+
   @media print {
     .distill-site-nav {
       display: none;
     }
   }
-  
+
   .distill-site-header {
-  
+
   }
-  
+
   .distill-site-footer {
-  
+
   }
-  
-  
+
+
   /* Site Header */
-  
+
   .distill-site-header {
     width: 100%;
     box-sizing: border-box;
     z-index: 3;
   }
-  
+
   .distill-site-header .nav-left {
     display: inline-block;
     margin-left: 8px;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header .nav-left {
       margin-left: 0;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-right {
     float: right;
     margin-right: 8px;
   }
-  
+
   .distill-site-header a,
   .distill-site-header .title {
     display: inline-block;
     text-align: center;
     padding: 14px 10px 14px 10px;
   }
-  
+
   .distill-site-header .title {
     font-size: 18px;
     min-width: 150px;
   }
-  
+
   .distill-site-header .logo {
     padding: 0;
   }
-  
+
   .distill-site-header .logo img {
     display: none;
     max-height: 20px;
     width: auto;
     margin-bottom: -4px;
   }
-  
+
   .distill-site-header .nav-image img {
     max-height: 18px;
     width: auto;
     display: inline-block;
     margin-bottom: -3px;
   }
-  
-  
-  
+
+
+
   @media screen and (min-width: 1000px) {
     .distill-site-header .logo img {
       display: inline-block;
@@ -271,17 +271,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 12px;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-toggle {
     display: none;
   }
-  
+
   .nav-dropdown {
     display: inline-block;
     position: relative;
   }
-  
+
   .nav-dropdown .nav-dropbtn {
     border: none;
     outline: none;
@@ -295,7 +295,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 1px;
     z-index: 2;
   }
-  
+
   .nav-dropdown-content {
     display: none;
     position: absolute;
@@ -310,18 +310,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 4px;
     padding-bottom: 4px;
   }
-  
+
   .nav-dropdown-content hr {
     margin-top: 4px;
     margin-bottom: 4px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-dropdown-active {
     display: block;
   }
-  
+
   .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
     color: black;
     padding: 6px 24px;
@@ -329,7 +329,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     display: block;
     text-align: left;
   }
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     display: block;
     padding: 5px 24px;
@@ -339,21 +339,21 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #999999;
     white-space: nowrap;
   }
-  
+
   .nav-dropdown:hover .nav-dropbtn {
     color: white;
   }
-  
+
   .nav-dropdown-content a:hover {
     background-color: #ddd;
     color: black;
   }
-  
+
   .nav-right .nav-dropdown-content {
     margin-left: -45%;
     right: 0;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
     .distill-site-header a.nav-toggle {
@@ -373,8 +373,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       margin-left: 0;
     }
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
@@ -399,9 +399,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       text-align: left;
     }
   }
-  
+
   /* Site Footer */
-  
+
   .distill-site-footer {
     width: 100%;
     overflow: hidden;
@@ -412,19 +412,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-bottom: 30px;
     text-align: center;
   }
-  
+
   /* Headroom */
-  
+
   d-title {
     padding-top: 6rem;
   }
-  
+
   @media print {
     d-title {
       padding-top: 4rem;
     }
   }
-  
+
   .headroom {
     z-index: 1000;
     position: fixed;
@@ -432,36 +432,36 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     left: 0;
     right: 0;
   }
-  
+
   .headroom--transition {
     transition: all .4s ease-in-out;
   }
-  
+
   .headroom--unpinned {
     top: -100px;
   }
-  
+
   .headroom--pinned {
     top: 0;
   }
-  
+
   /* adjust viewport for navbar height */
   /* helps vertically center bootstrap (non-distill) content */
   .min-vh-100 {
     min-height: calc(100vh - 100px) !important;
   }
-  
+
   </style>
-  
+
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-  
+
   <script type="application/javascript">
-  
+
   function getMeta(metaName) {
     var metas = document.getElementsByTagName('meta');
     for (let i = 0; i < metas.length; i++) {
@@ -471,14 +471,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     }
     return '';
   }
-  
+
   function offsetURL(url) {
     var offset = getMeta('distill:offset');
     return offset ? offset + '/' + url : url;
   }
-  
+
   function createFuseIndex() {
-  
+
     // create fuse index
     var options = {
       keys: [
@@ -491,7 +491,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       threshold: 0
     };
     var fuse = new window.Fuse([], options);
-  
+
     // fetch the main search.json
     return fetch(offsetURL('search.json'))
       .then(function(response) {
@@ -521,7 +521,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               return fuse;
             });
           });
-  
+
         } else {
           return Promise.reject(
             new Error('Unexpected status from search index request: ' +
@@ -530,20 +530,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }
       });
   }
-  
+
   window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
     // get search element (bail if we don't have one)
     var searchEl = window.document.getElementById('distill-search');
     if (!searchEl)
       return;
-  
+
     createFuseIndex()
       .then(function(fuse) {
-  
+
         // make search box visible
         searchEl.classList.remove('hidden');
-  
+
         // initialize autocomplete
         var options = {
           autoselect: true,
@@ -592,19 +592,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       .catch(function(error) {
         console.log(error);
       });
-  
+
   });
-  
+
   </script>
-  
+
   <style type="text/css">
-  
+
   .nav-search {
     font-size: x-small;
   }
-  
+
   /* Algolioa Autocomplete */
-  
+
   .algolia-autocomplete {
     display: inline-block;
     margin-left: 10px;
@@ -618,8 +618,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px #0F2E3D solid;
     width: 180px;
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
       display: none;
@@ -635,13 +635,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       max-height: 400px;
     }
   }
-  
+
   .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
     width: 90%;
     outline: none;
     border: none;
   }
-  
+
   .algolia-autocomplete .aa-hint {
     color: #999;
   }
@@ -658,30 +658,30 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px solid #999;
     border-top: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
     cursor: pointer;
     padding: 5px 4px;
     border-bottom: 1px solid #eee;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
     border-bottom: none;
     margin-bottom: 2px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
     overflow: hidden;
     font-size: 0.8em;
     line-height: 1.4em;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
     font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
     display: inline-block;
     overflow: hidden;
@@ -689,22 +689,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 80%;
     margin-right: 4%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
     display: inline-block;
     width: 15%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
     height: 3em;
     width: auto;
     display: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
     display: initial;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
     background-color: #eee;
   }
@@ -712,47 +712,47 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: bold;
     font-style: normal;
   }
-  
+
   </style>
-  
-  
+
+
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   d-byline .byline {
     grid-template-columns: 2fr 2fr;
   }
-  
+
   d-byline .byline h3 {
     margin-block-start: 1.5em;
   }
-  
+
   d-byline .byline .authors-affiliations h3 {
     margin-block-start: 0.5em;
   }
-  
+
   .authors-affiliations .orcid-id {
     width: 16px;
     height:16px;
@@ -761,12 +761,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     vertical-align: middle;
     padding-bottom: 2px;
   }
-  
+
   d-title .dt-tags {
     margin-top: 1em;
     grid-column: text;
   }
-  
+
   .dt-tags .dt-tag {
     text-decoration: none;
     display: inline-block;
@@ -780,24 +780,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -805,75 +805,75 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article h2 {
     margin: 1rem 0 1.5rem 0;
   }
-  
+
   d-article h3 {
     margin-top: 1.5rem;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   /* Tweak code blocks */
-  
+
   d-article div.sourceCode code,
   d-article pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: auto;
   }
-  
+
   d-article div.sourceCode {
     background-color: white;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   d-article pre {
     font-size: 12px;
     color: black;
@@ -885,50 +885,50 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   d-article pre a {
     border-bottom: none;
   }
-  
+
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
   }
-  
+
   d-article details {
     grid-column: text;
     margin-bottom: 0.8em;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: visible !important;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
   }
-  
+
   d-article pre {
     font-size: 14px;
   }
-  
+
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -936,9 +936,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for d-contents */
-  
+
   .d-contents {
     grid-column: text;
     color: rgba(0,0,0,0.8);
@@ -950,7 +950,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 0.25em;
     justify-self: start;
   }
-  
+
   @media(min-width: 1000px) {
     .d-contents.d-contents-float {
       height: 0;
@@ -961,82 +961,82 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 2em;
     }
   }
-  
+
   .d-contents nav h3 {
     font-size: 18px;
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   .d-contents li {
     list-style-type: none
   }
-  
+
   .d-contents nav > ul {
     padding-left: 0;
   }
-  
+
   .d-contents ul {
     padding-left: 1em
   }
-  
+
   .d-contents nav ul li {
     margin-top: 0.6em;
     margin-bottom: 0.2em;
   }
-  
+
   .d-contents nav a {
     font-size: 13px;
     border-bottom: none;
     text-decoration: none
     color: rgba(0, 0, 0, 0.8);
   }
-  
+
   .d-contents nav a:hover {
     text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
+
   .d-contents nav > ul > li > a {
     font-weight: 600;
   }
-  
+
   .d-contents nav > ul > li > ul {
     font-weight: inherit;
   }
-  
+
   .d-contents nav > ul > li > ul > li {
     margin-top: 0.2em;
   }
-  
-  
+
+
   .d-contents nav ul {
     margin-top: 0;
     margin-bottom: 0.25em;
   }
-  
+
   .d-article-with-toc h2:nth-child(2) {
     margin-top: 0;
   }
-  
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1044,42 +1044,42 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
+
   /* Citations */
-  
+
   d-article .citation {
     color: inherit;
     cursor: inherit;
   }
-  
+
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
   }
-  
+
   /* Citation hover box */
-  
+
   .tippy-box[data-theme~=light-border] {
     background-color: rgba(250, 250, 250, 0.95);
   }
-  
+
   .tippy-content > p {
     margin-bottom: 0;
     padding: 2px;
   }
-  
-  
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -1095,11 +1095,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -1108,7 +1108,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -1124,16 +1124,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -1150,9 +1150,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
+
   /* Include appendix styles here so they can be overridden */
-  
+
   d-appendix {
     contain: layout style;
     font-size: 0.8em;
@@ -1164,7 +1164,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 60px;
     padding-bottom: 48px;
   }
-  
+
   d-appendix h3 {
     grid-column: page-start / text-start;
     font-size: 15px;
@@ -1173,59 +1173,59 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 0;
     color: rgba(0,0,0,0.65);
   }
-  
+
   d-appendix h3 + * {
     margin-top: 1em;
   }
-  
+
   d-appendix ol {
     padding: 0 0 0 15px;
   }
-  
+
   @media (min-width: 768px) {
     d-appendix ol {
       padding: 0 0 0 30px;
       margin-left: -30px;
     }
   }
-  
+
   d-appendix li {
     margin-bottom: 1em;
   }
-  
+
   d-appendix a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   d-appendix > * {
     grid-column: text;
   }
-  
+
   d-appendix > d-footnote-list,
   d-appendix > d-citation-list,
   d-appendix > distill-appendix {
     grid-column: screen;
   }
-  
+
   /* Include footnote styles here so they can be overridden */
-  
+
   d-footnote-list {
     contain: layout style;
   }
-  
+
   d-footnote-list > * {
     grid-column: text;
   }
-  
+
   d-footnote-list a.footnote-backlink {
     color: rgba(0,0,0,0.3);
     padding-left: 0.5em;
   }
-  
-  
-  
+
+
+
   /* Anchor.js */
-  
+
   .anchorjs-link {
     /*transition: all .25s linear; */
     text-decoration: none;
@@ -1236,86 +1236,86 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-decoration: none;
     border-bottom: none;
   }
-  
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
+
   /* Styles for listing layout (hide title) */
   .layout-listing d-title, .layout-listing .d-title {
     display: none;
   }
-  
+
   /* Styles for posts lists (not auto-injected) */
-  
-  
+
+
   .posts-with-sidebar {
     padding-left: 45px;
     padding-right: 45px;
   }
-  
+
   .posts-list .description h2,
   .posts-list .description p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   }
-  
+
   .posts-list .description h2 {
     font-weight: 700;
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .posts-list h2.post-tag {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 12px;
@@ -1324,7 +1324,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 60px;
     margin-bottom: 24px;
   }
-  
+
   .posts-list .post-preview {
     text-decoration: none;
     overflow: hidden;
@@ -1332,29 +1332,29 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px 0;
   }
-  
+
   .post-preview-last {
     border-bottom: none !important;
   }
-  
+
   .posts-list .posts-list-caption {
     grid-column: screen;
     font-weight: 400;
   }
-  
+
   .posts-list .post-preview h2 {
     margin: 0 0 6px 0;
     line-height: 1.2em;
     font-style: normal;
     font-size: 24px;
   }
-  
+
   .posts-list .post-preview p {
     margin: 0 0 12px 0;
     line-height: 1.4em;
     font-size: 16px;
   }
-  
+
   .posts-list .post-preview .thumbnail {
     box-sizing: border-box;
     margin-bottom: 24px;
@@ -1365,32 +1365,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 100%;
     display: block;
   }
-  
+
   .posts-list .metadata {
     font-size: 12px;
     line-height: 1.4em;
     margin-bottom: 18px;
   }
-  
+
   .posts-list .metadata > * {
     display: inline-block;
   }
-  
+
   .posts-list .metadata .publishedDate {
     margin-right: 2em;
   }
-  
+
   .posts-list .metadata .dt-authors {
     display: block;
     margin-top: 0.3em;
     margin-right: 2em;
   }
-  
+
   .posts-list .dt-tags {
     display: block;
     line-height: 1em;
   }
-  
+
   .posts-list .dt-tags .dt-tag {
     display: inline-block;
     color: rgba(0,0,0,0.6);
@@ -1403,24 +1403,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   .posts-list img {
     opacity: 1;
   }
-  
+
   .posts-list img[data-src] {
     opacity: 0;
   }
-  
+
   .posts-more {
     clear: both;
   }
-  
-  
+
+
   .posts-sidebar {
     font-size: 16px;
   }
-  
+
   .posts-sidebar h3 {
     font-size: 16px;
     margin-top: 0;
@@ -1428,39 +1428,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: 400;
     text-transform: uppercase;
   }
-  
+
   .sidebar-section {
     margin-bottom: 30px;
   }
-  
+
   .categories ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .categories li {
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
   }
-  
+
   .categories li>a {
     border-bottom: none;
   }
-  
+
   .categories li>a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
-  
+
   .categories .active {
     font-weight: 600;
   }
-  
+
   .categories .category-count {
     color: rgba(0, 0, 0, 0.4);
   }
-  
-  
+
+
   @media(min-width: 768px) {
     .posts-list .post-preview h2 {
       font-size: 26px;
@@ -1496,55 +1496,55 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-bottom: 24px;
     }
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -1556,11 +1556,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -1577,7 +1577,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -1597,14 +1597,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -1615,27 +1615,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   .downlevel .posts-list .post-preview {
     color: inherit;
   }
-  
-  
-  
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -1644,20 +1644,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // add anchors
     if (window.anchors) {
       window.anchors.options.placement = 'left';
       window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
     }
-  
-  
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -1670,39 +1670,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -1718,10 +1718,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     // move refs into #references-listing
     $('#references-listing').replaceWith($('#refs'));
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -1731,16 +1731,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
@@ -1753,40 +1753,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // remove code block used to force  highlighting css
     $('.distill-force-highlighting-css').parent().remove();
-  
+
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
     $('code.sourceCode a:empty').remove();
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // article with toc class
       $('.d-contents').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
@@ -1801,12 +1801,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).append(a);
         }
       });
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1818,11 +1818,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1842,22 +1842,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // remove d-appendix and d-footnote-list local styles
       $('d-appendix > style:first-child').remove();
       $('d-footnote-list > style:first-child').remove();
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // hoverable references
       $('span.citation[data-cites]').each(function() {
         var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
@@ -1871,39 +1871,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           placement: 'bottom-start'
         });
       });
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-contents').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1911,62 +1911,62 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1978,35 +1978,35 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -2020,21 +2020,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.18/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -2063,32 +2064,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   /********************************/
   /* controls general properties of site*/
   /********************************/
-  
+
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
     background-color: #FEFEFE;
   }
-  
+
   d-title h1{
   font-size: 2.1em;
   font-family: 'Work Sans';
   font-weight: 300;
   }
-  
+
   d-article h1 {
     font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
-  
+
   d-article h2 {
     font-size: 1.65em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 500;
   }
-  
+
   d-article h3 {
     margin-top: 1em;
   }
@@ -2096,40 +2097,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     grid-column-end: span 3;
     grid-column-gap: 8px;
   }
-  
+
   img.orcid-id {
     margin: 0;
   }
-  
+
   a.name:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   a.affiliation:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   blockquote p {
   	font-size: 1.3em;
   	font-family: 'Lato';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
-  
+
   d-article li {
     margin: 0px 0px 4px;
   }
-  
+
   /********************************/
   /* controls CODE*/
   /********************************/
-  
+
   /** pre.sourceCode controls code block without lang **/
-  
+
   /** Controls r code  **/
-  
+
   pre.sourceCode.r {
     margin-top: 0px;
      color: #333333;
@@ -2144,7 +2145,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
      border-bottom: 1px solid #B7B7B7;
      padding: 18px 0px 18px 20px;
    }
-  
+
    pre.sourceCode.bash {
      margin-top: 0px;
       color: #333333;
@@ -2160,7 +2161,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding: 18px 0px 18px 20px;
     }
   /** Controls code output **/
-  
+
   d-article pre {
      margin-top: 0px;
       color: #333333;
@@ -2170,11 +2171,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       overflow-x: scroll !important;
       padding:  10px 10px 10px 18px;
       border-radius: 5px;
-  
+
     }
-  
+
   /** Controls inline code  **/
-  
+
   p code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -2184,23 +2185,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 20px;
     color: #BF2727;
   }
-  
+
   d-article aside code {
     background-color: #E8E8E8;
     border-radius: 3px;
     font-family: 'Monaco', 'PT Mono', monospace;
     color: #BF2727;
   }
-  
+
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     text-transform: uppercase;
     color: #686868;
   }
-  
+
   .nav-dropdown-content a {
     font-family: 'Work Sans'
   }
@@ -2208,13 +2209,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #FEFEFE;
     font-weight: 400;
   }
-  
+
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
     margin-bottom: auto;
   }
-  
+
   .distill-site-nav {
       color: #FEFEFE;
       background-color: #143D59;
@@ -2224,39 +2225,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       position: absolute;
       font-family: 'Karla';
       letter-spacing: .1em;
-  
+
   }
-  
+
   .article-banner {
     width: auto;
     height: auto;
     border: 0;
   }
-  
+
   img[src="assets/banner.png"] {
     border: 0;
     padding: 0;
     width: 100%;
     margin: 100px 10px 0px 25px;
   }
-  
+
   /*************************************************
   *  code for side by side krona plot
   **************************************************/
-  
+
   .column {
     float: left;
     width: 48%;
     padding: 5px;
   }
-  
+
   /* Clear floats after image containers */
   .row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   div.krona {
     width: 100%;
   	height: 90%;
@@ -2265,7 +2266,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 25px;
   	margin-top: 5px;
   }
-  
+
   div.container-krona {
     text-align: center;
     padding: 1px 10px;
@@ -2274,33 +2275,33 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	line-height: 0.8em;
   	font-family: 'Inconsolata';
   }
-  
+
   div.container-krona p {
     margin: 20px;
   }
-  
+
   div.krona img {
     border:1px solid white;
     margin: 25px;
   }
-  
+
   img {
     margin: 25px;
   }
-  
+
   /*************************************************
   *  code for LIGHTBOX MARKUP
   **************************************************/
-  
+
   .thumbnail {
     max-width: 100%;
     position: relative;
   }
-  
+
   .lightbox {
   	/** Default lightbox to hidden */
   	display: none;
-  
+
   	/** Position and style */
   	position: fixed;
   	z-index: 999;
@@ -2311,7 +2312,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	left: 0;
   	background: rgba(0,0,0,0.8);
   }
-  
+
   .lightbox img {
   	/** Pad the lightbox image */
   	position: fixed;
@@ -2324,24 +2325,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	margin: auto;
   	box-sizing: border-box;
   }
-  
+
   .lightbox:target {
   	/** Remove default browser outline */
   	outline: none;
-  
+
   	/** Unhide lightbox **/
   	display: block;
   }
-  
+
   .lightbox:target img {
   	max-height: 100%;
   	max-width: 100%;
   }
-  
+
   /*************************************************
   *  code for DETAILS fold down
   **************************************************/
-  
+
   details {
     background-color: #ccd7df;
     cursor: pointer;
@@ -2353,52 +2354,52 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     outline: none;
     font-family: 'Karla'
   }
-  
+
   .active, details:hover {
     transition: max-height 0.2s ease-out;
     outline: none;
-  
+
     /* background-color: #acc2c2; */
   }
-  
+
   details {
     display: flex;
     justify-content: space-between;
     align-content: center;
     border-radius: 4px;
     outline: none;
-  
+
   }
-  
+
   details.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none;
-  
+
   }
-  
+
   summary::-webkit-details-marker {
     display: none;
     outline: none;
-  
+
   }
-  
+
   summary:focus {
     outline: none;
   }
-  
+
   summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f0fe";
   }
-  
+
   details[open] summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f146";
   }
-  
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2463,7 +2464,8 @@ METAGENOMIC
 <hr/>
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6a. MAG02 Phylogenomics</a>
+<a href="mag04-phylogenomics.html">6b. MAG04 Phylogenomics</a>
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
@@ -2492,39 +2494,51 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#qc-contig-stats">QC &amp; Contig Stats</a><ul>
+<li><a href="#qc-contig-stats">QC &amp; Contig Stats</a>
+<ul>
 <li><a href="#qc-results">QC Results</a></li>
 <li><a href="#assembly-results">Assembly Results</a></li>
 </ul></li>
 <li><a href="#krona-plots-explained">Krona Plots Explained</a></li>
 <li><a href="#short-read-taxonomy">Short-read Taxonomy</a></li>
 <li><a href="#mapping-results">Mapping Results</a></li>
-<li><a href="#contig-classification">Contig Classification</a><ul>
+<li><a href="#contig-classification">Contig Classification</a>
+<ul>
 <li><a href="#source-code">Source Code</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
+<details>
+<summary>
+Show setup information.
+</summary>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">collapse =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(kableExtra, DT, htmlwidgets, htmltools, magick, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+</div>
+</details>
 <h1 id="qc-contig-stats">QC &amp; Contig Stats</h1>
 <h2 id="qc-results">QC Results</h2>
 <p>The first thing we should do is look at the results of the initial QC step. For each sample, anvi’o spits out individual quality control reports. Thankfully anvi’o also concatenates those files into one table. This table contains information like the number of pairs analyzed, the total pairs passed, etc.</p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-943a55846508a9f81bdc" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-943a55846508a9f81bdc">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">QC results<\/caption>","autoHideNavigation":true,"data":[["WCCR_1913","WCCR_1916","WROL_1914","WROL_1915"],[2869358,4053466,3401120,3568123],[2703302,3852213,3229485,3383451],[94.21,95.04,94.95,94.82],[0,0,0,0],[0,0,0,0],[1379,1859,1629,1761],[0.05,0.05,0.05,0.05],[166056,201253,171635,184672],[5.79,4.96,5.05,5.18],[18998,23813,20776,21349],[11.44,11.83,12.1,11.56],[94145,120670,103458,107716],[56.69,59.96,60.28,58.33],[52913,56770,47401,55607],[31.86,28.21,27.62,30.11],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>number_of_pairs_analyzed<\/th>\n      <th>total_pairs_passed<\/th>\n      <th>percent_total_pairs_passed<\/th>\n      <th>total_pair_1_trimmed<\/th>\n      <th>percent_total_pair_1_trimmed<\/th>\n      <th>total_pair_2_trimmed<\/th>\n      <th>percent_total_pair_2_trimmed<\/th>\n      <th>total_pairs_failed<\/th>\n      <th>percent_total_pairs_failed<\/th>\n      <th>pairs_failed_due_to_pair_1<\/th>\n      <th>percent_pairs_failed_due_to_pair_1<\/th>\n      <th>pairs_failed_due_to_pair_2<\/th>\n      <th>percent_pairs_failed_due_to_pair_2<\/th>\n      <th>pairs_failed_due_to_both<\/th>\n      <th>percent_pairs_failed_due_to_both<\/th>\n      <th>FAILED_REASON_P<\/th>\n      <th>percent_FAILED_REASON_P<\/th>\n      <th>FAILED_REASON_N<\/th>\n      <th>percent_FAILED_REASON_N<\/th>\n      <th>FAILED_REASON_C33<\/th>\n      <th>percent_FAILED_REASON_C33<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}],"dom":"Btir","buttons":["csv","copy","colvis"],"scrollX":true,"scrollCollapse":true,"scrollY":"300px","paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-28f5cb61d4bf48e78591" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-28f5cb61d4bf48e78591">{"x":{"filter":"none","extensions":["Buttons","FixedColumns"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">QC results<\/caption>","autoHideNavigation":true,"data":[["WCCR_1913","WCCR_1916","WROL_1914","WROL_1915"],[2869358,4053466,3401120,3568123],[2703302,3852213,3229485,3383451],[94.21,95.04,94.95,94.82],[0,0,0,0],[0,0,0,0],[1379,1859,1629,1761],[0.05,0.05,0.05,0.05],[166056,201253,171635,184672],[5.79,4.96,5.05,5.18],[18998,23813,20776,21349],[11.44,11.83,12.1,11.56],[94145,120670,103458,107716],[56.69,59.96,60.28,58.33],[52913,56770,47401,55607],[31.86,28.21,27.62,30.11],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>number_of_pairs_analyzed<\/th>\n      <th>total_pairs_passed<\/th>\n      <th>percent_total_pairs_passed<\/th>\n      <th>total_pair_1_trimmed<\/th>\n      <th>percent_total_pair_1_trimmed<\/th>\n      <th>total_pair_2_trimmed<\/th>\n      <th>percent_total_pair_2_trimmed<\/th>\n      <th>total_pairs_failed<\/th>\n      <th>percent_total_pairs_failed<\/th>\n      <th>pairs_failed_due_to_pair_1<\/th>\n      <th>percent_pairs_failed_due_to_pair_1<\/th>\n      <th>pairs_failed_due_to_pair_2<\/th>\n      <th>percent_pairs_failed_due_to_pair_2<\/th>\n      <th>pairs_failed_due_to_both<\/th>\n      <th>percent_pairs_failed_due_to_both<\/th>\n      <th>FAILED_REASON_P<\/th>\n      <th>percent_FAILED_REASON_P<\/th>\n      <th>FAILED_REASON_N<\/th>\n      <th>percent_FAILED_REASON_N<\/th>\n      <th>FAILED_REASON_C33<\/th>\n      <th>percent_FAILED_REASON_C33<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}],"dom":"Btir","buttons":["csv","copy","colvis"],"scrollX":true,"scrollCollapse":true,"scrollY":"300px","paging":false,"fixedColumns":{"leftColumns":1,"rightColumns":0},"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h2 id="assembly-results">Assembly Results</h2>
 <p>Next we can look at the results of the co-assembly, the number of HMM hits, and the estimated number of genomes. These data not only give us a general idea of assembly quality but will also help us decide parameters for automatic clustering down the road.</p>
 <p>We can use anvi’o to generate a simple table of contig stats for this assembly.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">anvi-display-contigs-stats</span> 03_CONTIGS/WATER-contigs.db -o 03_CONTIGS/WATER-contig-stats -o contig-stats.txt</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-display-contigs-stats</span> 03_CONTIGS/WATER-contigs.db <span class="at">-o</span> 03_CONTIGS/WATER-contig-stats <span class="at">-o</span> contig-stats.txt</span></code></pre></div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-28f5cb61d4bf48e78591" style="width:50%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-28f5cb61d4bf48e78591">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a3760ded907df2533572" style="width:50%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a3760ded907df2533572">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.2: Assembly statistics<\/caption>","data":[["Total Length","Num Contigs","Num Contigs &gt; 5 kb","Num Contigs &gt; 10 kb","Num Contigs &gt; 20 kb","Num Contigs &gt; 50 kb","Num Contigs &gt; 100 kb","Longest Contig","Shortest Contig","Num Genes (prodigal)","L50","L75","L90","N50","N75","N90","Ribosomal_RNAs","Transfer_RNAs","Archaea_76","Bacteria_71","Protista_83","bacteria (Bacteria_71)","eukarya (Protista_83)","archaea (Archaea_76)"],[42664825,23758,642,168,44,5,1,102437,1000,65102,6759,14138,19652,1718,1253,1083,61,827,581,997,69,14,0,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Stat<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":1}],"dom":"Blrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"scroller":true,"lengthMenu":[5,25],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
 <h1 id="krona-plots-explained">Krona Plots Explained</h1>
-<p>Next let’s take a look at the taxonomic breakdown from the KrakenUniq classification of short reads. There is a lot of data here, so we decided to present these as standalone HTML pages that contain separate <a href="https://github.com/marbl/Krona/wiki">Krona</a> <span class="citation" data-cites="ondov2011krona">(Ondov, Bergman, and Phillippy <a href="#ref-ondov2011krona" role="doc-biblioref">2011</a>)</span> plots for each sample. In brief, a Krona plot allow hierarchical data to be explored with multi-layered pie charts. These charts are interactive. We will use these on a few occasions, so it is worth explaining in a little more detail.</p>
+<p>Next let’s take a look at the taxonomic breakdown from the KrakenUniq classification of short reads. There is a lot of data here, so we decided to present these as standalone HTML pages that contain separate <a href="https://github.com/marbl/Krona/wiki">Krona</a> <span class="citation" data-cites="ondov2011krona">(<a href="#ref-ondov2011krona" role="doc-biblioref">Ondov, Bergman, and Phillippy 2011</a>)</span> plots for each sample. In brief, a Krona plot allow hierarchical data to be explored with multi-layered pie charts. These charts are interactive. We will use these on a few occasions, so it is worth explaining in a little more detail.</p>
 <p>Below is an example of a Kraken taxonomy plot. The plot on the left is the <em>top level</em> view and the plot on the right is the <em>expanded</em> view. Inner rings represent higher taxonomic ranks.</p>
 <p>For example, the two most inner rings are <em>cellular organisms</em> and <em>viruses</em>. Taxonomic ranks decrease towards the outside. When a group is expanded the inner ring becomes the highest rank. For example, in the plot of the right we expanded the <em>Proteobacteria</em> (which is a phylum) so the classes form the inner rings.</p>
 <div class="l-body-outset">
@@ -2565,25 +2579,25 @@ CRAWL CAYE<br/><small>Normoxic </small>
 <p>Click on an image to explore the diversity plots.</p>
 </blockquote>
 <p>Since these plots are web hosted, I decided to keep only the first 10 ranks from the classification files to make the files smaller*. To do this we can use the following command, which pulls out only the ranks we are interested in.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">cut</span> -f 1-10 WROL_1914-kraken.krona <span class="op">&gt;</span> WROL_1914-kraken-TRIM.krona</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f</span> 1-10 WROL_1914-kraken.krona <span class="op">&gt;</span> WROL_1914-kraken-TRIM.krona</span></code></pre></div>
 <p>If we want to create a taxonomic summary table for the samples we can easily do that in anvio by accessing the <code>layer_additional_data</code> table from the merged profile database.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">anvi-export-table</span> 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o water-layer_additional_data.txt</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-export-table</span> 06_MERGED/WATER/PROFILE.db <span class="at">--table</span> layer_additional_data <span class="at">-o</span> water-layer_additional_data.txt</span></code></pre></div>
 <p>And then we simply parse out the class data and make a table.</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-a3760ded907df2533572" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a3760ded907df2533572">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f353840f458973aaf47d" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f353840f458973aaf47d">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.3: Number of reads by Class<\/caption>","autoHideNavigation":true,"data":[["Aconoidasida","Actinobacteria","Alphaproteobacteria","Bacillariophyceae","Bacilli","Bacteroidia","Betaproteobacteria","Chlorophyceae","Clostridia","Conoidasida","Coscinodiscophyceae","Cytophagia","Deltaproteobacteria","Dothideomycetes","Epsilonproteobacteria","Eurotiomycetes","Flavobacteriia","Florideophyceae","Gammaproteobacteria","Haptophyta","Leotiomycetes","Mamiellophyceae","Mollicutes","Myoviridae","Nostocales","Opitutae","Oscillatoriales","Planctomycetes_bacterium_Poly30","Planctomycetia","Podoviridae","Prasinovirus","Saccharomycetes","Siphoviridae","Sordariomycetes","Sphingobacteriia","Synechococcales","Unknown_t_domain_Bacteria","Unknown_t_domain_Viruses","Unknown_t_phylum_Dinophyceae","Unknown_t_phylum_Marine_virus_AFVG_117M32","Unknown_t_phylum_Marine_virus_AFVG_117M37","Unknown_t_phylum_Marine_virus_AFVG_117M41","Unknown_t_phylum_Marine_virus_AFVG_117M42","Unknown_t_phylum_Marine_virus_AFVG_117M61","Unknown_t_phylum_Marine_virus_AFVG_25M211","Unknown_t_phylum_Marine_virus_AFVG_25M39","Unknown_t_phylum_Marine_virus_AFVG_25M77","Unknown_t_phylum_Marine_virus_AFVG_25M83","Unknown_t_phylum_Marine_virus_AFVG_25M87","Unknown_t_phylum_Planctomycetes","Unknown_t_phylum_Prokaryotic_dsDNA_virus_sp","Unknown_t_phylum_Proteobacteria"],[0,4700,82381,621,1895,751,5061,0,1157,0,408,914,1960,0,31043,435,9609,0,36274,0,0,1217,337,33631,576,335,11880,442,411,3507,0,542,489,534,501,57576,3060,2209,0,0,0,0,0,0,443,0,0,0,0,540,1184,1823],[424,3029,30978,305,1014,0,1433,0,655,515,0,339,404,0,479,469,3908,307,6166,435,275,3316,0,64284,0,0,0,0,0,4075,0,568,372,733,0,124770,1376,1979,0,0,0,0,0,0,0,0,0,0,0,0,993,462],[524,3626,70093,369,1489,315,2028,340,947,655,0,585,440,358,614,749,4457,421,7333,659,367,15026,370,61486,0,0,0,0,0,5981,545,724,1091,1011,0,95428,1757,3710,289,399,346,300,374,0,0,0,311,297,290,0,1666,599],[0,3506,30166,0,1217,0,1729,0,853,0,0,368,481,0,584,489,3415,0,6665,499,0,4494,0,96680,0,0,0,0,0,6144,0,578,1501,701,0,171559,1669,4808,0,786,449,680,809,566,0,556,456,446,0,0,2679,589]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>CLASS<\/th>\n      <th>WROL_1914<\/th>\n      <th>WCCR_1913<\/th>\n      <th>WCCR_1916<\/th>\n      <th>WROL_1915<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3,4]}],"dom":"Blfrtip","lengthMenu":[10,25,55],"buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
 <h1 id="mapping-results">Mapping Results</h1>
 <p>Let’s go ahead and look at the mapping results. This took a little swindling but in the end this crude approach worked. First we needed all the <code>bowtie.log</code> files from the <code>00_LOGS</code> directory and grab the first line of each file, which has the total number of <em>individual reads that were paired</em> (after QC) in each sample.</p>
 <p>Just like we did above, we needed to grab the <code>layer_additional_data</code> from the merged profile databases. This table contains <code>total_reads_mapped</code>, <code>num_SNVs_reported</code>, and the taxonomic info from the short-read Kraken annotations.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">anvi-export-table</span> 06_MERGED/WATER/PROFILE.db --table layer_additional_data -o water-layer_additional_data.txt</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">anvi-export-table</span> 06_MERGED/WATER/PROFILE.db <span class="at">--table</span> layer_additional_data <span class="at">-o</span> water-layer_additional_data.txt</span></code></pre></div>
 <p>What we want is a table with <code>sample</code>, <code>total_reads</code>, <code>total_reads_mapped</code>, and <code>num_SNVs_reported</code>. After a little fancy grep work in <a href="https://www.barebones.com/products/bbedit/">BBEdit</a> (the free mode) we have a table the looks like this…</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-f353840f458973aaf47d" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f353840f458973aaf47d">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8f24fd2299602be33767" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8f24fd2299602be33767">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Table 8.4: Mapping results <\/caption>","autoHideNavigation":true,"data":[["WROL_1914","WROL_1915","WCCR_1913","WCCR_1916"],[3229485,3383451,2703302,3852213],[1000420,1592449,1230435,1368141],[86634,211662,107295,140035]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sample<\/th>\n      <th>total_reads<\/th>\n      <th>total_reads_mapped<\/th>\n      <th>num_SNVs_reported<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2,3]}],"dom":"Brti","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":false,"scrollY":false,"scroller":true,"colReorder":true,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>You can download a text version of the table using the table buttons.</p>
 <h1 id="contig-classification">Contig Classification</h1>
@@ -2632,13 +2646,13 @@ Next
 <p><a href="mg-binning.html" rel="prev">N<sup><u>o</u></sup> 5. Automated Binning</a></p>
 </div>
 </div>
-<h2 id="source-code" class="appendix">Source Code</h2>
+<h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-workflow-2.Rmd">clicking this link</a>.</p>
-<h2 id="data-availability" class="appendix">Data Availability</h2>
+<h2 class="appendix" id="data-availability">Data Availability</h2>
 <p>Full versions of the Krona plots linked above can be downloaded directly from figshare at <a href="https://doi.org/10.25573/data.12808502">doi:10.25573/data.12808502</a>. Files are in html format and can be opened directly in a web browser.</p>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-ondov2011krona">
-<p>Ondov, Brian D, Nicholas H Bergman, and Adam M Phillippy. 2011. “Interactive Metagenomic Visualization in a Web Browser.” <em>BMC Bioinformatics</em> 12 (1): 385. <a href="https://doi.org/10.1186/1471-2105-12-385">https://doi.org/10.1186/1471-2105-12-385</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-ondov2011krona" class="csl-entry" role="doc-biblioentry">
+Ondov, Brian D, Nicholas H Bergman, and Adam M Phillippy. 2011. <span>“Interactive Metagenomic Visualization in a Web Browser.”</span> <em>BMC Bioinformatics</em> 12 (1): 385. <a href="https://doi.org/10.1186/1471-2105-12-385">https://doi.org/10.1186/1471-2105-12-385</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->
@@ -2667,6 +2681,7 @@ Next
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 

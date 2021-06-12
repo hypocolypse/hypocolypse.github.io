@@ -20,19 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -52,7 +52,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; } /* Alert */
 code span.an { color: #008000; } /* Annotation */
@@ -82,44 +82,44 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
   <!--radix_placeholder_meta_tags-->
   <title>: No 2. Data Preparation</title>
-  
+
   <meta property="description" itemprop="description" content="Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. For aesthetic reasons, the R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is generally shown."/>
-  
+
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="assets/favicon.ico"/>
-  
-  
+
+
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content=": No 2. Data Preparation"/>
   <meta property="og:type" content="article"/>
   <meta property="og:description" content="Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. For aesthetic reasons, the R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is generally shown."/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content=""/>
-  
+
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content=": No 2. Data Preparation"/>
   <meta property="twitter:description" content="Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. For aesthetic reasons, the R code for tables &amp; figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is generally shown."/>
-  
+
   <!--/radix_placeholder_meta_tags-->
   
   <meta name="citation_reference" content="citation_title=Phyloseq: An r package for reproducible interactive analysis and graphics of microbiome census data;citation_publication_date=2013;citation_volume=8;citation_author=Paul J McMurdie;citation_author=Susan Holmes"/>
   <meta name="citation_reference" content="citation_title=Tools for microbiome analysis in r. Version 1.9.97;citation_publication_date=2017;citation_author=Leo Lahti;citation_author=Shetty Sudarshan;citation_author=Tools for microbiome analysis in r. Version 1.9.97"/>
   <!--radix_placeholder_rmarkdown_metadata-->
-  
+
   <script type="text/json" id="radix-rmarkdown-metadata">
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["No 2. Data Preparation"]},{"type":"character","attributes":{},"value":["Complete, reproducible workflow for preparation  of the **16S rRNA** data set. These steps are needed before analyzing the data. For aesthetic reasons, the R code for tables & figures are hidden (see the GitHub link at the bottom of the page for the raw `.Rmd` file). R code for everything else is generally shown.\n"]},{"type":"character","attributes":{},"value":["assets/cite.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
   <meta name="distill:offset" content=""/>
-  
+
   <script type="application/javascript">
-  
+
     window.headroom_prevent_pin = false;
-  
+
     window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
       // initialize headroom for banner
       var header = $('header').get(0);
       var headerHeight = header.offsetHeight;
@@ -136,13 +136,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       if(window.location.hash)
         headroom.unpin();
       $(header).addClass('headroom--transition');
-  
+
       // offset scroll location for banner on hash change
       // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
       window.addEventListener("hashchange", function(event) {
         window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
       });
-  
+
       // responsive menu
       $('.distill-site-header').each(function(i, val) {
         var topnav = $(this);
@@ -151,7 +151,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           topnav.toggleClass('responsive');
         });
       });
-  
+
       // nav dropdowns
       $('.nav-dropbtn').click(function(e) {
         $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
@@ -166,99 +166,99 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       });
     });
   </script>
-  
+
   <style type="text/css">
-  
+
   /* Theme (user-documented overrideables for nav appearance) */
-  
+
   .distill-site-nav {
     color: rgba(255, 255, 255, 0.8);
     background-color: #0F2E3D;
     font-size: 15px;
     font-weight: 300;
   }
-  
+
   .distill-site-nav a {
     color: inherit;
     text-decoration: none;
   }
-  
+
   .distill-site-nav a:hover {
     color: white;
   }
-  
+
   @media print {
     .distill-site-nav {
       display: none;
     }
   }
-  
+
   .distill-site-header {
-  
+
   }
-  
+
   .distill-site-footer {
-  
+
   }
-  
-  
+
+
   /* Site Header */
-  
+
   .distill-site-header {
     width: 100%;
     box-sizing: border-box;
     z-index: 3;
   }
-  
+
   .distill-site-header .nav-left {
     display: inline-block;
     margin-left: 8px;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header .nav-left {
       margin-left: 0;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-right {
     float: right;
     margin-right: 8px;
   }
-  
+
   .distill-site-header a,
   .distill-site-header .title {
     display: inline-block;
     text-align: center;
     padding: 14px 10px 14px 10px;
   }
-  
+
   .distill-site-header .title {
     font-size: 18px;
     min-width: 150px;
   }
-  
+
   .distill-site-header .logo {
     padding: 0;
   }
-  
+
   .distill-site-header .logo img {
     display: none;
     max-height: 20px;
     width: auto;
     margin-bottom: -4px;
   }
-  
+
   .distill-site-header .nav-image img {
     max-height: 18px;
     width: auto;
     display: inline-block;
     margin-bottom: -3px;
   }
-  
-  
-  
+
+
+
   @media screen and (min-width: 1000px) {
     .distill-site-header .logo img {
       display: inline-block;
@@ -273,17 +273,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 12px;
     }
   }
-  
-  
+
+
   .distill-site-header .nav-toggle {
     display: none;
   }
-  
+
   .nav-dropdown {
     display: inline-block;
     position: relative;
   }
-  
+
   .nav-dropdown .nav-dropbtn {
     border: none;
     outline: none;
@@ -297,7 +297,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 1px;
     z-index: 2;
   }
-  
+
   .nav-dropdown-content {
     display: none;
     position: absolute;
@@ -312,18 +312,18 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 4px;
     padding-bottom: 4px;
   }
-  
+
   .nav-dropdown-content hr {
     margin-top: 4px;
     margin-bottom: 4px;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .nav-dropdown-active {
     display: block;
   }
-  
+
   .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
     color: black;
     padding: 6px 24px;
@@ -331,7 +331,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     display: block;
     text-align: left;
   }
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     display: block;
     padding: 5px 24px;
@@ -341,21 +341,21 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #999999;
     white-space: nowrap;
   }
-  
+
   .nav-dropdown:hover .nav-dropbtn {
     color: white;
   }
-  
+
   .nav-dropdown-content a:hover {
     background-color: #ddd;
     color: black;
   }
-  
+
   .nav-right .nav-dropdown-content {
     margin-left: -45%;
     right: 0;
   }
-  
+
   @media screen and (max-width: 768px) {
     .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
     .distill-site-header a.nav-toggle {
@@ -375,8 +375,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       margin-left: 0;
     }
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-header.responsive {position: relative; min-height: 500px; }
     .distill-site-header.responsive a.nav-toggle {
@@ -401,9 +401,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       text-align: left;
     }
   }
-  
+
   /* Site Footer */
-  
+
   .distill-site-footer {
     width: 100%;
     overflow: hidden;
@@ -414,19 +414,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-bottom: 30px;
     text-align: center;
   }
-  
+
   /* Headroom */
-  
+
   d-title {
     padding-top: 6rem;
   }
-  
+
   @media print {
     d-title {
       padding-top: 4rem;
     }
   }
-  
+
   .headroom {
     z-index: 1000;
     position: fixed;
@@ -434,36 +434,36 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     left: 0;
     right: 0;
   }
-  
+
   .headroom--transition {
     transition: all .4s ease-in-out;
   }
-  
+
   .headroom--unpinned {
     top: -100px;
   }
-  
+
   .headroom--pinned {
     top: 0;
   }
-  
+
   /* adjust viewport for navbar height */
   /* helps vertically center bootstrap (non-distill) content */
   .min-vh-100 {
     min-height: calc(100vh - 100px) !important;
   }
-  
+
   </style>
-  
+
   <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
   <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
   <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
-  
+
   <script type="application/javascript">
-  
+
   function getMeta(metaName) {
     var metas = document.getElementsByTagName('meta');
     for (let i = 0; i < metas.length; i++) {
@@ -473,14 +473,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     }
     return '';
   }
-  
+
   function offsetURL(url) {
     var offset = getMeta('distill:offset');
     return offset ? offset + '/' + url : url;
   }
-  
+
   function createFuseIndex() {
-  
+
     // create fuse index
     var options = {
       keys: [
@@ -493,7 +493,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       threshold: 0
     };
     var fuse = new window.Fuse([], options);
-  
+
     // fetch the main search.json
     return fetch(offsetURL('search.json'))
       .then(function(response) {
@@ -523,7 +523,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
               return fuse;
             });
           });
-  
+
         } else {
           return Promise.reject(
             new Error('Unexpected status from search index request: ' +
@@ -532,20 +532,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         }
       });
   }
-  
+
   window.document.addEventListener("DOMContentLoaded", function (event) {
-  
+
     // get search element (bail if we don't have one)
     var searchEl = window.document.getElementById('distill-search');
     if (!searchEl)
       return;
-  
+
     createFuseIndex()
       .then(function(fuse) {
-  
+
         // make search box visible
         searchEl.classList.remove('hidden');
-  
+
         // initialize autocomplete
         var options = {
           autoselect: true,
@@ -594,19 +594,19 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       .catch(function(error) {
         console.log(error);
       });
-  
+
   });
-  
+
   </script>
-  
+
   <style type="text/css">
-  
+
   .nav-search {
     font-size: x-small;
   }
-  
+
   /* Algolioa Autocomplete */
-  
+
   .algolia-autocomplete {
     display: inline-block;
     margin-left: 10px;
@@ -620,8 +620,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px #0F2E3D solid;
     width: 180px;
   }
-  
-  
+
+
   @media screen and (max-width: 768px) {
     .distill-site-nav .algolia-autocomplete {
       display: none;
@@ -637,13 +637,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       max-height: 400px;
     }
   }
-  
+
   .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
     width: 90%;
     outline: none;
     border: none;
   }
-  
+
   .algolia-autocomplete .aa-hint {
     color: #999;
   }
@@ -660,30 +660,30 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border: 1px solid #999;
     border-top: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
     cursor: pointer;
     padding: 5px 4px;
     border-bottom: 1px solid #eee;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
     border-bottom: none;
     margin-bottom: 2px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
     overflow: hidden;
     font-size: 0.8em;
     line-height: 1.4em;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
     font-size: 1rem;
     margin-block-start: 0;
     margin-block-end: 5px;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
     display: inline-block;
     overflow: hidden;
@@ -691,22 +691,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 80%;
     margin-right: 4%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
     display: inline-block;
     width: 15%;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
     height: 3em;
     width: auto;
     display: none;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
     display: initial;
   }
-  
+
   .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
     background-color: #eee;
   }
@@ -714,47 +714,47 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: bold;
     font-style: normal;
   }
-  
+
   </style>
-  
-  
+
+
   <!--/radix_placeholder_navigation_in_header-->
   <!--radix_placeholder_distill-->
-  
+
   <style type="text/css">
-  
+
   body {
     background-color: white;
   }
-  
+
   .pandoc-table {
     width: 100%;
   }
-  
+
   .pandoc-table>caption {
     margin-bottom: 10px;
   }
-  
+
   .pandoc-table th:not([align]) {
     text-align: left;
   }
-  
+
   .pagedtable-footer {
     font-size: 15px;
   }
-  
+
   d-byline .byline {
     grid-template-columns: 2fr 2fr;
   }
-  
+
   d-byline .byline h3 {
     margin-block-start: 1.5em;
   }
-  
+
   d-byline .byline .authors-affiliations h3 {
     margin-block-start: 0.5em;
   }
-  
+
   .authors-affiliations .orcid-id {
     width: 16px;
     height:16px;
@@ -763,12 +763,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     vertical-align: middle;
     padding-bottom: 2px;
   }
-  
+
   d-title .dt-tags {
     margin-top: 1em;
     grid-column: text;
   }
-  
+
   .dt-tags .dt-tag {
     text-decoration: none;
     display: inline-block;
@@ -782,24 +782,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
   }
-  
+
   .html-widget {
     margin-bottom: 2.0em;
   }
-  
+
   .l-screen-inset {
     padding-right: 16px;
   }
-  
+
   .l-screen .caption {
     margin-left: 10px;
   }
-  
+
   .shaded {
     background: rgb(247, 247, 247);
     padding-top: 20px;
@@ -807,75 +807,75 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .html-widget {
     margin-bottom: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .shaded .shaded-content {
     background: white;
   }
-  
+
   .text-output {
     margin-top: 0;
     line-height: 1.5em;
   }
-  
+
   .hidden {
     display: none !important;
   }
-  
+
   d-article {
     padding-top: 2.5rem;
     padding-bottom: 30px;
   }
-  
+
   d-appendix {
     padding-top: 30px;
   }
-  
+
   d-article>p>img {
     width: 100%;
   }
-  
+
   d-article h2 {
     margin: 1rem 0 1.5rem 0;
   }
-  
+
   d-article h3 {
     margin-top: 1.5rem;
   }
-  
+
   d-article iframe {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-bottom: 2.0em;
     width: 100%;
   }
-  
+
   /* Tweak code blocks */
-  
+
   d-article div.sourceCode code,
   d-article pre code {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   }
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: auto;
   }
-  
+
   d-article div.sourceCode {
     background-color: white;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 10px;
     font-size: 12px;
     border-left: 2px solid rgba(0,0,0,0.1);
   }
-  
+
   d-article pre {
     font-size: 12px;
     color: black;
@@ -887,50 +887,50 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   d-article pre a {
     border-bottom: none;
   }
-  
+
   d-article pre a:hover {
     border-bottom: none;
     text-decoration: underline;
   }
-  
+
   d-article details {
     grid-column: text;
     margin-bottom: 0.8em;
   }
-  
+
   @media(min-width: 768px) {
-  
+
   d-article pre,
   d-article div.sourceCode,
   d-article div.sourceCode pre {
     overflow: visible !important;
   }
-  
+
   d-article div.sourceCode pre {
     padding-left: 18px;
     font-size: 14px;
   }
-  
+
   d-article pre {
     font-size: 14px;
   }
-  
+
   }
-  
+
   figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -938,9 +938,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   /* CSS for d-contents */
-  
+
   .d-contents {
     grid-column: text;
     color: rgba(0,0,0,0.8);
@@ -952,7 +952,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 0.25em;
     justify-self: start;
   }
-  
+
   @media(min-width: 1000px) {
     .d-contents.d-contents-float {
       height: 0;
@@ -963,82 +963,82 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 2em;
     }
   }
-  
+
   .d-contents nav h3 {
     font-size: 18px;
     margin-top: 0;
     margin-bottom: 1em;
   }
-  
+
   .d-contents li {
     list-style-type: none
   }
-  
+
   .d-contents nav > ul {
     padding-left: 0;
   }
-  
+
   .d-contents ul {
     padding-left: 1em
   }
-  
+
   .d-contents nav ul li {
     margin-top: 0.6em;
     margin-bottom: 0.2em;
   }
-  
+
   .d-contents nav a {
     font-size: 13px;
     border-bottom: none;
     text-decoration: none
     color: rgba(0, 0, 0, 0.8);
   }
-  
+
   .d-contents nav a:hover {
     text-decoration: underline solid rgba(0, 0, 0, 0.6)
   }
-  
+
   .d-contents nav > ul > li > a {
     font-weight: 600;
   }
-  
+
   .d-contents nav > ul > li > ul {
     font-weight: inherit;
   }
-  
+
   .d-contents nav > ul > li > ul > li {
     margin-top: 0.2em;
   }
-  
-  
+
+
   .d-contents nav ul {
     margin-top: 0;
     margin-bottom: 0.25em;
   }
-  
+
   .d-article-with-toc h2:nth-child(2) {
     margin-top: 0;
   }
-  
-  
+
+
   /* Figure */
-  
+
   .figure {
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
   }
-  
+
   .figure img {
     width: 100%;
   }
-  
+
   .figure .caption {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     line-height: 1.5em;
   }
-  
+
   .figure img.external {
     background: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1046,42 +1046,42 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding: 18px;
     box-sizing: border-box;
   }
-  
+
   .figure .caption a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   .figure .caption b,
   .figure .caption strong, {
     font-weight: 600;
     color: rgba(0, 0, 0, 1.0);
   }
-  
+
   /* Citations */
-  
+
   d-article .citation {
     color: inherit;
     cursor: inherit;
   }
-  
+
   div.hanging-indent{
     margin-left: 1em; text-indent: -1em;
   }
-  
+
   /* Citation hover box */
-  
+
   .tippy-box[data-theme~=light-border] {
     background-color: rgba(250, 250, 250, 0.95);
   }
-  
+
   .tippy-content > p {
     margin-bottom: 0;
     padding: 2px;
   }
-  
-  
+
+
   /* Tweak 1000px media break to show more text */
-  
+
   @media(min-width: 1000px) {
     .base-grid,
     distill-header,
@@ -1097,11 +1097,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 16px;
     }
-  
+
     .grid {
       grid-column-gap: 16px;
     }
-  
+
     d-article {
       font-size: 1.06rem;
       line-height: 1.7em;
@@ -1110,7 +1110,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       font-size: 13px;
     }
   }
-  
+
   @media(min-width: 1180px) {
     .base-grid,
     distill-header,
@@ -1126,16 +1126,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
       grid-column-gap: 32px;
     }
-  
+
     .grid {
       grid-column-gap: 32px;
     }
   }
-  
-  
+
+
   /* Get the citation styles for the appendix (not auto-injected on render since
      we do our own rendering of the citation appendix) */
-  
+
   d-appendix .citation-appendix,
   .d-appendix .citation-appendix {
     font-size: 11px;
@@ -1152,9 +1152,9 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     white-space: pre-wrap;
     word-wrap: break-word;
   }
-  
+
   /* Include appendix styles here so they can be overridden */
-  
+
   d-appendix {
     contain: layout style;
     font-size: 0.8em;
@@ -1166,7 +1166,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 60px;
     padding-bottom: 48px;
   }
-  
+
   d-appendix h3 {
     grid-column: page-start / text-start;
     font-size: 15px;
@@ -1175,59 +1175,59 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 0;
     color: rgba(0,0,0,0.65);
   }
-  
+
   d-appendix h3 + * {
     margin-top: 1em;
   }
-  
+
   d-appendix ol {
     padding: 0 0 0 15px;
   }
-  
+
   @media (min-width: 768px) {
     d-appendix ol {
       padding: 0 0 0 30px;
       margin-left: -30px;
     }
   }
-  
+
   d-appendix li {
     margin-bottom: 1em;
   }
-  
+
   d-appendix a {
     color: rgba(0, 0, 0, 0.6);
   }
-  
+
   d-appendix > * {
     grid-column: text;
   }
-  
+
   d-appendix > d-footnote-list,
   d-appendix > d-citation-list,
   d-appendix > distill-appendix {
     grid-column: screen;
   }
-  
+
   /* Include footnote styles here so they can be overridden */
-  
+
   d-footnote-list {
     contain: layout style;
   }
-  
+
   d-footnote-list > * {
     grid-column: text;
   }
-  
+
   d-footnote-list a.footnote-backlink {
     color: rgba(0,0,0,0.3);
     padding-left: 0.5em;
   }
-  
-  
-  
+
+
+
   /* Anchor.js */
-  
+
   .anchorjs-link {
     /*transition: all .25s linear; */
     text-decoration: none;
@@ -1238,86 +1238,86 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-decoration: none;
     border-bottom: none;
   }
-  
+
   /* Social footer */
-  
+
   .social_footer {
     margin-top: 30px;
     margin-bottom: 0;
     color: rgba(0,0,0,0.67);
   }
-  
+
   .disqus-comments {
     margin-right: 30px;
   }
-  
+
   .disqus-comment-count {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     cursor: pointer;
   }
-  
+
   #disqus_thread {
     margin-top: 30px;
   }
-  
+
   .article-sharing a {
     border-bottom: none;
     margin-right: 8px;
   }
-  
+
   .article-sharing a:hover {
     border-bottom: none;
   }
-  
+
   .sidebar-section.subscribe {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .subscribe p {
     margin-bottom: 0.5em;
   }
-  
-  
+
+
   .article-footer .subscribe {
     font-size: 15px;
     margin-top: 45px;
   }
-  
-  
+
+
   .sidebar-section.custom {
     font-size: 12px;
     line-height: 1.6em;
   }
-  
+
   .custom p {
     margin-bottom: 0.5em;
   }
-  
+
   /* Styles for listing layout (hide title) */
   .layout-listing d-title, .layout-listing .d-title {
     display: none;
   }
-  
+
   /* Styles for posts lists (not auto-injected) */
-  
-  
+
+
   .posts-with-sidebar {
     padding-left: 45px;
     padding-right: 45px;
   }
-  
+
   .posts-list .description h2,
   .posts-list .description p {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
   }
-  
+
   .posts-list .description h2 {
     font-weight: 700;
     border-bottom: none;
     padding-bottom: 0;
   }
-  
+
   .posts-list h2.post-tag {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding-bottom: 12px;
@@ -1326,7 +1326,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-top: 60px;
     margin-bottom: 24px;
   }
-  
+
   .posts-list .post-preview {
     text-decoration: none;
     overflow: hidden;
@@ -1334,29 +1334,29 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 24px 0;
   }
-  
+
   .post-preview-last {
     border-bottom: none !important;
   }
-  
+
   .posts-list .posts-list-caption {
     grid-column: screen;
     font-weight: 400;
   }
-  
+
   .posts-list .post-preview h2 {
     margin: 0 0 6px 0;
     line-height: 1.2em;
     font-style: normal;
     font-size: 24px;
   }
-  
+
   .posts-list .post-preview p {
     margin: 0 0 12px 0;
     line-height: 1.4em;
     font-size: 16px;
   }
-  
+
   .posts-list .post-preview .thumbnail {
     box-sizing: border-box;
     margin-bottom: 24px;
@@ -1367,32 +1367,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     width: 100%;
     display: block;
   }
-  
+
   .posts-list .metadata {
     font-size: 12px;
     line-height: 1.4em;
     margin-bottom: 18px;
   }
-  
+
   .posts-list .metadata > * {
     display: inline-block;
   }
-  
+
   .posts-list .metadata .publishedDate {
     margin-right: 2em;
   }
-  
+
   .posts-list .metadata .dt-authors {
     display: block;
     margin-top: 0.3em;
     margin-right: 2em;
   }
-  
+
   .posts-list .dt-tags {
     display: block;
     line-height: 1em;
   }
-  
+
   .posts-list .dt-tags .dt-tag {
     display: inline-block;
     color: rgba(0,0,0,0.6);
@@ -1405,24 +1405,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     text-transform: uppercase;
     font-weight: 500;
   }
-  
+
   .posts-list img {
     opacity: 1;
   }
-  
+
   .posts-list img[data-src] {
     opacity: 0;
   }
-  
+
   .posts-more {
     clear: both;
   }
-  
-  
+
+
   .posts-sidebar {
     font-size: 16px;
   }
-  
+
   .posts-sidebar h3 {
     font-size: 16px;
     margin-top: 0;
@@ -1430,39 +1430,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     font-weight: 400;
     text-transform: uppercase;
   }
-  
+
   .sidebar-section {
     margin-bottom: 30px;
   }
-  
+
   .categories ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  
+
   .categories li {
     color: rgba(0, 0, 0, 0.8);
     margin-bottom: 0;
   }
-  
+
   .categories li>a {
     border-bottom: none;
   }
-  
+
   .categories li>a:hover {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
   }
-  
+
   .categories .active {
     font-weight: 600;
   }
-  
+
   .categories .category-count {
     color: rgba(0, 0, 0, 0.4);
   }
-  
-  
+
+
   @media(min-width: 768px) {
     .posts-list .post-preview h2 {
       font-size: 26px;
@@ -1498,55 +1498,55 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-bottom: 24px;
     }
   }
-  
-  
+
+
   /* Improve display for browsers without grid (IE/Edge <= 15) */
-  
+
   .downlevel {
     line-height: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     margin: 0;
   }
-  
+
   .downlevel .d-title {
     padding-top: 6rem;
     padding-bottom: 1.5rem;
   }
-  
+
   .downlevel .d-title h1 {
     font-size: 50px;
     font-weight: 700;
     line-height: 1.1em;
     margin: 0 0 0.5rem;
   }
-  
+
   .downlevel .d-title p {
     font-weight: 300;
     font-size: 1.2rem;
     line-height: 1.55em;
     margin-top: 0;
   }
-  
+
   .downlevel .d-byline {
     padding-top: 0.8em;
     padding-bottom: 0.8em;
     font-size: 0.8rem;
     line-height: 1.8em;
   }
-  
+
   .downlevel .section-separator {
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
-  
+
   .downlevel .d-article {
     font-size: 1.06rem;
     line-height: 1.7em;
     padding-top: 1rem;
     padding-bottom: 2rem;
   }
-  
-  
+
+
   .downlevel .d-appendix {
     padding-left: 0;
     padding-right: 0;
@@ -1558,11 +1558,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-top: 40px;
     padding-bottom: 48px;
   }
-  
+
   .downlevel .footnotes ol {
     padding-left: 13px;
   }
-  
+
   .downlevel .base-grid,
   .downlevel .distill-header,
   .downlevel .d-title,
@@ -1579,7 +1579,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     padding-left: 40px;
     padding-right: 40px;
   }
-  
+
   @media(min-width: 768px) {
     .downlevel .base-grid,
     .downlevel .distill-header,
@@ -1599,14 +1599,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     max-width: 900px;
   }
   }
-  
+
   .downlevel pre code {
     display: block;
     border-left: 2px solid rgba(0, 0, 0, .1);
     padding: 0 0 0 20px;
     font-size: 14px;
   }
-  
+
   .downlevel code, .downlevel pre {
     color: black;
     background: none;
@@ -1617,27 +1617,27 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     word-break: normal;
     word-wrap: normal;
     line-height: 1.5;
-  
+
     -moz-tab-size: 4;
     -o-tab-size: 4;
     tab-size: 4;
-  
+
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
   }
-  
+
   .downlevel .posts-list .post-preview {
     color: inherit;
   }
-  
-  
-  
+
+
+
   </style>
-  
+
   <script type="application/javascript">
-  
+
   function is_downlevel_browser() {
     if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
                                    window.navigator.userAgent)) {
@@ -1646,20 +1646,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       return window.load_distill_framework === undefined;
     }
   }
-  
+
   // show body when load is complete
   function on_load_complete() {
-  
+
     // add anchors
     if (window.anchors) {
       window.anchors.options.placement = 'left';
       window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
     }
-  
-  
+
+
     // set body to visible
     document.body.style.visibility = 'visible';
-  
+
     // force redraw for leaflet widgets
     if (window.HTMLWidgets) {
       var maps = window.HTMLWidgets.findAll(".leaflet");
@@ -1672,39 +1672,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
         });
       });
     }
-  
+
     // trigger 'shown' so htmlwidgets resize
     $('d-article').trigger('shown');
   }
-  
+
   function init_distill() {
-  
+
     init_common();
-  
+
     // create front matter
     var front_matter = $('<d-front-matter></d-front-matter>');
     $('#distill-front-matter').wrap(front_matter);
-  
+
     // create d-title
     $('.d-title').changeElementType('d-title');
-  
+
     // create d-byline
     var byline = $('<d-byline></d-byline>');
     $('.d-byline').replaceWith(byline);
-  
+
     // create d-article
     var article = $('<d-article></d-article>');
     $('.d-article').wrap(article).children().unwrap();
-  
+
     // move posts container into article
     $('.posts-container').appendTo($('d-article'));
-  
+
     // create d-appendix
     $('.d-appendix').changeElementType('d-appendix');
-  
+
     // flag indicating that we have appendix items
     var appendix = $('.appendix-bottom').children('h3').length > 0;
-  
+
     // replace footnotes with <d-footnote>
     $('.footnote-ref').each(function(i, val) {
       appendix = true;
@@ -1720,10 +1720,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     });
     // remove footnotes
     $('.footnotes').remove();
-  
+
     // move refs into #references-listing
     $('#references-listing').replaceWith($('#refs'));
-  
+
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
     });
@@ -1733,16 +1733,16 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       appendix = true;
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
     });
-  
+
     // show d-appendix if we have appendix content
     $("d-appendix").css('display', appendix ? 'grid' : 'none');
-  
+
     // localize layout chunks to just output
     $('.layout-chunk').each(function(i, val) {
-  
+
       // capture layout
       var layout = $(this).attr('data-layout');
-  
+
       // apply layout to markdown level block elements
       var elements = $(this).children().not('details, div.sourceCode, pre, script');
       elements.each(function(i, el) {
@@ -1755,40 +1755,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).wrap(layout_div);
         }
       });
-  
-  
+
+
       // unwrap the layout-chunk div
       $(this).children().unwrap();
     });
-  
+
     // remove code block used to force  highlighting css
     $('.distill-force-highlighting-css').parent().remove();
-  
+
     // remove empty line numbers inserted by pandoc when using a
     // custom syntax highlighting theme
     $('code.sourceCode a:empty').remove();
-  
+
     // load distill framework
     load_distill_framework();
-  
+
     // wait for window.distillRunlevel == 4 to do post processing
     function distill_post_process() {
-  
+
       if (!window.distillRunlevel || window.distillRunlevel < 4)
         return;
-  
+
       // hide author/affiliations entirely if we have no authors
       var front_matter = JSON.parse($("#distill-front-matter").html());
       var have_authors = front_matter.authors && front_matter.authors.length > 0;
       if (!have_authors)
         $('d-byline').addClass('hidden');
-  
+
       // article with toc class
       $('.d-contents').parent().addClass('d-article-with-toc');
-  
+
       // strip links that point to #
       $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
-  
+
       // add orcid ids
       $('.authors-affiliations').find('.author').each(function(i, el) {
         var orcid_id = front_matter.authors[i].orcidID;
@@ -1803,12 +1803,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           $(this).append(a);
         }
       });
-  
+
       // hide elements of author/affiliations grid that have no value
       function hide_byline_column(caption) {
         $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
       }
-  
+
       // affiliations
       var have_affiliations = false;
       for (var i = 0; i<front_matter.authors.length; ++i) {
@@ -1820,11 +1820,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
       if (!have_affiliations)
         $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
-  
+
       // published date
       if (!front_matter.publishedDate)
         hide_byline_column("Published");
-  
+
       // document object identifier
       var doi = $('d-byline').find('h3:contains("DOI")');
       var doi_p = doi.next().empty();
@@ -1844,22 +1844,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
            .html(front_matter.doi)
            .appendTo(doi_p);
       }
-  
+
        // change plural form of authors/affiliations
       if (front_matter.authors.length === 1) {
         var grid = $('.authors-affiliations');
         grid.children('h3:contains("Authors")').text('Author');
         grid.children('h3:contains("Affiliations")').text('Affiliation');
       }
-  
+
       // remove d-appendix and d-footnote-list local styles
       $('d-appendix > style:first-child').remove();
       $('d-footnote-list > style:first-child').remove();
-  
+
       // move appendix-bottom entries to the bottom
       $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
       $('.appendix-bottom').remove();
-  
+
       // hoverable references
       $('span.citation[data-cites]').each(function() {
         var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
@@ -1873,39 +1873,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           placement: 'bottom-start'
         });
       });
-  
+
       // clear polling timer
       clearInterval(tid);
-  
+
       // show body now that everything is ready
       on_load_complete();
     }
-  
+
     var tid = setInterval(distill_post_process, 50);
     distill_post_process();
-  
+
   }
-  
+
   function init_downlevel() {
-  
+
     init_common();
-  
+
      // insert hr after d-title
     $('.d-title').after($('<hr class="section-separator"/>'));
-  
+
     // check if we have authors
     var front_matter = JSON.parse($("#distill-front-matter").html());
     var have_authors = front_matter.authors && front_matter.authors.length > 0;
-  
+
     // manage byline/border
     if (!have_authors)
       $('.d-byline').remove();
     $('.d-byline').after($('<hr class="section-separator"/>'));
     $('.d-byline a').remove();
-  
+
     // remove toc
     $('.d-contents').remove();
-  
+
     // move appendix elements
     $('h1.appendix, h2.appendix').each(function(i, val) {
       $(this).changeElementType('h3');
@@ -1913,62 +1913,62 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     $('h3.appendix').each(function(i, val) {
       $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
     });
-  
-  
+
+
     // inject headers into references and footnotes
     var refs_header = $('<h3></h3>');
     refs_header.text('References');
     $('#refs').prepend(refs_header);
-  
+
     var footnotes_header = $('<h3></h3');
     footnotes_header.text('Footnotes');
     $('.footnotes').children('hr').first().replaceWith(footnotes_header);
-  
+
     // move appendix-bottom entries to the bottom
     $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
     $('.appendix-bottom').remove();
-  
+
     // remove appendix if it's empty
     if ($('.d-appendix').children().length === 0)
       $('.d-appendix').remove();
-  
+
     // prepend separator above appendix
     $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
-  
+
     // trim code
     $('pre>code').each(function(i, val) {
       $(this).html($.trim($(this).html()));
     });
-  
+
     // move posts-container right before article
     $('.posts-container').insertBefore($('.d-article'));
-  
+
     $('body').addClass('downlevel');
-  
+
     on_load_complete();
   }
-  
-  
+
+
   function init_common() {
-  
+
     // jquery plugin to change element types
     (function($) {
       $.fn.changeElementType = function(newType) {
         var attrs = {};
-  
+
         $.each(this[0].attributes, function(idx, attr) {
           attrs[attr.nodeName] = attr.nodeValue;
         });
-  
+
         this.replaceWith(function() {
           return $("<" + newType + "/>", attrs).append($(this).contents());
         });
       };
     })(jQuery);
-  
+
     // prevent underline for linked images
     $('a > img').parent().css({'border-bottom' : 'none'});
-  
+
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
@@ -1980,35 +1980,35 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           var fig = $(this);
           fig.css('width', fig.attr('width') + 'px');
         });
-  
+
       }
     });
-  
+
     // auto-append index.html to post-preview links in file: protocol
     // and in rstudio ide preview
     $('.post-preview').each(function(i, val) {
       if (window.location.protocol === "file:")
         $(this).attr('href', $(this).attr('href') + "index.html");
     });
-  
+
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
         $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
       });
     }
-  
+
     // add class to pandoc style tables
     $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
     $('.kable-table').children('table').addClass('pandoc-table');
-  
+
     // add figcaption style to table captions
     $('caption').parent('table').addClass("figcaption");
-  
+
     // initialize posts list
     if (window.init_posts_list)
       window.init_posts_list();
-  
+
     // implmement disqus comment link
     $('.disqus-comment-count').click(function() {
       window.headroom_prevent_pin = true;
@@ -2022,21 +2022,22 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       }
     });
   }
-  
+
   document.addEventListener('DOMContentLoaded', function() {
     if (is_downlevel_browser())
       init_downlevel();
     else
       window.addEventListener('WebComponentsReady', init_distill);
   });
-  
+
   </script>
-  
+
   <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
   <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
   <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.17/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.18/datatables.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -2068,32 +2069,32 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   /********************************/
   /* controls general properties of site*/
   /********************************/
-  
+
   body {
     color: #414141;
   /*  line-height: 1.7;
     font-size: 17px; */
     background-color: #FEFEFE;
   }
-  
+
   d-title h1{
   font-size: 2.1em;
   font-family: 'Work Sans';
   font-weight: 300;
   }
-  
+
   d-article h1 {
     font-size: 1.8em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 300;
   }
-  
+
   d-article h2 {
     font-size: 1.65em;
     font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
     font-weight: 500;
   }
-  
+
   d-article h3 {
     margin-top: 1em;
   }
@@ -2101,40 +2102,40 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     grid-column-end: span 3;
     grid-column-gap: 8px;
   }
-  
+
   img.orcid-id {
     margin: 0;
   }
-  
+
   a.name:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   a.affiliation:-webkit-any-link {
     text-decoration: underline;
     text-decoration-style: dotted;
   }
-  
+
   blockquote p {
   	font-size: 1.3em;
   	font-family: 'Lato';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
-  
+
   d-article li {
     margin: 0px 0px 4px;
   }
-  
+
   /********************************/
   /* controls CODE*/
   /********************************/
-  
+
   /** pre.sourceCode controls code block without lang **/
-  
+
   /** Controls r code  **/
-  
+
   pre.sourceCode.r {
     margin-top: 0px;
      color: #333333;
@@ -2149,7 +2150,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
      border-bottom: 1px solid #B7B7B7;
      padding: 18px 0px 18px 20px;
    }
-  
+
    pre.sourceCode.bash {
      margin-top: 0px;
       color: #333333;
@@ -2165,7 +2166,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding: 18px 0px 18px 20px;
     }
   /** Controls code output **/
-  
+
   d-article pre {
      margin-top: 0px;
       color: #333333;
@@ -2175,11 +2176,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       overflow-x: scroll !important;
       padding:  10px 10px 10px 18px;
       border-radius: 5px;
-  
+
     }
-  
+
   /** Controls inline code  **/
-  
+
   p code {
     background-color: #E8E8E8;
     border-radius: 3px;
@@ -2189,23 +2190,23 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 20px;
     color: #BF2727;
   }
-  
+
   d-article aside code {
     background-color: #E8E8E8;
     border-radius: 3px;
     font-family: 'Monaco', 'PT Mono', monospace;
     color: #BF2727;
   }
-  
+
   /********************************/
   /* controls NAV BAR and HEADERS*/
   /********************************/
-  
+
   .nav-dropdown-content .nav-dropdown-header {
     text-transform: uppercase;
     color: #686868;
   }
-  
+
   .nav-dropdown-content a {
     font-family: 'Work Sans'
   }
@@ -2213,13 +2214,13 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     color: #FEFEFE;
     font-weight: 400;
   }
-  
+
   .distill-site-header .logo img {
     margin-top: 10px;
     max-height: 30px;
     margin-bottom: auto;
   }
-  
+
   .distill-site-nav {
       color: #FEFEFE;
       background-color: #143D59;
@@ -2229,39 +2230,39 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       position: absolute;
       font-family: 'Karla';
       letter-spacing: .1em;
-  
+
   }
-  
+
   .article-banner {
     width: auto;
     height: auto;
     border: 0;
   }
-  
+
   img[src="assets/banner.png"] {
     border: 0;
     padding: 0;
     width: 100%;
     margin: 100px 10px 0px 25px;
   }
-  
+
   /*************************************************
   *  code for side by side krona plot
   **************************************************/
-  
+
   .column {
     float: left;
     width: 48%;
     padding: 5px;
   }
-  
+
   /* Clear floats after image containers */
   .row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   div.krona {
     width: 100%;
   	height: 90%;
@@ -2270,7 +2271,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin-bottom: 25px;
   	margin-top: 5px;
   }
-  
+
   div.container-krona {
     text-align: center;
     padding: 1px 10px;
@@ -2279,33 +2280,33 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	line-height: 0.8em;
   	font-family: 'Inconsolata';
   }
-  
+
   div.container-krona p {
     margin: 20px;
   }
-  
+
   div.krona img {
     border:1px solid white;
     margin: 25px;
   }
-  
+
   img {
     margin: 25px;
   }
-  
+
   /*************************************************
   *  code for LIGHTBOX MARKUP
   **************************************************/
-  
+
   .thumbnail {
     max-width: 100%;
     position: relative;
   }
-  
+
   .lightbox {
   	/** Default lightbox to hidden */
   	display: none;
-  
+
   	/** Position and style */
   	position: fixed;
   	z-index: 999;
@@ -2316,7 +2317,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	left: 0;
   	background: rgba(0,0,0,0.8);
   }
-  
+
   .lightbox img {
   	/** Pad the lightbox image */
   	position: fixed;
@@ -2329,24 +2330,24 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	margin: auto;
   	box-sizing: border-box;
   }
-  
+
   .lightbox:target {
   	/** Remove default browser outline */
   	outline: none;
-  
+
   	/** Unhide lightbox **/
   	display: block;
   }
-  
+
   .lightbox:target img {
   	max-height: 100%;
   	max-width: 100%;
   }
-  
+
   /*************************************************
   *  code for DETAILS fold down
   **************************************************/
-  
+
   details {
     background-color: #ccd7df;
     cursor: pointer;
@@ -2358,52 +2359,52 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     outline: none;
     font-family: 'Karla'
   }
-  
+
   .active, details:hover {
     transition: max-height 0.2s ease-out;
     outline: none;
-  
+
     /* background-color: #acc2c2; */
   }
-  
+
   details {
     display: flex;
     justify-content: space-between;
     align-content: center;
     border-radius: 4px;
     outline: none;
-  
+
   }
-  
+
   details.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none;
-  
+
   }
-  
+
   summary::-webkit-details-marker {
     display: none;
     outline: none;
-  
+
   }
-  
+
   summary:focus {
     outline: none;
   }
-  
+
   summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f0fe";
   }
-  
+
   details[open] summary::after {
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f146";
   }
-  
+
   </style>
   <!--/radix_placeholder_site_in_header-->
 
@@ -2468,7 +2469,8 @@ METAGENOMIC
 <hr/>
 <span class="nav-dropdown-header">MAG Analysis</span>
 <a href="mg-binning.html">5. Binning</a>
-<a href="mag02-phylogenomics.html">6. MAG02 Phylogenomics</a>
+<a href="mag02-phylogenomics.html">6a. MAG02 Phylogenomics</a>
+<a href="mag04-phylogenomics.html">6b. MAG04 Phylogenomics</a>
 <a href="mg-function.html">7. KEGG/KOFam Analysis</a>
 </div>
 </div>
@@ -2500,26 +2502,49 @@ METAGENOMIC
 <li><a href="#read-counts-assessment">Read Counts Assessment</a></li>
 <li><a href="#defining-groups">Defining Groups</a></li>
 <li><a href="#phyloseq-objects">Phyloseq Objects</a></li>
-<li><a href="#curation">Curation</a><ul>
+<li><a href="#curation">Curation</a>
+<ul>
 <li><a href="#remove-mitochondria-asvs">Remove Mitochondria ASVs</a></li>
 <li><a href="#remove-chloroplast-asvs">Remove Chloroplast ASVs</a></li>
 <li><a href="#remove-eukaryotic-asvs">Remove Eukaryotic ASVs</a></li>
 <li><a href="#remove-any-kingdom-nas">Remove any Kingdom NAs</a></li>
 </ul></li>
-<li><a href="#save-objects">Save Objects</a><ul>
+<li><a href="#save-objects">Save Objects</a>
+<ul>
 <li><a href="#source-code">Source Code</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
+<details>
+<summary>
+Show setup information.
+</summary>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">0199</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(phyloseq); <span class="fu">packageVersion</span>(<span class="st">&quot;phyloseq&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Biostrings); <span class="fu">packageVersion</span>(<span class="st">&quot;Biostrings&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(DT, ggplot2, dplyr, microbiome, tidyverse,   </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">999</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_current<span class="sc">$</span><span class="fu">get</span>(<span class="fu">c</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache&quot;</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache.path&quot;</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cache.rebuild&quot;</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;dependson&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;autodep&quot;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+</div>
+</details>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <blockquote>
 <p>You will either need to run the <a href="16s-dada2.html">DADA2 workflow</a> or the grab output file <code>combo_pipeline.rdata</code> from the workflow. This file contains the sequence and taxonomy tables. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
-<p>Unless otherwise noted, we primarily use <a href="https://joey711.github.io/phyloseq/">phyloseq</a> <span class="citation" data-cites="mcmurdie2013phyloseq">(McMurdie and Holmes <a href="#ref-mcmurdie2013phyloseq" role="doc-biblioref">2013</a>)</span> in this section of the workflow to analyze the 16S rRNA data set. Before we conduct any analyses we first need to <em>prepare our data set</em> by curating samples, removing <em>contaminants</em>, and creating phyloseq objects.</p>
+<p>Unless otherwise noted, we primarily use <a href="https://joey711.github.io/phyloseq/">phyloseq</a> <span class="citation" data-cites="mcmurdie2013phyloseq">(<a href="#ref-mcmurdie2013phyloseq" role="doc-biblioref">McMurdie and Holmes 2013</a>)</span> in this section of the workflow to analyze the 16S rRNA data set. Before we conduct any analyses we first need to <em>prepare our data set</em> by curating samples, removing <em>contaminants</em>, and creating phyloseq objects.</p>
 <h1 id="read-counts-assessment">Read Counts Assessment</h1>
 <p>Before we begin, let’s create a summary table containing some basic sample metadata and the read count data from the <a href="16s-dada2.html">DADA2 pipeline</a>. We need to inspect how total reads changed through the pipeline. Just to get an idea, we combined the results of the <a href="16s-dada2.html#track-read-changes">Track Changes</a> analysis for these 8 samples. Table headers are as follows:</p>
 <table>
@@ -2570,7 +2595,7 @@ METAGENOMIC
 </div>
 <div class="layout-chunk" data-layout="l-page">
 <div id="vwltiu9qj77sfy3a07we" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="vwltiu9qj77sfy3a07we">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"21958\" data-max=\"60146\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"18230\" data-max=\"51481\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"17303\" data-max=\"49228\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"17821\" data-max=\"50695\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"14682\" data-max=\"42012\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"12909\" data-max=\"33802\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0.291\" data-max=\"0.449\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Tracking read changes\n            through DADA2 workflow. Use the buttons to navigate through\n            the table or download a copy. Table may scroll right. <\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["Crawl_Caye","Crawl_Caye","Crawl_Caye","Crawl_Caye","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan"],[47262,38295,35161,30556,47991,21958,25189,60146],[38961,32223,29579,24677,40399,18230,21209,51481],[37153,30875,28717,23796,38847,17303,19797,49228],[38268,31646,29166,24262,39739,17821,20683,50695],[32684,28066,26668,22056,34301,14682,16030,42012],[28130,25576,24929,20850,29157,12909,13874,33802],[0.405,0.332,0.291,0.318,0.392,0.412,0.449,0.438]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>input<\/th>\n      <th>filter<\/th>\n      <th>denoiseF<\/th>\n      <th>denoiseR<\/th>\n      <th>merged<\/th>\n      <th>nochim<\/th>\n      <th>Change<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[3,4,5,6,7,8,9]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'80%'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<script type="application/json" data-for="vwltiu9qj77sfy3a07we">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"21958\" data-max=\"60146\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"18230\" data-max=\"51481\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"17303\" data-max=\"49228\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"17821\" data-max=\"50695\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"14682\" data-max=\"42012\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"12909\" data-max=\"33802\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0.291\" data-max=\"0.449\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Tracking read changes\n            through DADA2 workflow. Use the buttons to navigate through\n            the table or download a copy. Table may scroll right. <\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["Crawl_Caye","Crawl_Caye","Crawl_Caye","Crawl_Caye","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan","Cayo_Roldan"],[47262,38295,35161,30556,47991,21958,25189,60146],[38961,32223,29579,24677,40399,18230,21209,51481],[37153,30875,28717,23796,38847,17303,19797,49228],[38268,31646,29166,24262,39739,17821,20683,50695],[32684,28066,26668,22056,34301,14682,16030,42012],[28130,25576,24929,20850,29157,12909,13874,33802],[0.405,0.332,0.291,0.318,0.392,0.412,0.449,0.438]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>input<\/th>\n      <th>filter<\/th>\n      <th>denoiseF<\/th>\n      <th>denoiseR<\/th>\n      <th>merged<\/th>\n      <th>nochim<\/th>\n      <th>Change<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[3,4,5,6,7,8,9]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[8,10,25,50,100],"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\nvar value=data[9]; $(this.api().cell(row, 9).node()).css({'font-size':'80%'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 <h1 id="defining-groups">Defining Groups</h1>
 <ol type="1">
@@ -2578,16 +2603,16 @@ METAGENOMIC
 <li><p>After we load the data packet we next need to format sample names and define groups. We will use the actual sample names to define the different groups.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">load</span>(<span class="st">&quot;rdata/16s-dada2/water_pipeline.rdata&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>samples.out &lt;-<span class="st"> </span><span class="kw">rownames</span>(seqtab)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>subject &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(samples.out, <span class="st">&quot;[[:digit:]]&quot;</span>), <span class="st">`</span><span class="dt">[</span><span class="st">`</span>, <span class="dv">1</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># this splits the string at first instance of a digit</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>sample_name &lt;-<span class="st"> </span><span class="kw">substr</span>(samples.out, <span class="dv">1</span>, <span class="dv">999</span>)  <span class="co"># use the whole string for individuals</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>type &lt;-<span class="st"> </span><span class="kw">substr</span>(samples.out, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># use the first two letters for sample typle</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>site &lt;-<span class="st"> </span><span class="kw">substr</span>(samples.out, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co"># use the next three letters for site</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>num_samp &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(sample_name))</span>
-<span id="cb1-9"><a href="#cb1-9"></a>num_type &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(type))</span>
-<span id="cb1-10"><a href="#cb1-10"></a>num_sites &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(site))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rdata/16s-dada2/water_pipeline.rdata&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>samples.out <span class="ot">&lt;-</span> <span class="fu">rownames</span>(seqtab)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">strsplit</span>(samples.out, <span class="st">&quot;[[:digit:]]&quot;</span>), <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># this splits the string at first instance of a digit</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sample_name <span class="ot">&lt;-</span> <span class="fu">substr</span>(samples.out, <span class="dv">1</span>, <span class="dv">999</span>)  <span class="co"># use the whole string for individuals</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>type <span class="ot">&lt;-</span> <span class="fu">substr</span>(samples.out, <span class="dv">0</span>, <span class="dv">1</span>)  <span class="co"># use the first two letters for sample typle</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>site <span class="ot">&lt;-</span> <span class="fu">substr</span>(samples.out, <span class="dv">2</span>, <span class="dv">3</span>)  <span class="co"># use the next three letters for site</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>num_samp <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(sample_name))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>num_type <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(type))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>num_sites <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(site))</span></code></pre></div>
 </div>
 <p>So we have a total of <strong>8</strong> samples from <strong>2</strong> sites.</p>
 <blockquote>
@@ -2610,9 +2635,9 @@ METAGENOMIC
 <li>And finally we define a sample data frame that holds the different groups we extracted from the sample names.</li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#define a sample data frame</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>samdf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">SamName =</span> sample_name, <span class="dt">TYPE =</span> type, <span class="dt">SITE =</span> site)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">rownames</span>(samdf) &lt;-<span class="st"> </span>samples.out</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#define a sample data frame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>samdf <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">SamName =</span> sample_name, <span class="at">TYPE =</span> type, <span class="at">SITE =</span> site)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(samdf) <span class="ot">&lt;-</span> samples.out</span></code></pre></div>
 </div>
 <h1 id="phyloseq-objects">Phyloseq Objects</h1>
 <p><strong>A</strong>. The first step is to rename the amplicon sequence variants (ASVs) so the designations are a bit more user friendly. By default, DADA2 names each ASV by its unique sequence so that data can be directly compared across studies (which is great). But this convention can get cumbersome downstream, so we rename the ASVs using a simpler convention—ASV1, ASV2, ASV3, and so on.</p>
@@ -2620,22 +2645,22 @@ METAGENOMIC
 A phyloseq object contains ASV table (taxa abundances), sample metadata, and taxonomy table (mapping between ASVs and higher-level taxonomic classifications).
 </aside>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># this create the phyloseq object</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>ps &lt;-<span class="st"> </span><span class="kw">phyloseq</span>(<span class="kw">otu_table</span>(seqtab, <span class="dt">taxa_are_rows =</span> <span class="ot">FALSE</span>),</span>
-<span id="cb3-3"><a href="#cb3-3"></a>                   <span class="kw">sample_data</span>(samdf), <span class="kw">tax_table</span>(tax_silva))</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">tax_table</span>(ps) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">tax_table</span>(ps),</span>
-<span id="cb3-5"><a href="#cb3-5"></a>                           <span class="kw">rownames</span>(<span class="kw">tax_table</span>(ps)))</span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co"># adding unique ASV names</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">taxa_names</span>(ps) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;ASV&quot;</span>, <span class="kw">seq</span>(<span class="kw">ntaxa</span>(ps)))</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">tax_table</span>(ps) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">tax_table</span>(ps),</span>
-<span id="cb3-10"><a href="#cb3-10"></a>                           <span class="kw">rownames</span>(<span class="kw">tax_table</span>(ps)))</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="kw">head</span>(<span class="kw">taxa_names</span>(ps))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this create the phyloseq object</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">phyloseq</span>(<span class="fu">otu_table</span>(seqtab, <span class="at">taxa_are_rows =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">sample_data</span>(samdf), <span class="fu">tax_table</span>(tax_silva))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tax_table</span>(ps) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">tax_table</span>(ps),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">rownames</span>(<span class="fu">tax_table</span>(ps)))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># adding unique ASV names</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">taxa_names</span>(ps) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;ASV&quot;</span>, <span class="fu">seq</span>(<span class="fu">ntaxa</span>(ps)))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tax_table</span>(ps) <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">tax_table</span>(ps),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">rownames</span>(<span class="fu">tax_table</span>(ps)))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">taxa_names</span>(ps))</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>[1] &quot;ASV1&quot; &quot;ASV2&quot; &quot;ASV3&quot; &quot;ASV4&quot; &quot;ASV5&quot; &quot;ASV6&quot;</code></pre>
 </div>
-<p>So the complete data set contains 1424 ASVs. We can also use the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a> <span class="citation" data-cites="lahti2017microbiome">(Lahti, Sudarshan, and others <a href="#ref-lahti2017microbiome" role="doc-biblioref">2017</a>)</span> to get some additional summary data from the phyloseq object.</p>
+<p>So the complete data set contains 1424 ASVs. We can also use the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a> <span class="citation" data-cites="lahti2017microbiome">(<a href="#ref-lahti2017microbiome" role="doc-biblioref">Lahti, Sudarshan, and others 2017</a>)</span> to get some additional summary data from the phyloseq object.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -2691,9 +2716,9 @@ A phyloseq object contains ASV table (taxa abundances), sample metadata, and tax
 </table>
 <p><strong>B</strong>. Add two final columns containing the ASV sequences and ASV IDs. This will be useful later when trying to export a fasta file. We can also take a look at the phyloseq object.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">colnames</span>(<span class="kw">tax_table</span>(ps)) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>,</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>, <span class="st">&quot;ASV_ID&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>ps</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(<span class="fu">tax_table</span>(ps)) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Kingdom&quot;</span>, <span class="st">&quot;Phylum&quot;</span>, <span class="st">&quot;Class&quot;</span>, <span class="st">&quot;Order&quot;</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Family&quot;</span>, <span class="st">&quot;Genus&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>, <span class="st">&quot;ASV_ID&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ps</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>phyloseq-class experiment-level object
@@ -2703,28 +2728,28 @@ tax_table()   Taxonomy Table:    [ 1424 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
 <p><strong>C</strong>. Export sequence and taxonomy tables for the unadulterated phyloseq object for later use. We will use the prefix <code>full</code> to indicate that these are the <em>raw</em> outputs.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">write.table</span>(<span class="kw">tax_table</span>(ps),</span>
-<span id="cb7-2"><a href="#cb7-2"></a>            <span class="st">&quot;tables/16s-data-prep/full_tax_table.txt&quot;</span>,</span>
-<span id="cb7-3"><a href="#cb7-3"></a>            <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">col.names=</span><span class="ot">NA</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">write.table</span>(<span class="kw">t</span>(<span class="kw">otu_table</span>(ps)),</span>
-<span id="cb7-5"><a href="#cb7-5"></a>            <span class="st">&quot;tables/16s-data-prep/full_seq_table.txt&quot;</span>,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>            <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">col.names=</span><span class="ot">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">tax_table</span>(ps),</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;tables/16s-data-prep/full_tax_table.txt&quot;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">NA</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">t</span>(<span class="fu">otu_table</span>(ps)),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;tables/16s-data-prep/full_seq_table.txt&quot;</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">NA</span>)</span></code></pre></div>
 </div>
 <p><strong>D</strong>. Export fasta file</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Create fasta file from tax_table</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>table2format &lt;-<span class="st"> </span><span class="kw">tax_table</span>(ps)</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#retain only the column with the sequences</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>table2format_trim &lt;-<span class="st"> </span>table2format[, <span class="dv">7</span>]</span>
-<span id="cb8-5"><a href="#cb8-5"></a>table2format_trim_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">row.names</span>(table2format_trim),</span>
-<span id="cb8-6"><a href="#cb8-6"></a>                                   table2format_trim)</span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="kw">colnames</span>(table2format_trim_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ASV_ID&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>)</span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#format fasta</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>table2format_trim_df<span class="op">$</span>ASV_ID &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;ASV&quot;</span>, <span class="st">&quot;&gt;ASV&quot;</span>, table2format_trim_df<span class="op">$</span>ASV_ID)</span>
-<span id="cb8-10"><a href="#cb8-10"></a></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="kw">write.table</span>(table2format_trim_df, <span class="st">&quot;tables/16s-data-prep/full_asv.fasta&quot;</span>,</span>
-<span id="cb8-12"><a href="#cb8-12"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\r</span><span class="st">&quot;</span>, <span class="dt">col.names =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb8-13"><a href="#cb8-13"></a>            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create fasta file from tax_table</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>table2format <span class="ot">&lt;-</span> <span class="fu">tax_table</span>(ps)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#retain only the column with the sequences</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>table2format_trim <span class="ot">&lt;-</span> table2format[, <span class="dv">7</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>table2format_trim_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">row.names</span>(table2format_trim),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                                   table2format_trim)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table2format_trim_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ASV_ID&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#format fasta</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>table2format_trim_df<span class="sc">$</span>ASV_ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;ASV&quot;</span>, <span class="st">&quot;&gt;ASV&quot;</span>, table2format_trim_df<span class="sc">$</span>ASV_ID)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(table2format_trim_df, <span class="st">&quot;tables/16s-data-prep/full_asv.fasta&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\r</span><span class="st">&quot;</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span></code></pre></div>
 </div>
 <h1 id="curation">Curation</h1>
 <p>Let’s see if we have any potential contaminants. We can use some <a href="https://rmarkdown.rstudio.com/lesson-4.html">inline R code</a> to see the taxonomy table for any taxa of interest.</p>
@@ -2746,14 +2771,14 @@ The code (hidden by default) is written as <code>`r "Chloroplast" %in% tax_table
 <h2 id="remove-mitochondria-asvs">Remove Mitochondria ASVs</h2>
 <p>Remember the original data set contained 1424 ASVs.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># generate a file with mitochondria ASVs</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>MT1 &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(ps, Family <span class="op">==</span><span class="st"> &quot;Mitochondria&quot;</span>)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>MT1 &lt;-<span class="st">  </span><span class="kw">as</span>(<span class="kw">tax_table</span>(MT1), <span class="st">&quot;matrix&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a>MT1 &lt;-<span class="st"> </span>MT1[, <span class="dv">8</span>]</span>
-<span id="cb9-5"><a href="#cb9-5"></a>MT1df &lt;-<span class="st"> </span><span class="kw">as.factor</span>(MT1)</span>
-<span id="cb9-6"><a href="#cb9-6"></a>goodTaxa &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">taxa_names</span>(ps), MT1df)</span>
-<span id="cb9-7"><a href="#cb9-7"></a>ps_no_mito &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(goodTaxa, ps)</span>
-<span id="cb9-8"><a href="#cb9-8"></a>ps_no_mito</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a file with mitochondria ASVs</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>MT1 <span class="ot">&lt;-</span> <span class="fu">subset_taxa</span>(ps, Family <span class="sc">==</span> <span class="st">&quot;Mitochondria&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>MT1 <span class="ot">&lt;-</span>  <span class="fu">as</span>(<span class="fu">tax_table</span>(MT1), <span class="st">&quot;matrix&quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>MT1 <span class="ot">&lt;-</span> MT1[, <span class="dv">8</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>MT1df <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(MT1)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>goodTaxa <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">taxa_names</span>(ps), MT1df)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>ps_no_mito <span class="ot">&lt;-</span> <span class="fu">prune_taxa</span>(goodTaxa, ps)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ps_no_mito</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>phyloseq-class experiment-level object
@@ -2764,14 +2789,14 @@ tax_table()   Taxonomy Table:    [ 1412 taxa by 8 taxonomic ranks ]</code></pre>
 <p>Looks like this removed <strong>12 Mitochondria ASVs</strong>. We will duplicate the code block to remove other groups.</p>
 <h2 id="remove-chloroplast-asvs">Remove Chloroplast ASVs</h2>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># generate a file with mitochondria ASVs</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>CH1 &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(ps_no_mito, Order <span class="op">==</span><span class="st"> &quot;Chloroplast&quot;</span>)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>CH1 &lt;-<span class="st">  </span><span class="kw">as</span>(<span class="kw">tax_table</span>(CH1), <span class="st">&quot;matrix&quot;</span>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a>CH1 &lt;-<span class="st"> </span>CH1[, <span class="dv">8</span>]</span>
-<span id="cb11-5"><a href="#cb11-5"></a>CH1df &lt;-<span class="st"> </span><span class="kw">as.factor</span>(CH1)</span>
-<span id="cb11-6"><a href="#cb11-6"></a>goodTaxa &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">taxa_names</span>(ps_no_mito), CH1df)</span>
-<span id="cb11-7"><a href="#cb11-7"></a>ps_no_chloro &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(goodTaxa, ps_no_mito)</span>
-<span id="cb11-8"><a href="#cb11-8"></a>ps_no_chloro</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a file with mitochondria ASVs</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>CH1 <span class="ot">&lt;-</span> <span class="fu">subset_taxa</span>(ps_no_mito, Order <span class="sc">==</span> <span class="st">&quot;Chloroplast&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>CH1 <span class="ot">&lt;-</span>  <span class="fu">as</span>(<span class="fu">tax_table</span>(CH1), <span class="st">&quot;matrix&quot;</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>CH1 <span class="ot">&lt;-</span> CH1[, <span class="dv">8</span>]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>CH1df <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(CH1)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>goodTaxa <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">taxa_names</span>(ps_no_mito), CH1df)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ps_no_chloro <span class="ot">&lt;-</span> <span class="fu">prune_taxa</span>(goodTaxa, ps_no_mito)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ps_no_chloro</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>phyloseq-class experiment-level object
@@ -2783,20 +2808,20 @@ tax_table()   Taxonomy Table:    [ 1275 taxa by 8 taxonomic ranks ]</code></pre>
 <h2 id="remove-eukaryotic-asvs">Remove Eukaryotic ASVs</h2>
 <p>Turns out we had no eukaryotic ASVs but here is the code just in case.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># generate a file with mitochondria ASVs</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>EU1 &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(ps_no_chloro, Kingdom <span class="op">==</span><span class="st"> &quot;Eukaryota&quot;</span>)</span>
-<span id="cb13-3"><a href="#cb13-3"></a>EU1 &lt;-<span class="st">  </span><span class="kw">as</span>(<span class="kw">tax_table</span>(EU1), <span class="st">&quot;matrix&quot;</span>)</span>
-<span id="cb13-4"><a href="#cb13-4"></a>EU1 &lt;-<span class="st"> </span>EU1[, <span class="dv">8</span>]</span>
-<span id="cb13-5"><a href="#cb13-5"></a>EU1df &lt;-<span class="st"> </span><span class="kw">as.factor</span>(EU1)</span>
-<span id="cb13-6"><a href="#cb13-6"></a>goodTaxa &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="kw">taxa_names</span>(ps_no_chloro), EU1df)</span>
-<span id="cb13-7"><a href="#cb13-7"></a>ps_no_euk &lt;-<span class="st"> </span><span class="kw">prune_taxa</span>(goodTaxa, ps_no_chloro)</span>
-<span id="cb13-8"><a href="#cb13-8"></a>ps_no_euk</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate a file with mitochondria ASVs</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>EU1 <span class="ot">&lt;-</span> <span class="fu">subset_taxa</span>(ps_no_chloro, Kingdom <span class="sc">==</span> <span class="st">&quot;Eukaryota&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>EU1 <span class="ot">&lt;-</span>  <span class="fu">as</span>(<span class="fu">tax_table</span>(EU1), <span class="st">&quot;matrix&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>EU1 <span class="ot">&lt;-</span> EU1[, <span class="dv">8</span>]</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>EU1df <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(EU1)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>goodTaxa <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">taxa_names</span>(ps_no_chloro), EU1df)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>ps_no_euk <span class="ot">&lt;-</span> <span class="fu">prune_taxa</span>(goodTaxa, ps_no_chloro)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>ps_no_euk</span></code></pre></div>
 </div>
 <h2 id="remove-any-kingdom-nas">Remove any Kingdom NAs</h2>
 <p>Here we can just use the straight up <code>subset_taxa</code> command since we do not need to worry about any ranks above Kingdom also being removed.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>ps_filt &lt;-<span class="st"> </span><span class="kw">subset_taxa</span>(ps_no_chloro, <span class="op">!</span><span class="kw">is.na</span>(Kingdom))</span>
-<span id="cb14-2"><a href="#cb14-2"></a>ps_filt</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ps_filt <span class="ot">&lt;-</span> <span class="fu">subset_taxa</span>(ps_no_chloro, <span class="sc">!</span><span class="fu">is.na</span>(Kingdom))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ps_filt</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>phyloseq-class experiment-level object
@@ -2807,31 +2832,31 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 <p>The code eliminated an additional <strong>3 Kingdom level NA ASVs</strong> from the phyloseq object.</p>
 <p>Now that we have a trimmed data set, we can save copies of the sequence and taxonomy tables just in case we want a quick look at these data.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">write.table</span>(<span class="kw">tax_table</span>(ps_filt),</span>
-<span id="cb16-2"><a href="#cb16-2"></a>            <span class="st">&quot;tables/16s-data-prep/trim_tax_table.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
-<span id="cb16-3"><a href="#cb16-3"></a>            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">col.names=</span><span class="ot">NA</span>)</span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="kw">write.table</span>(<span class="kw">t</span>(<span class="kw">otu_table</span>(ps_filt)),</span>
-<span id="cb16-5"><a href="#cb16-5"></a>            <span class="st">&quot;tables/16s-data-prep/trim_seq_table.txt&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>,</span>
-<span id="cb16-6"><a href="#cb16-6"></a>            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">col.names=</span><span class="ot">NA</span>)</span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="kw">write.table</span>(<span class="kw">sample_data</span>(ps_filt),</span>
-<span id="cb16-8"><a href="#cb16-8"></a>            <span class="st">&quot;tables/16s-data-prep/sample_table.txt&quot;</span>,</span>
-<span id="cb16-9"><a href="#cb16-9"></a>            <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>, <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">col.names=</span><span class="ot">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">tax_table</span>(ps_filt),</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;tables/16s-data-prep/trim_tax_table.txt&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">NA</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">t</span>(<span class="fu">otu_table</span>(ps_filt)),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;tables/16s-data-prep/trim_seq_table.txt&quot;</span>, <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">NA</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">sample_data</span>(ps_filt),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;tables/16s-data-prep/sample_table.txt&quot;</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">col.names=</span><span class="cn">NA</span>)</span></code></pre></div>
 </div>
 <p>And generate a fasta file for all ASVs in the trimmed data set.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Create fasta file from tax_table</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>table2format &lt;-<span class="st"> </span><span class="kw">tax_table</span>(ps_filt)</span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="co">#retain only the column with the sequences</span></span>
-<span id="cb17-4"><a href="#cb17-4"></a>table2format_trim &lt;-<span class="st"> </span>table2format[, <span class="dv">7</span>]</span>
-<span id="cb17-5"><a href="#cb17-5"></a>table2format_trim_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">row.names</span>(table2format_trim),</span>
-<span id="cb17-6"><a href="#cb17-6"></a>                                   table2format_trim)</span>
-<span id="cb17-7"><a href="#cb17-7"></a><span class="kw">colnames</span>(table2format_trim_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ASV_ID&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>)</span>
-<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#format fasta</span></span>
-<span id="cb17-9"><a href="#cb17-9"></a>table2format_trim_df<span class="op">$</span>ASV_ID &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;ASV&quot;</span>, <span class="st">&quot;&gt;ASV&quot;</span>, table2format_trim_df<span class="op">$</span>ASV_ID)</span>
-<span id="cb17-10"><a href="#cb17-10"></a></span>
-<span id="cb17-11"><a href="#cb17-11"></a><span class="kw">write.table</span>(table2format_trim_df, <span class="st">&quot;tables/16s-data-prep/trim_asv.fasta&quot;</span>,</span>
-<span id="cb17-12"><a href="#cb17-12"></a>            <span class="dt">sep =</span> <span class="st">&quot;</span><span class="ch">\r</span><span class="st">&quot;</span>, <span class="dt">col.names =</span> <span class="ot">FALSE</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb17-13"><a href="#cb17-13"></a>            <span class="dt">quote =</span> <span class="ot">FALSE</span>, <span class="dt">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create fasta file from tax_table</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>table2format <span class="ot">&lt;-</span> <span class="fu">tax_table</span>(ps_filt)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#retain only the column with the sequences</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>table2format_trim <span class="ot">&lt;-</span> table2format[, <span class="dv">7</span>]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>table2format_trim_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">row.names</span>(table2format_trim),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                                   table2format_trim)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(table2format_trim_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ASV_ID&quot;</span>, <span class="st">&quot;ASV_SEQ&quot;</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#format fasta</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>table2format_trim_df<span class="sc">$</span>ASV_ID <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">&quot;ASV&quot;</span>, <span class="st">&quot;&gt;ASV&quot;</span>, table2format_trim_df<span class="sc">$</span>ASV_ID)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(table2format_trim_df, <span class="st">&quot;tables/16s-data-prep/trim_asv.fasta&quot;</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\r</span><span class="st">&quot;</span>, <span class="at">col.names =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">fileEncoding =</span> <span class="st">&quot;UTF-8&quot;</span>)</span></code></pre></div>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2839,11 +2864,11 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 <h1 id="save-objects">Save Objects</h1>
 <p>One last thing is to rename the phyloseq object and save some tables and images for the next part.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>ps_water &lt;-<span class="st"> </span>ps_filt</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="kw">save.image</span>(<span class="st">&quot;rdata/16s-data-prep/16s-data_prep.rdata&quot;</span>)</span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="kw">saveRDS</span>(<span class="kw">otu_table</span>(ps_water), <span class="st">&quot;rdata/16s-data-prep/ps_water-seqtab.rds&quot;</span>)</span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="kw">saveRDS</span>(<span class="kw">sample_data</span>(ps_water), <span class="st">&quot;rdata/16s-data-prep/ps_water-sample.rds&quot;</span>)</span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="kw">saveRDS</span>(<span class="kw">tax_table</span>(ps_water), <span class="st">&quot;rdata/16s-data-prep/ps_water-taxtab.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ps_water <span class="ot">&lt;-</span> ps_filt</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save.image</span>(<span class="st">&quot;rdata/16s-data-prep/16s-data_prep.rdata&quot;</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">otu_table</span>(ps_water), <span class="st">&quot;rdata/16s-data-prep/ps_water-seqtab.rds&quot;</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">sample_data</span>(ps_water), <span class="st">&quot;rdata/16s-data-prep/ps_water-sample.rds&quot;</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">tax_table</span>(ps_water), <span class="st">&quot;rdata/16s-data-prep/ps_water-taxtab.rds&quot;</span>)</span></code></pre></div>
 </div>
 <p>That’s all for this part! In the next section we work through analyzing the diversity of the water samples.</p>
 <p></br></p>
@@ -2863,16 +2888,16 @@ Next
 <p><a href="16s-water.html" rel="prev">N<sup><u>o</u></sup> 3. Water Composition &amp; Diversity</a></p>
 </div>
 </div>
-<h2 id="source-code" class="appendix">Source Code</h2>
+<h2 class="appendix" id="source-code">Source Code</h2>
 <p>You can find the source code for this page by <a href="https://github.com/hypocolypse/web/blob/master/16s-data-prep.Rmd">clicking this link</a>.</p>
-<h2 id="data-availability" class="appendix">Data Availability</h2>
+<h2 class="appendix" id="data-availability">Data Availability</h2>
 <p>Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403925">doi:10.25573/data.12403925</a>. Here you will find the sample metadata table, sequence tables, taxonomy tables, and ASV fasta files from the full phyloseq object (before removing contaminants) and the trimmed data set (after removing contaminants). The <em>16s-data_prep.rdata</em> file contains all variables and phyloseq objects from this pipeline and is needed for the next workflow (as are the .rds files).</p>
-<div id="refs" class="references" role="doc-bibliography">
-<div id="ref-lahti2017microbiome">
-<p>Lahti, Leo, Shetty Sudarshan, and others. 2017. “Tools for Microbiome Analysis in R. Version 1.9.97.” <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-lahti2017microbiome" class="csl-entry" role="doc-biblioentry">
+Lahti, Leo, Shetty Sudarshan, and others. 2017. <span>“Tools for Microbiome Analysis in r. Version 1.9.97.”</span> <a href="https://github.com/microbiome/microbiome">https://github.com/microbiome/microbiome</a>.
 </div>
-<div id="ref-mcmurdie2013phyloseq">
-<p>McMurdie, Paul J, and Susan Holmes. 2013. “Phyloseq: An R Package for Reproducible Interactive Analysis and Graphics of Microbiome Census Data.” <em>PLoS One</em> 8 (4): e61217. <a href="https://doi.org/10.1371/journal.pone.0061217">https://doi.org/10.1371/journal.pone.0061217</a>.</p>
+<div id="ref-mcmurdie2013phyloseq" class="csl-entry" role="doc-biblioentry">
+McMurdie, Paul J, and Susan Holmes. 2013. <span>“Phyloseq: An r Package for Reproducible Interactive Analysis and Graphics of Microbiome Census Data.”</span> <em>PLoS One</em> 8 (4): e61217. <a href="https://doi.org/10.1371/journal.pone.0061217">https://doi.org/10.1371/journal.pone.0061217</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->
@@ -2901,6 +2926,7 @@ Next
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
+
 
 </body>
 
