@@ -2118,8 +2118,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
 
   blockquote p {
-  	font-size: 1.3em;
-  	font-family: 'Lato';
+  	font-size: 1.1em;
+  	font-family: 'Work Sans';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
@@ -2499,6 +2499,7 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#data-availability">Data Availability</a></li>
 <li><a href="#automated-binning">Automated Binning</a>
 <ul>
 <li><a href="#inspect-results">Inspect Results</a></li>
@@ -2515,7 +2516,7 @@ METAGENOMIC
 <li><a href="#estimate-mag-taxonomy">Estimate MAG Taxonomy</a></li>
 <li><a href="#estimate-bin-taxonomy">Estimate Bin Taxonomy</a></li>
 <li><a href="#source-code">Source Code</a></li>
-<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#data-availability-1">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2530,6 +2531,12 @@ Show setup information.
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 </details>
+<h1 id="data-availability">Data Availability</h1>
+<p>All files generated in this workflow can be downloaded from figshare.</p>
+<iframe src="https://widgets.figshare.com/articles/12809069/embed?show_title=1" width="568" height="351" frameborder="0">
+</iframe>
+<p>File names and descriptions:</p>
+<p>Binning summary data for four collections: 1) <strong>CONCOCT_5</strong>, the automatic binning, 2) <strong>VIRAL_FINAL</strong>, the bins after manual refinement deemed to be viral, 3) <strong>MICROBIAL_FINAL</strong>, the bins after manual refinement deemed to be microbial, 4) <strong>MAGS the 5 MAG bins only</strong>. Within each directory is an index.html that can be opened in a browser for closer inspection. Self-Contained profile and contig databases for each MAG are also provided.</p>
 <p>This workflow is largely based on the <a href="http://merenlab.org/data/tara-oceans-mags/#binning-mags">Recovering Microbial Genomes from TARA Oceans Metagenomes</a> binning section provided by Delmont and Eren.</p>
 <h1 id="automated-binning">Automated Binning</h1>
 <p>The latest iteration of anvi’o (v6 as of this writing) ports several popular automated binning algorithms into its ecosystem. We will bin the water meatgenomic assembly using <a href="https://github.com/BinPro/CONCOCT">CONCOCT</a> (Clustering cONtigs with COverage and ComposiTion) <span class="citation" data-cites="alneberg2014binning">(<a href="#ref-alneberg2014binning" role="doc-biblioref">Alneberg et al. 2014</a>)</span>—a program for unsupervised binning of metagenomic contigs by using nucleotide composition, coverage data in multiple samples and linkage data from paired end reads. But you can also use <a href="https://bitbucket.org/berkeleylab/metabat">MetaBAT2</a> <span class="citation" data-cites="kang2019metabat">(<a href="#ref-kang2019metabat" role="doc-biblioref">Kang et al. 2019</a>)</span>, <a href="https://sourceforge.net/projects/maxbin2/">MaxBIN2</a> <span class="citation" data-cites="wu2016maxbin">(<a href="#ref-wu2016maxbin" role="doc-biblioref">Wu, Simmons, and Singer 2016</a>)</span> and/or <a href="https://github.com/cmks/DAS_Tool">DASTOOL</a> <span class="citation" data-cites="sieber2018recovery">(<a href="#ref-sieber2018recovery" role="doc-biblioref">Sieber et al. 2018</a>)</span> if you wish.</p>
@@ -3024,7 +3031,7 @@ Next
 </div>
 <h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-binning.Rmd">clicking this link</a>.</p>
-<h2 class="appendix" id="data-availability">Data Availability</h2>
+<h2 class="appendix" id="data-availability-1">Data Availability</h2>
 <p>Binning summary data can be downloaded directly from figshare at <a href="https://doi.org/10.25573/data.12809069">doi:10.25573/data.12809069</a>. Summary data is included for four collections: 1) <code>CONCOCT_5</code>, the automatic binning, 2) <code>VIRAL_FINAL</code>, the bins after manual refinement deemed to be viral, 3) <code>MICROBIAL_FINAL</code>, the bins after manual refinement deemed to be microbial, 4) <code>MAGS</code> the 5 MAG bins only. Within each directory is an <code>index.html</code> that can be opened in a browser for closer inspection. Individual summary files are also provided. Self-Contained profile and contigs databases for each MAG are also available for download.</p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-alneberg2014binning" class="csl-entry" role="doc-biblioentry">

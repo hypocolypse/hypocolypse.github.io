@@ -2114,8 +2114,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
 
   blockquote p {
-  	font-size: 1.3em;
-  	font-family: 'Lato';
+  	font-size: 1.1em;
+  	font-family: 'Work Sans';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
@@ -2495,6 +2495,7 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#data-availability">Data Availability</a></li>
 <li><a href="#the-workflow">The Workflow</a></li>
 <li><a href="#samples">Samples</a></li>
 <li><a href="#trimming">Trimming</a></li>
@@ -2517,7 +2518,7 @@ METAGENOMIC
 <li><a href="#conclusion">Conclusion</a>
 <ul>
 <li><a href="#source-code">Source Code</a></li>
-<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#data-availability-1">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2541,6 +2542,23 @@ Show setup information.
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 </div>
 </details>
+<h1 id="data-availability">Data Availability</h1>
+<p>All files generated in this workflow can be downloaded from figshare.</p>
+<iframe src="https://widgets.figshare.com/articles/12808601/embed?show_title=1" width="568" height="351" frameborder="0">
+</iframe>
+<p>File names and descriptions:</p>
+<ul>
+<li><strong>00_RAW/</strong>: Raw fastq files before trimming.</li>
+<li><strong>00_LOGS/</strong>: Individual log files for each step of the snakemake workflow.</li>
+<li><strong>00_TRIMMED/</strong>: Eight trimmed, compressed fastq files for each sample.</li>
+<li><strong>01_QC/</strong>: Merged forward (R1) &amp; reverse (R2) QC’ed fastq files. QC STATS file for each sample. <code>qc-report.txt</code> file, a summary table of all QC results.</li>
+<li><strong>02_FASTA/</strong>: A contig fasta file and reformat report for each assembly.</li>
+<li><strong>03_CONTIGS/</strong>: An annotated contig database for each assembly.</li>
+<li><strong>04_MAPPING/</strong>: Short read BAM files.</li>
+<li><strong>05_ANVIO_PROFILE/</strong>: Individual profile database for each sample.</li>
+<li><strong>06_MERGED/</strong>: Single merged profile database.</li>
+</ul>
+<p>The <code>contigs.db</code> contains all taxonomic and functional annotations. The <code>profile.db</code> contains information on coverage, detection, etc. as well as COLLECTION information for automatic binning and manual refinement (<a href="https://hypocolypse.github.io/mg-binning.html">see step 5</a>).</p>
 <h1 id="the-workflow">The Workflow</h1>
 <p>In this section of the workflow we begin with raw, paired-end Illumina data. We will use a Snakemake <span class="citation" data-cites="koster2012snakemake">(<a href="#ref-koster2012snakemake" role="doc-biblioref">Köster and Rahmann 2012</a>)</span> workflow in the anvi’o <span class="citation" data-cites="eren2015anvi">(<a href="#ref-eren2015anvi" role="doc-biblioref">Eren et al. 2015</a>)</span> environment for most of the steps, though we will at time call on additional tools for specific steps. The overall structure of our workflow was modelled after the one described by Delmont &amp; Eren on <a href="http://merenlab.org/data/tara-oceans-mags/">Recovering Microbial Genomes from TARA Oceans Metagenomes</a> <span class="citation" data-cites="delmont2018nitrogen">(<a href="#ref-delmont2018nitrogen" role="doc-biblioref">Delmont et al. 2018</a>)</span>.</p>
 <p>Specifically, we will:</p>
@@ -4137,7 +4155,7 @@ Next
 </div>
 <h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/mg-workflow-1.Rmd">clicking this link</a>.</p>
-<h2 class="appendix" id="data-availability">Data Availability</h2>
+<h2 class="appendix" id="data-availability-1">Data Availability</h2>
 <p>All files generated from this workflow and described in the final table can be downloaded from figshare at <a href="https://doi.org/10.25573/data.12808601">doi:10.25573/data.12808601</a>. The contigs db contains all taxonomic and functional annotations. The profile db contains information on coverage, detection, etc. as well as COLLECTION information for automatic binning and manual refinement (<a href="https://hypocolypse.github.io/mg-binning.html">see step 5</a>).</p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-bolger2014trimmomatic" class="csl-entry" role="doc-biblioentry">

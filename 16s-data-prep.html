@@ -2118,8 +2118,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
 
   blockquote p {
-  	font-size: 1.3em;
-  	font-family: 'Lato';
+  	font-size: 1.1em;
+  	font-family: 'Work Sans';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
@@ -2499,6 +2499,8 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#workflow-overview">Workflow Overview</a></li>
 <li><a href="#read-counts-assessment">Read Counts Assessment</a></li>
 <li><a href="#defining-groups">Defining Groups</a></li>
 <li><a href="#phyloseq-objects">Phyloseq Objects</a></li>
@@ -2512,7 +2514,7 @@ METAGENOMIC
 <li><a href="#save-objects">Save Objects</a>
 <ul>
 <li><a href="#source-code">Source Code</a></li>
-<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#data-availability-1">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2541,9 +2543,31 @@ Show setup information.
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
+<h1 id="data-availability">Data Availability</h1>
 <blockquote>
-<p>You will either need to run the <a href="16s-dada2.html">DADA2 workflow</a> or the grab output file <code>combo_pipeline.rdata</code> from the workflow. This file contains the sequence and taxonomy tables. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
+<p>You will either need to run the <a href="16s-dada2.html">DADA2 workflow</a> or the grab output file <code>water_pipeline.rdata</code> from the workflow. This file contains the sequence and taxonomy tables. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
 </blockquote>
+<p>All files needed to run this workflow can be downloaded from figshare. These are the output files from the <a href="16s-dada2.html">DADA2 workflow</a> page.</p>
+<iframe src="https://widgets.figshare.com/articles/12403865/embed?show_title=1" width="568" height="300" frameborder="0">
+</iframe>
+<p>File names and descriptions:</p>
+<ul>
+<li><strong>RUN01_read_changes.txt</strong>: Tracking changes in read counts (per sample) from the beginning to end of the DADA2 workflow.</li>
+<li><strong>RUN02_read_changes.txt</strong>: Tracking changes in read counts (per sample) from the beginning to end of the DADA2 workflow.</li>
+<li><strong>water_pipeline.rdata</strong>: contains water sample sequence and taxonomy tables from the DADA2 pipeline needed for subsequent analyses. To see the Objects, in R run load(“water_pipeline.rdata,” verbose=TRUE)</li>
+<li><strong>combo_pipeline.rdata</strong>: contains sequence and taxonomy tables from the DADA2 pipeline for all samples. To see the Objects, in R run load(“combo_pipeline.rdata,” verbose=TRUE)</li>
+</ul>
+<p><code>water_pipeline.rdata</code> contents.</p>
+<ul>
+<li><strong>seqtab.1</strong>: Sequence table from Run01 before merging with Run02.</li>
+<li><strong>seqtab.1</strong>: Sequence table from Run02 before merging with Run01.</li>
+<li><strong>st.sum</strong>: merged sequence table before removing chimeras</li>
+<li><strong>st.all</strong>: duplicate of st.sum</li>
+<li><strong>seqtab</strong>: merged sequence table after removing chimeras</li>
+<li><strong>tax_silva</strong>: Silva (v132) taxonomy table of seqtab</li>
+<li><strong>tax_gg</strong>: GreenGenes taxonomy table of seqtab</li>
+</ul>
+<h1 id="workflow-overview">Workflow Overview</h1>
 <p>Unless otherwise noted, we primarily use <a href="https://joey711.github.io/phyloseq/">phyloseq</a> <span class="citation" data-cites="mcmurdie2013phyloseq">(<a href="#ref-mcmurdie2013phyloseq" role="doc-biblioref">McMurdie and Holmes 2013</a>)</span> in this section of the workflow to analyze the 16S rRNA data set. Before we conduct any analyses we first need to <em>prepare our data set</em> by curating samples, removing <em>contaminants</em>, and creating phyloseq objects.</p>
 <h1 id="read-counts-assessment">Read Counts Assessment</h1>
 <p>Before we begin, let’s create a summary table containing some basic sample metadata and the read count data from the <a href="16s-dada2.html">DADA2 pipeline</a>. We need to inspect how total reads changed through the pipeline. Just to get an idea, we combined the results of the <a href="16s-dada2.html#track-read-changes">Track Changes</a> analysis for these 8 samples. Table headers are as follows:</p>
@@ -2599,7 +2623,7 @@ Show setup information.
 </div>
 <h1 id="defining-groups">Defining Groups</h1>
 <ol type="1">
-<li><p>The first thing we want to do is load the data packet produced by the final step of the DADA2 workflow. This packet (<code>combo_pipeline.rdata</code>) contains the ASV-by-sample table and the ASV taxonomy table.</p></li>
+<li><p>The first thing we want to do is load the data packet produced by the final step of the DADA2 workflow. This packet (<code>water_pipeline.rdata</code>) contains the ASV-by-sample table and the ASV taxonomy table.</p></li>
 <li><p>After we load the data packet we next need to format sample names and define groups. We will use the actual sample names to define the different groups.</p></li>
 </ol>
 <div class="layout-chunk" data-layout="l-body">
@@ -2890,7 +2914,7 @@ Next
 </div>
 <h2 class="appendix" id="source-code">Source Code</h2>
 <p>You can find the source code for this page by <a href="https://github.com/hypocolypse/web/blob/master/16s-data-prep.Rmd">clicking this link</a>.</p>
-<h2 class="appendix" id="data-availability">Data Availability</h2>
+<h2 class="appendix" id="data-availability-1">Data Availability</h2>
 <p>Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403925">doi:10.25573/data.12403925</a>. Here you will find the sample metadata table, sequence tables, taxonomy tables, and ASV fasta files from the full phyloseq object (before removing contaminants) and the trimmed data set (after removing contaminants). The <em>16s-data_prep.rdata</em> file contains all variables and phyloseq objects from this pipeline and is needed for the next workflow (as are the .rds files).</p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-lahti2017microbiome" class="csl-entry" role="doc-biblioentry">

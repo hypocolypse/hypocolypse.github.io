@@ -2116,8 +2116,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
 
   blockquote p {
-  	font-size: 1.3em;
-  	font-family: 'Lato';
+  	font-size: 1.1em;
+  	font-family: 'Work Sans';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
@@ -2497,6 +2497,7 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#data-availability">Data Availability</a></li>
 <li><a href="#workflow-overview">Workflow Overview</a></li>
 <li><a href="#sequence-files-samples">Sequence Files &amp; Samples</a></li>
 <li><a href="#remove-primers">1. Remove Primers</a></li>
@@ -2524,7 +2525,7 @@ METAGENOMIC
 <li><a href="#r-session-information-code">R Session Information &amp; Code</a>
 <ul>
 <li><a href="#source-code">Source Code</a></li>
-<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#data-availability-1">Data Availability</a></li>
 <li><a href="#addendum">Addendum</a></li>
 </ul></li>
 </ul>
@@ -2552,11 +2553,15 @@ Show setup information.
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 </div>
 </details>
+<h1 id="data-availability">Data Availability</h1>
+<blockquote>
+<p>In order to run this workflow, you either need the <em>raw</em> data—available on the figshare project site—or the <em>trimmed</em> data, available from the ENA under project accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632 (ERP119845)</a>. See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
+</blockquote>
+<p>All files needed to run this workflow can be downloaded from figshare.</p>
+<iframe src="https://widgets.figshare.com/articles/11819745/embed?show_title=1" width="568" height="351" frameborder="0">
+</iframe>
 <h1 id="workflow-overview">Workflow Overview</h1>
 <p>This script will process the raw data from the water samples. Please note that to decrease rendering time of this website, we set code chunks to <code>eval=FALSE</code> after the initial processing. Remove this flag to rerun these code chunks.</p>
-<blockquote>
-<p>In order to run this workflow, you either need the <em>raw</em> data—available on the figshare project site—or the <em>trimmed</em> data, available from the ENA under project accession number … See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>
-</blockquote>
 <p>This pipeline below is exactly how we processed our 16S rRNA data using <a href="https://benjjneb.github.io/dada2/">DADA2</a> <span class="citation" data-cites="callahan2016dada2">(<a href="#ref-callahan2016dada2" role="doc-biblioref">Callahan et al. 2016</a>)</span>. This is not meant to be a tutorial and we only provide minimal annotation. There are many great tutorials and explanations out there on amplicon processing that you can dive into.</p>
 <p>Depending on the DADA2 version you have installed, you may get <a href="https://github.com/benjjneb/dada2/issues/532">slightly different results</a> due to fundamental changes in the code base. This is unavoidable at times and the developers do the best they can to maintain fidelity across versions. To see the package versions of tools used in this workflow, please see the <a href="#r-session-information">Session Info</a> at the end of this page. We set random number seeds to ensure full reproducibility.</p>
 <p>This is a workflow for processing the raw 16S rRNA Illumina data for the study. The workflow consists of the following steps:</p>
@@ -2709,8 +2714,8 @@ These parameters should be set based on the anticipated length of the amplicon a
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-2dc24d8cbe92d410b136" style="width:80%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2dc24d8cbe92d410b136">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0_R1","WCC1_R1","WCC2_R1","WCC3_R1","WCR0_R1","WCR1_R1","WCR2_R1","WCR3_R1"],[47262,38295,35161,30556,47991,21958,25189,60146],[37496,31033,28557,23705,38885,17611,20387,49673]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>reads.in<\/th>\n      <th>reads.out<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1d0b9d5b2fa389aff4b4" style="width:80%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d0b9d5b2fa389aff4b4">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0_R1","WCC1_R1","WCC2_R1","WCC3_R1","WCR0_R1","WCR1_R1","WCR2_R1","WCR3_R1"],[47262,38295,35161,30556,47991,21958,25189,60146],[37496,31033,28557,23705,38885,17611,20387,49673]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>reads.in<\/th>\n      <th>reads.out<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h1 id="learn-error-rates">4. Learn Error Rates</h1>
 <p>Now it is time to assess the error rate of the data. The DADA2 algorithm uses a parametric error model. Every amplicon data set has a different set of error rates and the <code>learnErrors</code> method learns this error model <em>from the data</em>. It does this by alternating estimation of the error rates and inference of sample composition until they converge on a jointly consistent solution. The algorithm begins with an initial guess, for which the maximum possible error rates in the data are used.</p>
@@ -2880,8 +2885,8 @@ The values selected should be based on the sequence table generated above.
 </div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-9277e86fe22b48ad32b8" style="width:80%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9277e86fe22b48ad32b8">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],[47262,38295,35161,30556,47991,21958,25189,60146],[38961,32223,29579,24677,40399,18230,21209,51481],[37153,30875,28717,23796,38847,17303,19797,49228],[38268,31646,29166,24262,39739,17821,20683,50695],[32684,28066,26668,22056,34301,14682,16030,42012],[28130,25576,24929,20850,29157,12909,13874,33802]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>input<\/th>\n      <th>filtered<\/th>\n      <th>denoisedF<\/th>\n      <th>denoisedR<\/th>\n      <th>merged<\/th>\n      <th>nonchim<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e7e26ac3a932a5cdb3d0" style="width:80%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e7e26ac3a932a5cdb3d0">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],[47262,38295,35161,30556,47991,21958,25189,60146],[38961,32223,29579,24677,40399,18230,21209,51481],[37153,30875,28717,23796,38847,17303,19797,49228],[38268,31646,29166,24262,39739,17821,20683,50695],[32684,28066,26668,22056,34301,14682,16030,42012],[28130,25576,24929,20850,29157,12909,13874,33802]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>input<\/th>\n      <th>filtered<\/th>\n      <th>denoisedF<\/th>\n      <th>denoisedR<\/th>\n      <th>merged<\/th>\n      <th>nonchim<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -3071,7 +3076,7 @@ Next
 </div>
 <h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-dada2.Rmd">clicking this link</a>. Please note, that in order to process the data <em>and</em> build the website, we needed to run the pipeline and get the results. Then hard code the results and turn off the individual commands. So the raw file for this page is a bit messy—you have been warned.</p>
-<h2 class="appendix" id="data-availability">Data Availability</h2>
+<h2 class="appendix" id="data-availability-1">Data Availability</h2>
 <p>Raw fastq files available on figshare at <a href="https://doi.org/10.25573/data.11819745">doi:10.25573/data.11819745</a>. Trimmed fastq files (primers removed) available through the ENA under project accession number <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB36632">PRJEB36632</a>. Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12403865">doi:0.25573/data.12403865</a>.</p>
 <h2 class="appendix" id="addendum">Addendum</h2>
 <p>In the paper itself, we only focuses on the water samples, however we did sequence additional sample types not included in this analysis. For your information, several of these other samples were re-sequenced and processed independently before being merged in the last section of the workflow, prior to analysis. We sequenced 30 samples in the first run (Run01) and then re-sequenced several samples because of low initial yield (Run02). See the <a href="data-availability.html">Data Availability</a> page for complete details.</p>

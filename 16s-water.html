@@ -2113,8 +2113,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   }
 
   blockquote p {
-  	font-size: 1.3em;
-  	font-family: 'Lato';
+  	font-size: 1.1em;
+  	font-family: 'Work Sans';
     font-style: normal;
     margin: 0.5em 0 0.5em;
   }
@@ -2494,6 +2494,8 @@ METAGENOMIC
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#workflow-overview">Workflow Overview</a></li>
 <li><a href="#summary-of-water-samples">Summary of Water Samples</a></li>
 <li><a href="#diversity">Diversity</a>
 <ul>
@@ -2501,7 +2503,7 @@ METAGENOMIC
 <li><a href="#hypoxic-vs.-normoxic">Hypoxic vs. Normoxic</a></li>
 <li><a href="#during-vs.-after-the-event">During vs. After the Event</a></li>
 <li><a href="#source-code">Source Code</a></li>
-<li><a href="#data-availability">Data Availability</a></li>
+<li><a href="#data-availability-1">Data Availability</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2532,6 +2534,18 @@ Show setup information.
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
+<h1 id="data-availability">Data Availability</h1>
+<blockquote>
+<p>In order to run this workflow, you either need to run the previous workflows or grab the files below from figshare.</p>
+</blockquote>
+<p>All files needed to run this workflow can be downloaded from figshare. These are the output files from the <a href="16s-data-prep.html">Data Prep Workflow</a>.</p>
+<iframe src="https://widgets.figshare.com/articles/12403925/embed?show_title=1" width="568" height="351" frameborder="0">
+</iframe>
+<p>File names and descriptions:</p>
+<p><strong>seq_table.txt</strong>, <strong>tax_table.txt</strong>, <strong>asv.fasta</strong>: Sequence tables, taxonomy tables, and ASV fasta files from the full phyloseq object (before removing contaminants) and the trimmed dataset (after removing contaminants).</p>
+<p><strong>16s-data_prep.rdata</strong>: contains all variables and phyloseq objects from the data prep pipeline. To see the Objects, in R run load(“16s-data_prep.rdata,” verbose=TRUE)</p>
+<h1 id="workflow-overview">Workflow Overview</h1>
+<p>This script will process the curated water sample data from the <a href="16s-data-prep.html">Data Prep Workflow</a>.</p>
 <h1 id="summary-of-water-samples">Summary of Water Samples</h1>
 <p>Now that we have a phyloseq object containing the water samples only, we can summarize the data in the water phyloseq object. Again, we use the <code>summarize_phyloseq</code> from the <a href="https://github.com/microbiome/microbiome/">microbiome R package</a> <span class="citation" data-cites="lahti2017microbiome">(<a href="#ref-lahti2017microbiome" role="doc-biblioref">Lahti, Sudarshan, and others 2017</a>)</span> as we did before.</p>
 <p>First, load the R objects that contain the sample data, sequence table, and taxonomy table (saved at the end of the previous section) and merge them into a single phyloseq object. Doing it this way keeps the memory footprint low.</p>
@@ -2898,7 +2912,7 @@ Next
 </div>
 <h2 class="appendix" id="source-code">Source Code</h2>
 <p>The source code for this page can be accessed on GitHub by <a href="https://github.com/hypocolypse/web/blob/master/16s-water.Rmd">clicking this link</a>.</p>
-<h2 class="appendix" id="data-availability">Data Availability</h2>
+<h2 class="appendix" id="data-availability-1">Data Availability</h2>
 <p>Output files from this workflow available on figshare at <a href="https://doi.org/10.25573/data.12794258">doi:10.25573/data.12794258</a>. The <em>16s-water.rdata</em> file contains all variables and phyloseq objects from this pipeline and is needed for the next workflow (as are the .rds files).</p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-lahti2017microbiome" class="csl-entry" role="doc-biblioentry">
