@@ -2473,6 +2473,7 @@ METAGENOMIC
 </div>
 </div>
 <a href="data-availability.html">DATA</a>
+<a href="som.html">SOM</a>
 <a href="https://github.com/hypocolypse/web/" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -2714,8 +2715,8 @@ These parameters should be set based on the anticipated length of the amplicon a
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div id="htmlwidget-1d0b9d5b2fa389aff4b4" style="width:80%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1d0b9d5b2fa389aff4b4">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0_R1","WCC1_R1","WCC2_R1","WCC3_R1","WCR0_R1","WCR1_R1","WCR2_R1","WCR3_R1"],[47262,38295,35161,30556,47991,21958,25189,60146],[37496,31033,28557,23705,38885,17611,20387,49673]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>reads.in<\/th>\n      <th>reads.out<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2dc24d8cbe92d410b136" style="width:80%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2dc24d8cbe92d410b136">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0_R1","WCC1_R1","WCC2_R1","WCC3_R1","WCR0_R1","WCR1_R1","WCR2_R1","WCR3_R1"],[47262,38295,35161,30556,47991,21958,25189,60146],[37496,31033,28557,23705,38885,17611,20387,49673]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>reads.in<\/th>\n      <th>reads.out<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <h1 id="learn-error-rates">4. Learn Error Rates</h1>
 <p>Now it is time to assess the error rate of the data. The DADA2 algorithm uses a parametric error model. Every amplicon data set has a different set of error rates and the <code>learnErrors</code> method learns this error model <em>from the data</em>. It does this by alternating estimation of the error rates and inference of sample composition until they converge on a jointly consistent solution. The algorithm begins with an initial guess, for which the maximum possible error rates in the data are used.</p>
@@ -2885,8 +2886,8 @@ The values selected should be based on the sequence table generated above.
 </div>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
-<div id="htmlwidget-e7e26ac3a932a5cdb3d0" style="width:80%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e7e26ac3a932a5cdb3d0">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],[47262,38295,35161,30556,47991,21958,25189,60146],[38961,32223,29579,24677,40399,18230,21209,51481],[37153,30875,28717,23796,38847,17303,19797,49228],[38268,31646,29166,24262,39739,17821,20683,50695],[32684,28066,26668,22056,34301,14682,16030,42012],[28130,25576,24929,20850,29157,12909,13874,33802]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>input<\/th>\n      <th>filtered<\/th>\n      <th>denoisedF<\/th>\n      <th>denoisedR<\/th>\n      <th>merged<\/th>\n      <th>nonchim<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9277e86fe22b48ad32b8" style="width:80%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9277e86fe22b48ad32b8">{"x":{"filter":"none","extensions":["Buttons"],"data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],[47262,38295,35161,30556,47991,21958,25189,60146],[38961,32223,29579,24677,40399,18230,21209,51481],[37153,30875,28717,23796,38847,17303,19797,49228],[38268,31646,29166,24262,39739,17821,20683,50695],[32684,28066,26668,22056,34301,14682,16030,42012],[28130,25576,24929,20850,29157,12909,13874,33802]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>input<\/th>\n      <th>filtered<\/th>\n      <th>denoisedF<\/th>\n      <th>denoisedR<\/th>\n      <th>merged<\/th>\n      <th>nonchim<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 

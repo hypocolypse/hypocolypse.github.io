@@ -106,7 +106,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <meta name="citation_reference" content="citation_title=Anvi’o: An advanced analysis and visualization platform for ‘omics data;citation_publication_date=2015;citation_volume=3;citation_author=A Murat Eren;citation_author=Özcan C Esen;citation_author=Christopher Quince;citation_author=Joseph H Vineis;citation_author=Hilary G Morrison;citation_author=Mitchell L Sogin;citation_author=Tom O Delmont"/>
   <meta name="citation_reference" content="citation_title=Metacoder: An r package for visualization and manipulation of community taxonomic diversity data;citation_publication_date=2017;citation_volume=13;citation_author=Zachary SL Foster;citation_author=Thomas J Sharpton;citation_author=Niklaus J Grünwald"/>
   <meta name="citation_reference" content="citation_title=Species assemblages and indicator species: The need for a flexible asymmetrical approach;citation_publication_date=1997;citation_volume=67;citation_author=Marc Dufrêne;citation_author=Pierre Legendre"/>
-  <meta name="citation_reference" content="citation_title=Labdsv: Ordination and multivariate analysis for ecology;citation_publication_date=2007;citation_volume=1;citation_author=David W Roberts;citation_author=Labdsv: Ordination and multivariate analysis for ecology"/>
+  <meta name="citation_reference" content="citation_title=Labdsv: Ordination and multivariate analysis for ecology;citation_publication_date=2007;citation_volume=1;citation_author=David W Roberts"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
@@ -2475,6 +2475,7 @@ METAGENOMIC
 </div>
 </div>
 <a href="data-availability.html">DATA</a>
+<a href="som.html">SOM</a>
 <a href="https://github.com/hypocolypse/web/" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
@@ -2578,7 +2579,7 @@ Show setup information.
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;rdata/16s-water/16s-water.rdata&quot;</span>)</span></code></pre></div>
 </div>
 <h1 id="differentially-abundant-asvs">Differentially Abundant ASVs</h1>
-<p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. ASVs that were enriched and more frequent in hypoxic and normoxic samples were identified using the Indicator Species Analysis (ISA) <span class="citation" data-cites="dufrene1997species">(<a href="#ref-dufrene1997species" role="doc-biblioref">Dufrêne and Legendre 1997</a>)</span>, computed with the R package labdsv <span class="citation" data-cites="roberts2007labdsv">(<a href="#ref-roberts2007labdsv" role="doc-biblioref">Roberts and others 2007</a>)</span>.</p>
+<p>Time to drill down a little deeper and look at differentially abundant (DA) ASVs between the two oxygen conditions. ASVs that were enriched and more frequent in hypoxic and normoxic samples were identified using the Indicator Species Analysis (ISA) <span class="citation" data-cites="dufrene1997species">(<a href="#ref-dufrene1997species" role="doc-biblioref">Dufrêne and Legendre 1997</a>)</span>, computed with the R package labdsv <span class="citation" data-cites="roberts2007labdsv">(<a href="#ref-roberts2007labdsv" role="doc-biblioref">Roberts 2007</a>)</span>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">119</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#rm(class, order, phylum, kingdom)</span></span>
@@ -3084,7 +3085,7 @@ Eren, A Murat, Özcan C Esen, Christopher Quince, Joseph H Vineis, Hilary G Morr
 Foster, Zachary SL, Thomas J Sharpton, and Niklaus J Grünwald. 2017. <span>“Metacoder: An r Package for Visualization and Manipulation of Community Taxonomic Diversity Data.”</span> <em>PLoS Computational Biology</em> 13 (2): e1005404. <a href="https://doi.org/10.1371/journal.pcbi.1005404">https://doi.org/10.1371/journal.pcbi.1005404</a>.
 </div>
 <div id="ref-roberts2007labdsv" class="csl-entry" role="doc-biblioentry">
-Roberts, David W, and others. 2007. <span>“Labdsv: Ordination and Multivariate Analysis for Ecology.”</span> <em>R Package Version</em> 1 (1).
+Roberts, David W. 2007. <span>“Labdsv: Ordination and Multivariate Analysis for Ecology.”</span> <em>R Package Version</em> 1 (1).
 </div>
 </div>
 <!--radix_placeholder_article_footer-->
