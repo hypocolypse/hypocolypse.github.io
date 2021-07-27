@@ -65,7 +65,7 @@
     {
       "path": "index.html",
       "title": "Hypocolypse",
-      "description": "Reproducible workflows for the study ***Rapid ecosystem-scale consequences of acute deoxygenation on a Caribbean reef***.\n",
+      "description": "Raw data, data products, & reproducible workflows for the study ***Rapid ecosystem-scale consequences of acute deoxygenation on a Caribbean reef***.\n",
       "author": [
         {
           "name": "Maggie D Johnson",
@@ -96,9 +96,9 @@
           "url": "https://www.altierilab.org"
         }
       ],
-      "date": "July 23, 2021",
+      "date": "July 27, 2021",
       "contents": "\n      \n        \n      \n    \n  ",
-      "last_modified": "2021-06-27T08:06:36-05:00"
+      "last_modified": "2021-07-27T14:19:17-05:00"
     },
     {
       "path": "intro.html",
