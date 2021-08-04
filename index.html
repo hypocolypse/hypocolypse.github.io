@@ -2580,6 +2580,199 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
       padding-left: 5px;
   }
 
+  .story_float {
+      margin: auto;
+      margin-bottom: 20px;
+      box-shadow: 4px 4px 14px 1px #ccc;
+      width: 98%;
+      border: 1px solid #bcbcbc;
+      border-radius: 14px;
+      padding: 5px;
+      background-image: linear-gradient(#f4f4f4, #efefef);
+      h3 {
+          margin-bottom: 6px;
+          margin-top: 5px;
+          margin-left: 9px;
+      }
+      p {
+          font-size: 90%;
+          font-style: italic;
+      }
+      a, a:hover {
+          font-size: 80%;
+          border-bottom: 0 solid transparent;
+      }
+  }
+
+  .story {
+      margin-bottom: 30px;
+      p {
+          font-size: 90%;
+          font-style: italic;
+      }
+      a, a:hover {
+          font-size: 80%;
+          border-bottom: 0 solid transparent;
+      }
+  }
+
+  .story-title {
+      font-size: 1.5em;
+      font-family: "Work Sans",sans-serif;
+      font-weight: 400;
+      line-height: 30px;
+      display: block;
+      padding: 5px;
+      padding-left: 8px;
+      padding-bottom: 9px;
+      border-left: 10px solid #d4d4d4;
+      text-align: center;
+  }
+
+  .story_float .story-title {
+      border-left: none;
+  }
+
+  .story-authors {
+      display: block;
+      width: 95%;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      margin-top: 4px;
+      font-variant: small-caps;
+      color: rgb(102, 102, 102);
+  }
+
+  .story_float .story-authors {
+      padding-left: 8px;
+  }
+
+  .story-co-first-authors {
+      display: block;
+      width: 95%;
+      padding-left: 25px;
+      margin-bottom: 5px;
+      margin-top: -10px;
+      color: #717171;
+      font-size: smaller;
+      font-style: italic;
+  }
+
+  .story_float .story-co-first-authors {
+      padding-left: 12px;
+  }
+
+  .story-member-author {
+      color: black;
+      font-weight: bolder;
+  }
+
+  .story-journal {
+      background-image: linear-gradient(to right, #fafafa, #d4d4d4);
+      display: block;
+      text-align: right;
+      border: 1px #f4f4f4 solid;
+      border-radius: 10px;
+      margin-left: 20px;
+      padding: 4px;
+      padding-right: 14px;
+      font-size: small;
+  }
+
+  .story_float .story-journal {
+      margin-left: 8px;
+      background-image: none;
+      border: none;
+  }
+
+  .story-info {
+      background-image: linear-gradient(to left, #fefff0, white);
+      border: 1px #f4f4f4 solid;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left: 20px;
+      border-radius: 10px;
+      padding: 4px;
+      font-size: small;
+      min-height: 300px;
+      line-height: 2em;
+  }
+
+  .story_float .story-info {
+      margin-left: 8px;
+      margin-right: 8px;
+      background: white;
+      border: 1px #bcbcbc solid;
+  }
+
+  .story-info-no-image {
+      background-image: linear-gradient(to left, #fefff0, white);
+      border: 1px #f4f4f4 solid;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left:20px;
+      border-radius: 10px;
+      padding: 4px;
+      padding-right: 14px;
+      font-size: small;
+  }
+
+  .story_float .story-info-no-image {
+      margin-left: 8px;
+  }
+
+  .story-featured-image {
+    width: 100px;
+    padding: 1px;
+    float: left;
+  }
+
+  .story-highlights {
+      padding-left: 315px;
+  }
+
+  .story-highlights a, .story-highlights-no-image a, .story-highlights a:hover, .story-highlights-no-image a:hover {
+          font-size: 100%;
+          text-decoration: underline;
+          float: right;
+      }
+
+  .story-highlights-no-image {
+      padding-left: 5px;
+  }
+
+
+  div.alert-synopsis > div:first-child::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 0;
+    color: #ff3860;
+    content: '';
+  }
+
+  div.alert-synopsis > div {
+    margin-left: 1rem;
+  }
+
+  .alert-synopsis {
+  	color: #141414;
+  	font-family: 'Work Sans';
+    font-size: 1.1em;
+  	background-color: #efefef59;
+  	border-color: #7c7c7cFF;
+  	border-radius: 7px;
+  	/*border-left-width: 30px;*/
+  	margin-bottom: 2rem;
+  	padding-top: 1.5rem;
+  	padding-bottom: 1.5rem;
+  	padding-left: 2rem;
+    padding-right: 2rem;
+    border-width: 1px;
+    border-color: #141414;
+    border-style: solid;
+  }
+
   </style>
   <!--/radix_placeholder_site_in_header-->
   <!DOCTYPE html>
@@ -2708,25 +2901,24 @@ METAGENOMIC
 <li><a href="#synopsis">Synopsis</a></li>
 <li><a href="#goals-of-the-study">Goals of the study</a></li>
 <li><a href="#field-sites">Field Sites</a></li>
-<li><a href="#science-to-words">Science to Words</a>
-<ul>
+<li><a href="#science-to-words">Science to Words</a></li>
+<li><a href="#stories-reactions">Stories &amp; Reactions</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
 <li><a href="#author-contributions">Author Contributions</a></li>
 <li><a href="#data-availability">Data Availability</a></li>
 <li><a href="#code-availability">Code availability</a></li>
 <li><a href="#section"></a></li>
 <li><a href="#disclaimer">Disclaimer</a></li>
-</ul></li>
 </ul>
 </nav>
 </div>
-<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+<script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
 <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
 <div class="pub_float">
 <div class="__dimensions_badge_embed__" data-doi="10.1038/s41467-021-24777-3" data-hide-zero-citations="false" data-legend="hover-bottom" data-style="small_circle">
 
 </div>
-<div class="altmetric-embed" data-badge-type="donut" data-doi="10.1038/s41467-021-24777-3">
+<div class="altmetric-embed" data-badge-type="donut" data-doi="10.1038/s41467-021-24777-3" data-altmetric-id="110485762">
 
 </div>
 <span class="pub-title"><a href=" https://doi.org/10.1038/s41467-021-24777-3" target="_new">Rapid ecosystem-scale consequences of acute deoxygenation on a Caribbean reef</a></span> <span class="pub-authors">Johnson MD<sup>☯</sup>, Scott JJ<sup>☯</sup>, Leray M<sup>☯</sup>, Lucey N<sup>☯</sup>, Bravo LMR, Wied WL, Altieri AH</span> <span class="pub-co-first-authors"><sup>☯</sup>Co-first authors</span>
@@ -2741,6 +2933,9 @@ METAGENOMIC
 <p><span class="pub-journal"> <b>Nature Communications 12 (2021)</b> <a href="https://doi.org/10.1038/s41467-021-24777-3" target="_blank">🔗</a> </span></p>
 </div>
 <p><small><em>Code for the highlight box above shamelessly stolen from the <a href="https://merenlab.org/">Meren Lab website</a>.</em></small></p>
+<blockquote>
+<p><a href="https://www.nature.com/articles/s41467-021-24777-3/metrics">Click here</a> for article metrics on the Nature Communications website.</p>
+</blockquote>
 <p><br/></p>
 <details>
 <summary>
@@ -2754,14 +2949,14 @@ Show setup information.
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">install =</span> <span class="cn">FALSE</span>, <span class="at">update =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 </div>
 </details>
-<h1 id="synopsis">Synopsis</h1>
+<h2 id="synopsis">Synopsis</h2>
 <p>Dissolved oxygen (DO) concentrations in the ocean are declining at an unprecedented rate due eutrophication and climate change. The corresponding increase in the occurrence of coastal hypoxic events, and resulting mass mortality of marine life, is threatening the persistence of ecologically and economically valuable ecosystems. Though hypoxic events have long been recognized to cause ecosystem collapse in temperate environments, similar consequences have only recently been identified in the tropics, where the effects on coral reef ecosystems remain poorly understood. Emerging evidence indicates that hypoxic events can decimate coral reefs, but the progress of a coral reef hypoxia event has yet to be captured in real-time.</p>
 <p>Here we present the first account of an unfolding hypoxia event on a Caribbean coral reef, documenting the environmental parameters associated with the event that occurred in September 2017 and subsequent impacts on the ecosystem. We provide the first quantitative evidence that hypoxic events can precipitate coral bleaching and lead to dramatic shifts in reef benthic community structure that persist over time. We also describe how the microbial community overlying the reef benthos (~1 m above the seafloor) had a unique taxonomic fingerprint in hypoxic waters that dissipated with the return of oxygenated water.</p>
 <p>Together our study demonstrates the catastrophic implications of a hypoxic event on multiple aspects of the coral reef ecosystems, from coral physiology to microbial community structure. Our results have alarming implications for coral reefs in an age where deoxygenation is accelerating rapidly. In order to truly understand how local and global environmental changes will affect the persistence of coral reefs into the future, ocean deoxygenation must be accounted for and incorporated into monitoring and managements frameworks.</p>
 <div class="layout-chunk" data-layout="l-screen">
 <p><img src="figures/index/banner.png" width="1452" /></p>
 </div>
-<h1 id="goals-of-the-study">Goals of the study</h1>
+<h2 id="goals-of-the-study">Goals of the study</h2>
 <ol type="1">
 <li>Characterize the environmental conditions the occur during an in-progress, acute hypoxic event on a shallow Caribbean coral reef,<br />
 </li>
@@ -2771,16 +2966,16 @@ Show setup information.
 </li>
 <li>Assess the effects of the hypoxic event on the microbial community overlying the coral reef benthos, ~1 m above the seafloor.</li>
 </ol>
-<h1 id="field-sites">Field Sites</h1>
+<h2 id="field-sites">Field Sites</h2>
 <p>Conditions characteristic of a low-oxygen event were detected in Bahía Almirante (Bocas del Toro, Panama) on September 20, 2017. Sampling was conducted inside the bay at the <strong>impacted site</strong> (Cayo Roldan, vermilion) and outside the bay at the <strong>control site</strong> (Coral Caye, blue).</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-screen-inset shaded">
-<div id="htmlwidget-69fdbf19b105f0423d1c" style="width:624px;height:528px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-69fdbf19b105f0423d1c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[9.277137,-82.235052],12,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"topright"}]},{"method":"addCircleMarkers","args":[[9.21964,9.248433],[-82.33472,-82.131119],18.5,null,null,{"interactive":true,"className":"","stroke":true,"color":["#141414","#141414"],"weight":10,"opacity":0.5,"fill":true,"fillColor":["#D55E00","#0072B2"],"fillOpacity":0.9},null,null,null,null,["Cayo Roldan (impacted)","Coral Caye (control)"],{"interactive":false,"permanent":true,"direction":"bottom","opacity":1,"offset":[6,12],"textsize":"10px","textOnly":true,"style":{"font-size":"14px","font-style":"bold"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[9.352402,-82.256463,10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#0072B2","weight":5,"opacity":0.95,"fill":true,"fillColor":"#F0E442","fillOpacity":0.95},null,null,null,null,"STRI",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-20,1],"textsize":"10px","textOnly":true,"style":{"font-size":"20px","font-style":"bold"},"className":"","sticky":true},null]}],"limits":{"lat":[9.21964,9.352402],"lng":[-82.33472,-82.131119]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b55ff19aa0ed8ff6c782" style="width:624px;height:528px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b55ff19aa0ed8ff6c782">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[9.277137,-82.235052],12,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"topright"}]},{"method":"addCircleMarkers","args":[[9.21964,9.248433],[-82.33472,-82.131119],18.5,null,null,{"interactive":true,"className":"","stroke":true,"color":["#141414","#141414"],"weight":10,"opacity":0.5,"fill":true,"fillColor":["#D55E00","#0072B2"],"fillOpacity":0.9},null,null,null,null,["Cayo Roldan (impacted)","Coral Caye (control)"],{"interactive":false,"permanent":true,"direction":"bottom","opacity":1,"offset":[6,12],"textsize":"10px","textOnly":true,"style":{"font-size":"14px","font-style":"bold"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[9.352402,-82.256463,10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#0072B2","weight":5,"opacity":0.95,"fill":true,"fillColor":"#F0E442","fillOpacity":0.95},null,null,null,null,"STRI",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-20,1],"textsize":"10px","textOnly":true,"style":{"font-size":"20px","font-style":"bold"},"className":"","sticky":true},null]}],"limits":{"lat":[9.21964,9.352402],"lng":[-82.33472,-82.131119]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br/></p>
-<h1 id="science-to-words">Science to Words</h1>
-<p>Here is a word cloud of the manuscript, just for the fun of it ;)</p>
+<h2 id="science-to-words">Science to Words</h2>
+<p>Here is a word cloud of the manuscript, just for the fun of it ;) The size of each word in proportional to the number of times it appeared in the manuscript.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -2796,6 +2991,52 @@ Show setup information.
 <div class="layout-chunk" data-layout="l-page">
 <p><img src="figures/index/wordcloud.png" width="451" /></p>
 </div>
+<h2 id="stories-reactions">Stories &amp; Reactions</h2>
+<p>Here are a two press pieces about our publication. <br></p>
+<div class="story_float">
+<span class="story-title"><a href=" https://stri.si.edu/story/caribbean-asphyxiation" target="_new">Caribbean Asphyxiation</a></span> <span class="story-authors">A story by Beth King &amp; Jorge Aleman</span>
+<div class="story-info">
+<div class="story-featured-image">
+<p><a href="https://stri.si.edu/story/caribbean-asphyxiation"> <img src="figures/index/stri_hypoxia.jpg" style="max-width: 300px; max-height: 300px; width: auto; border: none; height: auto; margin: 0 auto; display: block; transform: translateY(10%);" /> </a></p>
+</div>
+<div class="story-highlights">
+<p><span style="display: inline-block; padding-bottom: 5px;"> <b>Desperate brittlestars, suffocating corals and resilient microbes: First multidisciplinary data from an acute marine hypoxic event and its historical context.</b></span><br><span> In September 2017, divers observed a massive “dead zone” rising to envelop Caribbean coral reefs in Bocas del Toro, Panama. Smithsonian post-docs joined together to understand marine hypoxia now and in the past.</span><br><span> No one knows what triggers the sudden onset of hypoxia, a quickly-spreading drop in ocean oxygen. Like a wildfire, hypoxia kills everything that can’t walk or swim out of harm’s way… Click the link to keep reading.</a></span></p>
+</div>
+</div>
+<p><span class="story-journal"> <b>STRI News 29 July 2021</b> <a href="https://stri.si.edu/story/caribbean-asphyxiation" target="_blank">🔗</a> </span></p>
+</div>
+<div class="story_float">
+<span class="story-title"><a href="https://www.whoi.edu/press-room/news-release/what-happens-to-marine-life-when-oxygen-is-scarce/" target="_new">What happens to marine life when oxygen is scarce?</a></span> <span class="story-authors">A story by Kylee Denesha</span>
+<div class="story-info">
+<div class="story-featured-image">
+<p><a href="https://www.whoi.edu/press-room/news-release/what-happens-to-marine-life-when-oxygen-is-scarce/"> <img src="figures/index/whoi_hypoxia.jpg" style="max-width: 300px; max-height: 300px; width: auto; border: none; height: auto; margin: 0 auto; display: block; transform: translateY(10%);" /> </a></p>
+</div>
+<div class="story-highlights">
+<p><span style="display: inline-block; padding-bottom: 5px;"> <b>In September of 2017, Woods Hole Oceanographic Institution postdoctoral scholar Maggie Johnson was conducting an experiment with a colleague in Bocas del Toro off the Caribbean coast of Panama.</b> </span><br> After sitting on a quiet, warm open ocean, they snorkeled down to find a peculiar layer of murky, foul-smelling water about 10 feet below the surface, with brittle stars and sea urchins, which are usually in hiding, perching on the tops of coral. This unique observation prompted a collaborative study explained in a new paper published today in Nature Communications… Click the link to keep reading.</span><br></p>
+</div>
+</div>
+<p><span class="story-journal"> <b>WHOI Media Relations Office 26 July 2021</b> <a href="https://www.whoi.edu/press-room/news-release/what-happens-to-marine-life-when-oxygen-is-scarce/" target="_blank">🔗</a> </span></p>
+</div>
+<p><br/></p>
+<p>And a couple of tweets from <a href="https://twitter.com/coraloha?s=20">@coraloha</a> and <a href="https://twitter.com/MikeD_Fox?s=20">@MikeD_Fox</a> that made us smile really big. We couldn’t resist including these.</p>
+<center>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+My mind is blown! Now I just want <a href="https://twitter.com/hashtag/Hypocolypse?src=hash&amp;ref_src=twsrc%5Etfw">#Hypocolypse</a> merch and an instrumental album where <a href="https://twitter.com/MaggieDJohnson?ref_src=twsrc%5Etfw"><span class="citation" data-cites="MaggieDJohnson">(<a href="#ref-MaggieDJohnson" role="doc-biblioref"><strong>MaggieDJohnson?</strong></a>)</span></a> reads the abstract over wailing guitar solos. SO stoked
+</p>
+— Dr. Chris Wall (<span class="citation" data-cites="coraloha">(<a href="#ref-coraloha" role="doc-biblioref"><strong>coraloha?</strong></a>)</span>) <a href="https://twitter.com/coraloha/status/1420774546106322949?ref_src=twsrc%5Etfw">July 29, 2021</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
+<center>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+Whoaaaaaa now this is open science to the next level! And the name, come on…Metal AF 🔥 🎸 🤘 <a href="https://t.co/8sznPR5QYz">https://t.co/8sznPR5QYz</a>
+</p>
+— Dr. Chris Wall (<span class="citation" data-cites="coraloha">(<a href="#ref-coraloha" role="doc-biblioref"><strong>coraloha?</strong></a>)</span>) <a href="https://twitter.com/coraloha/status/1420774018668318721?ref_src=twsrc%5Etfw">July 29, 2021</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
 <h2 class="appendix" id="acknowledgements">Acknowledgements</h2>
 <p>M.D.J. was funded by postdoctoral fellow awards from the Smithsonian Institution’s Marine Global Earth Observatory (MarineGEO) and the Smithsonian Tropical Research Institute (STRI); M.L. and N.L. were funded by postdoctoral support from the STRI Office of Fellowships. J.J.S. was funded by a grant from the Gordon and Betty Moore Foundation awarded to STRI and UC Davis (<a href="http://doi.org/10.37807/GBMF5603">doi:10.37807/GBMF5603</a>). L.M.R.B., W.L.W., and A.H.A. were supported by MarineGEO, a private funder, and STRI funds to A.H.A. Many of the computations were conducted on the Smithsonian High-Performance Cluster (SI/HPC), Smithsonian Institution (<a href="https://doi.org/10.25572/SIHPC">doi:10.25572/SIHPC</a>). We thank Rachel Collin for facilities support at the Bocas del Toro Research Station, Plinio Gondola and the research station staff for logistical support, Roman Barco for insight into the functional analyses, Sherly Castro for informative feedback, and Mike Fox for assistance with community analyses. Research permits were provided by the Autoridad Nacional del Ambiente de Panamá. This paper is the result of research funded by the National Oceanic and Atmospheric Administration’s National Centers for Coastal Ocean Science Competitive Research Program under award NA18NOS4780170 to A.H.A. and M.D.J. through the University of Florida. This is contribution 257 from the Coastal Hypoxia Research Program and 86 from the Smithsonian’s MarineGEO and Tennenbaum Marine Observatories Network.</p>
 <h2 class="appendix" id="author-contributions">Author Contributions</h2>
