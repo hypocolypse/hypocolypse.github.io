@@ -80,6 +80,7 @@ code span.vs { color: #008080; } /* VerbatimString */
 code span.wa { color: #008000; font-weight: bold; } /* Warning */
 </style>
 
+
   <!--radix_placeholder_meta_tags-->
   <title>: Hypocolypse</title>
 
@@ -1870,7 +1871,10 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -2798,7 +2802,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hypocolypse","description":"Raw data, data products, & reproducible workflows for the study ***Rapid ecosystem-scale consequences of acute deoxygenation on a Caribbean reef***.","doi":"10.1038/s41467-021-24777-3","authors":[{"author":"Maggie D Johnson","authorURL":"https://www.maggiedjohnson.com/","affiliation":"Woods Hole Oceanographic Institution","affiliationURL":"https://www.whoi.edu/","orcidID":"0000-0002-1319-2545"},{"author":"Jarrod J Scott","authorURL":"https://metacrobe.github.io/","affiliation":"Smithsonian Tropical Research Institute","affiliationURL":"https://stri.si.edu/","orcidID":"0000-0001-9863-1318"},{"author":"Matthieu Leray","authorURL":"https://www.matthieuleray.website/","affiliation":"Smithsonian Tropical Research Institute","affiliationURL":"https://stri.si.edu/","orcidID":"0000-0002-7327-1878"},{"author":"Noelle Lucey","authorURL":"#","affiliation":"Smithsonian Tropical Research Institute","affiliationURL":"https://stri.si.edu/","orcidID":"0000-0002-7975-8521"},{"author":"Lucia Rodriguez","authorURL":"#","affiliation":"Universidad Autónoma de Baja California","affiliationURL":"http://www.uabc.mx/","orcidID":"0000-0002-2945-9208"},{"author":"William Wied","authorURL":"#","affiliation":"Florida International University","affiliationURL":"https://www.fiu.edu/","orcidID":""},{"author":"Andrew H Altieri","authorURL":"https://www.altierilab.org","affiliation":"University of Florida","affiliationURL":"https://www.essie.ufl.edu/environmental-engineering-sciences/","orcidID":"0000-0001-7439-8742"}],"publishedDate":"2021-07-27T00:00:00.000+00:00","citationText":"Johnson, et al., 2021"}
+{"title":"Hypocolypse","description":"Raw data, data products, & reproducible workflows for the study ***Rapid ecosystem-scale consequences of acute deoxygenation on a Caribbean reef***.","doi":"10.1038/s41467-021-24777-3","authors":[{"author":"Maggie D Johnson","authorURL":"https://www.maggiedjohnson.com/","affiliation":"Woods Hole Oceanographic Institution","affiliationURL":"https://www.whoi.edu/","orcidID":"0000-0002-1319-2545"},{"author":"Jarrod J Scott","authorURL":"https://metacrobe.github.io/","affiliation":"Smithsonian Tropical Research Institute","affiliationURL":"https://stri.si.edu/","orcidID":"0000-0001-9863-1318"},{"author":"Matthieu Leray","authorURL":"https://www.matthieuleray.website/","affiliation":"Smithsonian Tropical Research Institute","affiliationURL":"https://stri.si.edu/","orcidID":"0000-0002-7327-1878"},{"author":"Noelle Lucey","authorURL":"#","affiliation":"Smithsonian Tropical Research Institute","affiliationURL":"https://stri.si.edu/","orcidID":"0000-0002-7975-8521"},{"author":"Lucia Rodriguez","authorURL":"#","affiliation":"Universidad Autónoma de Baja California","affiliationURL":"http://www.uabc.mx/","orcidID":"0000-0002-2945-9208"},{"author":"William Wied","authorURL":"#","affiliation":"Florida International University","affiliationURL":"https://www.fiu.edu/","orcidID":""},{"author":"Andrew H Altieri","authorURL":"https://www.altierilab.org","affiliation":"University of Florida","affiliationURL":"https://www.essie.ufl.edu/environmental-engineering-sciences/","orcidID":"0000-0001-7439-8742"}],"publishedDate":"2021-07-27T00:00:00.000-05:00","citationText":"Johnson, et al., 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2901,7 +2905,7 @@ METAGENOMIC
 <li><a href="#synopsis">Synopsis</a></li>
 <li><a href="#goals-of-the-study">Goals of the study</a></li>
 <li><a href="#field-sites">Field Sites</a></li>
-<li><a href="#science-to-words">Science to Words</a></li>
+<li><a href="#manuscript-visualization">Manuscript Visualization</a></li>
 <li><a href="#stories-reactions">Stories &amp; Reactions</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
 <li><a href="#author-contributions">Author Contributions</a></li>
@@ -2970,11 +2974,11 @@ Show setup information.
 <p>Conditions characteristic of a low-oxygen event were detected in Bahía Almirante (Bocas del Toro, Panama) on September 20, 2017. Sampling was conducted inside the bay at the <strong>impacted site</strong> (Cayo Roldan, vermilion) and outside the bay at the <strong>control site</strong> (Coral Caye, blue).</p>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-screen-inset shaded">
-<div id="htmlwidget-773986075ed6540c39de" style="width:624px;height:528px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-773986075ed6540c39de">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[9.277137,-82.235052],12,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"topright"}]},{"method":"addCircleMarkers","args":[[9.21964,9.248433],[-82.33472,-82.131119],18.5,null,null,{"interactive":true,"className":"","stroke":true,"color":["#141414","#141414"],"weight":10,"opacity":0.5,"fill":true,"fillColor":["#D55E00","#0072B2"],"fillOpacity":0.9},null,null,null,null,["Cayo Roldan (impacted)","Coral Caye (control)"],{"interactive":false,"permanent":true,"direction":"bottom","opacity":1,"offset":[6,12],"textsize":"10px","textOnly":true,"style":{"font-size":"14px","font-style":"bold"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[9.352402,-82.256463,10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#0072B2","weight":5,"opacity":0.95,"fill":true,"fillColor":"#F0E442","fillOpacity":0.95},null,null,null,null,"STRI",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-20,1],"textsize":"10px","textOnly":true,"style":{"font-size":"20px","font-style":"bold"},"className":"","sticky":true},null]}],"limits":{"lat":[9.21964,9.352402],"lng":[-82.33472,-82.131119]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4d7e18b0d86bb9d7a198" style="width:624px;height:528px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4d7e18b0d86bb9d7a198">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[9.277137,-82.235052],12,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"topright"}]},{"method":"addCircleMarkers","args":[[9.21964,9.248433],[-82.33472,-82.131119],18.5,null,null,{"interactive":true,"className":"","stroke":true,"color":["#141414","#141414"],"weight":10,"opacity":0.5,"fill":true,"fillColor":["#D55E00","#0072B2"],"fillOpacity":0.9},null,null,null,null,["Cayo Roldan (impacted)","Coral Caye (control)"],{"interactive":false,"permanent":true,"direction":"bottom","opacity":1,"offset":[6,12],"textsize":"10px","textOnly":true,"style":{"font-size":"14px","font-style":"bold"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[9.352402,-82.256463,10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#0072B2","weight":5,"opacity":0.95,"fill":true,"fillColor":"#F0E442","fillOpacity":0.95},null,null,null,null,"STRI",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-20,1],"textsize":"10px","textOnly":true,"style":{"font-size":"20px","font-style":"bold"},"className":"","sticky":true},null]}],"limits":{"lat":[9.21964,9.352402],"lng":[-82.33472,-82.131119]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br/></p>
-<h2 id="science-to-words">Science to Words</h2>
+<h2 id="manuscript-visualization">Manuscript Visualization</h2>
 <p>Here is a word cloud of the manuscript, just for the fun of it ;) The size of each word in proportional to the number of times it appeared in the manuscript.</p>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -3018,7 +3022,7 @@ Show setup information.
 <p><span class="story-journal"> <b>WHOI Media Relations Office 31 July 2021</b> <a href="https://scitechdaily.com/what-happens-to-marine-life-when-there-isnt-enough-oxygen/" target="_blank">🔗</a> </span></p>
 </div>
 <p><br/></p>
-<p>And a couple of tweets from <a href="https://twitter.com/coraloha?s=20">@coraloha</a> and <a href="https://twitter.com/MikeD_Fox?s=20">@MikeD_Fox</a> that made us smile really big. We couldn’t resist including these.</p>
+<p>And tweets from <a href="https://twitter.com/coraloha?s=20">@coraloha</a>, <a href="https://twitter.com/MikeD_Fox?s=20">@MikeD_Fox</a>, and <a href="https://twitter.com/merenbey?s=20">@merenbey</a> that made us smile really big. We couldn’t resist including these.</p>
 <center>
 <blockquote class="twitter-tweet">
 <p lang="en" dir="ltr">
@@ -3034,6 +3038,15 @@ My mind is blown! Now I just want <a href="https://twitter.com/hashtag/Hypocolyp
 Whoaaaaaa now this is open science to the next level! And the name, come on…Metal AF 🔥 🎸 🤘 <a href="https://t.co/8sznPR5QYz">https://t.co/8sznPR5QYz</a>
 </p>
 — Dr. Chris Wall (<span class="citation" data-cites="coraloha">(<a href="#ref-coraloha" role="doc-biblioref"><strong>coraloha?</strong></a>)</span>) <a href="https://twitter.com/coraloha/status/1420774018668318721?ref_src=twsrc%5Etfw">July 29, 2021</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
+<center>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+Here is a great study, <a href="https://t.co/PMP0LBCdG4">https://t.co/PMP0LBCdG4</a>, in which <a href="https://twitter.com/MaggieDJohnson?ref_src=twsrc%5Etfw"><span class="citation" data-cites="MaggieDJohnson">(<a href="#ref-MaggieDJohnson" role="doc-biblioref"><strong>MaggieDJohnson?</strong></a>)</span></a>, Jarrod J. Scott, <a href="https://twitter.com/Matt_Leray?ref_src=twsrc%5Etfw"><span class="citation" data-cites="Matt_Leray">(<a href="#ref-Matt_Leray" role="doc-biblioref"><strong>Matt_Leray?</strong></a>)</span></a>, &amp; <a href="https://twitter.com/noellelucey?ref_src=twsrc%5Etfw"><span class="citation" data-cites="noellelucey">(<a href="#ref-noellelucey" role="doc-biblioref"><strong>noellelucey?</strong></a>)</span></a> et al. show how different members of coral ecosystems respond to hypoxia.<br><br>It also happens to contain one of the most beautiful <a href="https://twitter.com/hashtag/anvio?src=hash&amp;ref_src=twsrc%5Etfw">#anvio</a> figures I've seen: <a href="https://t.co/vj3roVgVfn">pic.twitter.com/vj3roVgVfn</a>
+</p>
+— A. Murat Eren (Meren) (<span class="citation" data-cites="merenbey">(<a href="#ref-merenbey" role="doc-biblioref"><strong>merenbey?</strong></a>)</span>) <a href="https://twitter.com/merenbey/status/1449090571021307909?ref_src=twsrc%5Etfw">October 15, 2021</a>
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </center>

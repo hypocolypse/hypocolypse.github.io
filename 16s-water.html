@@ -454,7 +454,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
   </style>
 
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -2032,11 +2032,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.8/header-attrs.js"></script>
-  <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-  <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+  <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
   <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-  <script src="site_libs/datatables-binding-0.18/datatables.js"></script>
+  <script src="site_libs/datatables-binding-0.19/datatables.js"></script>
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
   <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
   <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -2061,6 +2061,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   <style type="text/css">
   /* Whole document: */
   @import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Lato:300|Inconsolata|Source+Sans+Pro|Work+Sans:200,300,400,500|Karla:400,400i,700,700i');
+
   /********************************/
   /* controls general properties of site*/
   /********************************/
@@ -2092,6 +2093,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 
   d-article h3 {
     margin-top: 1em;
+    font-family: 'Work Sans', 'Source Sans Pro', 'PT Sans';
   }
   d-byline .authors-affiliations {
     grid-column-end: span 3;
@@ -2241,6 +2243,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     margin: 100px 10px 0px 25px;
   }
 
+
   /*************************************************
   *  code for side by side krona plot
   **************************************************/
@@ -2339,6 +2342,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   	max-width: 100%;
   }
 
+
   /*************************************************
   *  code for DETAILS fold down
   **************************************************/
@@ -2359,7 +2363,8 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     transition: max-height 0.2s ease-out;
     outline: none;
 
-    /* background-color: #acc2c2; */
+
+  /* background-color: #acc2c2; */
   }
 
   details {
@@ -2368,20 +2373,17 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     align-content: center;
     border-radius: 4px;
     outline: none;
-
   }
 
   details.active {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none;
-
   }
 
   summary::-webkit-details-marker {
     display: none;
     outline: none;
-
   }
 
   summary:focus {
@@ -2398,6 +2400,375 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     float: right;
     font-family: "Font Awesome 5 Free";
     content: "\f146";
+  }
+  /* ################################################## */
+  /* Added for paper, code stolen from merenlab.org :)  */
+  /* ################################################## */
+
+  .altmetric-embed {
+      float: right;
+      margin-top: -3px;
+      margin-left: 5px;
+  }
+
+  .__dimensions_badge_embed__ {
+      float: right;
+      margin-right: 6px;
+      margin-top: -3px;
+  }
+
+  .pub_float {
+      margin: auto;
+      margin-bottom: 20px;
+      box-shadow: 4px 4px 14px 1px #ccc;
+      width: 98%;
+      border: 1px solid #bcbcbc;
+      border-radius: 14px;
+      padding: 5px;
+      background-image: linear-gradient(#f4f4f4, #efefef);
+      h3 {
+          margin-bottom: 6px;
+          margin-top: 5px;
+          margin-left: 9px;
+      }
+      p {
+          font-size: 90%;
+          font-style: italic;
+      }
+      a, a:hover {
+          font-size: 80%;
+          border-bottom: 0 solid transparent;
+      }
+  }
+
+  .pub {
+      margin-bottom: 30px;
+      p {
+          font-size: 90%;
+          font-style: italic;
+      }
+      a, a:hover {
+          font-size: 80%;
+          border-bottom: 0 solid transparent;
+      }
+  }
+
+  .pub-title {
+      font-size: 1.3em;
+      font-family: "Work Sans",sans-serif;
+      font-weight: 400;
+      line-height: 30px;
+      display: block;
+      padding: 5px;
+      padding-left: 8px;
+      padding-bottom: 9px;
+      border-left: 10px solid #d4d4d4;
+  }
+
+  .pub_float .pub-title {
+      border-left: none;
+  }
+
+  .pub-authors {
+      display: block;
+      width: 95%;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      margin-top: 4px;
+      font-variant: small-caps;
+      color: rgb(102, 102, 102);
+  }
+
+  .pub_float .pub-authors {
+      padding-left: 8px;
+  }
+
+  .pub-co-first-authors {
+      display: block;
+      width: 95%;
+      padding-left: 25px;
+      margin-bottom: 5px;
+      margin-top: -10px;
+      color: #717171;
+      font-size: smaller;
+      font-style: italic;
+  }
+
+  .pub_float .pub-co-first-authors {
+      padding-left: 12px;
+  }
+
+  .pub-member-author {
+      color: black;
+      font-weight: bolder;
+  }
+
+  .pub-journal {
+      background-image: linear-gradient(to right, #fafafa, #d4d4d4);
+      display: block;
+      text-align: right;
+      border: 1px #f4f4f4 solid;
+      border-radius: 10px;
+      margin-left: 20px;
+      padding: 4px;
+      padding-right: 14px;
+      font-size: small;
+  }
+
+  .pub_float .pub-journal {
+      margin-left: 8px;
+      background-image: none;
+      border: none;
+  }
+
+  .pub-info {
+      background-image: linear-gradient(to left, #fefff0, white);
+      border: 1px #f4f4f4 solid;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left:20px;
+      border-radius: 10px;
+      padding: 4px;
+      font-size: small;
+      min-height: 100px;
+      line-height: 2em;
+  }
+
+  .pub_float .pub-info {
+      margin-left: 8px;
+      margin-right: 8px;
+      background: white;
+      border: 1px #bcbcbc solid;
+  }
+
+  .pub-info-no-image {
+      background-image: linear-gradient(to left, #fefff0, white);
+      border: 1px #f4f4f4 solid;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left:20px;
+      border-radius: 10px;
+      padding: 4px;
+      padding-right: 14px;
+      font-size: small;
+  }
+
+  .pub_float .pub-info-no-image {
+      margin-left: 8px;
+  }
+
+  .pub-featured-image {
+    width: 100px;
+    padding: 1px;
+    float: left;
+  }
+
+  .pub-highlights {
+      padding-left: 115px;
+  }
+
+  .pub-highlights a, .pub-highlights-no-image a, .pub-highlights a:hover, .pub-highlights-no-image a:hover {
+          font-size: 100%;
+          text-decoration: underline;
+      }
+
+  .pub-highlights-no-image {
+      padding-left: 5px;
+  }
+
+  .story_float {
+      margin: auto;
+      margin-bottom: 20px;
+      box-shadow: 4px 4px 14px 1px #ccc;
+      width: 98%;
+      border: 1px solid #bcbcbc;
+      border-radius: 14px;
+      padding: 5px;
+      background-image: linear-gradient(#f4f4f4, #efefef);
+      h3 {
+          margin-bottom: 6px;
+          margin-top: 5px;
+          margin-left: 9px;
+      }
+      p {
+          font-size: 90%;
+          font-style: italic;
+      }
+      a, a:hover {
+          font-size: 80%;
+          border-bottom: 0 solid transparent;
+      }
+  }
+
+  .story {
+      margin-bottom: 30px;
+      p {
+          font-size: 90%;
+          font-style: italic;
+      }
+      a, a:hover {
+          font-size: 80%;
+          border-bottom: 0 solid transparent;
+      }
+  }
+
+  .story-title {
+      font-size: 1.5em;
+      font-family: "Work Sans",sans-serif;
+      font-weight: 400;
+      line-height: 30px;
+      display: block;
+      padding: 5px;
+      padding-left: 8px;
+      padding-bottom: 9px;
+      border-left: 10px solid #d4d4d4;
+      text-align: center;
+  }
+
+  .story_float .story-title {
+      border-left: none;
+  }
+
+  .story-authors {
+      display: block;
+      width: 95%;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      margin-top: 4px;
+      font-variant: small-caps;
+      color: rgb(102, 102, 102);
+  }
+
+  .story_float .story-authors {
+      padding-left: 8px;
+  }
+
+  .story-co-first-authors {
+      display: block;
+      width: 95%;
+      padding-left: 25px;
+      margin-bottom: 5px;
+      margin-top: -10px;
+      color: #717171;
+      font-size: smaller;
+      font-style: italic;
+  }
+
+  .story_float .story-co-first-authors {
+      padding-left: 12px;
+  }
+
+  .story-member-author {
+      color: black;
+      font-weight: bolder;
+  }
+
+  .story-journal {
+      background-image: linear-gradient(to right, #fafafa, #d4d4d4);
+      display: block;
+      text-align: right;
+      border: 1px #f4f4f4 solid;
+      border-radius: 10px;
+      margin-left: 20px;
+      padding: 4px;
+      padding-right: 14px;
+      font-size: small;
+  }
+
+  .story_float .story-journal {
+      margin-left: 8px;
+      background-image: none;
+      border: none;
+  }
+
+  .story-info {
+      background-image: linear-gradient(to left, #fefff0, white);
+      border: 1px #f4f4f4 solid;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left: 20px;
+      border-radius: 10px;
+      padding: 4px;
+      font-size: small;
+      min-height: 300px;
+      line-height: 2em;
+  }
+
+  .story_float .story-info {
+      margin-left: 8px;
+      margin-right: 8px;
+      background: white;
+      border: 1px #bcbcbc solid;
+  }
+
+  .story-info-no-image {
+      background-image: linear-gradient(to left, #fefff0, white);
+      border: 1px #f4f4f4 solid;
+      display: block;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      margin-left:20px;
+      border-radius: 10px;
+      padding: 4px;
+      padding-right: 14px;
+      font-size: small;
+  }
+
+  .story_float .story-info-no-image {
+      margin-left: 8px;
+  }
+
+  .story-featured-image {
+    width: 100px;
+    padding: 1px;
+    float: left;
+  }
+
+  .story-highlights {
+      padding-left: 315px;
+  }
+
+  .story-highlights a, .story-highlights-no-image a, .story-highlights a:hover, .story-highlights-no-image a:hover {
+          font-size: 100%;
+          text-decoration: underline;
+          float: right;
+      }
+
+  .story-highlights-no-image {
+      padding-left: 5px;
+  }
+
+
+  div.alert-synopsis > div:first-child::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 0;
+    color: #ff3860;
+    content: '';
+  }
+
+  div.alert-synopsis > div {
+    margin-left: 1rem;
+  }
+
+  .alert-synopsis {
+  	color: #141414;
+  	font-family: 'Work Sans';
+    font-size: 1.1em;
+  	background-color: #efefef59;
+  	border-color: #7c7c7cFF;
+  	border-radius: 7px;
+  	/*border-left-width: 30px;*/
+  	margin-bottom: 2rem;
+  	padding-top: 1.5rem;
+  	padding-bottom: 1.5rem;
+  	padding-left: 2rem;
+    padding-right: 2rem;
+    border-width: 1px;
+    border-color: #141414;
+    border-style: solid;
   }
 
   </style>
@@ -2704,7 +3075,7 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 <p><br/></p>
 <div class="layout-chunk" data-layout="l-body-outset">
 <div id="mex738zeiysgiy3fysb8" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="mex738zeiysgiy3fysb8">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Total reads &amp; ASVs by sample.<\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["W","W","W","W","W","W","W","W"],["CC","CC","CC","CC","CR","CR","CR","CR"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["cc_after","cc_during","cc_during","cc_during","cr_after","cr_during","cr_during","cr_during"],[24290,24278,23962,19817,28616,12804,13479,33311],[305,287,287,237,323,242,304,552],[3.79586821583198,3.40949079884578,3.61556802457059,3.60334996135797,3.19266288364594,3.87638453942529,4.45854339112232,4.59793953134247],[8.64499926459407,5.452464523952,6.75399022762029,6.9033065773033,4.3230831643379,15.3718361806848,37.7312581395943,35.1458238662054]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>Oxstate<\/th>\n      <th>Period<\/th>\n      <th>total<br/>reads<\/th>\n      <th>total<br/>ASVs<\/th>\n      <th>Shannon<\/th>\n      <th>InvSimpson<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"lengthMenu":[5,10],"columnDefs":[{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 2, 3, \",\", \".\");\n  }"},{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 2, 3, \",\", \".\");\n  }"},{"className":"dt-right","targets":[5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.rowCallback"],"jsHooks":[]}</script>
+<script type="application/json" data-for="mex738zeiysgiy3fysb8">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Total reads &amp; ASVs by sample.<\/em>\n<\/caption>","data":[["WCC0","WCC1","WCC2","WCC3","WCR0","WCR1","WCR2","WCR3"],["W","W","W","W","W","W","W","W"],["CC","CC","CC","CC","CR","CR","CR","CR"],["normoxic","normoxic","normoxic","normoxic","normoxic","hypoxic","hypoxic","hypoxic"],["cc_after","cc_during","cc_during","cc_during","cr_after","cr_during","cr_during","cr_during"],[24290,24278,23962,19817,28616,12804,13479,33311],[305,287,287,237,323,242,304,552],[3.79586821583198,3.40949079884578,3.61556802457059,3.60334996135797,3.19266288364594,3.87638453942529,4.45854339112232,4.59793953134247],[8.64499926459407,5.452464523952,6.75399022762029,6.9033065773033,4.3230831643379,15.3718361806848,37.7312581395943,35.1458238662054]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sample<br/>ID<\/th>\n      <th>Type<\/th>\n      <th>Site<\/th>\n      <th>Oxstate<\/th>\n      <th>Period<\/th>\n      <th>total<br/>reads<\/th>\n      <th>total<br/>ASVs<\/th>\n      <th>Shannon<\/th>\n      <th>InvSimpson<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":8,"lengthMenu":[5,10],"columnDefs":[{"targets":7,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 2, 3, \",\", \".\");\n  }"},{"targets":8,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 2, 3, \",\", \".\");\n  }"},{"className":"dt-right","targets":[5,6,7,8]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[0]; $(this.api().cell(row, 0).node()).css({'font-size':'80%'});\nvar value=data[1]; $(this.api().cell(row, 1).node()).css({'font-size':'80%'});\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-size':'80%'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'font-size':'80%'});\nvar value=data[4]; $(this.api().cell(row, 4).node()).css({'font-size':'80%'});\nvar value=data[5]; $(this.api().cell(row, 5).node()).css({'font-size':'80%'});\nvar value=data[6]; $(this.api().cell(row, 6).node()).css({'font-size':'80%'});\nvar value=data[7]; $(this.api().cell(row, 7).node()).css({'font-size':'80%'});\nvar value=data[8]; $(this.api().cell(row, 8).node()).css({'font-size':'80%'});\n}"}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.rowCallback"],"jsHooks":[]}</script>
 </div>
 <h1 id="diversity">Diversity</h1>
 <h2 id="taxonomic-diversity">Taxonomic Diversity</h2>
@@ -2753,7 +3124,7 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 <h3 id="diversity-table-by-class">4. Diversity table by Class</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div id="9sgooxcmkzw565dtk7or" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="9sgooxcmkzw565dtk7or">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Total reads &amp; ASVs by taxa<\/caption>","data":[["Acidimicrobiia","Actinobacteria","Alphaproteobacteria","Anaerolineae","Bacilli","Bacteroidia","Bdellovibrionia","Campylobacteria","Cloacimonadia","Clostridia","Cyanobacteriia","Dadabacteriia","Deferribacteres","Dehalococcoidia","Desulfobacteria","Desulfobulbia","Desulfovibrionia","Desulfuromonadia","Fusobacteriia","Gammaproteobacteria","Holophagae","Ignavibacteria","Kapabacteria","Kingdom_Bacteria","Kiritimatiellae","Lentisphaeria","Myxococcia","Nanoarchaeia","Negativicutes","Nitrososphaeria","OM190","Oligoflexia","Omnitrophia","Phycisphaerae","Phylum_Desulfobacterota","Phylum_Latescibacterota","Phylum_Margulisbacteria","Phylum_Marinimicrobia_(SAR406_clade)","Phylum_NB1-j","Phylum_Patescibacteria","Phylum_Proteobacteria","Phylum_SAR324_clade(Marine_group_B)","Phylum_Spirochaetota","Phylum_Verrucomicrobiota","Phylum_WPS-2","Pla3_lineage","Planctomycetes","Polyangia","Rhodothermia","Spirochaetia","Subgroup_22","Synergistia","Syntrophobacteria","Thermoanaerobaculia","Thermoplasmata","Thermotogae","Vampirivibrionia","Verrucomicrobiae","vadinHA49"],[4745,37,33227,7,422,31857,769,2423,241,302,66365,142,64,38,381,94,506,397,88,19928,8,37,40,521,376,80,211,107,3,23,859,76,4,836,2,38,14,3212,5,3,38,1360,15,2,46,51,1728,54,1671,192,2,1,2,4,5876,9,30,982,6],[13,3,182,2,10,290,46,8,6,30,71,1,5,2,9,8,20,30,7,203,2,2,4,52,7,12,4,9,1,3,16,8,1,26,1,2,4,20,1,1,7,7,1,1,3,2,30,4,6,14,1,1,1,1,34,1,2,32,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Taxa<\/th>\n      <th>total reads<\/th>\n      <th>total ASVs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2]}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":5,"scroller":true,"lengthMenu":[5,10,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="9sgooxcmkzw565dtk7or">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Total reads &amp; ASVs by taxa<\/caption>","data":[["Acidimicrobiia","Actinobacteria","Alphaproteobacteria","Anaerolineae","Bacilli","Bacteroidia","Bdellovibrionia","Campylobacteria","Cloacimonadia","Clostridia","Cyanobacteriia","Dadabacteriia","Deferribacteres","Dehalococcoidia","Desulfobacteria","Desulfobulbia","Desulfovibrionia","Desulfuromonadia","Fusobacteriia","Gammaproteobacteria","Holophagae","Ignavibacteria","Kapabacteria","Kingdom_Bacteria","Kiritimatiellae","Lentisphaeria","Myxococcia","Nanoarchaeia","Negativicutes","Nitrososphaeria","OM190","Oligoflexia","Omnitrophia","Phycisphaerae","Phylum_Desulfobacterota","Phylum_Latescibacterota","Phylum_Margulisbacteria","Phylum_Marinimicrobia_(SAR406_clade)","Phylum_NB1-j","Phylum_Patescibacteria","Phylum_Proteobacteria","Phylum_SAR324_clade(Marine_group_B)","Phylum_Spirochaetota","Phylum_Verrucomicrobiota","Phylum_WPS-2","Pla3_lineage","Planctomycetes","Polyangia","Rhodothermia","Spirochaetia","Subgroup_22","Synergistia","Syntrophobacteria","Thermoanaerobaculia","Thermoplasmata","Thermotogae","Vampirivibrionia","Verrucomicrobiae","vadinHA49"],[4745,37,33227,7,422,31857,769,2423,241,302,66365,142,64,38,381,94,506,397,88,19928,8,37,40,521,376,80,211,107,3,23,859,76,4,836,2,38,14,3212,5,3,38,1360,15,2,46,51,1728,54,1671,192,2,1,2,4,5876,9,30,982,6],[13,3,182,2,10,290,46,8,6,30,71,1,5,2,9,8,20,30,7,203,2,2,4,52,7,12,4,9,1,3,16,8,1,26,1,2,4,20,1,1,7,7,1,1,3,2,30,4,6,14,1,1,1,1,34,1,2,32,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Taxa<\/th>\n      <th>total reads<\/th>\n      <th>total ASVs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":[1,2]}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":5,"scroller":true,"lengthMenu":[5,10,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>Here we can see that:</p>
 <ul>
@@ -2793,7 +3164,7 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 <h3 id="relative-abundance-by-class">5. Relative abundance by Class</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div id="t9xg4oo3fbjqjqu1ogjm" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="t9xg4oo3fbjqjqu1ogjm">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Cyanobacteriia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Campylobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Rhodothermia","Planctomycetes","Phylum_SAR324_clade(Marine_group_B)","OM190","Verrucomicrobiae","Phycisphaerae","Desulfovibrionia","Bdellovibrionia","Kingdom_Bacteria","Desulfobacteria","Desulfuromonadia","Clostridia","Bacilli","Cloacimonadia","Kiritimatiellae","Spirochaetia","Myxococcia","Desulfobulbia","Nanoarchaeia","Dadabacteriia","Fusobacteriia","Deferribacteres","Lentisphaeria","Oligoflexia","Kapabacteria","Phylum_Latescibacterota","Ignavibacteria","Pla3_lineage","Actinobacteria","Vampirivibrionia","Polyangia","Phylum_WPS-2","Phylum_Proteobacteria","Dehalococcoidia","Phylum_Spirochaetota","Nitrososphaeria","Thermotogae","Holophagae","Phylum_Margulisbacteria","Anaerolineae","Phylum_NB1-j","vadinHA49","Omnitrophia","Phylum_Desulfobacterota","Thermoanaerobaculia","Negativicutes","Phylum_Patescibacteria","Phylum_Verrucomicrobiota","Subgroup_22","Synergistia","Syntrophobacteria"],["0.30801","0.19233","0.19169","0.14199","0.02620","0.02150","0.02032","0.01398","0.01286","0.01087","0.00686","0.00605","0.00590","0.00516","0.00425","0.00414","0.00355","0.00320","0.00256","0.00253","0.00215","0.00202","0.00192","0.00161","0.00103","0.00075","0.00068","0.00065","0.00063","0.00054","0.00052","0.00036","0.00034","0.00032","0.00031","0.00031","0.00026","0.00025","0.00022","0.00020","0.00017","0.00016","0.00013","0.00010","0.00008","0.00007","0.00006","0.00005","0.00004","0.00004","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00001","0.00001"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":10,"scroller":true,"lengthMenu":[10,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="t9xg4oo3fbjqjqu1ogjm">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Cyanobacteriia","Bacteroidia","Alphaproteobacteria","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Campylobacteria","Phylum_Marinimicrobia_(SAR406_clade)","Rhodothermia","Planctomycetes","Phylum_SAR324_clade(Marine_group_B)","OM190","Verrucomicrobiae","Phycisphaerae","Desulfovibrionia","Bdellovibrionia","Kingdom_Bacteria","Desulfobacteria","Desulfuromonadia","Clostridia","Bacilli","Cloacimonadia","Kiritimatiellae","Spirochaetia","Myxococcia","Desulfobulbia","Nanoarchaeia","Dadabacteriia","Fusobacteriia","Deferribacteres","Lentisphaeria","Oligoflexia","Kapabacteria","Phylum_Latescibacterota","Ignavibacteria","Pla3_lineage","Actinobacteria","Vampirivibrionia","Polyangia","Phylum_WPS-2","Phylum_Proteobacteria","Dehalococcoidia","Phylum_Spirochaetota","Nitrososphaeria","Thermotogae","Holophagae","Phylum_Margulisbacteria","Anaerolineae","Phylum_NB1-j","vadinHA49","Omnitrophia","Phylum_Desulfobacterota","Thermoanaerobaculia","Negativicutes","Phylum_Patescibacteria","Phylum_Verrucomicrobiota","Subgroup_22","Synergistia","Syntrophobacteria"],["0.30801","0.19233","0.19169","0.14199","0.02620","0.02150","0.02032","0.01398","0.01286","0.01087","0.00686","0.00605","0.00590","0.00516","0.00425","0.00414","0.00355","0.00320","0.00256","0.00253","0.00215","0.00202","0.00192","0.00161","0.00103","0.00075","0.00068","0.00065","0.00063","0.00054","0.00052","0.00036","0.00034","0.00032","0.00031","0.00031","0.00026","0.00025","0.00022","0.00020","0.00017","0.00016","0.00013","0.00010","0.00008","0.00007","0.00006","0.00005","0.00004","0.00004","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00001","0.00001"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":10,"scroller":true,"lengthMenu":[10,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br/></p>
 <h3 id="group-taxa-into-other">6. Group taxa into ‘Other’</h3>
@@ -2839,7 +3210,7 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div id="wewuidn73q2ceico4vyw" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="wewuidn73q2ceico4vyw">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic\n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Campylobacteria","Other"],[0.1328,0.2142,0.2391,0.235,0.0075,0.0028,0.0075,0.0406,0.1205],[0.4832,0.1691,0.1456,0.049,0.0449,0.0252,0.0356,0,0.0475]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Rank<\/th>\n      <th>hypoxic<\/th>\n      <th>normoxic<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="wewuidn73q2ceico4vyw">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic\n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Campylobacteria","Other"],[0.1328,0.2142,0.2391,0.235,0.0075,0.0028,0.0075,0.0406,0.1205],[0.4832,0.1691,0.1456,0.049,0.0449,0.0252,0.0356,0,0.0475]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Rank<\/th>\n      <th>hypoxic<\/th>\n      <th>normoxic<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p><br/></p>
 <h2 id="during-vs.-after-the-event">During vs. After the Event</h2>
@@ -2868,7 +3239,7 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div id="zswbg7x7f8eqj526xuox" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="zswbg7x7f8eqj526xuox">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Campylobacteria","Planctomycetes","Phylum_SAR324_clade(Marine_group_B)","Rhodothermia","Verrucomicrobiae","OM190","Bdellovibrionia","Phycisphaerae","Kingdom_Bacteria","Bacilli","Desulfovibrionia","Desulfuromonadia","Kiritimatiellae","Desulfobacteria","Myxococcia","Clostridia","Cloacimonadia","Dadabacteriia","Spirochaetia","Nanoarchaeia","Desulfobulbia","Fusobacteriia","Polyangia","Oligoflexia","Lentisphaeria","Phylum_WPS-2","Pla3_lineage","Deferribacteres","Dehalococcoidia","Actinobacteria","Nitrososphaeria","Kapabacteria","Ignavibacteria","Phylum_Latescibacterota","Phylum_Proteobacteria","Vampirivibrionia","Phylum_Margulisbacteria","Phylum_Spirochaetota","Anaerolineae","Thermotogae","vadinHA49","Holophagae","Phylum_Patescibacteria","Thermoanaerobaculia","Phylum_NB1-j","Phylum_Verrucomicrobiota","Syntrophobacteria","Negativicutes","Omnitrophia","Phylum_Desulfobacterota","Subgroup_22","Synergistia"],["0.39723","0.18158","0.16630","0.09498","0.03706","0.02885","0.01791","0.01016","0.00923","0.00918","0.00721","0.00510","0.00428","0.00412","0.00401","0.00251","0.00226","0.00212","0.00200","0.00167","0.00160","0.00131","0.00127","0.00101","0.00087","0.00081","0.00069","0.00041","0.00041","0.00041","0.00039","0.00034","0.00032","0.00031","0.00027","0.00024","0.00018","0.00018","0.00017","0.00016","0.00016","0.00015","0.00013","0.00007","0.00006","0.00004","0.00004","0.00004","0.00003","0.00003","0.00003","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00000"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":9,"scroller":true,"lengthMenu":[9,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="zswbg7x7f8eqj526xuox">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">Relative abundance by taxonomic rank. <\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Acidimicrobiia","Phylum_Marinimicrobia_(SAR406_clade)","Campylobacteria","Planctomycetes","Phylum_SAR324_clade(Marine_group_B)","Rhodothermia","Verrucomicrobiae","OM190","Bdellovibrionia","Phycisphaerae","Kingdom_Bacteria","Bacilli","Desulfovibrionia","Desulfuromonadia","Kiritimatiellae","Desulfobacteria","Myxococcia","Clostridia","Cloacimonadia","Dadabacteriia","Spirochaetia","Nanoarchaeia","Desulfobulbia","Fusobacteriia","Polyangia","Oligoflexia","Lentisphaeria","Phylum_WPS-2","Pla3_lineage","Deferribacteres","Dehalococcoidia","Actinobacteria","Nitrososphaeria","Kapabacteria","Ignavibacteria","Phylum_Latescibacterota","Phylum_Proteobacteria","Vampirivibrionia","Phylum_Margulisbacteria","Phylum_Spirochaetota","Anaerolineae","Thermotogae","vadinHA49","Holophagae","Phylum_Patescibacteria","Thermoanaerobaculia","Phylum_NB1-j","Phylum_Verrucomicrobiota","Syntrophobacteria","Negativicutes","Omnitrophia","Phylum_Desulfobacterota","Subgroup_22","Synergistia"],["0.39723","0.18158","0.16630","0.09498","0.03706","0.02885","0.01791","0.01016","0.00923","0.00918","0.00721","0.00510","0.00428","0.00412","0.00401","0.00251","0.00226","0.00212","0.00200","0.00167","0.00160","0.00131","0.00127","0.00101","0.00087","0.00081","0.00069","0.00041","0.00041","0.00041","0.00039","0.00034","0.00032","0.00031","0.00027","0.00024","0.00018","0.00018","0.00017","0.00016","0.00016","0.00015","0.00013","0.00007","0.00006","0.00004","0.00004","0.00004","0.00003","0.00003","0.00003","0.00002","0.00002","0.00002","0.00001","0.00001","0.00001","0.00001","0.00000"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Class<\/th>\n      <th>mean<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-left","targets":"_all"}],"dom":"Blfrtip","buttons":["csv","copy"],"scrollX":true,"scrollCollapse":true,"scrollY":true,"pageLength":9,"scroller":true,"lengthMenu":[9,25,60],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <p>Again, Time to group low abundance taxa into an <em>Other</em> category for the bar graph. Since we cannot possibly display all 59 different taxa in one figure, we need to collapse the low abundance groups.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2888,7 +3259,7 @@ tax_table()   Taxonomy Table:    [ 1272 taxa by 8 taxonomic ranks ]</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div id="kqtr8k9xeqyk0sb1s4h4" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="kqtr8k9xeqyk0sb1s4h4">{"x":{"filter":"none","extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic\n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Campylobacteria","Other"],[0.4056,0.2126,0.1714,0.0483,0.0704,0.0171,0.0424,0,0.0323],[0.47,0.1705,0.1561,0.0503,0.0432,0.0292,0.0354,0,0.0453],[0.5805,0.129,0.0987,0.0463,0.0272,0.0226,0.0301,0,0.0656],[0.1328,0.2142,0.2391,0.235,0.0075,0.0028,0.0075,0.0406,0.1205]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Crawl Caye (after)<\/th>\n      <th>Crawl Caye (during)<\/th>\n      <th>Cayo Roldan (after)<\/th>\n      <th>Cayo Roldan (during)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="kqtr8k9xeqyk0sb1s4h4">{"x":{"filter":"none","vertical":false,"extensions":["Buttons"],"caption":"<caption style=\"caption-side: bottom; text-align: left;\">\n  Table: \n  <em>Relative abundance (reads) of normoxic\n                                     vs hypoxic samples by dominant taxa.<\/em>\n<\/caption>","data":[["Cyanobacteriia","Alphaproteobacteria","Bacteroidia","Gammaproteobacteria","Thermoplasmata","Phylum_Marinimicrobia_(SAR406_clade)","Acidimicrobiia","Campylobacteria","Other"],[0.4056,0.2126,0.1714,0.0483,0.0704,0.0171,0.0424,0,0.0323],[0.47,0.1705,0.1561,0.0503,0.0432,0.0292,0.0354,0,0.0453],[0.5805,0.129,0.0987,0.0463,0.0272,0.0226,0.0301,0,0.0656],[0.1328,0.2142,0.2391,0.235,0.0075,0.0028,0.0075,0.0406,0.1205]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Crawl Caye (after)<\/th>\n      <th>Crawl Caye (during)<\/th>\n      <th>Cayo Roldan (after)<\/th>\n      <th>Cayo Roldan (during)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"dom":"Brti","buttons":["copy","csv","excel"],"pageLength":9,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[9,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
@@ -2942,7 +3313,7 @@ Lahti, Leo, Shetty Sudarshan, and others. 2017. <span>“Tools for Microbiome An
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>© Copyright 2021 metacrobe &amp; The HYPOCOLYPSE Project.</p>
+<p>© Copyright 2021 <a href="https://metacrobe.github.io/">metacrobe</a> &amp; The HYPOCOLYPSE Project.</p>
 <p>Site constructed using <a href="https://rstudio.github.io/distill/">Distill for R Markdown</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
